@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://seshbot.github.io/sitemap.xml 
+Sitemap: http://seshbot.com/sitemap.xml 

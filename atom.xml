@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[SeshBot Projects]]></title>
-  <link href="http://seshbot.github.io/atom.xml" rel="self"/>
-  <link href="http://seshbot.github.io/"/>
-  <updated>2013-12-19T08:55:25+09:00</updated>
-  <id>http://seshbot.github.io/</id>
+  <title><![CDATA[SeshBot Programs]]></title>
+  <link href="http://seshbot.com/atom.xml" rel="self"/>
+  <link href="http://seshbot.com/"/>
+  <updated>2013-12-20T07:47:31+09:00</updated>
+  <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
     

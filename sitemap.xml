@@ -1,23 +1,23 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://seshbot.github.io/archives/</loc>
+        <loc>http://seshbot.com/archives/</loc>
         <lastmod>2013-12-19T08:18:43+09:00</lastmod>
     </url>
     <url>
-        <loc>http://seshbot.github.io/blog/archives/</loc>
+        <loc>http://seshbot.com/blog/archives/</loc>
         <lastmod>2013-12-19T08:18:43+09:00</lastmod>
     </url>
     <url>
-        <loc>http://seshbot.github.io/blog/</loc>
+        <loc>http://seshbot.com/blog/</loc>
         <lastmod>2013-12-19T08:18:43+09:00</lastmod>
     </url>
     <url>
-        <loc>http://seshbot.github.io/</loc>
+        <loc>http://seshbot.com/</loc>
         <lastmod>2013-12-19T08:18:43+09:00</lastmod>
     </url>
     <url>
-        <loc>http://seshbot.github.io/robots.txt</loc>
+        <loc>http://seshbot.com/robots.txt</loc>
         <lastmod>2013-12-19T08:18:43+09:00</lastmod>
     </url>
 </urlset>
