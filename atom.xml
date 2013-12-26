@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2013-12-26T13:42:36+09:00</updated>
+  <updated>2013-12-26T13:45:13+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -42,13 +42,21 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>&gt; <span class="nb">cd </span>seshbot
 </span><span class='line'>&gt; rake new_post<span class="o">[</span><span class="s1">&#39;My New Post!&#39;</span><span class="o">]</span>
 </span><span class='line'><span class="c"># Creating new post: source/_posts/2013-12-20-my-new-post.markdown</span>
-</span><span class='line'>&gt; vim <span class="nb">source</span>/_posts/2013-12-20-my-new-post.markup
+</span><span class='line'>&gt; vim <span class="nb">source</span>/_posts/2013-12-20-my-new-post.markdown
 </span><span class='line'>&gt; rake generate
 </span><span class='line'><span class="c"># Successfully generated site: source -&gt; public</span>
 </span><span class='line'>&gt; rake deploy
+</span><span class='line'><span class="c"># Generating Site with Jekyll</span>
+</span><span class='line'><span class="c"># Copying public to _deploy</span>
+</span><span class='line'><span class="c"># Pushing generated _deploy website</span>
+</span><span class='line'><span class="c"># Github Pages deploy complete</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
