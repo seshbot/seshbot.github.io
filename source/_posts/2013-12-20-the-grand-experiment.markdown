@@ -22,15 +22,19 @@ I'm excited about following an open development process. Source code is only a p
 
 The Octopress platform seems very developer-friendly. I can trivially embed syntax highlighted source code snippets and extend the framework through a simple plugin mechanism (I think.) There is no fancy web UI for composing posts - its all authoring markup on your local machine then pushing the generated code to github and letting github pages take care of the rest. Writing a new blog post is a matter of:
 
-{% highlight bash %}
+``` bash
 > cd seshbot
 > rake new_post['My New Post!']
-Creating new post: source/_posts/2013-12-20-my-new-post.markdown
-> vim source/_posts/2013-12-20-my-new-post.markup
+# Creating new post: source/_posts/2013-12-20-my-new-post.markdown
+> vim source/_posts/2013-12-20-my-new-post.markdown
 > rake generate
-Successfully generated site: source -> public
+# Successfully generated site: source -> public
 > rake deploy
-{% endhighlight %}
+# Generating Site with Jekyll
+# Copying public to _deploy
+# Pushing generated _deploy website
+# Github Pages deploy complete
+```
 
 There's of course so much more you can do (preview it locally before uploading for example) but that's the basic workflow.
 

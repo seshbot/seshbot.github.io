@@ -9,15 +9,19 @@ published: false
 
 Today I started a new C++ project. I would like to be able to compile this application in Windows, OSX and Linux as I have each of those environments at home and use them regularly. I need a build system that is platform agnostic. 
 
+I created a GitHub repository for a minimalistic C++ project using CMake. I've called it [new-cpp-project](https://github.com/seshbot/new-cpp-project) because I imagine myself using it as a starting point for new projects. 
+
 [CMake](http://www.cmake.org) is a build system generator, meaning it replaces the <code>configure</code> step of the old <code>./configure && make && sudo make install</code> installation idiom.
 
 Ideally, compilation should be as simple as:
-<pre>
+``` bash
 cd myapp
 mkdir -p build    # < --- don't build from the source directory!
 cd build
 cmake ../ && make && make install
-</pre>
+```
+
+Note that *you do not need to rerun cmake when you change the CMake configuration!* The generated makefiles will check this automatically.
 
 I would highly recommend reading the official [CMake Tutorial](http://www.cmake.org/cmake/help/cmake_tutorial.html) to get the basics of creating an application project and creating a library project. This document focuses on the areas I had problems with specifically.
 
@@ -33,5 +37,10 @@ The application references
 
 OSX: Get PackageMaker from https://developer.apple.com/downloads . It's supposed to be packaged with /Auxilary Tools for XCode/, but I think this is no longer the case. 
 
+``` bash
+cpack CPackConfig.cmake
+```
+
+windows: install NSIS and 
 
 

@@ -63,6 +63,8 @@ Syntax highlighting: http://octopress.org/docs/blogging/code/
 Notes on styling: the scss directory is probably where you want to be - for example the sass/base/_font.scss_ file contains several variables that are used throughout all the other styles. The defaul theme doesn't use a fixed-width font for its <code>pre</code> and <code>code</code> selectors - I discovered that this can be amended by simply changing the <code>@fixed-width</code> variable in that file. 
 http://minizatic.github.io/blog/2013/08/06/customizing-an-octopress-theme-and-installing-plugins/
 
+http://blog.bigdinosaur.org/changing-octopresss-header/
+
 ### Installation
 
 Hosting
@@ -78,6 +80,18 @@ install, generate and deploy
 new_post, new_page, generate, preview, deploy
 
 custom HTML elements
+
+### How Octopress generates a site
+
+front matter: tags - available as page.mytag
+
+All files in the <code>source</code> directory are rendered with Jekyll. The convention is:
+
+<code>source/*.html</code> describes how to render each requested page
+
+<code>source/_posts/*.markdown</code> describe how to render each post page
+
+Each template contains /front matter/ describing, among other things, which layout renderer to use. The layout renderers are in the <code>source/_layouts/</code> directory. These include the <code>default</code>, <code>page</code> and <code>post</code> layouts. The <code>default</code> layout sets the root_url variable, includes the head, header and footer templates and appropriate content.
 
 ### Bonus for OSX users - POW!
 
