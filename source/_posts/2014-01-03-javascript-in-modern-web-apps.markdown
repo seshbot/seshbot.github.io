@@ -11,7 +11,7 @@ description: Creating modern web applications
 
 My own prior experience with web development was 14 years ago, and consisted of ColdFusion marked-up HTML and little else. Web pages used frames and tables and a lot of homegrown convention to ensure headers/footers looked right. We were spending most of our efforts on effectively using CSS to make our lives easier - not separating views from data or dynamically updating HTML elements.
 
-This article describes my current understanding of the technologies used in constructing modern web applications.
+This article describes my current understanding of the technologies used in constructing _modern_ web applications, largely based on a few years' lurking on [Hacker News](http://ycombinator.com) and a couple weeks' not-so-intense investigations.
 
 <!-- more -->
 
