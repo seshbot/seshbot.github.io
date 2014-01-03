@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-04T00:24:28+09:00</updated>
+  <updated>2014-01-04T00:27:06+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -20,7 +20,7 @@
     <id>http://seshbot.com/blog/2014/01/03/javascript-in-modern-web-apps</id>
     <content type="html"><![CDATA[<p>My own prior experience with web development was 14 years ago, and consisted of ColdFusion marked-up HTML and little else. Web pages used frames and tables and a lot of homegrown convention to ensure headers/footers looked right. We were spending most of our efforts on effectively using CSS to make our lives easier &ndash; not separating views from data or dynamically updating HTML elements.</p>
 
-<p>This article describes my current understanding of the technologies used in constructing modern web applications.</p>
+<p>This article describes my current understanding of the technologies used in constructing <em>modern</em> web applications, largely based on a few years&#8217; lurking on <a href="http://ycombinator.com">Hacker News</a> and a couple weeks&#8217; not-so-intense investigations.</p>
 
 <!-- more -->
 
