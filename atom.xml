@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-04T00:18:09+09:00</updated>
+  <updated>2014-01-04T00:24:28+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -18,11 +18,9 @@
     <link href="http://seshbot.com/blog/2014/01/03/javascript-in-modern-web-apps/"/>
     <updated>2014-01-03T23:20:08+09:00</updated>
     <id>http://seshbot.com/blog/2014/01/03/javascript-in-modern-web-apps</id>
-    <content type="html"><![CDATA[<p><em>I wrote this while trying to make an Ember.js application, but figured I needed a place to dump some links and perhaps to refer back to later. Really I just needed to post some thoughts so they wouldn&rsquo;t clutter up my Ember article (if I get around to it)</em></p>
+    <content type="html"><![CDATA[<p>My own prior experience with web development was 14 years ago, and consisted of ColdFusion marked-up HTML and little else. Web pages used frames and tables and a lot of homegrown convention to ensure headers/footers looked right. We were spending most of our efforts on effectively using CSS to make our lives easier &ndash; not separating views from data or dynamically updating HTML elements.</p>
 
-<p>My own prior experience with web development was 14 years ago, and consisted of ColdFusion marked-up HTML and little else. Web pages used frames and tables and a lot of homegrown convention to ensure headers/footers looked right. We were spending most of our efforts on effectively using CSS to make our lives easier &ndash; not separating views from data or dynamically updating HTML elements.</p>
-
-<p>This article describes my current understanding of the technologies used in web applications based on passively following sites like <a href="http://ycombinator.com">Hacker News</a> and a couple weeks&#8217; not-very-intensive research.</p>
+<p>This article describes my current understanding of the technologies used in constructing modern web applications.</p>
 
 <!-- more -->
 
