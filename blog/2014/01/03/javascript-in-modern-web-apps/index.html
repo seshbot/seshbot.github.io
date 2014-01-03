@@ -1,24 +1,100 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Seshbot Programs]]></title>
-  <link href="http://seshbot.com/atom.xml" rel="self"/>
-  <link href="http://seshbot.com/"/>
-  <updated>2014-01-04T00:18:09+09:00</updated>
-  <id>http://seshbot.com/</id>
-  <author>
-    <name><![CDATA[Paul Cechner]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>JavaScript in Modern Web Apps  | Seshbot Programs</title>
 
-  
-  <entry>
-    <title type="html"><![CDATA[JavaScript in Modern Web Apps]]></title>
-    <link href="http://seshbot.com/blog/2014/01/03/javascript-in-modern-web-apps/"/>
-    <updated>2014-01-03T23:20:08+09:00</updated>
-    <id>http://seshbot.com/blog/2014/01/03/javascript-in-modern-web-apps</id>
-    <content type="html"><![CDATA[<p><em>I wrote this while trying to make an Ember.js application, but figured I needed a place to dump some links and perhaps to refer back to later. Really I just needed to post some thoughts so they wouldn&rsquo;t clutter up my Ember article (if I get around to it)</em></p>
+<meta name="author" content="Paul Cechner"> 
+
+<meta name="description" content="Creating modern web applications"> <meta name="keywords" content="javascript,mvc,angular,ember">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Seshbot Programs" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Seshbot Programs</a></h1>
+<h4>...and makes software</h4>
+<nav id="main-nav"><ul>
+	<li><a href="/">Blog</a></li>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archive</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/">Blog</a></li>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archive</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:seshbot.com">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">JavaScript in Modern Web Apps</h2>
+	<div class="entry-content"><p><em>I wrote this while trying to make an Ember.js application, but figured I needed a place to dump some links and perhaps to refer back to later. Really I just needed to post some thoughts so they wouldn&rsquo;t clutter up my Ember article (if I get around to it)</em></p>
 
 <p>My own prior experience with web development was 14 years ago, and consisted of ColdFusion marked-up HTML and little else. Web pages used frames and tables and a lot of homegrown convention to ensure headers/footers looked right. We were spending most of our efforts on effectively using CSS to make our lives easier &ndash; not separating views from data or dynamically updating HTML elements.</p>
 
@@ -86,70 +162,92 @@ use in the browser.</p>
 <p><strong>A Yeoman-generated Application</strong> that I think by default uses a simple web server like <a href="http://unicorn.bogomips.org/">Unicorn</a>, started from a Grunt script. There are plenty of instructions on the web for deploying these applications to Heroku or other hosting services.</p>
 
 <p><strong>A Rails RESTful Application</strong> hosted on something like <abbr title="Amazon Web Services">AWS</abbr>. Ruby on Rails is a hefty web framework that also follows the MVC framework. I think it&rsquo;s a full-stack framework in its own right and prefers its own HTML templating engine. I intend to use it to expose a REST API instead of HTML however so I can totally separate the server logic from the UI framework, and perhaps write separate front-ends altogether.</p>
-]]></content>
-  </entry>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
   
-  <entry>
-    <title type="html"><![CDATA[The Grand Experiment]]></title>
-    <link href="http://seshbot.com/blog/2013/12/20/the-grand-experiment/"/>
-    <updated>2013-12-20T10:07:06+09:00</updated>
-    <id>http://seshbot.com/blog/2013/12/20/the-grand-experiment</id>
-    <content type="html"><![CDATA[<p>A few months ago I decided to hand in my notice and live off my savings for a while. In 13 years of software development this is the first proper hiatus I&rsquo;ve taken so I have no idea what to expect.</p>
-
-<p>I intend to spend the next six to twelve months attempting to see what happens when I have time to myself.</p>
-
-<!-- more -->
 
 
-<h3>So far&hellip;.</h3>
+<time datetime="2014-01-03T23:20:08+09:00" pubdate data-updated="true">Jan 3<span>rd</span>, 2014</time></div>
+	
 
-<p>This is only the first week of my grand experiment. So far I have spent most of it gaming with my other unemployed friends (Pathfinder card game is awesome.) I did set up this blog however, and register seshbot.com, so I suppose it&rsquo;s not a complete loss work-wise.</p>
+<div class="tags">
 
-<h3>Blogging</h3>
+	<a class='category' href='/blog/categories/web-apps/'>Web Apps</a>, <a class='category' href='/blog/categories/what-is/'>What Is</a>
 
-<p>I&rsquo;m excited about following an open development process. Source code is only a part of an application however, the analysis and design are integral pieces that I would like to make visible. I am concerned that setting up this blog before I have anything to show is setting the cart before the horse, but it seemed like the smallest most approachable project I could scope out for the first week.</p>
-
-<p>The Octopress platform seems very developer-friendly. I can trivially embed syntax highlighted source code snippets and extend the framework through a simple plugin mechanism (I think.) There is no fancy web UI for composing posts &ndash; its all authoring markup on your local machine then pushing the generated code to github and letting github pages take care of the rest. Writing a new blog post is a matter of:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>&gt; <span class="nb">cd </span>seshbot
-</span><span class='line'>&gt; rake new_post<span class="o">[</span><span class="s1">&#39;My New Post!&#39;</span><span class="o">]</span>
-</span><span class='line'><span class="c"># Creating new post: source/_posts/2013-12-20-my-new-post.markdown</span>
-</span><span class='line'>&gt; vim <span class="nb">source</span>/_posts/2013-12-20-my-new-post.markdown
-</span><span class='line'>&gt; rake generate
-</span><span class='line'><span class="c"># Successfully generated site: source -&gt; public</span>
-</span><span class='line'>&gt; rake deploy
-</span><span class='line'><span class="c"># Generating Site with Jekyll</span>
-</span><span class='line'><span class="c"># Copying public to _deploy</span>
-</span><span class='line'><span class="c"># Pushing generated _deploy website</span>
-</span><span class='line'><span class="c"># Github Pages deploy complete</span>
-</span></code></pre></td></tr></table></div></figure>
+</div>
 
 
-<p>There&rsquo;s of course so much more you can do (preview it locally before uploading for example) but that&rsquo;s the basic workflow.</p>
+	
+		<span class="comments"><a href="/blog/2014/01/03/javascript-in-modern-web-apps/#disqus_thread">Comments</a></span>
+	
+</div></article>
 
-<h3>Project</h3>
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
 
-<p>I have a bunch of stuff I want to mess with, but I intend to start writing a few simple web applications. I have in mind some kind of Ruby-on-Rails stack using <a href="http://emberjs.com/">Ember.js</a> for the browser&rsquo;s UI modeling. A shared drawing application perhaps?</p>
 
-<p>Also, I would love to mess around more with C++11/C++14, I have played a little so far and have been very impressed with the productivity and conciseness it affords (it&rsquo;s about time!) A little network game perhaps? I really would love to make a little modular adventure game at some stage. Who knows, perhaps I will be the one to finally make a nice graphical <a href="http://www.bay12games.com/dwarves/">Dwarf Fortress</a> clone? That seems to be the indy gaming unicorn.</p>
 
-<h3>Japan Lifestyle</h3>
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
 
-<p>So far I have been fortunate but it can be frustrating at times. Living in Japan without a job is a little challenging, though I suspect that would be true in most countries. The immediate challenges are keeping my house (I must renew my lease and they weren&rsquo;t too impressed with the blank &lsquo;employment&rsquo; section of the document) and preparing to pay the various taxes &ndash; most notably residential tax and health insurance, both of which are means-based on the previous years income.</p>
+    Paul Cechner
 
-<p>I was very happy to discover that just around the corner from my house is a little cafe run by a very friendly independent game-developer &ndash; <a href="http://picopicocafe.com">PicoPico cafe</a>. Once a month they hold &lsquo;PicoTachi&rsquo;, an event for independent developers (and anyone else really) to show off stuff they&rsquo;ve been working on. That seems almost too fortuitous! I am also looking forward to working in the cafe by myself, it has a very nice ambiance.</p>
-]]></content>
-  </entry>
-  
-</feed>
+<br>
+Powered by Octopress.
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'seshbot';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://seshbot.com/blog/2014/01/03/javascript-in-modern-web-apps/';
+        var disqus_url = 'http://seshbot.com/blog/2014/01/03/javascript-in-modern-web-apps/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+</body>
+</html>
