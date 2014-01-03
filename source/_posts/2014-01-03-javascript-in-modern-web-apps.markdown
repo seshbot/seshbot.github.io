@@ -9,11 +9,9 @@ keywords: javascript,mvc,angular,ember
 description: Creating modern web applications
 ---
 
-_I wrote this while trying to make an Ember.js application, but figured I needed a place to dump some links and perhaps to refer back to later. Really I just needed to post some thoughts so they wouldn't clutter up my Ember article (if I get around to it)_
-
 My own prior experience with web development was 14 years ago, and consisted of ColdFusion marked-up HTML and little else. Web pages used frames and tables and a lot of homegrown convention to ensure headers/footers looked right. We were spending most of our efforts on effectively using CSS to make our lives easier - not separating views from data or dynamically updating HTML elements.
 
-This article describes my current understanding of the technologies used in web applications based on passively following sites like [Hacker News](http://ycombinator.com) and a couple weeks' not-very-intensive research.
+This article describes my current understanding of the technologies used in constructing modern web applications.
 
 <!-- more -->
 
