@@ -83,7 +83,7 @@ custom HTML elements
 
 ### How Octopress generates a site
 
-front matter: tags - available as page.mytag
+front matter: tags - available as page.mytag (may be collections!)
 
 All files in the <code>source</code> directory are rendered with Jekyll. The convention is:
 

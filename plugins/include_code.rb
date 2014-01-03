@@ -32,6 +32,16 @@ module Jekyll
     def initialize(tag_name, markup, tokens)
       @title = nil
       @file = nil
+      @verbatim = false
+      @show_header = true
+      if markup.strip =~ /\s*no-header\s*/i
+        @show_header = false
+        markup = markup.strip.sub(/no-header/i,'')
+      end
+      if markup.strip =~ /\s*verbatim\s*/i
+        @verbatim = true
+        markup = markup.strip.sub(/verbatim/i,'')
+      end
       if markup.strip =~ /\s*lang:(\S+)/i
         @filetype = $1
         markup = markup.strip.sub(/lang:\S+/i,'')
@@ -61,10 +71,25 @@ module Jekyll
         @filetype = file.extname.sub('.','') if @filetype.nil?
         title = @title ? "#{@title} (#{file.basename})" : file.basename
         url = "/#{code_dir}/#{@file}"
-        source = "<figure class='code'><figcaption><span>#{title}</span> <a href='#{url}'>download</a></figcaption>\n"
-        source += "#{highlight(code, @filetype)}</figure>"
+        source = "#{wrapSource(markupCode(code, @filetype),title,url)}"
         safe_wrap(source)
       end
+    end
+
+    def markupCode(code, filetype)
+       if @verbatim
+          code
+       else
+          "#{highlight(code, filetype)}"
+       end
+    end
+
+    def wrapSource(code, title, url)
+       if @show_header
+          "<figure class='code'><figcaption><span>#{title}</span> <a href='#{url}'>download</a></figcaption>\n#{code}</figure>"
+       else
+          code
+       end
     end
   end
 

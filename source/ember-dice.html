@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+   <title>Demo Dice App</title>
+</head>
+<body>
+   <!--
+   <script type="text/x-handlebars">
+      {{outlet}}
+   </script>
+   -->
+
+   <script  type="text/x-handlebars" data-template-name="index">
+      <h2>The Dice Table</h2>
+   </script>
+   <script  type="text/x-handlebars" data-template-name="tables">
+      <h2>Tables Available:</h2>
+      {{#each}}
+         <li>{{name}}</li>
+      {{/each}}
+   </div>
+   </script>
+
+   <script src="/javascripts/libs/jquery.min.js"></script>
+   <script src="/javascripts/libs/handlebars-1.1.2.js"></script>
+   <script src="/javascripts/libs/ember-1.0.js"></script>
+   <script src="/javascripts/libs/ember-data-1.0.js"></script>
+
+   <script> // application.js
+      window.DiceApp = Ember.Application.create();
+
+      DiceApp.ApplicationAdapter = DS.FixtureAdapter.extend();
+   </script>
+
+   <script> // router.js
+
+      // set URL query to forward templates
+      DiceApp.Router.map(function() {
+         // forward root path to the 'tables' route
+         this.resource('tables', { path: '/' }); 
+      });
+
+      // chosen by default if no match found
+      DiceApp.IndexRoute = Ember.Route.extend({
+         model: function() {
+            console.log('index route...');
+            return DiceApp.Table.FIXTURES;
+         }
+      });
+      
+      DiceApp.TablesRoute = Ember.Route.extend({
+         model: function() {
+            return this.store.find('table');
+         }
+      });
+   </script>
+
+   <script> // models/dice.js
+      DiceApp.Player = DS.Model.extend({
+         // can use string, number, boolean and date types
+         name: DS.attr('string'),
+      });
+
+      DiceApp.Table = DS.Model.extend({
+         name: DS.attr('string'),
+
+         players: DS.hasMany('player'),
+      });
+
+      DiceApp.Dice = DS.Model.extend({
+         sides: DS.attr('number'), 
+
+         name: function() { return 'd' + this.get('sides') }.property('sides'),
+      });
+
+      DiceApp.Player.FIXTURES = [
+      {
+         id: '1',
+         name: 'Paul',
+      }
+      ];
+
+      DiceApp.Table.FIXTURES = [ 
+      {
+         id: '1',
+         name: 'DnD',
+         players: [ { id: '1', name: 'Paul' } ]
+      },
+      {
+         id: '2',
+         name: 'burning wheel',
+      }
+      ];
+   </script>
+
+</body>
+</html>
