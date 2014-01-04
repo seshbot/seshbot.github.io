@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Web Apps | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/web-apps/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-04T11:01:00+09:00</updated>
+  <updated>2014-01-04T11:07:50+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -18,7 +18,7 @@
     <link href="http://seshbot.com/blog/2014/01/03/javascript-in-modern-web-apps/"/>
     <updated>2014-01-03T23:20:08+09:00</updated>
     <id>http://seshbot.com/blog/2014/01/03/javascript-in-modern-web-apps</id>
-    <content type="html"><![CDATA[<p>The web development scene has moved dramatically since my own prior experience with web development was 14 years ago. My prior experience was in creating <em>web pages</em> in ColdFusion/PHP/ASP marked-up HTML with nice CSS. Web pages used frames and tables and a lot of homegrown convention to ensure headers/footers looked right. We were spending most of our efforts on effectively using CSS to make our lives easier &ndash; not separating views from data or dynamically updating HTML elements.</p>
+    <content type="html"><![CDATA[<p>The web development scene has moved dramatically since my own minor experience at an Internet business company 14 years ago. Back then we created <em>web pages</em> in ColdFusion/PHP/ASP marked-up HTML. Our main tools were frames and tables and a lot of homegrown convention to ensure headers/footers looked right. We spent most of our efforts on effectively using CSS to make our lives easier &ndash; not separating views from data or dynamically updating HTML elements.</p>
 
 <p>People now create <em>web applications</em> instead of individual pages. Web apps look a lot like native applications, are responsive and dynamic, and have very high-level frameworks that provide application-wide abstractions for business models and the abstraction of the view logic.</p>
 
@@ -31,7 +31,7 @@
 
 <p>Javascript is said to be the assembly language of the internet. It was created circa 1995 for Netscape Navigator 2.0 as part of a much grander vision for a global web platform. It is supported by all web browsers, and <a href="https://www.dartlang.org/">until recently</a> was the only language broadly enough available to do so.</p>
 
-<p>Modern web applications are built many layers of abstraction on top of this. An extreme and relevant example of this is the <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">XMLHttpRequest</a> (hereafter XHR) function. Prior to HTML5 WebSockets, all <a href="http://en.wikipedia.org/wiki/Single-page_application">single-page</a> web applications used the XHR function to receive dynamic updates from a remote server, through a technique often known as <a href="http://en.wikipedia.org/wiki/Ajax_%28programming%29">AJAX</a>. Likely few web apps actually use the function directly however &ndash; most these days use high-level <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC frameworks</a> (more on these below) to connect the visual elements the user sees in their browser (the view) to entity abstractions updated from a remote server (the model).</p>
+<p>Modern web applications are built many layers of abstraction on top of this. An extreme and relevant example of this is the <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">XMLHttpRequest</a> (hereafter XHR) function. Prior to HTML5 WebSockets, all <a href="http://en.wikipedia.org/wiki/Single-page_application">single-page</a> web applications used this single function to receive dynamic updates from a remote server, through a technique commonly known as <a href="http://en.wikipedia.org/wiki/Ajax_%28programming%29">AJAX</a>. Likely few web apps actually use the function directly however &ndash; most these days use high-level <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC frameworks</a> (more on these below) to connect the visual elements the user sees in their browser (the view) to entity abstractions updated from a remote server (the model).</p>
 
 <p>It makes sense to me that any understanding of modern web applications would need to be partly underpinned by a solid understanding of JavaScript. It seems like a pretty icky language however, with a lot of weird behaviour ready to trip those unaware of its stupid idiosyncracies. Perhaps because it was <a href="http://www.computer.org/csdl/mags/co/2012/02/mco2012020007.html">rushed out in 10 days</a>.</p>
 
