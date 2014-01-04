@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Web Apps | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/web-apps/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-04T00:27:06+09:00</updated>
+  <updated>2014-01-04T10:46:55+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -76,6 +76,24 @@ use in the browser.</p>
 <li><a href="http://gruntjs.com/">Grunt</a> for running preconfigured tasks from a Gruntfile. For example running, testing and previewing web apps</li>
 </ul>
 
+
+<p>As an example of these technologies, here&rsquo;s what it takes to create a basic Ember.js application (a more in-depth starter can be found <a href="http://blog.embed.ly/post/46586649344/introduction-to-ember-development">here</a>):</p>
+
+<p>``` bash Creating a new Ember.js application from scratch</p>
+
+<h1>install pre-requisite apps to your machine</h1>
+
+<p>apt-get install npm
+npm install -g yo grunt-cli bower
+npm install -g grunt-contrib-compass
+npm install -g generator-ember
+npm install -g grunt-mocha</p>
+
+<p>mkdir myapp &amp;&amp; cd myapp
+yo ember       # create the application framework
+bower install  # download pre-requisite libraries
+grunt server   # start app on localhost:8000
+```</p>
 
 <h3>Serving and hosting web apps</h3>
 

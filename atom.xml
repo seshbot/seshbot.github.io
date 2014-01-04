@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-04T00:27:06+09:00</updated>
+  <updated>2014-01-04T10:46:55+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -75,6 +75,33 @@ use in the browser.</p>
 <li><a href="http://bower.io/">Bower</a> for application dependency management. It automatically downloads and configures dependent frameworks for an app</li>
 <li><a href="http://gruntjs.com/">Grunt</a> for running preconfigured tasks from a Gruntfile. For example running, testing and previewing web apps</li>
 </ul>
+
+
+<p>As an example of these technologies, here&rsquo;s what it takes to create a basic Ember.js application (a more in-depth starter can be found <a href="http://blog.embed.ly/post/46586649344/introduction-to-ember-development">here</a>):</p>
+
+<figure class='code'><figcaption><span>Creating a new Ember.js application from scratch</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># install pre-requisite apps to your machine</span>
+</span><span class='line'>apt-get install npm
+</span><span class='line'>npm install -g yo grunt-cli bower
+</span><span class='line'>npm install -g grunt-contrib-compass
+</span><span class='line'>npm install -g generator-ember
+</span><span class='line'>npm install -g grunt-mocha
+</span><span class='line'>
+</span><span class='line'>mkdir myapp <span class="o">&amp;&amp;</span> <span class="nb">cd </span>myapp
+</span><span class='line'>yo ember       <span class="c"># create the application framework</span>
+</span><span class='line'>bower install  <span class="c"># download pre-requisite libraries</span>
+</span><span class='line'>grunt server   <span class="c"># start app on localhost:8000</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>Serving and hosting web apps</h3>
