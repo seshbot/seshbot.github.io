@@ -9,7 +9,9 @@ keywords: javascript,mvc,angular,ember
 description: Creating modern web applications
 ---
 
-My own prior experience with web development was 14 years ago, and consisted of ColdFusion marked-up HTML and little else. Web pages used frames and tables and a lot of homegrown convention to ensure headers/footers looked right. We were spending most of our efforts on effectively using CSS to make our lives easier - not separating views from data or dynamically updating HTML elements.
+The web development scene has moved dramatically since my own minor experience at an Internet business company 14 years ago. Back then we created _web pages_ in ColdFusion/PHP/ASP marked-up HTML. Our main tools were frames and tables and a lot of homegrown convention to ensure headers/footers looked right. We spent most of our efforts on effectively using CSS to make our lives easier - not separating views from data or dynamically updating HTML elements.
+
+People now create _web applications_ instead of individual pages. Web apps look a lot like native applications, are responsive and dynamic, and have very high-level frameworks that provide application-wide abstractions for business models and the abstraction of the view logic.
 
 This article describes my current understanding of the technologies used in constructing _modern_ web applications, largely based on a few years' lurking on [Hacker News](http://ycombinator.com) and a couple weeks' not-so-intense investigations.
 
@@ -17,13 +19,13 @@ This article describes my current understanding of the technologies used in cons
 
 ### The importance of JavaScript
 
-Javascript is said to be the assembly language of the internet. It was created circa 1995 for Netscape Navigator 2.0 as part of a much grander vision for the Internet. It is supported by all web browsers, and [until recently](https://www.dartlang.org/) was the only language broadly enough available to do so.
+Javascript is said to be the assembly language of the internet. It was created circa 1995 for Netscape Navigator 2.0 as part of a much grander vision for a global web platform. It is supported by all web browsers, and [until recently](https://www.dartlang.org/) was the only language broadly enough available to do so.
 
-Modern web applications are built many layers of abstraction on top of this, library upon library. An extreme and extremely relevant example of this is the [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) (hereafter XHR) function. Prior to HTML5 WebSockets, every [single-page web application](http://en.wikipedia.org/wiki/Single-page_application) used the XHR function to receive dynamic updates from a remote server, though the technique is often known under the more trendy moniker of [AJAX](http://en.wikipedia.org/wiki/Ajax_%28programming%29). Likely few web apps actually use the function directly however - most these days use high-level [MVC frameworks](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) (more on these below) to connect the visual elements the user sees in their browser (the view) to entity abstractions updated from a remote server (the model).
+Modern web applications are built many layers of abstraction on top of this. An extreme and relevant example of this is the [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) (hereafter XHR) function. Prior to HTML5 WebSockets, all [single-page](http://en.wikipedia.org/wiki/Single-page_application) web applications used this single function to receive dynamic updates from a remote server, through a technique commonly known as [AJAX](http://en.wikipedia.org/wiki/Ajax_%28programming%29). Likely few web apps actually use the function directly however - most these days use high-level [MVC frameworks](http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) (more on these below) to connect the visual elements the user sees in their browser (the view) to entity abstractions updated from a remote server (the model).
 
-It makes sense to me that any understanding of modern web applications would need to be partly underpinned by a solid understanding of JavaScript. It seems like a pretty icky language however, with a lot of stupid idiosyncracies and requiring a lot of idioms to get it to work in a non-crazy fashion. Perhaps because it was [rushed out in 10 days](http://www.computer.org/csdl/mags/co/2012/02/mco2012020007.html).
+It makes sense to me that any understanding of modern web applications would need to be partly underpinned by a solid understanding of JavaScript. It seems like a pretty icky language however, with a lot of weird behaviour ready to trip those unaware of its stupid idiosyncracies. Perhaps because it was [rushed out in 10 days](http://www.computer.org/csdl/mags/co/2012/02/mco2012020007.html).
 
-Here's a few recommendations I would like to read one day:
+Here's a few reading recommendations I would like to read one day:
 
 - [Eloquent JavaScript](http://eloquentjavascript.net/contents.html) - basically an ebook that starts from the basics
 - [Learning Advanced JavaScript](http://ejohn.org/apps/learn/) - similar to above only presented as a slide deck with code samples
@@ -37,7 +39,7 @@ Here's a few recommendations I would like to read one day:
 
 ### JavaScript in the browser
 
-I tend to avoid spending too long on high level frameworks, as they come and go and are easily replacable. However some toolsets and framework have become totally indispensable, valuable timesavers to anyone making a web application.
+It's very difficult to figure out which of the myriad JS frameworks are worth investing in, as they come and go and are easily replacable. However some toolsets and frameworks have become totally indispensable timesavers to anyone making a web application.
 
 - [jQuery](http://jquery.com/) - a low-level toolset that vastly simplifies common JS tasks such as manipulating the DOM and using XHR
 - [RequireJS](http://requirejs.org/) - a library that makes including third party modules simple
@@ -57,6 +59,22 @@ I think I'll likely want to look into at least these frameworks:
 - [Yeoman](http://yeoman.io/) provides a set of tools for creating and manipulating a web app on a workflow level
 - [Bower](http://bower.io/) for application dependency management. It automatically downloads and configures dependent frameworks for an app
 - [Grunt](http://gruntjs.com/) for running preconfigured tasks from a Gruntfile. For example running, testing and previewing web apps
+
+As an example of these technologies, here's what it takes to create a basic Ember.js application (a more in-depth starter can be found [here](http://blog.embed.ly/post/46586649344/introduction-to-ember-development)):
+
+``` bash Creating a new Ember.js application from scratch
+# install pre-requisite apps to your machine
+apt-get install npm
+npm install -g yo grunt-cli bower
+npm install -g grunt-contrib-compass
+npm install -g generator-ember
+npm install -g grunt-mocha
+
+mkdir myapp && cd myapp
+yo ember       # create the application framework
+bower install  # download pre-requisite libraries
+grunt server   # start app on localhost:8000
+```
 
 ### Serving and hosting web apps
 
