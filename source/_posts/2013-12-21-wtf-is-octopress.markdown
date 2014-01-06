@@ -30,6 +30,13 @@ Typically, you will want to preview your changes before deploying them however. 
 
 For markdown syntax, refer to the Liquid [logic tags](http://docs.shopify.com/themes/liquid-basics/logic), [logic filter syntax](http://docs.shopify.com/themes/liquid-basics/output) and 
 
+### Architecture
+
+- Jekyll
+- Compass
+- Rake
+- Rack
+
 ### So first, WTF is Jekyll?
 
 Jekyll is a ruby application that generates a complete static HTML website based on a directory full text files that have been marked up with simple formatting hints. If you want to make a simple site, or add a content generation component to an existing web application, Jekyll looks like it might be feasible (also perhaps have a look at [Prose](http://prose.io), which purports to be an attractive content editor for GitHub.)
@@ -74,6 +81,13 @@ Domain name and DNS
 themes
 
 install, generate and deploy
+
+### Configuration
+
+- _config.yml is the main Octopress configuration file
+- Rakefile defines the rake tasks such as generate, watch, preview and deploy
+- config.rb is the compass configuration file, where css file generation is controlled
+- config.ru defines the rack configuration, in this case it controls how the local web server runs
 
 ### Usage Scenarios
 
