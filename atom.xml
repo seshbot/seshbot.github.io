@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-04T11:07:50+09:00</updated>
+  <updated>2014-01-07T00:36:42+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -12,6 +12,100 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[What's so hard about programming?]]></title>
+    <link href="http://seshbot.com/blog/2014/01/06/whats-so-hard-about-programming/"/>
+    <updated>2014-01-06T20:19:49+09:00</updated>
+    <id>http://seshbot.com/blog/2014/01/06/whats-so-hard-about-programming</id>
+    <content type="html"><![CDATA[<p>It is a fact that every programmer is the best of his peer group, and would spin out the most awesome cleanly-built apps if only he or she didn&rsquo;t have to work in his current circumstances. It is also a fact that every programmer understands that he was terribly misguided just a few years prior.</p>
+
+<p>Given these two facts, I would have to have an abundance of overconfidence to give advice on programming to other programmers. However, I happen to know that <em>I</em> am in fact a better programmer than most, and am therefore uniquely qualified to give such advice.</p>
+
+<p>So here&rsquo;s some of the things I feel I&rsquo;ve learned the hard way &ndash; at least enough that every time I work on a project they jump to mind and guide my actions.</p>
+
+<!-- more -->
+
+
+<h3>Which are the best technologies?</h3>
+
+<p>Programming languages are tricky to learn, and programmers have a vested interest in believing that the technologies they know best are the most appropriate technologies to use for every task. For the purposes of this article, those people will be known as <em>curmudgeons</em>.</p>
+
+<p>Curmudgeons often avoid learning more than their one favourite language. I spent about 8 years programming exclusively in C++ before I finally took the jump to another language, and that point represented a refreshingly great learning curve for me. I love C++ but there&rsquo;s features that it simply does not have. So I&rsquo;ll demonstrate by talking about C++ from a curmudgeonly perspective.</p>
+
+<p>C++ does not have reflection, and I used to (and still do) think it can make code hard to understand and follow. However reflection is valuable during application bootstrapping for stringing together components at the highest level using dependency injection containers, for example.</p>
+
+<p>C++ does not have garbage collection. I believe languages that use GC tend to make managing resources other than memory difficult, which makes a lot of code difficult to deal with. However dealing with certain problems <em>without</em> GC can be very tricky or even impossible &ndash; typically anything where the lifetime of an entity cannot be easily dealt with at coding time, such as lambdas with closures, or &lsquo;persistent&rsquo; data structures, or often many other situations in multi-threaded applications.</p>
+
+<p>C++&rsquo;s standard libraries are incredibly low-level (you&rsquo;d look long and never find the word &lsquo;web&rsquo;, &lsquo;service&rsquo; or &lsquo;actor&rsquo;) and the standard is <em>incredibly</em> slow moving (only recently got threading support, lambdas or regular expressions!) However this is a side-effect of the fact that the language is intended to be long-lived, clearly something it&rsquo;s been very successful at.</p>
+
+<p><span class='pullquote-right' data-pullquote='there are no crappy technologies - only situations where technologies are perhaps not applicable'>
+Some higher-level languages bring garbage collection and reflection. While I believe these are often grossly misused or are considered to solve problems they do not in fact solve well, I have first hand experience at how awesome they can be in certain use-cases. I now believe that there are no crappy technologies &ndash; only situations where technologies are perhaps not applicable.
+</span></p>
+
+<p>Need super high performance? C or C++ is great if you know it really well, as an explicit goal of the language is that all features should come at no hidden cost, which is often a detriment to the language&rsquo;s simplicity. If you or the majority of your team is not familiar with the language however, it will probably not go well. If you are writing a large application, or need to quickly pump out a web service or componentised application, it simply might not be the right tool for the job.</p>
+
+<p>It might be surprising but there are an equal number of curmudgeons using newer languages such as Java, JavaScript and Scala as well. While C++ curmudgeons will tell you that high-level facilities offered by new generation languages (GC etc) are not truly useful, higher-level language curmudgeons will tell you that the performance of their tools are equal, or somehow better than, lower-level languages. Actually, from the perspective that a well-maintained application tends to run smoother this is sometimes true. However from the truest apples-to-apples sense this is rarely true.</p>
+
+<p>As an example, an often-cited comparison is that between garbage collecting heap allocated memory and the typical semi-manual approach taken by C++. Of course collecting a load of memory at one time is more efficient than individual de-allocations. It&rsquo;s easy to see the problem here &ndash; programmers not familiar with the intricacies of low-level memory management would not understand stack-based allocation, which is effectively zero cost as it does not need to be deallocated at all, and so leave it out of the equation.</p>
+
+<p>A smart programmer would believe that if a language was created, still exists and has a large user base, it probably has a good reason to be around. A programmer that knows more language is almost by definition more well equipped to tackle problems more easily.</p>
+
+<h3>What&rsquo;s the difference between Analysis and Design?</h3>
+
+<p>Many programmers don&rsquo;t separate the notion of analysis from design. In fact, it would be less charitable but more realistic to say that most programmers don&rsquo;t fully know what analysis is for.</p>
+
+<p>The first step in any project is to understand the requirements &ndash; a process that requires a very thorough analysis phase. A thorough analysis will capture all requirements in a language comfortable to the client, create a domain model that the client agrees captures all of the actors, entities, events and commands in the system, and give a good representation of the scope that is being tackled (a complete list of useage scenarios the application will satisfy.) If you tackle a problem without this knowledge, you don&rsquo;t fully understand the problem and therefore are not yet qualified to fix it.</p>
+
+<p><span class='pullquote-left' data-pullquote='Every requirement accurately captured represents a significant amount of effort saved'>
+The agile principle of avoiding &lsquo;big design up-front&rsquo; leads people to avoid performing full analysis up front, which is very misguided. Every requirement accurately captured represents a significant amount of effort saved in large refactorings, or worse yet continual effort working around mis-designed systems.
+</span></p>
+
+<p>Analysis is important and should be done as completely as possible, lest the wrong application get built. Design is incremental but done continually. While analysis documents tend to be fairly static and only change if the actual requirements change, design documents are often not useful much past the development of the code they relate to. For this reason they&rsquo;re usually only useful for reasoning about and communicating a plan of attack for an upcoming component being created or worked on.</p>
+
+<h3>Have we estimated enough time?</h3>
+
+<p>Estimation is said to be the hardest part of programming. It is fricken hard. But usually it becomes much more approachable once the complete scope has been explored &ndash; if every piece of functionality to be delivered is decomposed into the smallest deliverable increments that the client can verify (often known as user stories in agile terminology), and these dozens or sometimes hundreds of stories can be individually and honestly estimated, a rough estimate may be reached.</p>
+
+<p>More importantly however, if you find yourself 10% of the way into the stories of a project, you have the ability to re-evaluate your estimate of the remaining portion based on how long the first bit took. This process should replace all these &lsquo;double and add your grandmothers age&rsquo; type estimates, though they require some bravery both on behalf of the developers and the business people.</p>
+
+<p>As a bonus, if the stories were separated into must-, should-, and might-haves, a certain amount of flexibility is built into the system where the portion to be delivered becomes negotiable based on revised estimates.</p>
+
+<h3>Have we completed our design?</h3>
+
+<p>Every time I design a new component I go through a few steps. I find that these are often not considered when estimating the time required to implement new functionality.</p>
+
+<ul>
+<li>most importantly, for every entity in the system <strong>consider how the entity will change over time</strong> &ndash; it&rsquo;s simple to represent an order in an online shopping system, but what if it gets cancelled or amended? What if the user account is deleted? What if an item is recalled by the manufacturer?</li>
+<li><strong>how will the new component be administered and configured?</strong> This means APIs and user interfaces, which are not glamorous but need to be made.</li>
+<li>when modeling the major entities, <strong>model all incoming commands and events</strong> as well &ndash; a good way to tell if there&rsquo;s an event missing is if two entities are relating directly to each other. This also yields heaps of other benefits (see <a href="http://martinfowler.com/eaaDev/EventSourcing.html">event sourcing</a> for example).</li>
+<li><strong>separate each entity from the value data associated with that entity.</strong> Entities have identity and usually a long lifetime, and are changed many times throughout their life.</li>
+</ul>
+
+
+<p>These topics are actually huge but these most readily to mind.</p>
+
+<h3>Is UML necessary?</h3>
+
+<p>This is a little anachronystic these days, I don&rsquo;t see many people jumping on the UML bandwagon anymore &ndash; if anything it&rsquo;s swung the other way, which is no better really. But it can seem sometimes that UML is some kind of all-or-none proposition.</p>
+
+<p>Many treat UML as a kind of <em>process</em>, when in fact it is a collection of <em>languages</em>. And like any language, it is there to be used primarily for communication. It makes little sense to have a process that revolves around UML per se, but I find that certain diagrams are arguably the best way to express certain ideas.</p>
+
+<p><em>During analysis</em>: <strong>use case diagrams</strong> are great for outlining scope; <strong>domain models</strong> are fantastic for discovering the main concepts in a system and are great to carry to early client meetings; and <strong>state diagrams</strong> can <em>really</em> save a lot of time later on down the line (entity states are deceptively tricky to discover.)</p>
+
+<p><em>During design</em>: these are totally situational, but <strong>component diagrams</strong> show how all the services and applications hang together, where message busses are and how high-availability and how other such architectural concerns are handled; I often find myself sketching out <strong>class diagrams</strong> aplenty to provoke discussions on my immediate plans; and I email tons of <strong>sequence diagrams</strong> around indicating the intricate details on how components coordinate their interactions.</p>
+
+<p>In all, UML is neither good nor bad, it is a set of tools you may decide to use when communicating about software.</p>
+
+<h3>Will Design Patterns save us?</h3>
+
+<p>There are a lot of good books out there detailing a lot of good design patterns. These patterns take many forms but there is a common unifying factor of all of them &ndash; they don&rsquo;t actually do anything by themselves (otherwise they&rsquo;d be applications or services.) They can be very useful for two purposes &ndash; describing the design of a system to others, or reason about how a part of a problem might decompose into a set of entities, values and relationships.</p>
+
+<p>The problem comes in when the design patterns book comes out as the first step in creating a new application. No matter the problem, the first step should always be to understand the problem through <em>analysis</em>, and then the first step of design should be something like figuring out the major components in the system or the data in/out and transforms, depending on the situation. The design patterns emerge from this process, and the books are useful for recognising them, not guiding the design process.</p>
+
+<p>Interestingly, design patterns are more important to imperative languages than declarative ones &ndash; imperative languages are by their nature higher level and the abstractions that design pattern books enumerate tend to fall out much more naturally without a lot of effort. Functional language curmudgeons are oft quoted as saying that design patterns are missing language features. I&rsquo;m not entirely convinced of this perspective, but it does show how genuinely powerful those languages are at expressing high level concepts simply.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[JavaScript in Modern Web Apps]]></title>
