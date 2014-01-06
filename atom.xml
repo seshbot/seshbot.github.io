@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-07T00:41:53+09:00</updated>
+  <updated>2014-01-07T00:44:46+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -40,7 +40,7 @@
 <p>C++&rsquo;s standard libraries are incredibly low-level (you&rsquo;d look long and never find the word &lsquo;web&rsquo;, &lsquo;service&rsquo; or &lsquo;actor&rsquo;) and the standard is <em>incredibly</em> slow moving (only recently got threading support, lambdas or regular expressions!) However this is a side-effect of the fact that the language is intended to be long-lived, clearly something it&rsquo;s been very successful at.</p>
 
 <p><span class='pullquote-right' data-pullquote='there are no crappy technologies - only situations where technologies are perhaps not applicable'>
-Some higher-level languages bring garbage collection and reflection. While I believe these are often grossly misused or are considered to solve problems they do not in fact solve well, I have first hand experience at how awesome they can be in certain use-cases. I now believe that there are no crappy technologies &ndash; only situations where technologies are perhaps not applicable.
+So while I believe the functionality of these &lsquo;friendlier&rsquo; languages are often grossly misused or are considered to solve problems they do not in fact solve well, I also know first-hand how awesome they can be in certain specific scenarios. I now believe that there are no crappy technologies &ndash; only situations where technologies are perhaps not applicable.
 </span></p>
 
 <p>Need super high performance? C or C++ is great if you know it really well, as an explicit goal of the language is that all features should come at no hidden cost, which is often a detriment to the language&rsquo;s simplicity. If you or the majority of your team is not familiar with the language however, it will probably not go well. If you are writing a large application, or need to quickly pump out a web service or componentised application, it simply might not be the right tool for the job.</p>
