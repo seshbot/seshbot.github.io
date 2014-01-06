@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-07T00:36:42+09:00</updated>
+  <updated>2014-01-07T00:40:52+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -35,7 +35,7 @@
 
 <p>C++ does not have reflection, and I used to (and still do) think it can make code hard to understand and follow. However reflection is valuable during application bootstrapping for stringing together components at the highest level using dependency injection containers, for example.</p>
 
-<p>C++ does not have garbage collection. I believe languages that use GC tend to make managing resources other than memory difficult, which makes a lot of code difficult to deal with. However dealing with certain problems <em>without</em> GC can be very tricky or even impossible &ndash; typically anything where the lifetime of an entity cannot be easily dealt with at coding time, such as lambdas with closures, or &lsquo;persistent&rsquo; data structures, or often many other situations in multi-threaded applications.</p>
+<p>C++ does not have garbage collection. I believe languages that use GC tend to make managing resources other than memory difficult, which makes a lot of code difficult to deal with. However dealing with certain problems <em>without</em> GC can be very tricky or even impossible &ndash; typically anything where the lifetime of an entity cannot be easily dealt with at coding time, such as lambdas with closures, or <a href="http://en.wikipedia.org/wiki/Persistent_data_structure">&lsquo;persistent&rsquo; data structures</a> (a la <a href="http://clojure.org/data_structures">clojure&rsquo;s data structures</a>, or often many other situations in multi-threaded applications.</p>
 
 <p>C++&rsquo;s standard libraries are incredibly low-level (you&rsquo;d look long and never find the word &lsquo;web&rsquo;, &lsquo;service&rsquo; or &lsquo;actor&rsquo;) and the standard is <em>incredibly</em> slow moving (only recently got threading support, lambdas or regular expressions!) However this is a side-effect of the fact that the language is intended to be long-lived, clearly something it&rsquo;s been very successful at.</p>
 
