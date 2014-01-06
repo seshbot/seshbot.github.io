@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-07T00:50:27+09:00</updated>
+  <updated>2014-01-07T00:51:37+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -55,7 +55,7 @@ So while I believe the functionality of these &lsquo;friendlier&rsquo; languages
 
 <p>Many programmers don&rsquo;t separate the notion of analysis from design. In fact, it would be less charitable but more realistic to say that most programmers don&rsquo;t fully know what analysis is for.</p>
 
-<p>The first step in any project is to understand the requirements &ndash; a process that requires a very thorough analysis phase. A thorough analysis will capture all requirements in a language comfortable to the client, create a domain model that the client agrees captures all of the concepts (entities, events and commands) in the system, and give a good representation of the scope that is being tackled (a complete list of actors interacting and their useage scenarios the application will satisfy.) If you tackle a problem without this knowledge, you don&rsquo;t fully understand the problem and therefore are not yet qualified to fix it.</p>
+<p>The first step in any project is to understand the requirements &ndash; a process that requires a very thorough analysis phase. A thorough analysis will capture all requirements in a language comfortable to the client, create a domain model that the client agrees captures all of the concepts (entities, events, roles, etc) in the system, and give a good representation of the scope that is being tackled (a complete list of actors interacting and their useage scenarios the application will satisfy.) If you tackle a problem without this knowledge, you don&rsquo;t fully understand the problem and therefore are not yet qualified to fix it.</p>
 
 <p><span class='pullquote-left' data-pullquote='Every requirement accurately captured represents a significant amount of effort saved'>
 The agile principle of avoiding &lsquo;big design up-front&rsquo; leads people to avoid performing full analysis up front, which is very misguided. Every requirement accurately captured represents a significant amount of effort saved in large refactorings, or worse yet continual effort working around mis-designed systems.
