@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-08T00:20:49+09:00</updated>
+  <updated>2014-01-08T00:47:50+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -49,7 +49,7 @@ So while I believe the functionality of these &lsquo;friendlier&rsquo; languages
 
 <p>As an example, an often-cited comparison is that between garbage collecting heap allocated memory and the typical semi-manual approach taken by C++. The argument comes down to the observation that scheduled mass-collection of heap memory is generally more efficient than many individual object heap de-allocations. But many programmers that rely on garbage collection would not be aware of stack-based allocation (the default in C++, unavailable in Java) which offers effectively free memory allcation and de-allocation. Or custom allocators, which are a kind of ad-hoc custom garbage collection which can also offer similar benefits in specific circumstances.</p>
 
-<p>A smart programmer would believe that if a language was created, still exists and has a large user base, it probably has a good reason to be around. A programmer that knows more language is almost by definition more well equipped to tackle problems more easily.</p>
+<p>A smart programmer would believe that if a language was created, still exists and has a large user base, it probably has a good reason to be around. A programmer that understands more languages is almost by definition more well equipped to effectively tackle more varied problems.</p>
 
 <h3>What&rsquo;s the difference between Analysis and Design?</h3>
 
@@ -58,16 +58,16 @@ So while I believe the functionality of these &lsquo;friendlier&rsquo; languages
 <p>The first step in any project is to understand the requirements &ndash; a process that requires a very thorough analysis phase. A thorough analysis will capture all requirements in a language comfortable to the client, create a domain model that the client agrees captures all of the concepts (entities, events, roles, etc) in the system, and give a good representation of the scope that is being tackled (a complete list of actors interacting and their useage scenarios the application will satisfy.) If you tackle a problem without this knowledge, you don&rsquo;t fully understand the problem and therefore are not yet qualified to fix it.</p>
 
 <p><span class='pullquote-left' data-pullquote='Every requirement accurately captured represents a significant amount of effort saved'>
-The agile principle of avoiding &lsquo;big design up-front&rsquo; leads people to avoid performing full analysis up front, which is very misguided. Every requirement accurately captured represents a significant amount of effort saved in large refactorings, or worse yet continual effort working around mis-designed systems.
+The agile principle of avoiding &lsquo;big design up-front&rsquo; leads people to avoid performing full analysis up front, which is very misguided. Every requirement accurately captured represents a significant amount of effort saved in large refactorings, or worse yet continual effort working around poorly designed systems.
 </span></p>
 
-<p>Analysis is important and should be done as completely as possible, lest the wrong application get built. Design is incremental but done continually. While analysis documents tend to be fairly static and only change if the actual requirements change, design documents are often not useful much past the development of the code they relate to. For this reason they&rsquo;re usually only useful for reasoning about and communicating a plan of attack for an upcoming component being created or worked on.</p>
+<p>Analysis is important and should be done as completely as possible, lest the wrong application get built. Design is incremental but continual. While analysis documents tend to be fairly static and only change if the actual requirements change, design documents are often not useful much past the development of the code they relate to. For this reason they&rsquo;re usually only used for reasoning about and communicating a plan of attack for an upcoming component being created or worked on.</p>
 
 <h3>Have we estimated enough time?</h3>
 
-<p>Estimation is said to be the hardest part of programming. It is fricken hard. But usually it becomes much more approachable once the complete scope has been explored &ndash; if every piece of functionality to be delivered is decomposed into the smallest deliverable increments that the client can verify (often known as user stories in agile terminology), and these dozens or sometimes hundreds of stories can be individually and honestly estimated, a rough estimate may be reached.</p>
+<p>Estimation is said to be the hardest part of programming. It <em>is</em> fricken hard. But usually it becomes much more approachable once the complete scope has been explored &ndash; if every piece of functionality to be delivered is decomposed into the smallest deliverable increments that the client can verify (often known as user stories in agile terminology), and these dozens or sometimes hundreds of stories can be individually and honestly estimated, a rough estimate may be reached.</p>
 
-<p>More importantly however, if you find yourself 10% of the way into the stories of a project, you have the ability to re-evaluate your estimate of the remaining portion based on how long the first bit took. This process should replace all these &lsquo;double and add your grandmothers age&rsquo; type estimates, though they require some bravery both on behalf of the developers and the business people.</p>
+<p>More importantly however, when you find yourself part-way through stories of a project, you have the ability to re-evaluate your estimate of the remaining portion based on how long the first bit took. This process should replace all these &lsquo;double and add your grandmothers age&rsquo; type estimates, though they require some bravery both on behalf of the developers and the business people.</p>
 
 <p>As a bonus, if the stories were separated into must-, should-, and might-haves, a certain amount of flexibility is built into the system where the portion to be delivered becomes negotiable based on revised estimates.</p>
 
@@ -79,23 +79,23 @@ The agile principle of avoiding &lsquo;big design up-front&rsquo; leads people t
 <li>most importantly, for every entity in the system <strong>consider how the entity will change over time</strong> &ndash; it&rsquo;s simple to represent an order in an online shopping system, but what if it gets cancelled or amended? What if the user account is deleted? What if an item is recalled by the manufacturer?</li>
 <li><strong>how will the new component be administered and configured?</strong> This means APIs and user interfaces, which are not glamorous but need to be made.</li>
 <li>when modeling the major entities, <strong>model all incoming commands and events</strong> as well &ndash; a good way to tell if there&rsquo;s an event missing is if two entities are relating directly to each other. This also yields heaps of other benefits (see <a href="http://martinfowler.com/eaaDev/EventSourcing.html">event sourcing</a> for example).</li>
-<li><strong>separate each entity from the value data associated with that entity.</strong> Entities have identity and usually a long lifetime, and are changed many times throughout their life.</li>
+<li><strong>separate each entity from the value data associated with that entity.</strong> Entities have identity and usually a long lifetime, and are changed many times throughout their life. Values can be compared trivially, serialised and deserialised and are thread-safe by virtue of being immutable facts.</li>
 </ul>
 
 
-<p>These topics are actually huge but these most readily to mind.</p>
+<p>These topics are actually huge but these most readily to mind, expressed as minimalistically as I thought possible.</p>
 
 <h3>Is UML necessary?</h3>
 
-<p>This is a little anachronystic these days, I don&rsquo;t see many people jumping on the UML bandwagon anymore &ndash; if anything it&rsquo;s swung the other way, which is no better really. But it can seem sometimes that UML is some kind of all-or-none proposition.</p>
+<p>This concept might be a little anachronystic these days as I don&rsquo;t see many people jumping on the UML bandwagon anymore &ndash; if anything it&rsquo;s swung the other way, which is no better really. But it can seem sometimes that UML is some kind of all-or-none proposition.</p>
 
 <p>Many treat UML as a kind of <em>process</em>, when in fact it is a collection of <em>languages</em>. And like any language, it is there to be used primarily for communication. It makes little sense to have a process that revolves around UML per se, but I find that certain diagrams are arguably the best way to express certain ideas.</p>
 
-<p><em>During analysis</em>: <strong>use case diagrams</strong> are great for outlining scope; <strong>domain models</strong> are fantastic for discovering the main concepts in a system and are great to carry to early client meetings; and <strong>state diagrams</strong> can <em>really</em> save a lot of time later on down the line (entity states are deceptively tricky to discover.)</p>
+<p><u><em>During analysis</em></u>: <strong>use-case diagrams</strong> are great for outlining scope; <strong>domain models</strong> are fantastic for discovering the main concepts in a system and are great to carry to early client meetings; and <strong>state diagrams</strong> can <em>really</em> save a lot of time later on down the line (entity states are deceptively tricky to discover.)</p>
 
-<p><em>During design</em>: these are totally situational, but <strong>component diagrams</strong> show how all the services and applications hang together, where message busses are and how high-availability and how other such architectural concerns are handled; I often find myself sketching out <strong>class diagrams</strong> aplenty to provoke discussions on my immediate plans; and I email tons of <strong>sequence diagrams</strong> around indicating the intricate details on how components coordinate their interactions.</p>
+<p><u><em>During design</em></u>: these are totally situational, but <strong>component diagrams</strong> show how all the services and applications hang together, where message busses are and how high-availability and how other such architectural concerns are handled; I often find myself sketching out <strong>class diagrams</strong> aplenty to provoke discussions on my immediate plans; and I email tons of <strong>sequence diagrams</strong> around indicating the intricate details on how components coordinate their interactions.</p>
 
-<p>In all, UML is neither good nor bad, it is a set of tools you may decide to use when communicating about software.</p>
+<p>In all, UML is neither good nor bad, it is a set of tools you may decide to use when communicating about software. Objecting to them on principle is like objecting to the written language on principle.</p>
 
 <h3>Will Design Patterns save us?</h3>
 
