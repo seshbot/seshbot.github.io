@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: WeekInReview | Seshbot Programs]]></title>
+  <link href="http://seshbot.com/blog/categories/weekinreview/atom.xml" rel="self"/>
+  <link href="http://seshbot.com/"/>
+  <updated>2014-01-12T23:13:58+09:00</updated>
+  <id>http://seshbot.com/</id>
+  <author>
+    <name><![CDATA[Paul Cechner]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[This week in review: my game table web app]]></title>
+    <link href="http://seshbot.com/blog/2014/01/11/this-week-in-review-the-game-table-web-app/"/>
+    <updated>2014-01-11T11:19:08+09:00</updated>
+    <id>http://seshbot.com/blog/2014/01/11/this-week-in-review-the-game-table-web-app</id>
+    <content type="html"><![CDATA[<p>First here&rsquo;s a quick summary of what I got up to:</p>
+
+<ol>
+<li>trying to build a simple &lsquo;gaming table&rsquo; application in Ember.js,</li>
+<li>styling with Twitter bootstrap,</li>
+<li>messing with plugins in my blog (trying unsuccessfully to fix code highlighting, and adding a UML tool &ndash; see below)</li>
+</ol>
+
+
+<p><center><img src='/images/plantuml/00178544eeee1acd089c0ec4883b3611.png'></center></p>
+
+<p>I spent most of my time learning about Ember. <a href="http://emberjs.com">Ember.js</a> is a very nice looking front-end MVC framework that has a very appealing <a href="http://emberjs.com/guides/">getting started guide</a> that make it look <em>super simple</em> to create a reactive application. Three things that people will not tell you however:</p>
+
+<ul>
+<li>demo videos only ever show the main usage scenario of that framework</li>
+<li>most new frameworks change so often that they&rsquo;re either unstable or very little up-to-date documentation exists, and</li>
+<li>many of the benefits they offer you probably won&rsquo;t end up using anyway, for various reasons</li>
+</ul>
+
+
+<p>For now though I&rsquo;ll go ahead with it because I feel that I&rsquo;m just about to start doing cool stuff in it (it kinda always feels like this though.)</p>
+
+<p><strong>Next week</strong> I&rsquo;m thinking of switching back to some C++ stuff so I can dabble in a realm I&rsquo;m more comfortable with for a while&hellip; Monday is a public holiday in Japan though so I&rsquo;ll probably be wandering around and not programming much.</p>
+
+<!-- more -->
+
+
+<h3>Problem 1: binding non-nested components was difficult</h3>
+
+<p>I figured I would devote my first day last week to creating the framework for a small Gaming Table application. Perhaps just start off with a quick chat client or sketching app. I was not accounting however for the vagaries of modern web application development, and I ended up messing around with stupid little problems for most of the week. Looking back I feel it was quite frustrating overall &ndash; it seems that many of these new techs do not quite work as advertised, if at all.</p>
+
+<p>Most tutorials and documentation will usually only tell you about one way to make an ember app &ndash; showing the details of a single entity or collection of entities of the same type at a time. Perhaps it might be some blogging application that lets you dig down into various blog entries, or perhaps it will involve showing all the tweets from a particular tweeter. Whatever the demo, I&rsquo;m sure it will show you how to explore <em>a single concept</em>.</p>
+
+<p>The first thing I wanted to do was to show your online friends on the left side and allow you to create or enter an existing chat room. I immediately got stuck on a stupid little problem however that I stubbornly refused to get past, leading to several wasted days.</p>
+
+<p>My specific problem was <em>how can I make the nav bar show the name of the current gaming table (kind of like a chat room), but show some placeholder message if I&rsquo;m not in a room</em>. The problem being that the region dedicated to showing information about the current table (players, cards etc) is not a descendent hierarchically of the nav bar.</p>
+
+<p><center><img src='/images/plantuml/09385b523a9258b9f2b64d6596a93d8e.png'></center></p>
+
+<p>Long story short, the correct way seems to involve: 1) modifying the &lsquo;Nav Bar&rsquo; controller to add a dependency to the &lsquo;Game Table&rsquo; controller; 2) add to the Nav Bar controller an alias or dynamic property pointing to the Game Table controller (this is conceptually the last table loaded); and 3) creating another dynamic property in the Nav Bar controller that is updated whenever <code>currentPath</code> is updated, and returns <code>null</code> if the route (<code>currentRouteName</code>) is no longer a table.</p>
+
+<p>This might make sense, but it was a pain in the ass to discover. (Side note: I&rsquo;m working on a general &lsquo;getting to know Ember.js&rsquo; post that goes into a lot more detail on this so others tackling the same problem might not have to spend as long as I spent on it.)</p>
+
+<p>Surround your pullquote like this {" text to be quoted "}</p>
+
+<p>I&rsquo;m concerned that the Ember docs might not cover enough real world scenarios that &lsquo;proper&rsquo; applications might encounter (e.g., several regions dedicated to different information.)</p>
+
+<h3>Live Help in IRC! 1980&rsquo;s tech to the rescue</h3>
+
+<p>The IRC channel is pretty awesome &ndash; the #emberjs channel of freenode.org is one of the most populated channels on the server, and I&rsquo;ve saved a lot of time by asking for help there.</p>
+
+<p>I spent a long time digging through documentation on how to solve this problem before I turned to IRC. Then within 10 minutes I had someone giving me meaningful advice that I ended up using. The secret was that I went in there with a minimalistic example of my problem that they could mark up and fix for me. <a href="http://jsbin.com/UzaFUZE/1/edit?html,js,output">Here&rsquo;s</a> the code I gave them and <a href="http://jsbin.com/UzaFUZE/4/edit?html,js,output">here&rsquo;s</a> what they gave me.</p>
+
+<h3>Hosting a backend</h3>
+
+<p>I have been mainly concentrating on the front end functionality so far, so didn&rsquo;t want to spend too long messing around with the server side. I had originally decided that I&rsquo;d learn some rails, but decided to try out a &lsquo;no backend&rsquo; solution &ndash; in this case <a href="http://deployd.com">deployd</a>. The two criteria I was after were a simple REST API and some kind of authentication, both of which deployd ostensibly offers. There were a few hiccups though.</p>
+
+<p>The first was that deployd is still actively being developed, so the web UI isn&rsquo;t totally intuative. I won&rsquo;t go too far into it but it has been a hassle.</p>
+
+<p>The next problem is that although both Ember and Deployd declare that they speak standard REST JSON language, it turns out they don&rsquo;t agree on how that language should look. I had to mess around a fair amount and ask around on IRC before discovering that you need to apply your own serializer, that intercepts all remote data transfers and allows you to &lsquo;munge&rsquo; it a little into a format that Ember is happy with.</p>
+
+<p>Again, I&rsquo;ll include the details of all this in a post dedicated to Ember later.</p>
+]]></content>
+  </entry>
+  
+</feed>
