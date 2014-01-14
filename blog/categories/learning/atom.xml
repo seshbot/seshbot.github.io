@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Learning | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/learning/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-14T16:20:03+09:00</updated>
+  <updated>2014-01-14T16:37:24+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -99,6 +99,8 @@
 </li>
 </ul>
 
+
+<p>The main thing it <em>doesn&rsquo;t</em> cover is the administration (installation, deployment) and command-line usage (e.g., automatic generation of controllers and models.) This isn&rsquo;t a big deal however, as the <a href="http://guides.rubyonrails.org/getting_started.html">standard getting started guide</a> does this very well.</p>
 
 <p>I think there are a few bugs in the programme however:</p>
 
