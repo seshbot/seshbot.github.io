@@ -2031,17 +2031,28 @@ sup, sub {
   font-size: 80%;
 }
 
-/* line 7, ../../sass/custom/_styles.scss */
+/* line 6, ../../sass/custom/_styles.scss */
+figure.code {
+  background-color: #F9f9f9;
+}
+/* line 8, ../../sass/custom/_styles.scss */
 figure.code figcaption {
   text-align: center;
-  color: #555555;
+  color: #888888;
   font-style: italic;
 }
-/* line 12, ../../sass/custom/_styles.scss */
+/* line 13, ../../sass/custom/_styles.scss */
 figure.code .line-numbers {
   color: #93A1A1;
 }
-/* line 15, ../../sass/custom/_styles.scss */
+/* line 16, ../../sass/custom/_styles.scss */
 figure.code table {
+  background-color: #F9F9F9;
   margin-bottom: 0;
+}
+
+/* line 22, ../../sass/custom/_styles.scss */
+article code, article pre {
+  background-color: #F9f9f9;
+  border-color: #EEEEEE;
 }
