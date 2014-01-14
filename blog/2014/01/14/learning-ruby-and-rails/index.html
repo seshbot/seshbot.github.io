@@ -98,7 +98,7 @@ $(document).ready(
 
 <p>I dedicated this morning to learning some Ruby and Ruby on Rails (RoR). For my purposes, RoR provides the server-side API to a web application, like this:</p>
 
-<center><img src='/images/plantuml/64234bf0fa6074ecedc597ddd0739c75.png'></center>
+<center><img src='/images/plantuml/dc42b2dad537dd0af4f1a7d3eed736ba.png'></center>
 
 
 <p>To my delight, I quickly discovered that Ember (which I have been messing around with quite a bit) is modelled directly on Rails &ndash; not just in the generic they-are-both-MVC-architectures-way, but down to their usages being identical in many respects. I think many new webby techs follow this same style (Meteor seems to, for example.)</p>
@@ -115,7 +115,8 @@ $(document).ready(
 <p>For an absolute beginner, <a href="http://tryruby.org">Try Ruby</a> takes about 30 minutes, and will show the very basics:</p>
 
 <ul>
-<li>common syntax (strings, arrays, hashes)</li>
+<li>basic syntax</li>
+<li>standard data structures (strings, arrays, hashes)</li>
 <li>defining methods</li>
 <li>defining classes (basics on attributes and <code>initialize</code> method)</li>
 </ul>
@@ -194,13 +195,13 @@ $(document).ready(
 
 <p>I created this while going through the Zombies tutorial. There&rsquo;s probably better cheat sheets out there, but I highly recommend creating your own as a learning experience.</p>
 
-<p><strong>Ruby API syntax:</strong></p>
+<h4>RoR&rsquo;s Ruby API syntax</h4>
 
 <ul>
-<li>Entity creation syntax:
+<li>Entity creation syntax (note, Rails will generate an ID for you):
 
 <ul>
-<li><code>t = Thing.new; t.status = "something"; t.save</code> (no id)</li>
+<li><code>t = Thing.new; t.status = "something"; t.save</code></li>
 <li><code>t = Thing.new(:status =&gt; "something"); t.save</code></li>
 <li><code>Thing.create(:status =&gt; "something")</code></li>
 </ul>
@@ -209,9 +210,9 @@ $(document).ready(
 
 <ul>
 <li><code>Thing.find(1)</code> (by ID)</li>
-<li>many alternate helpers: <code>first</code>, <code>last</code>, <code>all</code>, <code>count</code>, <code>order(:status)</code>, <code>limit(n)</code>, <code>where(:status =&gt; "good")</code></li>
-<li>queries performed on DB</li>
-<li>may also chain methods</li>
+<li>many alternate query methods: <code>first</code>, <code>last</code>, <code>all</code>, <code>count</code>, <code>order(:status)</code>, <code>limit(n)</code>, <code>where(:status =&gt; "good")</code></li>
+<li>performance note: queries are performed on DB</li>
+<li>syntax note: may also chain methods</li>
 </ul>
 </li>
 <li>Entity update syntax:
@@ -233,7 +234,9 @@ $(document).ready(
 </ul>
 
 
-<p><strong>Model Definition</strong> (<code>app/models/thing.rb</code>):</p>
+<h4>Models</h4>
+
+<p>Default model definition goes in <code>app/models/thing.rb</code></p>
 
 <figure class='code'><figcaption><span>A simple model of a &#8216;thing&#8217; that has a &#8216;status&#8217; attribute</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -266,7 +269,7 @@ $(document).ready(
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p><strong>Views:</strong></p>
+<h4>Views</h4>
 
 <ul>
 <li><code>thing</code> default view definition goes in <code>app/views/things/index.html.erb</code> and <code>app/views/things/show.html.erb</code>):
@@ -288,7 +291,7 @@ $(document).ready(
 </ul>
 
 
-<p>Sample <code>index.html.erb</code> (create link with <code>things_path</code>):</p>
+<p>Sample <code>index.html.erb</code> (create a link to this with <code>things_path</code>):</p>
 
 <figure class='code'><figcaption><span>An example &#8216;things&#8217; view template</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -325,7 +328,7 @@ $(document).ready(
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p><strong>Controllers:</strong></p>
+<h4>Controllers</h4>
 
 <ul>
 <li><code>thing</code> controller definition goes in <code>app/controllers/things_controller.rb</code>_</li>
@@ -439,7 +442,7 @@ $(document).ready(
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p><strong>Routes:</strong></p>
+<h4>Routes</h4>
 
 <ul>
 <li>application routes defined in <code>app/config/routes.rb</code></li>

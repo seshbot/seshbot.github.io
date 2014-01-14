@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Learning | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/learning/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-14T15:21:15+09:00</updated>
+  <updated>2014-01-14T15:43:21+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -22,7 +22,7 @@
 
 <p>I dedicated this morning to learning some Ruby and Ruby on Rails (RoR). For my purposes, RoR provides the server-side API to a web application, like this:</p>
 
-<p><center><img src='/images/plantuml/fdf8753fae72d00a4740b5252ee1a552.png'></center></p>
+<p><center><img src='/images/plantuml/ebdacec94fbe8fa7779a22a5718628cc.png'></center></p>
 
 <p>To my delight, I quickly discovered that Ember (which I have been messing around with quite a bit) is modelled directly on Rails &ndash; not just in the generic they-are-both-MVC-architectures-way, but down to their usages being identical in many respects. I think many new webby techs follow this same style (Meteor seems to, for example.)</p>
 
@@ -38,7 +38,8 @@
 <p>For an absolute beginner, <a href="http://tryruby.org">Try Ruby</a> takes about 30 minutes, and will show the very basics:</p>
 
 <ul>
-<li>common syntax (strings, arrays, hashes)</li>
+<li>basic syntax</li>
+<li>standard data structures (strings, arrays, hashes)</li>
 <li>defining methods</li>
 <li>defining classes (basics on attributes and <code>initialize</code> method)</li>
 </ul>
@@ -117,13 +118,13 @@
 
 <p>I created this while going through the Zombies tutorial. There&rsquo;s probably better cheat sheets out there, but I highly recommend creating your own as a learning experience.</p>
 
-<p><strong>Ruby API syntax:</strong></p>
+<h4>RoR&rsquo;s Ruby API syntax</h4>
 
 <ul>
-<li>Entity creation syntax:
+<li>Entity creation syntax (note, Rails will generate an ID for you):
 
 <ul>
-<li><code>t = Thing.new; t.status = "something"; t.save</code> (no id)</li>
+<li><code>t = Thing.new; t.status = "something"; t.save</code></li>
 <li><code>t = Thing.new(:status =&gt; "something"); t.save</code></li>
 <li><code>Thing.create(:status =&gt; "something")</code></li>
 </ul>
@@ -132,9 +133,9 @@
 
 <ul>
 <li><code>Thing.find(1)</code> (by ID)</li>
-<li>many alternate helpers: <code>first</code>, <code>last</code>, <code>all</code>, <code>count</code>, <code>order(:status)</code>, <code>limit(n)</code>, <code>where(:status =&gt; "good")</code></li>
-<li>queries performed on DB</li>
-<li>may also chain methods</li>
+<li>many alternate query methods: <code>first</code>, <code>last</code>, <code>all</code>, <code>count</code>, <code>order(:status)</code>, <code>limit(n)</code>, <code>where(:status =&gt; "good")</code></li>
+<li>performance note: queries are performed on DB</li>
+<li>syntax note: may also chain methods</li>
 </ul>
 </li>
 <li>Entity update syntax:
@@ -156,7 +157,9 @@
 </ul>
 
 
-<p><strong>Model Definition</strong> (<code>app/models/thing.rb</code>):</p>
+<h4>Models</h4>
+
+<p>Default model definition goes in <code>app/models/thing.rb</code></p>
 
 <p>```ruby A simple model of a &lsquo;thing&rsquo; that has a &lsquo;status&rsquo; attribute
 class Thing &lt; ActiveRecord::Base
@@ -175,7 +178,7 @@ class Thing &lt; ActiveRecord::Base
 end
 ```</p>
 
-<p><strong>Views:</strong></p>
+<h4>Views</h4>
 
 <ul>
 <li><code>thing</code> default view definition goes in <code>app/views/things/index.html.erb</code> and <code>app/views/things/show.html.erb</code>):
@@ -197,7 +200,7 @@ end
 </ul>
 
 
-<p>Sample <code>index.html.erb</code> (create link with <code>things_path</code>):
+<p>Sample <code>index.html.erb</code> (create a link to this with <code>things_path</code>):
 ```erb An example &lsquo;things&rsquo; view template</p>
 
 <ul>
@@ -220,7 +223,7 @@ end
 
 <p>```</p>
 
-<p><strong>Controllers:</strong></p>
+<h4>Controllers</h4>
 
 <ul>
 <li><code>thing</code> controller definition goes in <code>app/controllers/things_controller.rb</code>_</li>
@@ -297,7 +300,7 @@ class ThingsController &lt; ApplicationController
 end
 ```</p>
 
-<p><strong>Routes:</strong></p>
+<h4>Routes</h4>
 
 <ul>
 <li>application routes defined in <code>app/config/routes.rb</code></li>
