@@ -2031,28 +2031,36 @@ sup, sub {
   font-size: 80%;
 }
 
-/* line 6, ../../sass/custom/_styles.scss */
+/* line 9, ../../sass/custom/_styles.scss */
 figure.code {
-  background-color: #F9f9f9;
+  background-color: #f9f9f9;
 }
-/* line 8, ../../sass/custom/_styles.scss */
+/* line 11, ../../sass/custom/_styles.scss */
 figure.code figcaption {
   text-align: center;
   color: #888888;
   font-style: italic;
 }
-/* line 13, ../../sass/custom/_styles.scss */
+/* line 15, ../../sass/custom/_styles.scss */
+figure.code figcaption span {
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #eeeeee), color-stop(100%, #f9f9f9));
+  background: -webkit-linear-gradient(top, #eeeeee, #f9f9f9);
+  background: -moz-linear-gradient(top, #eeeeee, #f9f9f9);
+  background: -o-linear-gradient(top, #eeeeee, #f9f9f9);
+  background: linear-gradient(top, #eeeeee, #f9f9f9);
+}
+/* line 19, ../../sass/custom/_styles.scss */
 figure.code .line-numbers {
   color: #93A1A1;
 }
-/* line 16, ../../sass/custom/_styles.scss */
+/* line 22, ../../sass/custom/_styles.scss */
 figure.code table {
-  background-color: #F9F9F9;
+  background-color: #f9f9f9;
   margin-bottom: 0;
 }
 
-/* line 22, ../../sass/custom/_styles.scss */
+/* line 28, ../../sass/custom/_styles.scss */
 article code, article pre {
-  background-color: #F9f9f9;
-  border-color: #EEEEEE;
+  background-color: #f9f9f9;
+  border-color: #eeeeee;
 }

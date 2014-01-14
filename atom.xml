@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-14T16:05:42+09:00</updated>
+  <updated>2014-01-14T16:20:03+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -108,8 +108,8 @@
 <li>the last prac exam requires different syntax than that in the tutorial:
 
 <ul>
-<li>redirect controller#action case is different (from vids, Zombies#undead, in prac zombies#undead</li>
-<li>redirect requires prefix &lsquo;/&rsquo; (&lsquo;/zombies => &rsquo;/undead&#8217;) didnt in the tut</li>
+<li>redirect controller#action case is different (tut vids say <code>Zombies#undead</code> prac requires <code>zombies#undead</code>)</li>
+<li>redirect in prac requires prefix &lsquo;/&rsquo; (&lsquo;/zombies => &rsquo;/undead&#8217;). Tutorial vids did not.</li>
 </ul>
 </li>
 </ul>
