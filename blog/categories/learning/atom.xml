@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Learning | Seshbot Programs]]></title>
+  <link href="http://seshbot.com/blog/categories/learning/atom.xml" rel="self"/>
+  <link href="http://seshbot.com/"/>
+  <updated>2014-01-14T15:21:15+09:00</updated>
+  <id>http://seshbot.com/</id>
+  <author>
+    <name><![CDATA[Paul Cechner]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Learning Ruby and Rails]]></title>
+    <link href="http://seshbot.com/blog/2014/01/14/learning-ruby-and-rails/"/>
+    <updated>2014-01-14T10:32:29+09:00</updated>
+    <id>http://seshbot.com/blog/2014/01/14/learning-ruby-and-rails</id>
+    <content type="html"><![CDATA[<p><em>Note: The formatting of this article is not great, but I pumped it out quickly after going through the tutorials</em></p>
+
+<p>I dedicated this morning to learning some Ruby and Ruby on Rails (RoR). For my purposes, RoR provides the server-side API to a web application, like this:</p>
+
+<p><center><img src='/images/plantuml/fdf8753fae72d00a4740b5252ee1a552.png'></center></p>
+
+<p>To my delight, I quickly discovered that Ember (which I have been messing around with quite a bit) is modelled directly on Rails &ndash; not just in the generic they-are-both-MVC-architectures-way, but down to their usages being identical in many respects. I think many new webby techs follow this same style (Meteor seems to, for example.)</p>
+
+<p>This post outlines the core concepts I have picked up from the various tutorials. I also included a RoR cheat-sheet I created while doing the Rails tutorial.</p>
+
+<p>To get started on Windows/Mac, I&rsquo;m guessing the easiest way is by downloading the <a href="http://railsinstaller.org">RailsInstaller</a>.</p>
+
+<!-- more -->
+
+
+<h2>Learning Ruby</h2>
+
+<p>For an absolute beginner, <a href="http://tryruby.org">Try Ruby</a> takes about 30 minutes, and will show the very basics:</p>
+
+<ul>
+<li>common syntax (strings, arrays, hashes)</li>
+<li>defining methods</li>
+<li>defining classes (basics on attributes and <code>initialize</code> method)</li>
+</ul>
+
+
+<p>It stays very high-level, but obviously that&rsquo;s the intention. It avoids going into language features such as reflection, lambdas, string manipulation (<code>mystring = "var is #{my-var}"</code>), and doesn&rsquo;t talk about administration etc.</p>
+
+<p>See the <a href="http://ruby-doc.org/core-2.1.0/">Ruby core documentation</a> for reference material.</p>
+
+<h2>Learning Rails</h2>
+
+<p>First, some language references: <a href="http://api.rubyonrails.org">Rails API docs</a> or <a href="http://apidock.com/rails">API Dock</a> or the other seachable <a href="http://railsapi.com">Rails API docs</a> can be downloaded and used locally.</p>
+
+<p>I chose to follow the <a href="http://railsforzombies.org" title="">Rails for Zombies</a> tutorial, as it is often quoted as being helpful as a fully interactive online tutorial. It takes a few hours, but does seem to cover all the fundamentals, namely:</p>
+
+<ul>
+<li>Rails conventions
+
+<ul>
+<li>syntax for creation, read, update and delete of entities in the database</li>
+<li>naming conventions for database table, view, and controller lookup</li>
+</ul>
+</li>
+<li>Models
+
+<ul>
+<li>model class structure</li>
+<li>invoking <abbr title="Create, Read, Update, Delete">CRUD</abbr> operations on the models</li>
+<li>how relationships between entities are expressed, and how they map to the database structure</li>
+</ul>
+</li>
+<li>Views
+
+<ul>
+<li>syntax (<code>&lt;% %&gt;</code> and <code>&lt;%= %&gt;</code>)</li>
+<li>lookup from URL (searches <code>app/assets</code> folder before trying to run rails routes)</li>
+<li>helpers (<code>link_to</code>, <code>edit_thing_path</code> etc)</li>
+</ul>
+</li>
+<li>Controllers
+
+<ul>
+<li>controller class structure</li>
+<li>rendering alternative views</li>
+<li>rendering alternative formats (json, xml)</li>
+<li>session variables (used for basic auth checks)</li>
+<li>factoring out and configuring common code performed on all actions</li>
+</ul>
+</li>
+<li>Routes
+
+<ul>
+<li>defining RESTful resources (automatically direct requests to controllers/views)</li>
+<li>defining custom routes</li>
+<li>creating helpers for <code>link_to</code> when creating custom routes</li>
+</ul>
+</li>
+</ul>
+
+
+<p>I think there are a few bugs in the programme however:</p>
+
+<ul>
+<li>the tutorial videos are a bit out of date (for pre-3.0 versions of RoR) but the practical exams use post-3.0 RoR it seems</li>
+<li>the last prac exam requires different syntax than that in the tutorial:
+
+<ul>
+<li>redirect controller#action case is different (from vids, Zombies#undead, in prac zombies#undead</li>
+<li>redirect requires prefix &lsquo;/&rsquo; (&lsquo;/zombies => &rsquo;/undead') didnt in the tut</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>Rails Cheat Sheet</h3>
+
+<p>I created this while going through the Zombies tutorial. There&rsquo;s probably better cheat sheets out there, but I highly recommend creating your own as a learning experience.</p>
+
+<p><strong>Ruby API syntax:</strong></p>
+
+<ul>
+<li>Entity creation syntax:
+
+<ul>
+<li><code>t = Thing.new; t.status = "something"; t.save</code> (no id)</li>
+<li><code>t = Thing.new(:status =&gt; "something"); t.save</code></li>
+<li><code>Thing.create(:status =&gt; "something")</code></li>
+</ul>
+</li>
+<li>Entity query syntax:
+
+<ul>
+<li><code>Thing.find(1)</code> (by ID)</li>
+<li>many alternate helpers: <code>first</code>, <code>last</code>, <code>all</code>, <code>count</code>, <code>order(:status)</code>, <code>limit(n)</code>, <code>where(:status =&gt; "good")</code></li>
+<li>queries performed on DB</li>
+<li>may also chain methods</li>
+</ul>
+</li>
+<li>Entity update syntax:
+
+<ul>
+<li><code>t = Thing.find(id); t.status = "bad"; t.save</code></li>
+<li><code>...; t.attributes = { :status =&gt; "bad"; ... }; save</code></li>
+<li><code>...; t.update_attributes(:status =&gt; "bad"; ...}</code> (no save)</li>
+</ul>
+</li>
+<li>Entity deletion syntax:
+
+<ul>
+<li><code>t = Thing.find(id); t.destroy</code></li>
+<li><code>Thing.destroy_all</code></li>
+</ul>
+</li>
+<li>on <code>save</code> failure, try <code>t.errors</code> to investigate what went wrong</li>
+</ul>
+
+
+<p><strong>Model Definition</strong> (<code>app/models/thing.rb</code>):</p>
+
+<p>```ruby A simple model of a &lsquo;thing&rsquo; that has a &lsquo;status&rsquo; attribute
+class Thing &lt; ActiveRecord::Base
+   # validation
+   #
+   validates_presence_of :status # mandatory fields
+   # many other validations: e.g., uniqueness, format, conf/acceptance, etc</p>
+
+<p>   # alternative validation syntax:
+   validates :status, :presence => true #, :length => { :minimum => 3 }</p>
+
+<p>   # relationships (reflected in DB)
+   #
+   belongs_to :person
+   # the Person will have &lsquo;has_many :things&rsquo; (note plural)
+end
+```</p>
+
+<p><strong>Views:</strong></p>
+
+<ul>
+<li><code>thing</code> default view definition goes in <code>app/views/things/index.html.erb</code> and <code>app/views/things/show.html.erb</code>):
+
+<ul>
+<li>alternatives actions to <code>show</code> can be added as <code>myaction.html.erb</code></li>
+</ul>
+</li>
+<li>evaluate code with <code>&lt;% ruby code %&gt;</code>, eval and print with <code>&lt;%= ruby code %&gt;</code></li>
+<li>shared application stuff (header/footer) goes in <code>app/views/layouts/application.html.erb</code> (use <code>&lt;%= yield %&gt;</code> for body placeholder)
+
+<ul>
+<li><code>&lt;%= stylesheet_link_tag :all %&gt;</code> renders stylesheet links for all files in <code>app/assets/stylesheets/</code></li>
+<li><code>&lt;%= javascript_include_tag :defaults %&gt;</code> renders script tags for all files in <code>app/public/javascripts/</code></li>
+<li>`&lt;%= csrf_meta_tag %> adds some stuff to prevent cross-site-meta-request-forgery hacking (people injecting their own HTML into comments etc)</li>
+<li><code>&lt;%= link_to thing.name, thing_path(thing) %&gt;</code> (first param is link text, second URL). Can use the entity itself instead of <code>thing_path(thing)</code></li>
+</ul>
+</li>
+</ul>
+
+
+<p>Sample <code>index.html.erb</code> (create link with <code>things_path</code>):
+```erb An example &lsquo;things&rsquo; view template</p>
+
+<ul>
+<!-- @things set up in controller -->
+<%= link_to "Home", root_path %>
+<% if @things.empty? %>
+   No things yet
+<% else %>
+   <% @things.each do |thing| %>
+      <li>
+         <%= link_to thing.status, thing %>
+         <%= link_to "Edit", edit_thing_path(thing) %>
+         <%= link_to "Delete", thing, :method => :delete %>
+      </li>
+   <% end %>
+<% end %>
+<%= link_to "+", new_thing_path %>
+</ul>
+
+
+<p>```</p>
+
+<p><strong>Controllers:</strong></p>
+
+<ul>
+<li><code>thing</code> controller definition goes in <code>app/controllers/things_controller.rb</code>_</li>
+</ul>
+
+
+<p>```ruby A &lsquo;things&rsquo; controller, responsible for setting view state
+class ThingsController &lt; ApplicationController
+   # common code, called by all actions
+   before_filter :get_thing, :only => [:edit, :update, :destroy]
+   before_filter :check_auth, :only => [:edit, :update, :destroy]</p>
+
+<p>   def get_thing # called by before_filter</p>
+
+<pre><code>  @thing = Thing.find(params[:id]) # all URL query params are available
+</code></pre>
+
+<p>   end</p>
+
+<p>   def check_auth # called by before_filter</p>
+
+<pre><code>  # do auth verification (check 'if flash[:notice]' in rendering page)
+  if session[:user_id] != @thing.user_id
+     # flash[:notice] = "Not authorized!" 
+     redirect_to(things_path, :notice =&gt; "Not authorized!")
+  end
+</code></pre>
+
+<p>   end</p>
+
+<p>   def show         # show single</p>
+
+<pre><code>  # set view state before rendering view
+
+  render :action =&gt; 'myaction' # to render different view (default 'show')
+
+  respond_to do |format| # optional
+     format.html # myaction.html.erb
+     format.xml { render :xml =&gt; @thing }
+     format.json { render :json =&gt; @thing }
+  end
+</code></pre>
+
+<p>   end</p>
+
+<p>   def edit; end    # show &lsquo;edit&rsquo; form</p>
+
+<p>   def index        # list all</p>
+
+<pre><code>  if params[:status]
+     @things = Thing.where(:status =&gt; params[:status])
+  else
+     @things = Thing.all
+  end
+</code></pre>
+
+<p>   end</p>
+
+<p>   def new; end     # show &lsquo;new&rsquo; form</p>
+
+<p>   def create       # create new</p>
+
+<pre><code>  # expects params of the form { thing: {status: 'good', name: 'xxx'} }
+  @thing = Thing.create(params[:thing])
+
+  redirect_to(@thing)
+</code></pre>
+
+<p>   end</p>
+
+<p>   def update; end  # update</p>
+
+<p>   def destroy; end # delete
+end
+```</p>
+
+<p><strong>Routes:</strong></p>
+
+<ul>
+<li>application routes defined in <code>app/config/routes.rb</code></li>
+<li><code>resources</code> directive creates a full RESTful resource. This means that it will automatically create the following helpers and routes:
+
+<ul>
+<li><code>things_path</code> (/things &lsquo;index&rsquo; action)</li>
+<li><code>thing</code> (/thing/id &lsquo;show&rsquo; action)</li>
+<li><code>new_thing_path</code> (/things/new &lsquo;new&rsquo; action)</li>
+<li><code>edit_thing_path(thing)</code> (/things/[id]/edit &lsquo;edit&rsquo; action)</li>
+<li>&hellip; plus more</li>
+</ul>
+</li>
+</ul>
+
+
+<p>```ruby
+MyApp::Application.routes.draw do
+   resources :things</p>
+
+<p>   match &lsquo;new_thing&rsquo; => &ldquo;Things#new&rdquo; # path => ControllerName=>actionName
+   match &lsquo;all&rsquo; => &ldquo;Things#index&rdquo;, :as &ldquo;all_things&rdquo; # create all_things_path helper for link_to etc
+   # alternative:
+   match &lsquo;all&rsquo; => redirect(&lsquo;/things&rsquo;)</p>
+
+<p>   # TODO: case sensitive? the tutorial seems confused on this
+   root :to => &ldquo;Things#index&rdquo; # sets up &lsquo;/&rsquo; route to &lsquo;/things&rsquo;</p>
+
+<p>   match &lsquo;status_things/:status&rsquo; => &lsquo;Things#index&rsquo; # add :status controller params
+   match &lsquo;:username&rsquo; => &lsquo;Things#index&rsquo;, :as => &lsquo;user_things&rsquo;
+   # in view: &lt;%= link_to &lsquo;seshbot things&rsquo;, user_things_path(&lsquo;seshbot&rsquo;) %>
+end
+```</p>
+]]></content>
+  </entry>
+  
+</feed>
