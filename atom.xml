@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-14T16:37:24+09:00</updated>
+  <updated>2014-01-16T08:36:46+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -12,6 +12,222 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Creating a Rails + Ember app from scratch]]></title>
+    <link href="http://seshbot.com/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch/"/>
+    <updated>2014-01-15T17:54:16+09:00</updated>
+    <id>http://seshbot.com/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch</id>
+    <content type="html"><![CDATA[<p>Today I decided to wield my new Rails and Ember knowledge and&hellip; look into yet another new technology. I thought it would be helpful to have an online app to demonstrate the fruits of my labours, so am deploying a new app to <strong><a href="http://heroku.com">Heroku</a></strong>.</p>
+
+<p>Heroku is an &lsquo;application platform&rsquo; in the cloud, meaning that you can push certain kinds of apps (written in Ruby, Python, Java and Node.js) and it will ensure all the correct infrastructure is in place. When you sign up you get to host one app for free so it&rsquo;s easy to try out.</p>
+
+<p>Later I will probably move to <a href="http://aws.amazon.com">Amazon Web Services</a>, which really just provide you with a basic virtual machine in the cloud that you can do anything with, so that I can host multiple apps without paying money.</p>
+
+<p>This post shows how I went through all steps, including setting up the PostgreSQL database on OSX, creating a skeleton Rails app, and deploying to Heroku. It is a culmination of having gone through several sources:</p>
+
+<ul>
+<li>much was taken from this useful step-by-step &lsquo;<a href="http://www.devmynd.com/blog/2013-3-rails-ember-js">Rails + Ember blog post</a>&rsquo; and this <a href="http://www.devmynd.com/blog/2013-10-live-on-the-edge-with-rails-ember-js">follow up post</a> that incorporates changes for newer versions of the frameworks.</li>
+<li>when I got to the part involving installing the &lsquo;ember-rails&rsquo; gem, I found that the <a href="https://github.com/emberjs/ember-rails">ember-rails documentation</a> was pretty useful.</li>
+<li>some of the Heroku stuff came from the <a href="https://www.codeschool.com/code_tv/heroku">Heroku Code School lesson</a> summary.</li>
+</ul>
+
+
+<!-- more -->
+
+
+<h2>Choosing a database</h2>
+
+<p>I was deciding between MongoDb and PostgreSQL. According to <a href="http://hammad.ca/experiments/2013/08/25/mongodb-vs-sql/">this article</a>, MongoDb offers flexibility when it comes to managing file assets in your database, while PostgreSQL is much more well established in existing hosting infrastructures (AWS and Heroku), so can make initial deployment much simpler. Mongo is also more amenable to schema changes because it&rsquo;s a NoSQL schema-less document database, but I think Rails is supposed to make schema changes easy anyway with the various <code>db:</code> commands.</p>
+
+<p>For now I&rsquo;ll go with Postgres because I&rsquo;m as yet not very familiar with Heroku and want to make things easier on myself.</p>
+
+<p>installing (<a href="http://ricochen.wordpress.com/2012/07/20/install-postgres-on-mac-os-x-lion-with-homebrew-howto/">http://ricochen.wordpress.com/2012/07/20/install-postgres-on-mac-os-x-lion-with-homebrew-howto/</a>):</p>
+
+<figure class='code'><figcaption><span>Installing PostgreSQL on  OSX</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># easiest if you have homebrew installed</span>
+</span><span class='line'>brew install postgresql
+</span><span class='line'>
+</span><span class='line'><span class="c"># ensure it starts up when your machine starts</span>
+</span><span class='line'>ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
+</span><span class='line'>launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
+</span><span class='line'>
+</span><span class='line'><span class="c"># ensure you don&#39;t accidentally run the older version</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s1">&#39;export PATH=/usr/local/bin:$PATH&#39;</span> &gt;&gt; ~/.bash_profile <span class="o">&amp;&amp;</span> . ~/.bash_profile
+</span><span class='line'>
+</span><span class='line'><span class="c"># create a database user for the application to use</span>
+</span><span class='line'><span class="c"># (alternatively you should be able to run &#39;createuser -d myapp&#39;)</span>
+</span><span class='line'>psql postgres <span class="sb">`</span>whoami<span class="sb">`</span>
+</span><span class='line'>create role myapp with CREATEDB login password <span class="s1">&#39;password1&#39;</span>;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><em>Notes:</em></p>
+
+<ul>
+<li><em>the <code>createuser</code> command can replace the <code>psql</code> command stuff: <code>createuser -d myapp</code></em></li>
+<li><em>if the DB username is different to the application name (below) you&rsquo;ll need to change the rails configuration later so it knows which username to use</em></li>
+<li><em>I assume Heroku doesn&rsquo;t require you to manage the database at all</em></li>
+</ul>
+
+
+<h2>Creating a simple Rails app</h2>
+
+<p>Creating a Rails app is really simple <em>once you know the commands</em>. So from scratch, if you include all the learning involved behind each command, it&rsquo;s actually not very simple. But these steps make it simple for me.</p>
+
+<p>TIPS: I read somewhere that you should always run <code>bundle exec</code> before running a rails command to ensure that you&rsquo;re only working with gems in your Gemfile.</p>
+
+<figure class='code'><figcaption><span>Creating the rails application framework</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rails new myapp --database<span class="o">=</span>postgresql
+</span><span class='line'><span class="nb">cd </span>myapp
+</span><span class='line'>vim config/database.yml <span class="c"># set the database username and password, and on OSX un-comment the &#39;local&#39; setting</span>
+</span><span class='line'>bundle <span class="nb">exec </span>rake db:create
+</span><span class='line'>bundle <span class="nb">exec </span>rails generate scaffold Thing name:string
+</span><span class='line'>bundle <span class="nb">exec </span>rake db:migrate
+</span><span class='line'>bundle <span class="nb">exec </span>rails s
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><em>Note: I had to uncomment the &lsquo;local&rsquo; setting because rails couldn&rsquo;t socket-connect due to permission problems. I could have reconfigured postgres instead but meh.</em></p>
+
+<p>OSX users can also use <a href="http://pow.cx/">POW!</a> or <a href="http://anvilformac.com/">Anvil</a> (which uses POW! under the covers) to set up a fake URL pointing to their rails apps, so in my case I can visit <a href="http://myapp.dev">http://myapp.dev</a> and it will actually show me the app running on my local machine. It makes things a lot quicker.</p>
+
+<p>Add some simple static content:</p>
+
+<figure class='code'><figcaption><span>Generate some simple content in the Rails app</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># add a few pages</span>
+</span><span class='line'>rails generate controller StaticPages home about --no-test-framework
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you should be able to visit <code>localhost:3000/static_pages/home</code> and see a generic message.</p>
+
+<!-- x_ -->
+
+
+<h3>Check in to git</h3>
+
+<p>This creates a local git repository, but during the heroku deployment step I&rsquo;ll push it over there too. I&rsquo;ll also push it to GitHub when it looks like more of an app. So in git parlance, this is what I&rsquo;ll have on my local machine:</p>
+
+<center><img src='http://seshbot.com/images/plantuml/47744a7f09a1979266fbebf4dfaefe7e.png'></center>
+
+
+
+
+<figure class='code'><figcaption><span>Create the local &#8216;master&#8217; git repository</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake tmp:clear
+</span><span class='line'>git init .
+</span><span class='line'>git add -f *
+</span><span class='line'>git commit -a -m<span class="s2">&quot;Initial commit&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I regularly run those <code>git</code> commands to make it easier to revert any mistakes I happen to make.</p>
+
+<h3>Adding ember framework</h3>
+
+<p>Note that according to the <a href="https://github.com/emberjs/ember-rails">ember-rails docs</a> one may create the project using <code>rails new my_app -m http://emberjs.com/edge_template.rb</code> for a good start.</p>
+
+<p>One way to get started with ember with rails is to use the <code>ember-rails</code> gem. Just add <code>gem "ember-rails"</code> to your Gemfile, then run <code>rails generate ember:bootstrap</code> and you get a bunch of files. I also prefer to use javascript directly, so add <code>-g --javascript-engine js</code></p>
+
+<p>Set &lsquo;developer mode&rsquo; (which enables developer-centric error messages and is apparently quite useful) by updating your <em>config/environments/development.rb</em> with: <code>config.ember.variant = :development</code>.</p>
+
+<figure class='code'><figcaption><span>Add a simple Ember application framework to the Rails app</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vim Gemfile <span class="c"># add &#39;gem &quot;ember-rails&quot;, github: &quot;emberjs/ember-rails&quot;&#39;</span>
+</span><span class='line'>
+</span><span class='line'>bundle install
+</span><span class='line'>bundle <span class="nb">exec </span>rails g ember:bootstrap -g --javascript-engine js
+</span><span class='line'>bundle <span class="nb">exec </span>rails g ember:install --head
+</span><span class='line'>
+</span><span class='line'>vim config/environments/development.rb <span class="c"># add config.ember.variant = :development</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Rails &ndash;> Ember connection</h2>
+
+<p>Use Ember ActiveModel Serializer: <a href="https://github.com/rails-api/active_model_serializers">https://github.com/rails-api/active_model_serializers</a></p>
+
+<h2>Deploying to heroku</h2>
+
+<p>I have already gone through the Heroku sign up process and installed the toolbelt appropriate for OSX (the toolbelt provides the <code>heroku</code> command line tool.)</p>
+
+<p>Installing my rails application on Heroku was then a simple matter of:</p>
+
+<figure class='code'><figcaption><span>Add application in the current directory to Heroku</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku login
+</span><span class='line'>heroku create --stack cedar
+</span><span class='line'>git push heroku master
+</span><span class='line'>
+</span><span class='line'><span class="c"># whenever you make database changes</span>
+</span><span class='line'>heroku run rake db:migrate
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This creates an image with a particular configuration of applications and adds a <code>heroku</code> git remote to the git configuration.</p>
+
+<p>TODO: use <code>gem rails_12factor</code>?</p>
+
+<h2>troubleshooting heroku</h2>
+
+<figure class='code'><figcaption><span>Various heroku debugging commands</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku ps    <span class="c"># list running apps</span>
+</span><span class='line'>heroku logs  <span class="c"># show application logs</span>
+</span><span class='line'>heroku run console <span class="c"># run interactive ruby console</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>Various heroku administrative commands</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku config  <span class="c"># configure remote app through environment variables</span>
+</span><span class='line'>heroku apps    <span class="c"># overview of apps</span>
+</span><span class='line'>heroku destroy <span class="c"># deallocate remote server</span>
+</span><span class='line'>heroku run rake db:migrate
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>heroku config</code> sets environment variables for things you don&rsquo;t want to commit to git (e.g., passwords). Configure your Rails apps to use <code>ENV['MY_VAR']</code> instead of your super secret key, then run <code>heroku config:add MY_VAR=blahblah</code>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Learning Ruby and Rails]]></title>
