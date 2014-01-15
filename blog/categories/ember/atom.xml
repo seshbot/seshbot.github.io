@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ember | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/ember/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-16T08:36:46+09:00</updated>
+  <updated>2014-01-16T08:54:09+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -42,7 +42,7 @@
 
 <p>For now I&rsquo;ll go with Postgres because I&rsquo;m as yet not very familiar with Heroku and want to make things easier on myself.</p>
 
-<p>installing (<a href="http://ricochen.wordpress.com/2012/07/20/install-postgres-on-mac-os-x-lion-with-homebrew-howto/">http://ricochen.wordpress.com/2012/07/20/install-postgres-on-mac-os-x-lion-with-homebrew-howto/</a>):
+<p>The following installation instructions came from a blog entry on <a href="http://ricochen.wordpress.com/2012/07/20/install-postgres-on-mac-os-x-lion-with-homebrew-howto/">installing PostgreSQL on OSX with HomeBrew</a>:
 ```bash Installing PostgreSQL on  OSX</p>
 
 <h1>easiest if you have homebrew installed</h1>
@@ -79,7 +79,7 @@ create role myapp with CREATEDB login password &lsquo;password1&rsquo;;
 
 <p>Creating a Rails app is really simple <em>once you know the commands</em>. So from scratch, if you include all the learning involved behind each command, it&rsquo;s actually not very simple. But these steps make it simple for me.</p>
 
-<p>TIPS: I read somewhere that you should always run <code>bundle exec</code> before running a rails command to ensure that you&rsquo;re only working with gems in your Gemfile.</p>
+<p>TIPS: I read somewhere that you should always run <code>bundle exec</code> before running a rails command to ensure that you&rsquo;re only working with gems in your Gemfile. Technically you could run all the commands below without prepending <code>bundle exec</code> however.</p>
 
 <p><code>bash Creating the rails application framework
 rails new myapp --database=postgresql
@@ -91,17 +91,14 @@ bundle exec rake db:migrate
 bundle exec rails s
 </code></p>
 
-<p><em>Note: I had to uncomment the &lsquo;local&rsquo; setting because rails couldn&rsquo;t socket-connect due to permission problems. I could have reconfigured postgres instead but meh.</em></p>
+<p><em>Note: I had to uncomment the &lsquo;local&rsquo; setting from my </em>database.yml<em> file because rails couldn&rsquo;t connect due to permission problems on the local socket file. I could have reconfigured postgres instead but meh.</em></p>
 
-<p>OSX users can also use <a href="http://pow.cx/">POW!</a> or <a href="http://anvilformac.com/">Anvil</a> (which uses POW! under the covers) to set up a fake URL pointing to their rails apps, so in my case I can visit <a href="http://myapp.dev">http://myapp.dev</a> and it will actually show me the app running on my local machine. It makes things a lot quicker.</p>
+<p>OSX users can also use <a href="http://pow.cx/">POW!</a> or <a href="http://anvilformac.com/">Anvil</a> (which uses POW! under the covers) to set up a fake URL pointing to their local rails app directories, so in my case I can visit <a href="http://myapp.dev">http://myapp.dev</a> and it will actually show me the app running on my local machine. It makes the testing cycle a lot quicker.</p>
 
 <p>Add some simple static content:
-```bash Generate some simple content in the Rails app</p>
-
-<h1>add a few pages</h1>
-
-<p>rails generate controller StaticPages home about &mdash;no-test-framework
-```</p>
+<code>bash Generate some simple content in the Rails app
+rails generate controller StaticPages home about --no-test-framework
+</code></p>
 
 <p>Now you should be able to visit <code>localhost:3000/static_pages/home</code> and see a generic message.</p>
 
@@ -125,9 +122,9 @@ git commit -a -m"Initial commit"
 
 <h3>Adding ember framework</h3>
 
-<p>Note that according to the <a href="https://github.com/emberjs/ember-rails">ember-rails docs</a> one may create the project using <code>rails new my_app -m http://emberjs.com/edge_template.rb</code> for a good start.</p>
+<p>Note that according to the <a href="https://github.com/emberjs/ember-rails">ember-rails docs</a> one may create the project using <code>rails new my_app -m http://emberjs.com/edge_template.rb</code> for a good start. I did not do this however.</p>
 
-<p>One way to get started with ember with rails is to use the <code>ember-rails</code> gem. Just add <code>gem "ember-rails"</code> to your Gemfile, then run <code>rails generate ember:bootstrap</code> and you get a bunch of files. I also prefer to use javascript directly, so add <code>-g --javascript-engine js</code></p>
+<p>One way to get started with ember with rails is to use the <code>ember-rails</code> gem. Just add <code>gem "ember-rails"</code> to your Gemfile, then run <code>rails generate ember:bootstrap</code> and you get a bunch of files. I also prefer to use javascript directly (as opposed to CoffeeScript, which is the default), so add <code>-g --javascript-engine js</code></p>
 
 <p>Set &lsquo;developer mode&rsquo; (which enables developer-centric error messages and is apparently quite useful) by updating your <em>config/environments/development.rb</em> with: <code>config.ember.variant = :development</code>.</p>
 
@@ -145,7 +142,7 @@ bundle exec rails g ember:install &mdash;head</p>
 
 <p>Use Ember ActiveModel Serializer: <a href="https://github.com/rails-api/active_model_serializers">https://github.com/rails-api/active_model_serializers</a></p>
 
-<h2>Deploying to heroku</h2>
+<h2>Deploying to Heroku</h2>
 
 <p>I have already gone through the Heroku sign up process and installed the toolbelt appropriate for OSX (the toolbelt provides the <code>heroku</code> command line tool.)</p>
 
@@ -163,9 +160,14 @@ git push heroku master</p>
 
 <p>This creates an image with a particular configuration of applications and adds a <code>heroku</code> git remote to the git configuration.</p>
 
-<p>TODO: use <code>gem rails_12factor</code>?</p>
+<p>Now you can visit the heroku app online (in my case at <a href="http://seshbot.herokuapp.com/static_pages/home">http://seshbot.herokuapp.com/static_pages/home</a>).</p>
 
-<h2>troubleshooting heroku</h2>
+<p>TODO: use <code>gem rails_12factor</code>? This alters the rails app a little to make it <a href="http://12factor.net/">12 factor</a>, which is a set of guidelines for how one should build an application to make it easier to administer and deploy. Not really important right now though.</p>
+
+<!-- x_ -->
+
+
+<h2>Troubleshooting and administering Heroku</h2>
 
 <p><code>bash Various heroku debugging commands
 heroku ps    # list running apps
