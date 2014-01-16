@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-16T08:54:09+09:00</updated>
+  <updated>2014-01-16T09:18:59+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -149,7 +149,7 @@
 
 <p>Note that according to the <a href="https://github.com/emberjs/ember-rails">ember-rails docs</a> one may create the project using <code>rails new my_app -m http://emberjs.com/edge_template.rb</code> for a good start. I did not do this however.</p>
 
-<p>One way to get started with ember with rails is to use the <code>ember-rails</code> gem. Just add <code>gem "ember-rails"</code> to your Gemfile, then run <code>rails generate ember:bootstrap</code> and you get a bunch of files. I also prefer to use javascript directly (as opposed to CoffeeScript, which is the default), so add <code>-g --javascript-engine js</code></p>
+<p>One way to get started with ember with rails is to use the <code>ember-rails</code> gem. Just add <code>gem "ember-rails"</code> to your Gemfile, then run <code>rails generate ember:bootstrap</code> and you get a basic Ember framework in your <code>app/assets</code> directory. I also prefer to use javascript directly (as opposed to CoffeeScript, which is the default), so add <code>-g --javascript-engine js</code></p>
 
 <p>Set &lsquo;developer mode&rsquo; (which enables developer-centric error messages and is apparently quite useful) by updating your <em>config/environments/development.rb</em> with: <code>config.ember.variant = :development</code>.</p>
 
@@ -170,9 +170,9 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>Rails &ndash;> Ember connection</h2>
+<h4>A note on using Ember with Rails backend</h4>
 
-<p>Use Ember ActiveModel Serializer: <a href="https://github.com/rails-api/active_model_serializers">https://github.com/rails-api/active_model_serializers</a></p>
+<p>Use Ember ActiveModel Serializer: <a href="https://github.com/rails-api/active_model_serializers">https://github.com/rails-api/active_model_serializers</a> which was written by the Ember guys, and ensures your Ember app understands the format of your Rails app&rsquo;s JSON data.</p>
 
 <h2>Deploying to Heroku</h2>
 
