@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ember | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/ember/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-16T09:34:32+09:00</updated>
+  <updated>2014-01-16T11:47:57+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Creating a Rails + Ember app from scratch]]></title>
+    <title type="html"><![CDATA[Creating and deploying a Rails + Ember app]]></title>
     <link href="http://seshbot.com/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch/"/>
     <updated>2014-01-15T17:54:16+09:00</updated>
     <id>http://seshbot.com/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch</id>
