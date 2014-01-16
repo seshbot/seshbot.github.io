@@ -4,7 +4,7 @@
   <title><![CDATA[Category: HowTo | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/howto/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-16T09:24:30+09:00</updated>
+  <updated>2014-01-16T09:34:32+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -96,11 +96,15 @@ bundle exec rails s
 <p>OSX users can also use <a href="http://pow.cx/">POW!</a> or <a href="http://anvilformac.com/">Anvil</a> (which uses POW! under the covers) to set up a fake URL pointing to their local rails app directories, so in my case I can visit <a href="http://myapp.dev">http://myapp.dev</a> and it will actually show me the app running on my local machine. It makes the testing cycle a lot quicker.</p>
 
 <p>Add some simple static content:
-<code>bash Generate some simple content in the Rails app
-rails generate controller StaticPages home about --no-test-framework
-</code></p>
+```bash Generate some simple content in the Rails app
+rails generate controller StaticPages home about &mdash;no-test-framework</p>
 
-<p>Now you should be able to visit <code>localhost:3000/static_pages/home</code> and see a generic message.</p>
+<h1>set root &lsquo;/&rsquo; route to point to static home page</h1>
+
+<p>vim config/routes.rb # add &ldquo;root &lsquo;static_pages#home&rsquo;&rdquo; beneath other routes
+```</p>
+
+<p>Now you should be able to visit <code>localhost:3000</code> and see a generic &lsquo;home&rsquo; page message.</p>
 
 <!-- x_ -->
 
@@ -160,7 +164,7 @@ git push heroku master</p>
 
 <p>This creates an image with a particular configuration of applications and adds a <code>heroku</code> git remote to the git configuration.</p>
 
-<p>Now you can visit the heroku app online (in my case at <a href="http://seshbot.herokuapp.com/static_pages/home">http://seshbot.herokuapp.com/static_pages/home</a>).</p>
+<p>Now you can visit the heroku app online (in my case at <a href="http://seshbot.herokuapp.com/">http://seshbot.herokuapp.com/</a>).</p>
 
 <p>TODO: use <code>gem rails_12factor</code>? This alters the rails app a little to make it <a href="http://12factor.net/">12 factor</a>, which is a set of guidelines for how one should build an application to make it easier to administer and deploy. Not really important right now though.</p>
 

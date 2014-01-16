@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-16T09:24:30+09:00</updated>
+  <updated>2014-01-16T09:34:32+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -114,11 +114,17 @@
 <p>Add some simple static content:</p>
 
 <figure class='code'><figcaption><span>Generate some simple content in the Rails app</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>rails generate controller StaticPages home about --no-test-framework
+</span><span class='line'>
+</span><span class='line'><span class="c"># set root &#39;/&#39; route to point to static home page</span>
+</span><span class='line'>vim config/routes.rb <span class="c"># add &quot;root &#39;static_pages#home&#39;&quot; beneath other routes</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Now you should be able to visit <code>localhost:3000/static_pages/home</code> and see a generic message.</p>
+<p>Now you should be able to visit <code>localhost:3000</code> and see a generic &lsquo;home&rsquo; page message.</p>
 
 <!-- x_ -->
 
@@ -197,7 +203,7 @@
 
 <p>This creates an image with a particular configuration of applications and adds a <code>heroku</code> git remote to the git configuration.</p>
 
-<p>Now you can visit the heroku app online (in my case at <a href="http://seshbot.herokuapp.com/static_pages/home">http://seshbot.herokuapp.com/static_pages/home</a>).</p>
+<p>Now you can visit the heroku app online (in my case at <a href="http://seshbot.herokuapp.com/">http://seshbot.herokuapp.com/</a>).</p>
 
 <p>TODO: use <code>gem rails_12factor</code>? This alters the rails app a little to make it <a href="http://12factor.net/">12 factor</a>, which is a set of guidelines for how one should build an application to make it easier to administer and deploy. Not really important right now though.</p>
 
