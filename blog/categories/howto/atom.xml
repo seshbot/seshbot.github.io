@@ -4,7 +4,7 @@
   <title><![CDATA[Category: HowTo | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/howto/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-16T09:18:59+09:00</updated>
+  <updated>2014-01-16T09:24:30+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -22,7 +22,7 @@
 
 <p>Heroku is an &lsquo;application platform&rsquo; in the cloud, meaning that you can push certain kinds of apps (written in Ruby, Python, Java and Node.js) and it will ensure all the correct infrastructure is in place. When you sign up you get to host one app for free so it&rsquo;s easy to try out.</p>
 
-<p>Later I will probably move to <a href="http://aws.amazon.com">Amazon Web Services</a>, which really just provide you with a basic virtual machine in the cloud that you can do anything with, so that I can host multiple apps without paying money.</p>
+<p>Later I will probably move to <a href="http://aws.amazon.com">Amazon Web Services</a>, which provides a basic virtual machine in the cloud that you can do anything with. This will allow me to host multiple applications without having to worry about paying money. Heroku <em>does</em> offer some pretty nice scaling, monitoring and deployment tools though (the admin panel literally has a slider to allow you to spin up new application instances.)</p>
 
 <p>This post shows how I went through all steps, including setting up the PostgreSQL database on OSX, creating a skeleton Rails app, and deploying to Heroku. It is a culmination of having gone through several sources:</p>
 
