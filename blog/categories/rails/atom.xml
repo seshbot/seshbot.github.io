@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-16T11:47:57+09:00</updated>
+  <updated>2014-01-17T10:18:19+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -38,9 +38,11 @@
 
 <h2>Choosing a database</h2>
 
-<p>I was deciding between MongoDb and PostgreSQL. According to <a href="http://hammad.ca/experiments/2013/08/25/mongodb-vs-sql/">this article</a>, MongoDb offers flexibility when it comes to managing file assets in your database, while PostgreSQL is much more well established in existing hosting infrastructures (AWS and Heroku), so can make initial deployment much simpler. Mongo is also more amenable to schema changes because it&rsquo;s a NoSQL schema-less document database, but I think Rails is supposed to make schema changes easy anyway with the various <code>db:</code> commands.</p>
+<p>By default Rails will use sqlite3 for its database, and this isn&rsquo;t by default available in Heroku. As I&rsquo;m going to have to do some configuration anyway, I might as well choose a nicer database.</p>
 
-<p>For now I&rsquo;ll go with Postgres because I&rsquo;m as yet not very familiar with Heroku and want to make things easier on myself.</p>
+<p>I was deciding between MongoDb and PostgreSQL. MongoDb offers flexibility when it comes to managing file assets in your database, while PostgreSQL is much more well established in existing hosting infrastructures (AWS and Heroku), so can make initial deployment much simpler. Mongo is also more amenable to schema changes because it&rsquo;s a NoSQL schema-less document database, but I think Rails is supposed to make schema changes easy anyway with the various <code>db:</code> commands.</p>
+
+<p>As Heroku comes with PostgreSQL support out of the box, for now I&rsquo;ll go with Postgres. I&rsquo;m as yet not very familiar with Heroku and want to make things easier on myself.</p>
 
 <p>The following installation instructions came from a blog entry on <a href="http://ricochen.wordpress.com/2012/07/20/install-postgres-on-mac-os-x-lion-with-homebrew-howto/">installing PostgreSQL on OSX with HomeBrew</a>:
 ```bash Installing PostgreSQL on  OSX</p>
@@ -85,10 +87,10 @@ create role myapp with CREATEDB login password &lsquo;password1&rsquo;;
 rails new myapp --database=postgresql
 cd myapp
 vim config/database.yml # set the database username and password, and on OSX un-comment the 'local' setting
-bundle exec rake db:create
-bundle exec rails generate scaffold Thing name:string
-bundle exec rake db:migrate
-bundle exec rails s
+bundle exec rake db:create    # create databases
+bundle exec rails generate scaffold Thing name:string # generate model/views/controllers
+bundle exec rake db:migrate   # update database with model data
+bundle exec rails s           # start rails server localhost:3000
 </code></p>
 
 <p><em>Note: I had to uncomment the &lsquo;local&rsquo; setting from my </em>database.yml<em> file because rails couldn&rsquo;t connect due to permission problems on the local socket file. I could have reconfigured postgres instead but meh.</em></p>
@@ -126,29 +128,78 @@ git commit -a -m"Initial commit"
 
 <h3>Adding ember framework</h3>
 
-<p>Note that according to the <a href="https://github.com/emberjs/ember-rails">ember-rails docs</a> one may create the project using <code>rails new my_app -m http://emberjs.com/edge_template.rb</code> for a good start. I did not do this however.</p>
+<p>I have tried two alternative approaches to creating a new rails app for ember.</p>
 
-<p>One way to get started with ember with rails is to use the <code>ember-rails</code> gem. Just add <code>gem "ember-rails"</code> to your Gemfile, then run <code>rails generate ember:bootstrap</code> and you get a basic Ember framework in your <code>app/assets</code> directory. I also prefer to use javascript directly (as opposed to CoffeeScript, which is the default), so add <code>-g --javascript-engine js</code></p>
+<h4>Alternative 1: use the ember &lsquo;edge template&rsquo;</h4>
 
-<p>Set &lsquo;developer mode&rsquo; (which enables developer-centric error messages and is apparently quite useful) by updating your <em>config/environments/development.rb</em> with: <code>config.ember.variant = :development</code>.</p>
+<p>I think this one is probably the best as it was demonstrated by Yehuda Katz (main Ember guy) in <a href="http://www.youtube.com/watch?v=BpQj9_qEUAc">this live demonstration video</a>. I ran a diff on projects created with and without and it seems to:</p>
+
+<ul>
+<li>adds some ember gems to the Gemfile: <code>active_model_serializers</code>, <code>ember-rails</code> and <code>ember-source</code></li>
+<li>remove the rails &lsquo;application view layout&rsquo; (<em>app/views/layouts/application.html.erb</em>)</li>
+<li>create an ember &lsquo;application template&rsquo; (<em>app/assets/javascripts/templates/application.handlebars</em>)</li>
+<li>creates a &lsquo;view asset&rsquo; that generates an index.html with the ember application.js in it (<em>app/views/assets/index.html.erb</em>)</li>
+<li>sets up a rails route pointing to the assets controller &lsquo;index&rsquo; action (<em>config/routes.rb</em>)</li>
+<li>create empty assets controller and helper files (not sure why)</li>
+<li>create a rails ActiveModel &lsquo;application serializer&rsquo; (<em>app/serializers/application_serializer.rb</em>) that does a few things ember requires <!-- x_ --></li>
+</ul>
+
+
+<p>Installing using the edge template is simple. Just replace the <code>rails new</code> step above with the following:</p>
+
+<p>```bash Creating a rails app using the ember template
+rails new myapp &mdash;database=postgresql -m <a href="http://emberjs.com/edge_template.rb">http://emberjs.com/edge_template.rb</a>
+cd myapp</p>
+
+<h1>edit your database config and Gemfile as before&hellip;</h1>
+
+<p>bundle exec rails g ember:bootstrap &mdash;javascript-engine js
+bundle exec rails g ember:install &mdash;head
+```</p>
+
+<h4>Alternative 2: add ember to an existing rails app</h4>
+
+<p>You could also just add the <code>ember-rails</code> gem directly to your Gemfile, then run <code>rails generate ember:bootstrap</code> and you get a basic Ember framework in your <code>app/assets</code> directory. I also prefer to use javascript directly (as opposed to CoffeeScript, which is the default), so add <code>-g --javascript-engine js</code></p>
 
 <p>```bash Add a simple Ember application framework to the Rails app
-vim Gemfile # add &lsquo;gem &ldquo;ember-rails&rdquo;, github: &ldquo;emberjs/ember-rails&rdquo;&rsquo;</p>
+vim Gemfile</p>
 
-<p>bundle install
+<h1>add &lsquo;gem &ldquo;ember-rails&rdquo;, github: &ldquo;emberjs/ember-rails&rdquo;&rsquo;</h1>
+
+<p>```</p>
+
+<p>Following this approach I believe you&rsquo;ll have to manually set up the <a href="https://github.com/rails-api/active_model_serializers">Ember ActiveModel Serializer</a> which was written by the Ember guys, and ensures your Ember app understands the format of your Rails app&rsquo;s JSON data. The first alternative does this for you.</p>
+
+<h4>Common to both approaches</h4>
+
+<p>After you have created and updated your Gemfile, you still need to bootstrap the ember environment, and then ensure Ember is running in &lsquo;development&rsquo; mode when Rails is.</p>
+
+<p><em>Note: you can Set &lsquo;developer mode&rsquo; (which enables developer-centric error messages and is apparently quite useful) by updating your </em>config/environments/development.rb<em> with: <code>config.ember.variant = :development</code>. By default running locally will run in dev mode, and running on Heroku will run production mode however.</em></p>
+
+<p>```bash Add a simple Ember application framework to the Rails app
+bundle install
 bundle exec rails g ember:bootstrap -g &mdash;javascript-engine js
 bundle exec rails g ember:install &mdash;head</p>
 
 <p>vim config/environments/development.rb # add config.ember.variant = :development
 ```</p>
 
-<h4>A note on using Ember with Rails backend</h4>
-
-<p>Use Ember ActiveModel Serializer: <a href="https://github.com/rails-api/active_model_serializers">https://github.com/rails-api/active_model_serializers</a> which was written by the Ember guys, and ensures your Ember app understands the format of your Rails app&rsquo;s JSON data.</p>
-
 <h2>Deploying to Heroku</h2>
 
-<p>I have already gone through the Heroku sign up process and installed the toolbelt appropriate for OSX (the toolbelt provides the <code>heroku</code> command line tool.)</p>
+<p>Heroku requires a few rails settings to be modified to work properly:</p>
+
+<p>```bash Change rails app settings for Heroku
+vim config/environments/production.rb # heroku runs in prod mode by default</p>
+
+<h1>change &lsquo;config.serve_static_assets&rsquo; to true</h1>
+
+<p>vim Gemfile</p>
+
+<h1>add &ldquo;gem &lsquo;rails_12factor&rsquo;&rdquo;</h1>
+
+<p>```</p>
+
+<p>I have already gone through the Heroku sign up process and installed the toolbelt appropriate for OSX (the toolbelt provides the <code>heroku</code> command line tool), so I won&rsquo;t outline that here.</p>
 
 <p>Installing my rails application on Heroku was then a simple matter of:</p>
 
@@ -159,7 +210,11 @@ git push heroku master</p>
 
 <h1>whenever you make database changes</h1>
 
-<p>heroku run rake db:migrate
+<p>heroku run rake db:migrate</p>
+
+<h1>if you want to push your local database contents to heroku</h1>
+
+<p>heroku db:push # requires the &lsquo;taps&rsquo; gem (&lsquo;gem install taps&rsquo;)
 ```</p>
 
 <p>This creates an image with a particular configuration of applications and adds a <code>heroku</code> git remote to the git configuration.</p>
