@@ -2,17 +2,30 @@
 // Add styles here to make changes without digging in too much
 @import "footnote";
 
+$custom-pre-bg: #F9F9F9;
+$custom-pre-border: #EEEEEE;
+
 // cleanpress screws up the syntax highlighting boxes pretty badly
 figure.code{
+   background-color: $custom-pre-bg;
    figcaption{
       text-align: center;
-      color: #555555;
+      color: #888888;
       font-style: italic;
+      span {
+			@include background(linear-gradient(top, $custom-pre-border, $custom-pre-bg));
+      }
    }
    .line-numbers{
       color: #93A1A1;
    }
    table{
+      background-color: $custom-pre-bg;
 		margin-bottom: 0;
    }
+}
+
+article code, article pre {
+   background-color: $custom-pre-bg;
+   border-color: $custom-pre-border;
 }

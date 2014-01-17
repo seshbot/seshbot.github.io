@@ -10,3 +10,7 @@ published: false
 ## The Project - Gaming Table as a Service?
 
 I really want something to help my gaming friends and myself - who are becoming increasingly globally decentralised - continue to have long-running and deeply involved gaming sessions. This requires several different tools of communication that must be simple to use and very unintrusive.
+
+### Design
+
+Branching routes: specify multiple controller bindings in Route class, and `render` multiple controllers in branching route's model.

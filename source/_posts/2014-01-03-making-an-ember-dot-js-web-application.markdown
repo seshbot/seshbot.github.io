@@ -32,12 +32,15 @@ deploy to joyent?
 
 TODO: mess with pixi.js
 
+TODO: seems based on Rails conventions (as is Meteor and others)
+
 TODO: learning curve:
 
 - watch intro video: application, routes (app, etc, nesting), views/templates (placemarker, etc, utilities linkto etc), controllers (linking to views)
    - later watch again (bound helpers, safe strings, partials, redirect hook/transitionTo, post updates to model)
 - data binding (fixture, Ember.Object, Ember Data, Ember Model) arrays etc
    - ember data: https://www.openshift.com/blogs/day-24-yeoman-ember-the-missing-tutorial
+- read [naming conventions guide](http://emberjs.com/guides/concepts/naming-conventions/) _thoroughly_. Ember route, controller, template lookups. Default values for unspecified routes and controllers. Route hook methods `model` and `serialize` (and default implementations). Nesting. Index routes (default placeholder in outlet)
 - controllers decorate a model (singletons vs instances?) 'needs'?
 - Server API
    - munging server data
@@ -47,6 +50,8 @@ TODO: learning curve:
      - can pass bound parameters, bound to 'this' by default, but can also be used as a 'block' with 'yield' keyword injecting the custom block
      - can send actions as well
 - application adapter
+
+Branching routes: specify multiple controller bindings in Route class, and `render` multiple controllers in branching route's model.
 
 TODO: how does ember work:
 
@@ -71,18 +76,20 @@ Following the getting started guide we have the following...
 
 {% include_code verbatim ember-demo-step1.html %}
 
+TODO: specify default behaviour!
+
 Route: 
 
 - `App.Router.map()` to map URLs to specific routes
 - App.XXXRoute = Ember.Route.extend() (where XXX is the CamelCase name of a template) maps the request to a model
 - `<script  type="text/x-handlebars" data-template-name="xxx">` (where 'xxx' is the snake-case name of the route) renders the model in handlebars markup.
 - hierarchical mapping (under resource specification, specify child routes)
-
+- main hook methods are `model` and `serialize` - associate dynamic part with model for lookup/linking respectively (with default behaviour!)
 Model:
 
 - App.MyEntity = DS.Model.extend()
 
-Views (templates)
+Templates
 To allowing updates:
 
 - extend a controller

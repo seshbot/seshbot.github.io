@@ -1,0 +1,63 @@
+EMBER NOTES
+
+Rails ActiveModel serializers created by ember guys to ensure Rails emits JSON that is well-formatted for Ember
+
+Ember data models are 'record arrays' which have `isLoaded` property built in.
+
+Unit Testing in QUnit? Any testing is fine, but qunit made with ember in min. Capybara is apparently also good for acceptance testing.
+
+Data hooks:
+
+- Adapter: save, shouldCommit, updateRecord, deleteRecord, createRecord, find, findMany, findQuery, findAll
+
+- Serializer: toJSON, materializeRecord, materializeAttribute, extractAttribute, keyForAttributeName, keyForHasMany, extractKeyForBelongsTo, map, registerTransform
+
+
+RAILS THINGS TO REMEMBER
+
+CSRF protection - prevent people injecting their own forms into your application (many web apps run third party forms intentionally!)
+overview: http://www.youtube.com/watch?v=2Ex8EEv-WPs
+
+
+SERVER DESIGN
+
+app.com/
+ +- users
+ +- tables
+ +- addons
+  +- discussions
+
+
+scaffold: model, database migration for that model, controller to manipulate it, views to view and manipulate the data
+
+assets     | asset name (can use path as 'parent/name')                       | new asset placeholders
+controller | controller name and views (can use modle as 'parent_module/controller') | controllers and views (and helpers)
+helper     | helper name (can use module as 'parent_module/controller')       | helper
+migration  | migration name and field information (types and index)           | migration
+model      | model name and field information (types and index) (also module) | model, migration, fixture
+resource   | resource name and field information                              | empty model and controller (RESTful) 
+scaffold   | model name and field information (types and index)               | model, migration, controller and views
+serializer | resource name and fields                                         | serializer
+task       | namespace name and tasks                                         | new rake task stub
+
+The two big ones are `resource` and `scaffold`, although apparently once you're comfortable with rails you tend to generate models, views and controllers individually. Scaffold creates basic implementations of all the CRUD operations.
+
+
+debugging super useful 
+
+routing: http://guides.rubyonrails.org/routing.html
+
+routes separate to model - can represent nested model relationships accurately on nested route resources.
+
+auth: http://www.robertsosinski.com/2008/02/23/simple-and-restful-authentication-for-ruby-on-rails/
+
+comment out coffee-rails and turbolinks
+
+creating model:
+rails g resource user name:string username:string encrypted_password:string salt:string
+
+
+rake db:drop
+rake db:create
+rake db:migrate
+
