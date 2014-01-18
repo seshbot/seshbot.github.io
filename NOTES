@@ -49,7 +49,9 @@ routing: http://guides.rubyonrails.org/routing.html
 
 routes separate to model - can represent nested model relationships accurately on nested route resources.
 
-auth: http://www.robertsosinski.com/2008/02/23/simple-and-restful-authentication-for-ruby-on-rails/
+auth: 
+ - http://www.robertsosinski.com/2008/02/23/simple-and-restful-authentication-for-ruby-on-rails/
+ - instructions using _devise_ https://github.com/heartsentwined/ember-auth-rails-demo/wiki
 
 comment out coffee-rails and turbolinks
 
@@ -61,3 +63,99 @@ rake db:drop
 rake db:create
 rake db:migrate
 
+
+TESTING
+
+http://ruby.railstutorial.org/chapters/static-pages
+
+
+PRODUCTION
+===
+
+use proper auth: http://coderberry.me/blog/2013/07/08/authentication-with-emberjs-part-1/
+
+protect data in routes if not meant to be exposed
+
+
+
+CLIENT SIDE AUTHENTICATION
+===
+
+I do not want to implement authentication and authorization myself. It is tricky to get right and tends to cause huge damage when it goes wrong in production. 
+
+
+http://www.embercasts.com/ covers the client-side concepts of authentication with Ember in [part 1](http://www.embercasts.com/episodes/client-side-authentication-part-1) and [part 2](http://www.embercasts.com/episodes/client-side-authentication-part-2) of their 'Client Side Authentication' videos. Specifically:
+
+- client token authentication concepts
+- sending auth request to the server and saving the token (in a 'login' controller)
+- setting up controllers
+- detecting 'unauthorised' responses and redirecting to login pages
+- keeping a sane workflow so the login transitions the user back to their original page
+- storing the auth token in local storage so page refresh doesn't reset it
+- preventing the unauthorized server request if client knows it doesn't yet have a token
+
+This doesn't cover the server side, or anything to do with Rails or any other authenticating server specifically - he used a home-grown demonstration Node.js server for the demonstration. Also doesn't specifically cover authorization (I can see users but cant see their emails for example.)
+
+
+SimpLabs wrote a [blog post](http://log.simplabs.com/post/57702291669/better-authentication-in-ember-js) detailing their experiences getting ember authentication to work sensibly and according to the various standards.
+
+They wrapped this functionality up in an ember plugin called [Ember.SimpleAuth](https://github.com/simplabs/ember-simple-auth) (and wrote about [how to use it](http://log.simplabs.com/post/63565686488/ember-simpleauth)). There's even a [demo rails app](https://github.com/ugisozols/ember-simple-auth-rails-demo) that uses it.
+
+
+Someone else has written a rails plugin called [ember-auth](https://github.com/heartsentwined/ember-auth-rails) that presumably takes care of both sides (rails server and ember client) of the problem.
+
+
+some good best practices outlined here: http://blog.embed.ly/post/56537323314/building-apps-with-ember-a-postmortem
+
+
+
+
+more recently there is [ember-auth-easy](https://github.com/mharris717/ember-auth-easy) which corresponds with [ember-auth-rails](https://github.com/mharris717/ember_auth_rails). It's terribly out of date by now, and doesn't work so I've cloned it and tried to fix it (I have no idea what I'm doing!)
+
+Steps:
+
+```bash
+vim Gemfile
+# add the following: # gem 'ember_auth_rails', :git => git://github.com/seshbot/ember_auth_rails.git
+# gem 'ember-data-source', '>= 1.0.0.beta.3', '< 2.0' # ember-data not yet out of beta
+# gem 'emblem-rails', '~> 0.1' # easier to write templates
+# 
+# gem 'ember-auth-rails', '~> 5.0' # client-side authentication
+# gem 'ember-auth-request-jquery-rails', '~> 1.0' # auth requests via jQuery.ajax
+# gem 'ember-auth-response-json-rails', '~> 1.0' # responses in json
+# gem 'ember-auth-strategy-token-rails', '~> 1.0' # token authentication
+# gem 'ember-auth-session-cookie-rails', '~> 1.0' # use cookies
+# gem 'ember-auth-module-ember_data-rails', '~> 1.0' # ember-data integration
+#
+# gem 'devise'
+
+vim config/application.rb
+# add "require 'devise'" to bottom
+
+bundle install # install new gems
+bundle exec rake ember_auth_rails_engine:install:migrations
+rails g devise:install
+bundle exec rake db:migrate
+
+```
+
+Notes: If your Ember app will not be running on the same url/port, add Rack::Cors to your app
+
+
+IMPORTANT!!! simpler solution using ember-auth? http://coderberry.me/blog/2013/07/08/authentication-with-emberjs-part-1/ (includes a link to [Rails::API](https://github.com/rails-api/rails-api)!)
+ - use latest version of bcrypt
+
+
+using devise directly:
+
+hints on http://stackoverflow.com/questions/16513066/devise-with-rails-4
+
+
+
+
+EMBER BITS
+===
+
+side panel components: http://coding.smashingmagazine.com/2013/11/07/an-in-depth-introduction-to-ember-js/
+
+useful reference: http://embersherpa.com/

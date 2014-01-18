@@ -155,6 +155,9 @@ $header-height: 30px;
 				}
 			}
 		}
+      li.subscription a {
+         color: $color-gray03;
+      }
 	}
 	select{
 		display: none;

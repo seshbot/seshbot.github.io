@@ -140,10 +140,9 @@ rails new myapp --database=postgresql -m http://emberjs.com/edge_template.rb
 cd myapp
 
 # edit your database config and Gemfile as before...
-
-bundle exec rails g ember:bootstrap --javascript-engine js
-bundle exec rails g ember:install --head
 ```
+
+_Note: I had problems using the remote edge template, so downloaded it and used my local copy instad._
 
 #### Alternative 2: add ember to an existing rails app
 
