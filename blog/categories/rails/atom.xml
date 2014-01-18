@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-17T10:18:19+09:00</updated>
+  <updated>2014-01-18T10:09:20+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -153,9 +153,9 @@ cd myapp</p>
 
 <h1>edit your database config and Gemfile as before&hellip;</h1>
 
-<p>bundle exec rails g ember:bootstrap &mdash;javascript-engine js
-bundle exec rails g ember:install &mdash;head
-```</p>
+<p>```</p>
+
+<p><em>Note: I had problems using the remote edge template, so downloaded it and used my local copy instad.</em></p>
 
 <h4>Alternative 2: add ember to an existing rails app</h4>
 

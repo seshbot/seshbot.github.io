@@ -66,6 +66,7 @@ $(document).ready(
 	<li><a href="/">Blog</a></li>
 	<li><a href="/about">About</a></li>
 	<li><a href="/archives">Archive</a></li>
+   <li class="subscription"><a title="subscribe via RSS" rel="subscribe-rss" href="/atom.xml">RSS</a></li>
 </ul>
 </nav>
 <nav id="mobile-nav">
@@ -75,6 +76,7 @@ $(document).ready(
 	<li><a href="/">Blog</a></li>
 	<li><a href="/about">About</a></li>
 	<li><a href="/archives">Archive</a></li>
+   <li class="subscription"><a title="subscribe via RSS" rel="subscribe-rss" href="/atom.xml">RSS</a></li>
 </ul>
 </div>
 	</div>
@@ -254,18 +256,14 @@ $(document).ready(
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>rails new myapp --database<span class="o">=</span>postgresql -m http://emberjs.com/edge_template.rb
 </span><span class='line'><span class="nb">cd </span>myapp
 </span><span class='line'>
 </span><span class='line'><span class="c"># edit your database config and Gemfile as before...</span>
-</span><span class='line'>
-</span><span class='line'>bundle <span class="nb">exec </span>rails g ember:bootstrap --javascript-engine js
-</span><span class='line'>bundle <span class="nb">exec </span>rails g ember:install --head
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p><em>Note: I had problems using the remote edge template, so downloaded it and used my local copy instad.</em></p>
 
 <h4>Alternative 2: add ember to an existing rails app</h4>
 
