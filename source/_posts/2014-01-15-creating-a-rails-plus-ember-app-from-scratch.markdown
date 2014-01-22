@@ -222,3 +222,4 @@ heroku run rake db:migrate
 
 `heroku config` sets environment variables for things you don't want to commit to git (e.g., passwords). Configure your Rails apps to use `ENV['MY_VAR']` instead of your super secret key, then run `heroku config:add MY_VAR=blahblah`.
 
+There are also various `heroku pg:` commands for updating the application database. The application itself doesn't have full admin access to the database so you can't for example write `heroku run rake db:drop`. Instead you should run `heroku pg:reset` if you want to clear the database.

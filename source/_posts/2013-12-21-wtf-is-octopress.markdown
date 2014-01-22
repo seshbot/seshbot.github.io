@@ -33,6 +33,8 @@ For markdown syntax, refer to the Liquid [logic tags](http://docs.shopify.com/th
 ### Architecture
 
 - Jekyll
+ - source
+ - _plugins (http://jekyllrb.com/docs/plugins/)
 - Compass
 - Rake
 - Rack
@@ -41,7 +43,7 @@ For markdown syntax, refer to the Liquid [logic tags](http://docs.shopify.com/th
 
 Jekyll is a ruby application that generates a complete static HTML website based on a directory full text files that have been marked up with simple formatting hints. If you want to make a simple site, or add a content generation component to an existing web application, Jekyll looks like it might be feasible (also perhaps have a look at [Prose](http://prose.io), which purports to be an attractive content editor for GitHub.)
 
-SIDEBAR: created for github? this explains the pages integration
+SIDEBAR: created for github, integrated into github pages
 
 Of course the best documentation on the functionality Jekyll provides is provided on [the Jekyll website](http://jekyllrb.com/docs/home/). All the octo-blogger need understand is the various forms of template mechanisms it provides: Markdown and [Liquid](http://wiki.shopify.com/Liquid).
 
@@ -106,6 +108,8 @@ All files in the <code>source</code> directory are rendered with Jekyll. The con
 <code>source/_posts/*.markdown</code> describe how to render each post page
 
 Each template contains /front matter/ describing, among other things, which layout renderer to use. The layout renderers are in the <code>source/_layouts/</code> directory. These include the <code>default</code>, <code>page</code> and <code>post</code> layouts. The <code>default</code> layout sets the root_url variable, includes the head, header and footer templates and appropriate content.
+
+Jekyll will apply any plugins it finds in the _\_plugins_ directory. Check out the [Jekyll plugin page](http://jekyllrb.com/docs/plugins/) for information on how to create plugins - they're super simple.
 
 ### Bonus for OSX users - POW!
 
