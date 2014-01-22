@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-22T11:48:01+09:00</updated>
+  <updated>2014-01-22T11:49:46+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -138,7 +138,7 @@
 
 <p>Before I decided to abandon it I created the following steps (I write it here in case I decide to go back to it later)</p>
 
-<p>```bash Rails Gemfile for ember-auth-rails
+<p>```bash Rails Trying to install ember-auth-rails on Rails
 vim Gemfile</p>
 
 <h1>add the following: # gem &lsquo;ember_auth_rails&rsquo;, :git => git://github.com/seshbot/ember_auth_rails.git</h1>
