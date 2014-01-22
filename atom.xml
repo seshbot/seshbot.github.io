@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-22T11:41:14+09:00</updated>
+  <updated>2014-01-22T11:48:01+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -130,7 +130,7 @@
 
 <h3>Failed attempt 1: ember-auth-easy Rails gem</h3>
 
-<p>I was quite hopeful when I found <a href="https://github.com/mharris717/ember-auth-easy">ember-auth-easy</a> which corresponds with <a href="https://github.com/mharris717/ember_auth_rails">ember-auth-rails</a>.</p>
+<p>I was quite hopeful when I found <a href="https://github.com/mharris717/ember-auth-easy">ember-auth-easy</a> which was made to work with <a href="https://github.com/mharris717/ember_auth_rails">ember-auth-rails</a> to provide a full Rails backend/Ember frontend token based authentication solution.</p>
 
 <p>Unfortunately as with so many things in Rails these days, lots of stuff doesn&rsquo;t work with lots of other stuff if you&rsquo;re trying to use the latest versions of things. The devise rails integration was found to be lacking for some reason and there was some mass change involved that broke backwards compatability, and many slightly older gems don&rsquo;t seem to work well anymore. I think it was made to work with Rails 3 as well (I&rsquo;m on Rails 4.)</p>
 
@@ -138,7 +138,7 @@
 
 <p>Before I decided to abandon it I created the following steps (I write it here in case I decide to go back to it later)</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Rails Gemfile for ember-auth-rails</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
