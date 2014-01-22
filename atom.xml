@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-22T11:49:46+09:00</updated>
+  <updated>2014-01-22T12:07:41+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -37,7 +37,7 @@
 
 <p>I found a few very detailed introductions to client-side authentication with ember which helped me through all stages of implementation of my system. I highly recommending going through the following resources and comparing the different approaches&#8217; overlaps and differences. I also got a lot of value out of re-visiting them after I finished implementing my own solution, because it made me think about some of the trade offs I had made.</p>
 
-<h3>Awesome Client-side Authentication &lsquo;RailsCast&rsquo; videos</h3>
+<h3>Watch these awesome client-side suthentication videos</h3>
 
 <p><a href="http://www.embercasts.com/">http://www.embercasts.com/</a> covers the client-side concepts of authentication with Ember in <a href="http://www.embercasts.com/episodes/client-side-authentication-part-1">part 1</a> and <a href="http://www.embercasts.com/episodes/client-side-authentication-part-2">part 2</a> of their &lsquo;Client Side Authentication&rsquo; videos. Specifically:</p>
 
@@ -54,13 +54,13 @@
 
 <p>This doesn&rsquo;t cover the server side, or anything to do with Rails or any other authenticating server specifically &ndash; he used a home-grown demonstration Node.js server for the demonstration. Also doesn&rsquo;t specifically cover authorization (I can see users but can&rsquo;t see their emails for example.) The ember front-end polish in there is all nice though, and I found it very helpful to revisit these videos after I had a basic system in place, in order to add nice error messages and improving the &lsquo;view page/redirect to login/return to page&rsquo; workflow.</p>
 
-<h3>SimpLabs&#8217; experience making Ember.SimpleAuth</h3>
+<h3>Read about SimpLabs&#8217; experience making Ember.SimpleAuth</h3>
 
 <p>SimpLabs wrote a <a href="http://log.simplabs.com/post/57702291669/better-authentication-in-ember-js">blog post</a> detailing their experiences getting ember authentication to work sensibly and according to the various standards.</p>
 
 <p>They wrapped this functionality up in an ember plugin called <a href="https://github.com/simplabs/ember-simple-auth">Ember.SimpleAuth</a> (and wrote about <a href="http://log.simplabs.com/post/63565686488/ember-simpleauth">how to use it</a>). There&rsquo;s even a <a href="https://github.com/ugisozols/ember-simple-auth-rails-demo">demo rails app</a> that uses it.</p>
 
-<h3>The very detailed ember-auth + devise tutorial</h3>
+<h3>Follow the very detailed ember-auth + devise tutorial</h3>
 
 <p>Someone else has written a rails plugin called <a href="https://github.com/heartsentwined/ember-auth-rails">ember-auth</a> that presumably takes care of both sides (rails server and ember client) of the problem. The true value for learning is in the <a href="https://github.com/heartsentwined/ember-auth-rails-demo/wiki">demo application&rsquo;s tutorial</a> however, which covers:</p>
 
@@ -183,7 +183,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>Current Solution: Hand rolled</h3>
+<h3>So I hand-rolled my solution</h3>
 
 <p>I eventually found a great post called <a href="http://coderberry.me/blog/2013/07/08/authentication-with-emberjs-part-1/">authentication with ember.js</a> by a dude who seems to really know what he&rsquo;s talking about. It seems to be a culmination of several weeks of work, and a collaboration with a few other developers. It also includes a link to <a href="https://github.com/rails-api/rails-api">Rails::API</a>, which I really want to use in the future.</p>
 
