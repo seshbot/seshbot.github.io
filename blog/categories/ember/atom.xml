@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ember | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/ember/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-18T10:09:20+09:00</updated>
+  <updated>2014-01-22T11:08:12+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -12,6 +12,238 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Client-side authentication with ember and rails]]></title>
+    <link href="http://seshbot.com/blog/2014/01/22/client-side-authentication-with-ember-and-rails/"/>
+    <updated>2014-01-22T09:30:27+09:00</updated>
+    <id>http://seshbot.com/blog/2014/01/22/client-side-authentication-with-ember-and-rails</id>
+    <content type="html"><![CDATA[<p>I do not want to implement authentication and authorization myself. It is tricky to get right and tends to cause huge damage when it goes wrong in production.</p>
+
+<p>So I have spent at least three full days looking at various solutions I can build into my simple Ember/Rails application and spent a lot of time experimenting.</p>
+
+<p>This post describes my current understanding of authentication for web applications, and the approach I used to implement a basic authentication system I put up on heroku at <a href="http://seshbot.herokuapp.com">http://seshbot.herokuapp.com</a></p>
+
+<p>If you want to see the source code, have a look at <a href="https://github.com/seshbot/new-ember-rails-app">https://github.com/seshbot/new-ember-rails-app</a></p>
+
+<p><em>NOTE: this is very text-heavy because after three full days I decided not to spend too long on this blog post. Therefore there are no images at this time. I may update it later to have some nice UML or screenshots, but that time is not now.</em></p>
+
+<!-- more -->
+
+
+<h2>Learning the basic concepts</h2>
+
+<p>I found a few very detailed introductions to client-side authentication with ember which helped me through all stages of implementation of my system. I highly recommending going through the following resources and comparing the different approaches' overlaps and differences. I also got a lot of value out of re-visiting them after I finished implementing my own solution, because it made me think about some of the trade offs I had made.</p>
+
+<h3>Awesome Client-side Authentication &lsquo;RailsCast&rsquo; videos</h3>
+
+<p><a href="http://www.embercasts.com/">http://www.embercasts.com/</a> covers the client-side concepts of authentication with Ember in <a href="http://www.embercasts.com/episodes/client-side-authentication-part-1">part 1</a> and <a href="http://www.embercasts.com/episodes/client-side-authentication-part-2">part 2</a> of their &lsquo;Client Side Authentication&rsquo; videos. Specifically:</p>
+
+<ul>
+<li>client token authentication concepts</li>
+<li>sending auth request to the server and saving the token (in a &lsquo;login&rsquo; controller)</li>
+<li>setting up controllers</li>
+<li>catching &lsquo;unauthorised&rsquo; error responses and redirecting to login pages</li>
+<li>keeping a sane workflow so the login transitions the user back to their original page</li>
+<li>storing the auth token in local storage so page refresh doesn&rsquo;t reset it <em>(note: I used cookies instead of local storage)</em></li>
+<li>preventing the unauthorized server request if client knows it doesn&rsquo;t yet have a token</li>
+</ul>
+
+
+<p>This doesn&rsquo;t cover the server side, or anything to do with Rails or any other authenticating server specifically &ndash; he used a home-grown demonstration Node.js server for the demonstration. Also doesn&rsquo;t specifically cover authorization (I can see users but can&rsquo;t see their emails for example.) The ember front-end polish in there is all nice though, and I found it very helpful to revisit these videos after I had a basic system in place, in order to add nice error messages and improving the &lsquo;view page/redirect to login/return to page&rsquo; workflow.</p>
+
+<h3>SimpLabs' experience making Ember.SimpleAuth</h3>
+
+<p>SimpLabs wrote a <a href="http://log.simplabs.com/post/57702291669/better-authentication-in-ember-js">blog post</a> detailing their experiences getting ember authentication to work sensibly and according to the various standards.</p>
+
+<p>They wrapped this functionality up in an ember plugin called <a href="https://github.com/simplabs/ember-simple-auth">Ember.SimpleAuth</a> (and wrote about <a href="http://log.simplabs.com/post/63565686488/ember-simpleauth">how to use it</a>). There&rsquo;s even a <a href="https://github.com/ugisozols/ember-simple-auth-rails-demo">demo rails app</a> that uses it.</p>
+
+<h3>The very detailed ember-auth + devise tutorial</h3>
+
+<p>Someone else has written a rails plugin called <a href="https://github.com/heartsentwined/ember-auth-rails">ember-auth</a> that presumably takes care of both sides (rails server and ember client) of the problem. The true value for learning is in the <a href="https://github.com/heartsentwined/ember-auth-rails-demo/wiki">demo application&rsquo;s tutorial</a> however, which covers:</p>
+
+<ul>
+<li>setting up your rails app</li>
+<li>setting up devise for rails</li>
+<li>modeling the server entities and API endpoints</li>
+<li>writing tests for all of the above</li>
+<li>setting up your ember app</li>
+<li>creating front-end UIs for authentication with ember</li>
+</ul>
+
+
+<p>It also has a separate page that goes into <a href="https://github.com/heartsentwined/ember-auth/wiki/Security">security concerns</a> that highlights a few best practices to keep in mind that frameworks will probably not implement for you:</p>
+
+<ul>
+<li>always use https</li>
+<li>authentication checks in the client are a convenience only and should never replace auth validation in the server</li>
+<li>do not use the &lsquo;current user&rsquo; ID when retrieving priveleged resources (i.e., don&rsquo;t use client-provided data when performing authorization related functionality)</li>
+<li>never store any credential information in cookies &ndash; generally just store the server token, which is expendable</li>
+<li>do not rely on the client framework alone to clear caches etc when logging out &ndash; ember data for example doesn&rsquo;t offer a way to clear the data store</li>
+</ul>
+
+
+<h3>A few other side-notes while we&rsquo;re talking theoretical</h3>
+
+<p><a href="https://github.com/kristianmandrup/ember-beercan">ember-beercan</a> seems to explore a different approach that I don&rsquo;t really like, but does have some interesting information on using rails and devise on the server side that I might look at later.</p>
+
+<p>A general concern to keep in mind is that for security reasons if the client-side application is not running on the same url/port as the server application the browser might refuse to let them communicate. In this case apparently you should add Rack::Cors to your app (haven&rsquo;t looked into that yet.)</p>
+
+<p>There is also a lot of discussion around whether the client side should be involved at all in the auth negotiation, and perhaps leaving that up to a separate set of pages served by the server, and the server refuse access to the app at all until that time. This makes the client app much simpler as it can always assume that the user is authenticated (see stack overflow questions <a href="http://stackoverflow.com/questions/19401087/ember-js-how-to-get-access-to-store-from-app-object">how to access store from app object</a>, <a href="http://stackoverflow.com/questions/19414393/ember-js-session-cookie-based-authentication-with-rails-and-devise">session cookie based auth with rails and devise</a>.)</p>
+
+<p>When looking into server-side authentication information I found <a href="http://www.robertsosinski.com/2008/02/23/simple-and-restful-authentication-for-ruby-on-rails/">this description of a simple hand-rolled solution</a> to be quite helpful, because it is quite short and covers only the rails side.</p>
+
+<h2>What we want from an auth system</h2>
+
+<p>A minimal authentication system should provide:</p>
+
+<ul>
+<li><em>create user</em>: an interface for creating users</li>
+<li><em>login user</em>: an interface for authenticating a user based on username or email address and password</li>
+<li>error handling: the interface should provide nice handling for errors (if there&rsquo;s an error message it should be printed nicely)</li>
+<li>allow session to persist for some amount of time so the user doesn&rsquo;t have to log in every time they come back</li>
+</ul>
+
+
+<p>In addition however, we want the system to provide authrisation:</p>
+
+<ul>
+<li>separation of user roles (administrators, regular users, guests/unauthenticated users)</li>
+<li>authorisation of access to server resources &ndash; the server should send a <em>401 unauthorized</em> response to unauthorised requests</li>
+<li>sensible UI workflow for logging in and unauthorised access attempts
+
+<ul>
+<li>when a server responds with a 401 response, the UI should take the user to the login screen</li>
+<li>after login, the user should be returned to a sensible page, possibly based on what they were trying to achieve before being redirected to the login page</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Of course the system has to follow industry practices and where possible use well-established technologies to offload all the dangerous stuff like dealing with passwords and hashing.</p>
+
+<h2>Building an Authenticating app</h2>
+
+<p>I spent a <em>lot</em> of time experimenting with the various options, generally with little success. The executive summary is that most high-level plugins are generally not production ready, or don&rsquo;t work well together with the latest versions of other parts of the architecture. I ended up following a great tutorial on how to hand-roll your own authentication framework in Ember and Rails, using only a single bcrypt Rails gem for the password stuff.</p>
+
+<h3>Failed attempt 1: ember-auth-easy Rails gem</h3>
+
+<p>I was quite hopeful when I found <a href="https://github.com/mharris717/ember-auth-easy">ember-auth-easy</a> which corresponds with <a href="https://github.com/mharris717/ember_auth_rails">ember-auth-rails</a>.</p>
+
+<p>Unfortunately as with so many things in Rails these days, lots of stuff doesn&rsquo;t work with lots of other stuff if you&rsquo;re trying to use the latest versions of things. The devise rails integration was found to be lacking for some reason and there was some mass change involved that broke backwards compatability, and many slightly older gems don&rsquo;t seem to work well anymore. I think it was made to work with Rails 3 as well (I&rsquo;m on Rails 4.)</p>
+
+<p>In addition, there&rsquo;s a whole lot of gems up there and I&rsquo;m starting to get pissed off at having to learn 5 new buzzword-riddled technologies for every one new one I learn.</p>
+
+<p>Before I decided to abandon it I created the following steps (I write it here in case I decide to go back to it later)</p>
+
+<p>```bash
+vim Gemfile</p>
+
+<h1>add the following: # gem &lsquo;ember_auth_rails&rsquo;, :git => git://github.com/seshbot/ember_auth_rails.git</h1>
+
+<h1>gem &lsquo;ember-data-source&rsquo;, &lsquo;>= 1.0.0.beta.3&rsquo;, &lsquo;&lt; 2.0&rsquo; # ember-data not yet out of beta</h1>
+
+<h1>gem &lsquo;emblem-rails&rsquo;, &lsquo;~> 0.1&rsquo; # easier to write templates</h1>
+
+<h1></h1>
+
+<h1>gem &lsquo;ember-auth-rails&rsquo;, &lsquo;~> 5.0&rsquo; # client-side authentication</h1>
+
+<h1>gem &lsquo;ember-auth-request-jquery-rails&rsquo;, &lsquo;~> 1.0&rsquo; # auth requests via jQuery.ajax</h1>
+
+<h1>gem &lsquo;ember-auth-response-json-rails&rsquo;, &lsquo;~> 1.0&rsquo; # responses in json</h1>
+
+<h1>gem &lsquo;ember-auth-strategy-token-rails&rsquo;, &lsquo;~> 1.0&rsquo; # token authentication</h1>
+
+<h1>gem &lsquo;ember-auth-session-cookie-rails&rsquo;, &lsquo;~> 1.0&rsquo; # use cookies</h1>
+
+<h1>gem &lsquo;ember-auth-module-ember_data-rails&rsquo;, &lsquo;~> 1.0&rsquo; # ember-data integration</h1>
+
+<p>#</p>
+
+<h1>gem &lsquo;devise&rsquo;</h1>
+
+<p>vim config/application.rb</p>
+
+<h1>add &ldquo;require &lsquo;devise&rsquo;&rdquo; to bottom</h1>
+
+<p>bundle install # install new gems
+bundle exec rake ember_auth_rails_engine:install:migrations
+rails g devise:install
+bundle exec rake db:migrate</p>
+
+<p>```</p>
+
+<h3>Current Solution: Hand rolled</h3>
+
+<p>I eventually found a great post called <a href="http://coderberry.me/blog/2013/07/08/authentication-with-emberjs-part-1/">authentication with ember.js</a> by a dude who seems to really know what he&rsquo;s talking about. It seems to be a culmination of several weeks of work, and a collaboration with a few other developers. It also includes a link to <a href="https://github.com/rails-api/rails-api">Rails::API</a>, which I really want to use in the future.</p>
+
+<p>The Rails server in the tutorial provides an API that allows creation of a new user, authenticates a user/password combination, and provides admin information to authenticated users. The rails implementation code consists of:</p>
+
+<ul>
+<li>router exposes a <em>user</em> resource (for creation and reading) and a <em>session creation</em> post route</li>
+<li><code>user</code> model is composed of multiple <code>api-key</code>s &ndash; when the model is loaded, it will create a new api-key if there are no remaining active session keys
+
+<ul>
+<li>the <code>user</code> model also invokes the <a href="http://api.rubyonrails.org/classes/ActiveModel/SecurePassword/ClassMethods.html#method-i-has_secure_password">has_secure_password</a> security method that provides an <em>authenticate</em> method (this is built into the Rails framework and uses the bcrypt gem)</li>
+</ul>
+</li>
+<li><code>api-key</code> model is composed of an <em>access token</em> and an <em>exipiry time</em></li>
+<li>all controllers have access to an <em>ensure_authenticated_user</em> function that searches for an active API session key that is associated with the current <em>HTTP_AUTHORIZATION</em> HTTP header</li>
+<li>the <code>user</code> controller allows an unauthenticated client to show or create a new user record, but requires an authenticated session to show all users</li>
+<li>the <code>session</code> controller (invoked via HTTP <em>post</em> from the <em>session creation</em> route) provides <em>login</em> functionality (session creation)
+
+<ul>
+<li>first it looks up a <code>user</code> associated with the given username or email</li>
+<li>it then invokes the user object&rsquo;s <em>authenticate</em> method with the given password</li>
+<li>if either of these steps fail a HTTP 401 response is returned, otherwise a 201 response with the user&rsquo;s <em>session API key</em></li>
+</ul>
+</li>
+</ul>
+
+
+<p>In the implementation provided in this system, the notion of a <em>session</em> is not actually stored anywhere in the server &ndash; it is merely an access point to a secure token associated with an <code>api-key</code> the user has (a new <code>api-key</code> is created if the session creation request is valid but no current active session key is available.)</p>
+
+<p>An interesting thing I noticed while re-reading the <a href="http://log.simplabs.com/post/57702291669/better-authentication-in-ember-js">SimpLabs blog post</a> I mentioned previously is that this scheme does not allow a user to delete their <em>access token</em> from the server at all. Logging out just means clearing the token cookie &ndash; if the user re-authenticates the server will just dish them out the same token. If I extended the logout action to clear the token from the server however, all of the user&rsquo;s sessions would become invalidated, so I&rsquo;d have to change the scheme to create new access tokens for every separate login. I&rsquo;ll leave it as is for now and have a think about it.</p>
+
+<p>As with all other ember things, the instructions were written with a prior version of ember and so don&rsquo;t work anymore. I had a bit of fun getting it working but a couple of things to keep in mind:</p>
+
+<ul>
+<li>use latest version of bcrypt</li>
+<li>use &lsquo;jquery-cookie-rails&rsquo; gem</li>
+<li>demo uses the <a href="https://github.com/rails-api/rails-api">Rails::API</a> gem instead of creating a whole Rails application with views etc. Because I previously used the <em>ember-rails</em> gem I didn&rsquo;t do this</li>
+<li>retrieving data from the store is done differently now &ndash; see the ember docs</li>
+<li>accessing the store from anything other than a router can be difficult. I get it with this hackery: <code>var store = GameTableServer.__container__.lookup('store:main')</code> (see <a href="http://stackoverflow.com/questions/19401087/ember-js-how-to-get-access-to-store-from-app-object">http://stackoverflow.com/questions/19401087/ember-js-how-to-get-access-to-store-from-app-object</a>)
+
+<ul>
+<li>TRICK! another problem &ndash; store returns an async promise, so you need to wait for that! god dammit. <code>var self = this; store.get(...).then(function(user) { self.set('apiKey', ...)})</code></li>
+</ul>
+</li>
+<li>if something doesn&rsquo;t seem to be working, keep an eye on your browser&rsquo;s javascript console, net traffic and your rails logs (in heroku you can do this with <code>heroku logs</code> or something)</li>
+</ul>
+
+
+<p>You can have a look at the app as it currently stands (as of Jan 2014) on <a href="http://seshbot.herokuapp.com">seshbot.herokuapp.com</a>. If you&rsquo;re reading this much after Jan 2014 however it probably wont be there any longer.</p>
+
+<h3>Alternative: Use &lsquo;devise&rsquo; gem directly</h3>
+
+<p><a href="https://github.com/plataformatec/devise">Devise</a> seems like a very mature and comprehensive rails &lsquo;authentication solution&rsquo; that seems to handle a lot of authentication related problems out of the box in a very configurable way. It takes care of a lot of stuff like sending password reset emails, locking accounts after failed validations, connecting to various auth providers, and lots of other stuff. I will probably end up moving towards it if I ever make an app that warrants that kind of thoroughness.</p>
+
+<p>I found a pretty useful comment on stack overflow that <a href="http://stackoverflow.com/questions/16513066/devise-with-rails-4">details how to get it running quickly with Rails 4</a> &ndash; not sure if thats more useful than the docs.</p>
+
+<p>I started following <a href="https://github.com/heartsentwined/ember-auth-rails-demo/wiki">this very detailed tutorial</a> on using rails + ember + devise and found it very useful. Again, I couldn&rsquo;t get things working well together and had to abandon it. If I were to revisit I might also consider following these <a href="http://avitevet.blogspot.com.es/2012/11/ember-rails-devise-token-authentication.html">very detailed instructions on devise + ember</a>.</p>
+
+<h3>Alternative: Use SimpleAuth for client-side stuff</h3>
+
+<p>SimpLabs' <a href="https://github.com/simplabs/ember-simple-auth">SimpleAuth</a> (discussed in <a href="http://log.simplabs.com/post/63565686488/ember-simpleauth">this SimpLabs blog</a> and mentioned previously in this post) looks pretty cool, and is recently very active. It is still v0.1.0 so I&rsquo;d prefer to keep away from it for now, but if I wanted OAuth integration (to have a &lsquo;login with Facebook&rsquo; or whatever) I might look into using this for the client-side code.</p>
+
+<h2>My current conclusion</h2>
+
+<p>It is laughable that Ember and Rails are in such states of flux that it was easier to hand-roll a solution (although based on a very detailed set of instructions!) than it was to use existing gems and plugins. I hope that changes in the future.</p>
+
+<p>If I ever decide I want a more complex auth solution using rails and ember, I&rsquo;d probably look at using devise for the Rails side and SimpleAuth for the ember side. I would expect a lot of heart-ache along the way though.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Creating and deploying a Rails + Ember app]]></title>
@@ -242,6 +474,8 @@ heroku run rake db:migrate
 </code></p>
 
 <p><code>heroku config</code> sets environment variables for things you don&rsquo;t want to commit to git (e.g., passwords). Configure your Rails apps to use <code>ENV['MY_VAR']</code> instead of your super secret key, then run <code>heroku config:add MY_VAR=blahblah</code>.</p>
+
+<p>There are also various <code>heroku pg:</code> commands for updating the application database. The application itself doesn&rsquo;t have full admin access to the database so you can&rsquo;t for example write <code>heroku run rake db:drop</code>. Instead you should run <code>heroku pg:reset</code> if you want to clear the database.</p>
 ]]></content>
   </entry>
   

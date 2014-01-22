@@ -373,6 +373,8 @@ $(document).ready(
 
 
 <p><code>heroku config</code> sets environment variables for things you don&rsquo;t want to commit to git (e.g., passwords). Configure your Rails apps to use <code>ENV['MY_VAR']</code> instead of your super secret key, then run <code>heroku config:add MY_VAR=blahblah</code>.</p>
+
+<p>There are also various <code>heroku pg:</code> commands for updating the application database. The application itself doesn&rsquo;t have full admin access to the database so you can&rsquo;t for example write <code>heroku run rake db:drop</code>. Instead you should run <code>heroku pg:reset</code> if you want to clear the database.</p>
 </div>
 
 
