@@ -4,7 +4,7 @@
   <title><![CDATA[Category: HowTo | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/howto/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-22T11:08:12+09:00</updated>
+  <updated>2014-01-22T11:32:02+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -25,6 +25,8 @@
 <p>This post describes my current understanding of authentication for web applications, and the approach I used to implement a basic authentication system I put up on heroku at <a href="http://seshbot.herokuapp.com">http://seshbot.herokuapp.com</a></p>
 
 <p>If you want to see the source code, have a look at <a href="https://github.com/seshbot/new-ember-rails-app">https://github.com/seshbot/new-ember-rails-app</a></p>
+
+<p><img class="center" src="/images/upload/2014-01-22-seshbot-login.png" title="&ldquo;Oh jeez I already forgot my password&rdquo;" ></p>
 
 <p><em>NOTE: this is very text-heavy because after three full days I decided not to spend too long on this blog post. Therefore there are no images at this time. I may update it later to have some nice UML or screenshots, but that time is not now.</em></p>
 
