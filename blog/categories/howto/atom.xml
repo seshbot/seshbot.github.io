@@ -4,7 +4,7 @@
   <title><![CDATA[Category: HowTo | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/howto/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-01-24T09:08:39+09:00</updated>
+  <updated>2014-01-24T09:10:34+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -50,7 +50,7 @@
 
 <p>Surround your pullquote like this {" text to be quoted "}</p>
 
-<p>Once the candidate has explained the project, the interviewer can then challenge the details of that project as a way of testing the candidate&rsquo;s knowledge of that system and the reasoning behind it&rsquo;s design. The types of question would vary depending on the workplace, but at my last job for example I probably would have asked:</p>
+<p>Once the candidate has explained the project, the interviewer can then challenge the details of that project as a way of testing the candidate&rsquo;s knowledge of that system and the reasoning behind its design. The types of question would vary depending on the workplace, but at my last job for example I probably would have asked:</p>
 
 <ul>
 <li><em>architecture:</em> please outline for me (ideally on a whiteboard or paper) how the whole system hangs together. I might expect the candidate to talk about the systems involved, data flows, security considerations, or data storage and integrity for example.</li>
