@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-02-03T09:35:15+09:00</updated>
+  <updated>2014-02-03T09:40:38+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -35,7 +35,7 @@
 
 <p>HTTP, HTML, JavaScript and CSS have been around for a while now, so why have all the useful standards for building proper web applications (like WebGL, WebSockets, local storage, drag-and-drop and all those other HTML5 goodies) only started coming along recently?</p>
 
-<p>It turns out that for a long time web standards were committee-driven by a group called W3C. I still recall fairly recent times when the latest advances in the web were all about creating HTML that was also standards-conforming XML for some reason (so that perhaps machines could deal with it more easily or something?) and very little practical advancement was being made.</p>
+<p>It turns out that for a long time web standards were committee-driven by a group of beard-stroking high-falutin non-visionaries called W3C. I still recall fairly recent times when the latest advances in the web were all about creating HTML that was also standards-conforming XML for some reason (so that perhaps machines could deal with it more easily or something?) and very little practical advancement was being made. (Side note: the same thing seems to be happening with OAuth, which is a morass of unproven ideas and conflicting ideals.)</p>
 
 <p>At some stage however another working group arose called <a href="http://en.wikipedia.org/wiki/WHATWG">WHATWG</a>, formed of people that were actually interested in pushing practical new technologies onto the web, and they pretty much ignored the W3C&rsquo;s direction.</p>
 
