@@ -1,0 +1,9 @@
+#!/bin/bash
+
+UNPUBLISHED=`egrep "published:.*false" source/_posts/* | cut -f1 -d:`
+(echo "FILE:SIZE"
+for F in $UNPUBLISHED; do
+   SIZE=`cat $F | wc -l | tr -d ' '`
+   echo "$F:$SIZE"
+done) | column -t -s :
+

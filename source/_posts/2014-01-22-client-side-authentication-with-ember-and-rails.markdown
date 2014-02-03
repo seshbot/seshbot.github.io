@@ -9,6 +9,8 @@ description: client-side authentication using ember.js and rails
 keywords: "authentication, ember.js, rails, ruby, devise"
 ---
 
+_This post follows on from the previous post [creating and deploying a rails + ember app from scratch](/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch/). In that post I created a basic ember application being served from rails. Here I'll be adding user authentication to the application I created using the 'edge template' option I discussed, which uses the 'ember-rails' gem to establish the basic connectivity._
+
 I do not want to implement authentication and authorization myself. It is tricky to get right and tends to cause huge damage when it goes wrong in production. 
 
 So I have spent at least three full days looking at various solutions I can build into my simple Ember/Rails application and spent a lot of time experimenting.
@@ -27,7 +29,7 @@ _NOTE: this is very text-heavy because after three full days I decided not to sp
 
 I found a few very detailed introductions to client-side authentication with ember which helped me through all stages of implementation of my system. I highly recommending going through the following resources and comparing the different approaches' overlaps and differences. I also got a lot of value out of re-visiting them after I finished implementing my own solution, because it made me think about some of the trade offs I had made.
 
-### Awesome Client-side Authentication 'RailsCast' videos
+### Watch these awesome client-side suthentication videos
 
 http://www.embercasts.com/ covers the client-side concepts of authentication with Ember in [part 1](http://www.embercasts.com/episodes/client-side-authentication-part-1) and [part 2](http://www.embercasts.com/episodes/client-side-authentication-part-2) of their 'Client Side Authentication' videos. Specifically:
 
@@ -41,13 +43,13 @@ http://www.embercasts.com/ covers the client-side concepts of authentication wit
 
 This doesn't cover the server side, or anything to do with Rails or any other authenticating server specifically - he used a home-grown demonstration Node.js server for the demonstration. Also doesn't specifically cover authorization (I can see users but can't see their emails for example.) The ember front-end polish in there is all nice though, and I found it very helpful to revisit these videos after I had a basic system in place, in order to add nice error messages and improving the 'view page/redirect to login/return to page' workflow.
 
-### SimpLabs' experience making Ember.SimpleAuth
+### Read about SimpLabs' experience making Ember.SimpleAuth
 
 SimpLabs wrote a [blog post](http://log.simplabs.com/post/57702291669/better-authentication-in-ember-js) detailing their experiences getting ember authentication to work sensibly and according to the various standards.
 
 They wrapped this functionality up in an ember plugin called [Ember.SimpleAuth](https://github.com/simplabs/ember-simple-auth) (and wrote about [how to use it](http://log.simplabs.com/post/63565686488/ember-simpleauth)). There's even a [demo rails app](https://github.com/ugisozols/ember-simple-auth-rails-demo) that uses it.
 
-### The very detailed ember-auth + devise tutorial
+### Follow the very detailed ember-auth + devise tutorial
 
 Someone else has written a rails plugin called [ember-auth](https://github.com/heartsentwined/ember-auth-rails) that presumably takes care of both sides (rails server and ember client) of the problem. The true value for learning is in the [demo application's tutorial](https://github.com/heartsentwined/ember-auth-rails-demo/wiki) however, which covers:
 
@@ -101,7 +103,7 @@ I spent a _lot_ of time experimenting with the various options, generally with l
 
 ### Failed attempt 1: ember-auth-easy Rails gem
 
-I was quite hopeful when I found [ember-auth-easy](https://github.com/mharris717/ember-auth-easy) which corresponds with [ember-auth-rails](https://github.com/mharris717/ember_auth_rails). 
+I was quite hopeful when I found [ember-auth-easy](https://github.com/mharris717/ember-auth-easy) which was made to work with [ember-auth-rails](https://github.com/mharris717/ember_auth_rails) to provide a full Rails backend/Ember frontend token based authentication solution.
 
 Unfortunately as with so many things in Rails these days, lots of stuff doesn't work with lots of other stuff if you're trying to use the latest versions of things. The devise rails integration was found to be lacking for some reason and there was some mass change involved that broke backwards compatability, and many slightly older gems don't seem to work well anymore. I think it was made to work with Rails 3 as well (I'm on Rails 4.)
 
@@ -109,7 +111,7 @@ In addition, there's a whole lot of gems up there and I'm starting to get pissed
 
 Before I decided to abandon it I created the following steps (I write it here in case I decide to go back to it later)
 
-```bash
+```bash Rails Trying to install ember-auth-rails on Rails
 vim Gemfile
 # add the following: # gem 'ember_auth_rails', :git => git://github.com/seshbot/ember_auth_rails.git
 # gem 'ember-data-source', '>= 1.0.0.beta.3', '< 2.0' # ember-data not yet out of beta
@@ -134,7 +136,7 @@ bundle exec rake db:migrate
 
 ```
 
-### Current Solution: Hand rolled
+### So I hand-rolled my solution
 
 I eventually found a great post called [authentication with ember.js](http://coderberry.me/blog/2013/07/08/authentication-with-emberjs-part-1/) by a dude who seems to really know what he's talking about. It seems to be a culmination of several weeks of work, and a collaboration with a few other developers. It also includes a link to [Rails::API](https://github.com/rails-api/rails-api), which I really want to use in the future.
 
