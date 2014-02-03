@@ -1,30 +1,108 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: WeekInReview | Seshbot Programs]]></title>
-  <link href="http://seshbot.com/blog/categories/weekinreview/atom.xml" rel="self"/>
-  <link href="http://seshbot.com/"/>
-  <updated>2014-02-03T09:30:51+09:00</updated>
-  <id>http://seshbot.com/</id>
-  <author>
-    <name><![CDATA[Paul Cechner]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>Week in Review: Pausing Web App, Starting C++ App  | Seshbot Programs</title>
 
-  
-  <entry>
-    <title type="html"><![CDATA[Week in Review: Pausing Web App, Starting C++ App]]></title>
-    <link href="http://seshbot.com/blog/2014/02/03/week-in-review-pausing-web-app/"/>
-    <updated>2014-02-03T07:52:52+09:00</updated>
-    <id>http://seshbot.com/blog/2014/02/03/week-in-review-pausing-web-app</id>
-    <content type="html"><![CDATA[<p>Just over a week ago I decided to put down my web tools for a while and move to working in an environment in which I&rsquo;m much more comfortable &ndash; C++. I will definitely pick up the &lsquo;Table Top&rsquo; app (or whatever it turns into) again soon but I felt the need to do work that resulted in a more <em>tangible</em> product.</p>
+<meta name="author" content="Paul Cechner"> 
+
+<meta name="description" content="Just over a week ago I decided to put down my web tools for a while and move to working in an environment in which I&rsquo;m much more comfortable & &hellip;"> <meta name="keywords" content="Ember,Rails,C++,Web">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Seshbot Programs" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Seshbot Programs</a></h1>
+<h4>...and makes software</h4>
+<nav id="main-nav"><ul>
+	<li><a href="/">Blog</a></li>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archive</a></li>
+   <li class="subscription"><a title="subscribe via RSS" rel="subscribe-rss" href="/atom.xml">RSS</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/">Blog</a></li>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archive</a></li>
+   <li class="subscription"><a title="subscribe via RSS" rel="subscribe-rss" href="/atom.xml">RSS</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:seshbot.com">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Week in Review: Pausing Web App, Starting C++ App</h2>
+	<div class="entry-content"><p>Just over a week ago I decided to put down my web tools for a while and move to working in an environment in which I&rsquo;m much more comfortable &ndash; C++. I will definitely pick up the &lsquo;Table Top&rsquo; app (or whatever it turns into) again soon but I felt the need to do work that resulted in a more <em>tangible</em> product.</p>
 
 <p>Over the last few weeks I&rsquo;ve had a growing realisation that the foundation of web programming is still immature, and I am doubting the value in investing too much time learning the high-level technologies. I am not really one for learning frameworks in general actually &ndash; I much prefer learning languages and idioms &ndash; and modern web programming is all about rapidly changing high-level frameworks.</p>
 
 <p>That said however, I feel that I&rsquo;m finally at a point where I can start making useful stuff in Ember and Rails without feeling like I&rsquo;m misusing the tools or spending most of my time in Google. So last week I knocked off a few high-level features in my app to show the basic scaffolding I was considering (it only took a few hours in the end!), and then set it aside.</p>
 
-<p><img class="center" src="/images/upload/2014-02-03-seshbot-framework.png" title="&ldquo;Game Table App as of Feb 2013 &ndash; still doesn&rsquo;t do much&rdquo;" ></p>
+<p><img class="center" src="/images/upload/2014-02-03-seshbot-framework.png" title="&#34;Game Table App as of Feb 2013 - still doesn't do much&#34;" alt="&#34;Game Table App as of Feb 2013 - still doesn't do much&#34;"></p>
 
 <p>There is a very duct-tape and chicken-wire feel to web technologies, but once you&rsquo;re familiar with the tech you can pump stuff out pretty quickly. Because of the immediate and ethereal nature of the web it can be a fantastic way of creating a product that is immediately globally available. All of the magic we see however is still largely built with duct tape and chewing gum. The web as a platform for applications is still unbaked and young, and I feel that unless you&rsquo;re forging new territory on the frontier you&rsquo;re probably working with technologies that won&rsquo;t be interesting in a few years time.</p>
 
@@ -69,7 +147,7 @@
 
 <p>So I spent a few days writing a basic app in <a href="https://qt-project.org/wiki/Category:Tools::QtCreator">QT Creator</a> using <a href="http://www.cmake.org/">CMake</a> as the build system. There were a few hurdles but it didn&rsquo;t take long to get up and running. Because I&rsquo;m limiting myself to core C++, boost and a couple of cross-platform libraries (<a href="http://www.sfml-dev.org/">SFML</a> for graphics and <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a> for linear algebra stuff) it&rsquo;s still pretty versatile. And because I&rsquo;m using CMake I&rsquo;ll be able to use Visual Studio to develop in Windows and QT Creator or XCode or whatever I want in OSX. I&rsquo;ll try to stick with QT Creator where possible though for consistency.</p>
 
-<p><img class="center" src="/images/upload/2014-02-03-qtcreator.png" title="&ldquo;QT Creator actually looks pretty nice&rdquo;" ></p>
+<p><img class="center" src="/images/upload/2014-02-03-qtcreator.png" title="&#34;QT Creator actually looks pretty nice&#34;" alt="&#34;QT Creator actually looks pretty nice&#34;"></p>
 
 <p>I am a bit worried about Windows compatability &ndash; Visual C++ has always lagged behind in standards conformance, but they have picked up their pace somewhat in the recent future. I am avoiding some of the more esoteric stuff however, such as variadic templates, because of VC++.</p>
 
@@ -84,77 +162,103 @@
 <p>I have about 3 unpublished posts on my experience over the last few weeks &ndash; I&rsquo;ll probably put them together under one post about Ember development, but not for a little while now I&rsquo;m guessing.</p>
 
 <p>I am much more certain of my opinion on C++ related matters, so I imagine that there will be a few long rants in that general direction coming up.</p>
-]]></content>
-  </entry>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
   
-  <entry>
-    <title type="html"><![CDATA[This week in review: my game table web app]]></title>
-    <link href="http://seshbot.com/blog/2014/01/11/this-week-in-review-the-game-table-web-app/"/>
-    <updated>2014-01-11T11:19:08+09:00</updated>
-    <id>http://seshbot.com/blog/2014/01/11/this-week-in-review-the-game-table-web-app</id>
-    <content type="html"><![CDATA[<p>First here&rsquo;s a quick summary of what I got up to:</p>
-
-<ol>
-<li>trying to build a simple &lsquo;gaming table&rsquo; application in Ember.js,</li>
-<li>styling with Twitter bootstrap,</li>
-<li>messing with plugins in my blog (trying unsuccessfully to fix code highlighting, and adding a UML tool &ndash; see below)</li>
-</ol>
 
 
-<p><center><img src='/images/plantuml/00178544eeee1acd089c0ec4883b3611.png'></center></p>
+<time datetime="2014-02-03T07:52:52+09:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2014</time></div>
+	
 
-<p>I spent most of my time learning about Ember. <a href="http://emberjs.com">Ember.js</a> is a very nice looking front-end MVC framework that has a very appealing <a href="http://emberjs.com/guides/">getting started guide</a> that make it look <em>super simple</em> to create a reactive application. Three things that people will not tell you however:</p>
+<div class="tags">
 
-<ul>
-<li>demo videos only ever show the main usage scenario of that framework</li>
-<li>most new frameworks change so often that they&rsquo;re either unstable or very little up-to-date documentation exists, and</li>
-<li>many of the benefits they offer you probably won&rsquo;t end up using anyway, for various reasons</li>
-</ul>
+	<a class='category' href='/blog/categories/c-plus-plus/'>C++</a>, <a class='category' href='/blog/categories/ember/'>Ember</a>, <a class='category' href='/blog/categories/weekinreview/'>WeekInReview</a>
 
-
-<p>For now though I&rsquo;ll go ahead with it because I feel that I&rsquo;m just about to start doing cool stuff in it (it kinda always feels like this though.)</p>
-
-<p><strong>Next week</strong> I&rsquo;m thinking of switching back to some C++ stuff so I can dabble in a realm I&rsquo;m more comfortable with for a while&hellip; Monday is a public holiday in Japan though so I&rsquo;ll probably be wandering around and not programming much.</p>
-
-<!-- more -->
+</div>
 
 
-<h3>Problem 1: binding non-nested components was difficult</h3>
+	
+		<span class="comments"><a href="/blog/2014/02/03/week-in-review-pausing-web-app/#disqus_thread">Comments</a></span>
+	
+</div></article>
 
-<p>I figured I would devote my first day last week to creating the framework for a small Gaming Table application. Perhaps just start off with a quick chat client or sketching app. I was not accounting however for the vagaries of modern web application development, and I ended up messing around with stupid little problems for most of the week. Looking back I feel it was quite frustrating overall &ndash; it seems that many of these new techs do not quite work as advertised, if at all.</p>
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
 
-<p>Most tutorials and documentation will usually only tell you about one way to make an ember app &ndash; showing the details of a single entity or collection of entities of the same type at a time. Perhaps it might be some blogging application that lets you dig down into various blog entries, or perhaps it will involve showing all the tweets from a particular tweeter. Whatever the demo, I&rsquo;m sure it will show you how to explore <em>a single concept</em>.</p>
 
-<p>The first thing I wanted to do was to show your online friends on the left side and allow you to create or enter an existing chat room. I immediately got stuck on a stupid little problem however that I stubbornly refused to get past, leading to several wasted days.</p>
 
-<p>My specific problem was <em>how can I make the nav bar show the name of the current gaming table (kind of like a chat room), but show some placeholder message if I&rsquo;m not in a room</em>. The problem being that the region dedicated to showing information about the current table (players, cards etc) is not a descendent hierarchically of the nav bar.</p>
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
 
-<p><center><img src='/images/plantuml/09385b523a9258b9f2b64d6596a93d8e.png'></center></p>
+    Paul Cechner
 
-<p>Long story short, the correct way seems to involve: 1) modifying the &lsquo;Nav Bar&rsquo; controller to add a dependency to the &lsquo;Game Table&rsquo; controller; 2) add to the Nav Bar controller an alias or dynamic property pointing to the Game Table controller (this is conceptually the last table loaded); and 3) creating another dynamic property in the Nav Bar controller that is updated whenever <code>currentPath</code> is updated, and returns <code>null</code> if the route (<code>currentRouteName</code>) is no longer a table.</p>
+<br>
+Powered by Octopress.
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
 
-<p>This might make sense, but it was a pain in the ass to discover. (Side note: I&rsquo;m working on a general &lsquo;getting to know Ember.js&rsquo; post that goes into a lot more detail on this so others tackling the same problem might not have to spend as long as I spent on it.)</p>
 
-<p>Surround your pullquote like this {" text to be quoted "}</p>
+<script type="text/javascript">
+      var disqus_shortname = 'seshbot';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://seshbot.com/blog/2014/02/03/week-in-review-pausing-web-app/';
+        var disqus_url = 'http://seshbot.com/blog/2014/02/03/week-in-review-pausing-web-app/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
-<p>I&rsquo;m concerned that the Ember docs might not cover enough real world scenarios that &lsquo;proper&rsquo; applications might encounter (e.g., several regions dedicated to different information.)</p>
 
-<h3>Live Help in IRC! 1980&rsquo;s tech to the rescue</h3>
 
-<p>The IRC channel is pretty awesome &ndash; the #emberjs channel of freenode.org is one of the most populated channels on the server, and I&rsquo;ve saved a lot of time by asking for help there.</p>
+   <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-<p>I spent a long time digging through documentation on how to solve this problem before I turned to IRC. Then within 10 minutes I had someone giving me meaningful advice that I ended up using. The secret was that I went in there with a minimalistic example of my problem that they could mark up and fix for me. <a href="http://jsbin.com/UzaFUZE/1/edit?html,js,output">Here&rsquo;s</a> the code I gave them and <a href="http://jsbin.com/UzaFUZE/4/edit?html,js,output">here&rsquo;s</a> what they gave me.</p>
+      ga('create', 'UA-46903701-1', 'seshbot.com');
+      ga('send', 'pageview');
 
-<h3>Hosting a backend</h3>
+   </script>
 
-<p>I have been mainly concentrating on the front end functionality so far, so didn&rsquo;t want to spend too long messing around with the server side. I had originally decided that I&rsquo;d learn some rails, but decided to try out a &lsquo;no backend&rsquo; solution &ndash; in this case <a href="http://deployd.com">deployd</a>. The two criteria I was after were a simple REST API and some kind of authentication, both of which deployd ostensibly offers. There were a few hiccups though.</p>
 
-<p>The first was that deployd is still actively being developed, so the web UI isn&rsquo;t totally intuative. I won&rsquo;t go too far into it but it has been a hassle.</p>
 
-<p>The next problem is that although both Ember and Deployd declare that they speak standard REST JSON language, it turns out they don&rsquo;t agree on how that language should look. I had to mess around a fair amount and ask around on IRC before discovering that you need to apply your own serializer, that intercepts all remote data transfers and allows you to &lsquo;munge&rsquo; it a little into a format that Ember is happy with.</p>
-
-<p>Again, I&rsquo;ll include the details of all this in a post dedicated to Ember later.</p>
-]]></content>
-  </entry>
-  
-</feed>
+</body>
+</html>
