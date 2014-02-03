@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ember | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/ember/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-02-03T09:30:51+09:00</updated>
+  <updated>2014-02-03T09:35:15+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -26,7 +26,7 @@
 
 <p><img class="center" src="/images/upload/2014-02-03-seshbot-framework.png" title="&ldquo;Game Table App as of Feb 2013 &ndash; still doesn&rsquo;t do much&rdquo;" ></p>
 
-<p>There is a very duct-tape and chicken-wire feel to web technologies, but once you&rsquo;re familiar with the tech you can pump stuff out pretty quickly. Because of the immediate and ethereal nature of the web it can be a fantastic way of creating a product that is immediately globally available. All of the magic we see however is still largely built with duct tape and chewing gum. The web as a platform for applications is still unbaked and young, and I feel that unless you&rsquo;re forging new territory on the frontier you&rsquo;re probably working with technologies that won&rsquo;t be interesting in a few years time.</p>
+<p>There is a very duct-tape and chicken-wire feel to web technologies, but once you&rsquo;re familiar with the tech you can pump stuff out pretty quickly. Because of the immediate and ethereal nature of the web it can be a fantastic way of creating a product that is immediately globally available. All of the magic we see however is still largely magic however, and magic doesn&rsquo;t bode well in any application. The web as a platform for applications is still unbaked and young, and I feel that unless you&rsquo;re forging new territory on the frontier you&rsquo;re probably working with technologies that won&rsquo;t be interesting in a few years time.</p>
 
 <!-- more -->
 
