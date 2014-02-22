@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Game | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/game/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-02-22T13:27:05+09:00</updated>
+  <updated>2014-02-22T16:06:55+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -38,9 +38,9 @@ geo-spatial partitioning to ensure location-based entity lookups and collision d
 
 <h3>Modularity and the basic framework</h3>
 
-<p>I intend to write a separate article on this, but I actually spent a lot of time trying to bring some of the nicer IOC container abstractions I&rsquo;ve grown used to in .Net and Java to my C++ environment. This largely involves run-time type identification (RTTI) which is often considered anathema in C++, but I am confident that it is a good direction to go in, provided it is used judiciously.</p>
+<p>I intend to write a separate article on this, but first a quick rundown on my PCX library. I actually spent a lot of time trying to bring some of the nicer IOC container abstractions I&rsquo;ve grown used to in .Net and Java to my C++ environment. Breaking an application up into abstract services is a great way to ensure minimal coupling and well designed boundaries around modules of code. This usually involves a lot of reflection in newer languages. My solution in C++ involves run-time type identification (RTTI) which is generally considered anathema in C++, but it can facilitate the creation of libraries that deal in terms of interdependent types, and have nothing to do with the functionality of those types per se.</p>
 
-<p>I decided on four core high-level abstractions:</p>
+<p>I decided on these core high-level abstractions:</p>
 
 <ul>
 <li><em>services</em> are the core contracts that different sections of code use to communicate with each other. If you want to work with the weather, get yourself a hold of the weather service</li>
