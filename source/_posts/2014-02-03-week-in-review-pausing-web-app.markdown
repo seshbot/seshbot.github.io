@@ -13,9 +13,9 @@ Over the last few weeks I've had a growing realisation that the foundation of we
 
 That said however, I feel that I'm finally at a point where I can start making useful stuff in Ember and Rails without feeling like I'm misusing the tools or spending most of my time in Google. So last week I knocked off a few high-level features in my app to show the basic scaffolding I was considering (it only took a few hours in the end!), and then set it aside. 
 
-{% img center /images/upload/2014-02-03-seshbot-framework.png "Game Table App as of Feb 2013 - still doesn't do much" %}
+{% img center /images/upload/2014-02-03-seshbot-framework.png "Game Table App as of Feb 2014 - still doesn't do much" %}
 
-There is a very duct-tape and chicken-wire feel to web technologies, but once you're familiar with the tech you can pump stuff out pretty quickly. Because of the immediate and ethereal nature of the web it can be a fantastic way of creating a product that is immediately globally available. All of the magic we see however is still largely built with duct tape and chewing gum. The web as a platform for applications is still unbaked and young, and I feel that unless you're forging new territory on the frontier you're probably working with technologies that won't be interesting in a few years time.
+There is a very duct-tape and chicken-wire feel to web technologies, but once you're familiar with the tech you can pump stuff out pretty quickly. Because of the immediate and ethereal nature of the web it can be a fantastic way of creating a product that is immediately globally available. All of the magic we see however is still largely magic however, and magic doesn't bode well in any application. The web as a platform for applications is still unbaked and young, and I feel that unless you're forging new territory on the frontier you're probably working with technologies that won't be interesting in a few years time.
 
 <!-- more -->
 
@@ -23,7 +23,7 @@ There is a very duct-tape and chicken-wire feel to web technologies, but once yo
 
 HTTP, HTML, JavaScript and CSS have been around for a while now, so why have all the useful standards for building proper web applications (like WebGL, WebSockets, local storage, drag-and-drop and all those other HTML5 goodies) only started coming along recently?
 
-It turns out that for a long time web standards were committee-driven by a group called W3C. I still recall fairly recent times when the latest advances in the web were all about creating HTML that was also standards-conforming XML for some reason (so that perhaps machines could deal with it more easily or something?) and very little practical advancement was being made.
+It turns out that for a long time web standards were committee-driven by a group of beard-stroking high-falutin non-visionaries called W3C. I still recall fairly recent times when the latest advances in the web were all about creating HTML that was also standards-conforming XML for some reason (so that perhaps machines could deal with it more easily or something?) and very little practical advancement was being made. (Side note: the same thing seems to be happening with OAuth, which is a morass of unproven ideas and conflicting ideals.)
 
 At some stage however another working group arose called [WHATWG](http://en.wikipedia.org/wiki/WHATWG), formed of people that were actually interested in pushing practical new technologies onto the web, and they pretty much ignored the W3C's direction. 
 

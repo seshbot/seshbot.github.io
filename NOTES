@@ -1,3 +1,12 @@
+
+
+
+Day-to-day C++11 stuff
+
+uniform initialisation, auto, for, inline member initialisation, 
+
+
+
 THE TEMPTING PIT OF DESPAIR: NEW TECHNOLOGIES
 
 even once you learn rails, you probably have to learn the idiosyncracies of each major version...
@@ -58,9 +67,14 @@ App.ArticlesRoute = Ember.Route.extend({
 });
 
 
+javascript demo base:
+http://codepen.io/thomcc/pen/gzbjF
+
 
 
 RAILS NOTES:
+
+use engines? https://news.ycombinator.com/item?id=7225447
 
 has_many :players, :dependent => :destroy
 
