@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-02-22T13:14:17+09:00</updated>
+  <updated>2014-02-22T13:27:05+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -19,6 +19,8 @@
     <updated>2014-02-22T10:35:00+09:00</updated>
     <id>http://seshbot.com/blog/2014/02/22/week-in-review-making-games</id>
     <content type="html"><![CDATA[<p>I have once again bitten off a whole lot &ndash; I started making a game based on my fairly limited knowledge of how such things are done, and have found it very difficult to take a moment to distill my thoughts. In fact it has been nearly impossible as I have been constantly unsure of whether the approach I&rsquo;m taking is actually going to pay off in the long run!</p>
+
+<p>This is just a catch-up on my experiences over the last few weeks, a few discoveries and surprises, and perhaps my plans for the immediate future. I decided at the last moment to include a screenshot here, but I&rsquo;m sure we&rsquo;ve all seen brown circles on green backgrounds before&hellip;</p>
 
 <p><img src="http://seshbot.com/images/upload/2014-02-22-game-screenshot.png" title="&#34;This is a 100m section of a 10km world&#34;" alt="&#34;This is a 100m section of a 10km world&#34;"></p>
 
@@ -48,6 +50,9 @@ geo-spatial partitioning to ensure location-based entity lookups and collision d
 </ul>
 
 
+<p>The central idea is that different abstract concepts such as geography, creature behaviour, economy, weather, client UI etc are all provided by separate modules. When started up, a module can publish services they provide and consume services provided by other modules via a &lsquo;service locator&rsquo;. It is very important that the &lsquo;service locator&rsquo; is only used by the high-level module code directly to ensure they&rsquo;re not used to hide globals and introduce crazy interdependencies. The module creation
+mechanism provides a fluid dependency syntax that ensure each module is initialised after the modules on which it depends (i.e., publishes services which this module consumes.)</p>
+
 <p>I created a core library (I named <code>pcx</code> after my own initials and the letter &lsquo;x&rsquo; which is super cool) that I intend to be useful as a general-purpose C++ library for anyone wanting to add these concepts to their own application.</p>
 
 <h3>Deciding on core abstractions</h3>
@@ -66,7 +71,7 @@ calculation for moving an entity with cartesian vector velocities is so trivial!
 
 <p>I quickly found it very important to keep a close eye on the performance impact of all my decisions as well. It was quite exciting to get my original simple framework up (a &lsquo;world&rsquo; module that holds all the entities and their locations/momentums in the game) and determine the maximum number of visible entities it could support. I found it started dropping frames at around 40,000 moving entities in the world, but I quickly realised however that I have no idea what a good number is &ndash; how many entities <em>should</em> it be able to support?</p>
 
-<p>Most engines I&rsquo;ve looked at suport the low 1000&rsquo;s of entities, but most of those are client-only frameworks. I couldn&rsquo;t find a lot of info on MMOs (not that I&rsquo;m making an MMO but I would like to get a feel for scale), and could only find indirect references to EVE online supporting <a href="http://www.gamasutra.com/view/feature/132563/infinite_space_an_argument_for_.php?page=2">up to 30K entities in some of their major battles</a>, but they apparently do all sorts of crazy stuff to support that such as slowing down time and moving entities not directly involved out onto other shards.</p>
+<p>Most engines I&rsquo;ve looked at (e.g., Quake and Source engines) suport the low 1000&rsquo;s of entities, but most of those are client-only frameworks. I couldn&rsquo;t find a lot of info on MMOs (not that I&rsquo;m making an MMO but I would like to get a feel for scale), and could only find indirect references to EVE online supporting <a href="http://www.gamasutra.com/view/feature/132563/infinite_space_an_argument_for_.php?page=2">up to 30K entities in some of their major battles</a>, but they apparently do all sorts of crazy stuff to support that such as slowing down time and moving entities not directly involved out onto other shards.</p>
 
 <p>In the end it&rsquo;s all moot however, as my game is still very trivially implemented and is not a real-world example of how it will eventually work. For one, all moving entities in the world just walk in an anti-clockwise circle and don&rsquo;t look at the world around them (this will add a lot of complexity to say the least!). Secondly, the game currently updates every entity in the game 60 times per second. I should definitely make entities further from the player &lsquo;stupider&rsquo; and less
 frequently updated, and there is actually no good reason to update all entities 60 times per second anyway &ndash; that number was chosen because that is the framerate of the GUI and I have currently tightly bound the world update logic to the core game loop. I will be decoupling these soon.</p>
