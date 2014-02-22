@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Game | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/game/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-02-22T16:06:55+09:00</updated>
+  <updated>2014-02-22T16:22:14+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -126,6 +126,8 @@ in Windows but has been trivial in OSX.</p>
 <p>I recently added the all-important geo-spatial partitioning in a very simple way, but this seemed to cause some significant performance penalties. I have decided to take the plunge and figure out how to get the profiler working properly with Qt Creator to help me investigate this, because working on a large project without a profiler is like driving a car with a map but no windows &ndash; it&rsquo;s hard to tell if you&rsquo;re still on the road.</p>
 
 <p>I really want to get some graphics in there but I have no experience with that, so am considering messing around with shaders to see if I can get a good lighting model in there first. This should really help me figure out the environmental aesthetic I&rsquo;m going for.</p>
+
+<p>At some stage I&rsquo;ll need to figure out how I&rsquo;m going to make the game overlays such as menus, dialogs, text boxes etc. Previously I&rsquo;ve used SFGUI (works well with SFML which is the C++ GUI library I&rsquo;m using) but I would like to see if I can get QT Quick and QML working with SFML. I don&rsquo;t want to spend too long on this however because I intend to move the GUI code to perhaps another language (C# and Unity) so effort spent on the GUI might be ultimately wasted.</p>
 ]]></content>
   </entry>
   
