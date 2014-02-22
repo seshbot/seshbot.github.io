@@ -4,7 +4,7 @@
   <title><![CDATA[Category: WeekInReview | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/weekinreview/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-02-03T09:40:38+09:00</updated>
+  <updated>2014-02-22T13:14:17+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -12,6 +12,117 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Week in Review: Making Games]]></title>
+    <link href="http://seshbot.com/blog/2014/02/22/week-in-review-making-games/"/>
+    <updated>2014-02-22T10:35:00+09:00</updated>
+    <id>http://seshbot.com/blog/2014/02/22/week-in-review-making-games</id>
+    <content type="html"><![CDATA[<p>I have once again bitten off a whole lot &ndash; I started making a game based on my fairly limited knowledge of how such things are done, and have found it very difficult to take a moment to distill my thoughts. In fact it has been nearly impossible as I have been constantly unsure of whether the approach I&rsquo;m taking is actually going to pay off in the long run!</p>
+
+<p><img src="/images/upload/2014-02-22-game-screenshot.png" title="&ldquo;This is a 100m section of a 10km world&rdquo;" ></p>
+
+<p>I also created a (low framerate) <a href="/images/upload/2014-02-22-game-early.gif">animated gif</a> of this in action.</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<h2>Making a game/engine</h2>
+
+<p>The general advice people give new game developers is to never make a game engine &ndash; focus on just getting your game concept out. I will largely be ignoring this advice because I don&rsquo;t have a specific idea for a game yet, just a general notion that it will be client/server and a kind of town-builder. Based on this alone I believe that careful work now will be necessary to ensure the scale of the world I have in mind will be possible &ndash; the virtual world will almost certainly need
+geo-spatial partitioning to ensure location-based entity lookups and collision detections can be performed in decent time, and because only a small portion of the virtual world will likely be viewed, and likely only viewed in a separate client application altogether, there is no reason to have the core game logic mixed in with rendering logic at all.</p>
+
+<h3>Modularity and the basic framework</h3>
+
+<p>I intend to write a separate article on this, but I actually spent a lot of time trying to bring some of the nicer IOC container abstractions I&rsquo;ve grown used to in .Net and Java to my C++ environment. This largely involves run-time type identification (RTTI) which is often considered anathema in C++, but I am confident that it is a good direction to go in, provided it is used judiciously.</p>
+
+<p>I decided on four core high-level abstractions:</p>
+
+<ul>
+<li><em>services</em> are the core contracts that different sections of code use to communicate with each other. If you want to work with the weather, get yourself a hold of the weather service</li>
+<li><em>commands</em> are messages sent into the application as a whole from outside &ndash; services can advertise which commands they can respond to, and the client application can bind keys or whatever to these commands. This abstraction is probably more focused on games</li>
+<li><em>modules</em> provide concrete implementations of a bunch of specifically configured services and expose commands. The application mainline only interacts with modules &ndash; it starts them up and shuts them down, and the modules provide all the functionality of the application</li>
+<li><em>message bus</em> provides singleton channels for application-wide cross-cutting concerns. I have not yet found a particular use for this, but intend to use it for sending &lsquo;hints&rsquo; out that have no true affect on the state of the application, such as <em>dump debug information now</em>.</li>
+</ul>
+
+
+<p>I created a core library (I named <code>pcx</code> after my own initials and the letter &lsquo;x&rsquo; which is super cool) that I intend to be useful as a general-purpose C++ library for anyone wanting to add these concepts to their own application.</p>
+
+<h3>Deciding on core abstractions</h3>
+
+<p>I&rsquo;ve been thinking about making a game for a long long time now, and have had a myriad of thoughts on how I would create all the major abstractions, modularise the code, and manage multiple clients, network latency, sharding, etc. But when I actually sat down and put hands to keyboard, the first problems I ran into were hugely and unexpectedly daunting &ndash; how should position and rotation be stored? And time? Should position be a vector of floating point numbers or integers? And
+should velocity be another vector, or polar coordinates (rotation and magnitude). Should rotation be implicit from velocity, or should entities be able to face one direction but move in another?</p>
+
+<p>These are all decisions that will affect the application in almost every way, and doubtless create deep-seeded performance and functionality trade-offs, and as this is my first game I wasn&rsquo;t really sure what those might be. For example, if I choose to represent velocity as a vector (x, y components), then I lose the ability to determine the direction a stationary unit is facing ([0,0] gives no information in that aspect). Polar coordinates do not suffer this problem however. But the
+calculation for moving an entity with cartesian vector velocities is so trivial! Just <code>newPos = pos + velocity * time</code>&hellip; It&rsquo;s very tempting to go with that!</p>
+
+<p>And if I store latitude/longitude of an entity as floating point numbers, I expect I might run into rounding problems with entities far from the origin point. Or when comparing entities close to the origin with those far from the origin. But floating point numbers allow me to say &lsquo;all distances are in meters&rsquo; which makes thinking about and configuring the application that much easier for me.</p>
+
+<p>In the end I kind of arbitrarily chose to store locations and velocities as vectors of doubles, and will probably store a &lsquo;facing direction&rsquo; as a float in radians. Real-time time is likewise a double, indicating fractions of a second. I have not yet implemented any concept of in-game time however.</p>
+
+<h3>Discovering engine capabilities</h3>
+
+<p>I quickly found it very important to keep a close eye on the performance impact of all my decisions as well. It was quite exciting to get my original simple framework up (a &lsquo;world&rsquo; module that holds all the entities and their locations/momentums in the game) and determine the maximum number of visible entities it could support. I found it started dropping frames at around 40,000 moving entities in the world, but I quickly realised however that I have no idea what a good number is &ndash; how many entities <em>should</em> it be able to support?</p>
+
+<p>Most engines I&rsquo;ve looked at suport the low 1000&rsquo;s of entities, but most of those are client-only frameworks. I couldn&rsquo;t find a lot of info on MMOs (not that I&rsquo;m making an MMO but I would like to get a feel for scale), and could only find indirect references to EVE online supporting <a href="http://www.gamasutra.com/view/feature/132563/infinite_space_an_argument_for_.php?page=2">up to 30K entities in some of their major battles</a>, but they apparently do all sorts of crazy stuff to support that such as slowing down time and moving entities not directly involved out onto other shards.</p>
+
+<p>In the end it&rsquo;s all moot however, as my game is still very trivially implemented and is not a real-world example of how it will eventually work. For one, all moving entities in the world just walk in an anti-clockwise circle and don&rsquo;t look at the world around them (this will add a lot of complexity to say the least!). Secondly, the game currently updates every entity in the game 60 times per second. I should definitely make entities further from the player &lsquo;stupider&rsquo; and less
+frequently updated, and there is actually no good reason to update all entities 60 times per second anyway &ndash; that number was chosen because that is the framerate of the GUI and I have currently tightly bound the world update logic to the core game loop. I will be decoupling these soon.</p>
+
+<p>I have found it&rsquo;s very interesting to keep a good feel for the performance of the application as I work on its foundation &ndash; every time I make a significant modification I run it with varying conditions and check how it performs relative to previous iterations. This has led to some interesting discoveries regarding performance of iterators and iterator adapters, and some very puzzling edge-cases where the Clang optimiser seems to suddenly start borking. But more on that some other time.</p>
+
+<p>The &lsquo;modules&rsquo; abstraction is really helpful in monitoring performance &ndash; the core game loop just iterates over each module, effectively saying <code>for each module m, m.update(timeSinceLastUpdate)</code>. I put a basic metrics counter around this tight loop and get some pretty useful output that shows how many milliseconds each module consumes per tick:</p>
+
+<p><code>bash Stats are dumped to standard output ever second
+Job time accumulations in 1000ms:
+ -               client - 60 ticks, avg: 0ms max: 0 total: 0ms (0%)
+ -                 mobs - 60 ticks, avg: 0ms max: 3 total: 9ms (27%)
+ -                props - 60 ticks, avg: 0ms max: 0 total: 0ms (0%)
+ -                world - 60 ticks, avg: 0ms max: 0 total: 23ms (72%)
+ -      render entities - 58 ticks, avg: 5ms max: 8 total: 339ms
+ -   update all modules - 58 ticks, avg: 0ms max: 3 total: 33ms
+</code></p>
+
+<p>From this output it is obvious that the &lsquo;render entities&rsquo; step is taking a long time &ndash; I should really investigate this!</p>
+
+<h3>C++ development experiences</h3>
+
+<p>Regarding the choice of C++ as a language, it is sometimes a boon and often times a bane. The absolute major pain I&rsquo;m trying to avoid is massive compile and link times. These can only be mitigated through careful control of modularity and inter-dependencies. This is something one should struggle to achieve in any case, but it is constantly undermined by the use of templates and libraries that use templates.</p>
+
+<p>And the Eigen C++ matrix library seemed like a good choice, but it comes with a harrying legacy &ndash; it prefers to use special high-performance instruction sets available on some machines that require your objects to be defined in a certain way (with special alignment specifications when memory is allocated.) These are known as <a href="http://eigen.tuxfamily.org/dox-devel/group__TopicFixedSizeVectorizable.html">fixed-sized vectorisable</a> types and can cause segmentation faults if used incorrectly. Fixed-size vectorisable types cannot be passed by-value to functions or methods, and all classes that contain
+such types must themselves specially override the <em>new</em> operator to ensure these alignment requirements are maintained. And STL classes that contain these types must take this into account, so Eigen provides its own implementation of the STL vector that you must use. PLUS all of these restrictions apply to types that you create that have eigen members, and I think also to classes that aggregate THOSE types! It is a huge pain in the ass if you like creating abstract interfaces, to say the least.</p>
+
+<p>I suspect that Eigen will cause all sorts of problems when I move to Windows, so I want to try that out sooner rather than later. The special vectorisation can be disable at compile time but I&rsquo;d rather see if it causes problems first.</p>
+
+<h2>Qt Creator and CMake</h2>
+
+<p>I was originally going to go with XCode for development on OSX &ndash; I&rsquo;d really love to learn how to use that well as it seems quite different to most other editors and not intuitive for me. Ultimately however I decided against it because it doesn&rsquo;t work well with CMake (I think I would have to constantly be re-loading the project) and, at the time anyway, I was thinking that I really wanted to work with QT Quick and other Qt technologies.</p>
+
+<p>So I decided to go with Qt Creator as a development IDE. It is certainly a huge pleasure to use, and has more than the usual amount of high-level functionality one would expect in a C++ development environment. As a bonus it has fairly decent integration with CMake &ndash; the only missing aspect here is that it doesn&rsquo;t allow you to easily add files to your CMake project, but I have made a few tools that allow me to do this easly from the command prompt (more below.)</p>
+
+<p>The main problem I&rsquo;ve had so far is that in order to use the latest C++11 functionality I went with Clang over GCC as a compiler. While Qt Creator supports this, it still seems to try to use the GDB and GProf etc for debugging and profiling, which don&rsquo;t work with Clang. I am going to spend some time soon figuring out how to fix this, but it seems to involve creating a new &lsquo;kit&rsquo; that defines which dev tools the IDE should invoke. It seems complicated however&hellip;</p>
+
+<h2>OSX Development</h2>
+
+<p>I really enjoy working on OSX &ndash; it has all the goodness of a good linux development environment along with some really smooth apps.</p>
+
+<p>One of the worst aspects of Windows development is the extremely weak command line environment. The history of the command line shell (MS-DOS prompt) still seems mired in its QDOS (Quick and Dirty Operating System) origins from the very early &lsquo;80s. While it supports basic pipes and has a few commands like <code>find</code> and&hellip; erm&hellip; anyway, while it has some limited functionality available, it is not a scratch on the highly evolved GNU/Linux environment that has been continually improved over
+the last 30 years or so. If you want a tool that does anything moderately complex in Windows you need to find one on the internet generally, whereas in Linux there is no limit to what can be accomplished with <code>sed</code>, <code>grep</code>, <code>find</code>, <code>cut</code>, <code>awk</code>, <code>tr</code> and the like.</p>
+
+<p>For instance, one real annoying aspect of C++ development for me has always been the relative difficulty of creating new projects. Java IDEs can easily provide the ability to create new projects and packages through a simple right-click in your project tree, because Java is very opinionated about where such files go. C++ just requires the symbols to <em>exist</em> at link time, so they could come from anywhere, and there are limitless conventions about how to manage header files in your filesystem.</p>
+
+<p>I have my own conventions for managing my hierarchy of source and header files, and decided to create template projects and modules (my own abstraction for this project) and create shell scripts that allow me to set up entirely new projects with a simple <code>x.new-module thing Thing</code>, which will create all the necessary headers, source files and CMake files, with default sensible names and namespaces, and include them into my current project. This would have been a nightmare to put together
+in Windows but has been trivial in OSX.</p>
+
+<h2>Next steps</h2>
+
+<p>I recently added the all-important geo-spatial partitioning in a very simple way, but this seemed to cause some significant performance penalties. I have decided to take the plunge and figure out how to get the profiler working properly with Qt Creator to help me investigate this, because working on a large project without a profiler is like driving a car with a map but no windows &ndash; it&rsquo;s hard to tell if you&rsquo;re still on the road.</p>
+
+<p>I really want to get some graphics in there but I have no experience with that, so am considering messing around with shaders to see if I can get a good lighting model in there first. This should really help me figure out the environmental aesthetic I&rsquo;m going for.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Week in Review: Pausing Web App, Starting C++ App]]></title>
@@ -24,7 +135,7 @@
 
 <p>That said however, I feel that I&rsquo;m finally at a point where I can start making useful stuff in Ember and Rails without feeling like I&rsquo;m misusing the tools or spending most of my time in Google. So last week I knocked off a few high-level features in my app to show the basic scaffolding I was considering (it only took a few hours in the end!), and then set it aside.</p>
 
-<p><img class="center" src="/images/upload/2014-02-03-seshbot-framework.png" title="&ldquo;Game Table App as of Feb 2013 &ndash; still doesn&rsquo;t do much&rdquo;" ></p>
+<p><img class="center" src="/images/upload/2014-02-03-seshbot-framework.png" title="&ldquo;Game Table App as of Feb 2014 &ndash; still doesn&rsquo;t do much&rdquo;" ></p>
 
 <p>There is a very duct-tape and chicken-wire feel to web technologies, but once you&rsquo;re familiar with the tech you can pump stuff out pretty quickly. Because of the immediate and ethereal nature of the web it can be a fantastic way of creating a product that is immediately globally available. All of the magic we see however is still largely magic however, and magic doesn&rsquo;t bode well in any application. The web as a platform for applications is still unbaked and young, and I feel that unless you&rsquo;re forging new territory on the frontier you&rsquo;re probably working with technologies that won&rsquo;t be interesting in a few years time.</p>
 
