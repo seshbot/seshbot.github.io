@@ -92,7 +92,7 @@ a:hover {
 .clearfix {
   *zoom: 1;
 }
-/* line 38, ../../../../../usr/local/Cellar/ruby/2.0.0-p195/lib/ruby/gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/general/_clearfix.scss */
+/* line 38, ../../../../../usr/local/Cellar/ruby/2.1.1_1/lib/ruby/gems/2.1.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/general/_clearfix.scss */
 .clearfix:after {
   content: "";
   display: table;

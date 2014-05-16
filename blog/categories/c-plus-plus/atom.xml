@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C++ | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/c-plus-plus/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-02-22T16:22:14+09:00</updated>
+  <updated>2014-05-16T11:53:44+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -12,6 +12,148 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Week in review: Porting to Qt/QML with OpenGL]]></title>
+    <link href="http://seshbot.com/blog/2014/05/16/week-in-review-c-plus-plus/"/>
+    <updated>2014-05-16T09:56:26+09:00</updated>
+    <id>http://seshbot.com/blog/2014/05/16/week-in-review-c-plus-plus</id>
+    <content type="html"><![CDATA[<p><em>So I took a month holiday, and got out of the habit of writing blogs&hellip; hopefully this will break the dam, it&rsquo;s not like I don&rsquo;t have a billion things to write about</em></p>
+
+<p><em>Initial version only! I will add pics soon</em></p>
+
+<p>Over the last many weeks I have been ploughing through a whole lot of new stuff I&rsquo;ve never used before. As mentioned in my last post I decided to up the graphics a bit, but specifically I wanted to figure out a system for a extensible UI for menus and other 2D overlays, and 3D or pseudo-3D graphics. Creating a decent UI controls library I have learned is very difficult (if kind of fun to be honest.) Making something that is flexible enough to automatically layout your controls in a sensible way where everything resizes based on the
+content contained within is a very difficult problem that nobody should have to re-solve in this day and age. So I wanted to re-use one that I also wanted to learn for myself.</p>
+
+<p>In order to add these to my existing framework I took on the (it turns out) monumental task of learning OpenGL and integrating it with Qt/QtQuick/QML.</p>
+
+<p>So far things are looking OK, but I have found the learning curve greater than I&rsquo;d originally anticipated &ndash; OpenGL in particular is a rabbit warren of deprecation and messy global state idioms. That said, I currently have:</p>
+
+<ul>
+<li>the UI menu/control system is entirely QML based and very simple to extend and use</li>
+<li>the game terrain is constructed using <a href="http://www.volumesoffun.com/polyvox-about/">PolyVox</a> because I wanted to avoid having to figure out mesh generation along with all this other stuff</li>
+<li>the OpenGL shaders incorporate basic lighting and not much else</li>
+</ul>
+
+
+<p>The main value I&rsquo;ve gained is a fairly decent understanding of what it takes to create modern OpenGL applications (though how useful that knowledge is in this day and age I am not sure.) I have not tried porting any of this across to Windows yet (I&rsquo;ve written it all in OSX) but hopefully the fact that I&rsquo;m using entirely cross-platform technologies will help a little there &ndash; though Windows is known to have very dodgy OpenGL support so I suspect that will be the cause of most of my porting
+troubles.</p>
+
+<!-- more -->
+
+
+<h2>The Qt Stack</h2>
+
+<p>I&rsquo;ve always been interested in <a href="http://qt-project.org/">Qt</a> &ndash; I don&rsquo;t know of any more highly polished user interface libraries for C++ out there, and they&rsquo;ve been producing really interesting technologies out that seem like they were created by people who actually understand C++. As a developer who opted to buy in to the Microsoft WPF UI framework, I find the QtQuick and QML libraries to be thoroughly refreshing and intuitive.</p>
+
+<p>QML is a clean and simple markup language for writing user interfaces in a declarative fashion. The most apparent advantages over WPF for me were that the syntax is not XML based and that the property bindings may be declared in javascript, within which any properties are automatically dynamically bound so that property updates are detected and cascade automatically through the entire scene graph. In addition to that, the C++ to QML binding mechanism entirely leverages the Qt
+metadata system that they&rsquo;ve tooled out and honed over the last more-than-a-decade, so everything just seems to work!</p>
+
+<h3>QML basics</h3>
+
+<p>Here&rsquo;s a simple QML example:</p>
+
+<p>```javascript Simple QML example
+import QtQuick 1.0</p>
+
+<p>Rectangle {
+   width: 200
+   height: 200
+   color: &ldquo;blue&rdquo;</p>
+
+<p>   Image {</p>
+
+<pre><code>  source: "pics/logo.png"
+  anchors.centerIn: parent
+</code></pre>
+
+<p>   }
+}
+```</p>
+
+<p>C++ QML components are essentially just regular C++ classes that use the Qt metadata system to expose properties, signals and slots &ndash; there really is no special QML magic required. These types are exposed to the QML engine through a single C++ commmand <code>qmlRegisterType&lt;MyCoolControl&gt;("com.seshbot", 1, 0, "CoolControl");</code>. This can then be consumed from within your QML by first <code>import com.seshbot 1.0</code> and then declaring your <code>CoolControl { }</code> just like the <code>Rectangle</code> in the above example.
+All properties declared in the C++ class are immediately available from within QML &ndash; any changes made from the QML file will automatically call your setters, and any updates from within your C++ class will automatically propogate out to the QML file. MAGIC!</p>
+
+<h3>QML with OpenGL</h3>
+
+<p>As of Qt Quick 2.0, QML internally uses OpenGL to do all its own rendering so rendering your own OpenGL should theoretically not be too difficult. In fact, check out this <a href="https://www.youtube.com/watch?v=P4kv-AoAJ-Q">awesome demo</a> of a guy messing with an OpenGL shader in QML in real time. In the end however it took a few weeks to iron out, largely because this technology is pretty new and still has some kinks, and is not well documented yet (at least the stuff I wanted to do.)</p>
+
+<p>There are three ways I know of putting your OpenGL content into a QML scene:</p>
+
+<ul>
+<li>create a custom Qt control that does all the OpenGL stuff internally and include that control in your <code>QtQuickView</code></li>
+<li>extend <code>QtQuickView</code> and do the OpenGL stuff in its constructor</li>
+<li>rendering your OpenGL to a frame buffer and having Qt inject that into its own layout. This is what <a href="http://advancingusability.wordpress.com/2013/03/30/how-to-integrate-ogre3d-into-a-qt5-qml-scene/">Ogre integration</a> does, but I haven&rsquo;t explored this</li>
+</ul>
+
+
+<p>There&rsquo;s not much difference between the two approaches &ndash; I went with the second because creating a control that is invoked from QML raises questions of how you inject your game state into the view. I wanted to just pass my game data into the constructor.</p>
+
+<p>The Qt libraries come with an example called &lsquo;Scene Graph &ndash; OpenGL under QML&rsquo; that I found very helpful.</p>
+
+<p>I did encounter a few problems:</p>
+
+<ul>
+<li>the QtQuick Controls library (which provides native-looking controls you can use in your QML files) don&rsquo;t seem to work with OpenGL versions older than OpenGL 4. After consulting the Qt guys on their IRC channel (#qt-quick on freenode) I <a href="https://bugreports.qt-project.org/browse/QTBUG-38817">filed a bug</a>, so hopefully it will be addressed in future versions.</li>
+<li>my specialised QtQuickView class (that renders my game in the background under the QML stuff) didn&rsquo;t want to render any of my immediate mode OpenGL code &ndash; this is probably OK because immediate mode has been deprecated since version 1. (more on OpenGL versions and immediate mode and such in the future!)</li>
+<li>all of the demos use older versions of OpenGL (probably to minimise compatability issues on Windows) so I had a bunch of surprises when I tried modernising it (basically had to learn each version of OpenGL as I progressed)</li>
+</ul>
+
+
+<p>The Qt quick guys are on the #qt-quick IRC channel around 9pm japan time by the looks, so that&rsquo;s generally the best time to get live help if you need it.</p>
+
+<h2>OpenGL</h2>
+
+<p>My god, OpenGL is a mess. Each version of OpenGL (there are 4) seemed to deprecate the old way of doing things and introduce entirely new idioms:</p>
+
+<ul>
+<li>OpenGL 1 was all about &lsquo;immediate mode&rsquo; because there were no shaders yet. You just tell OpenGL (in your C++ code) where the primitives and lights are and it takes care of all the rendering details</li>
+<li>OpenGL 2 introduced the GLSL shader language for writing &lsquo;vertex&rsquo; and &lsquo;fragment&rsquo; shaders. This was a huge step forward in performance because you pipe all your vertex data into the graphics card in one go, but it meant that you have to do all the lighting and model/view/perspective transformations yourself in the shader. This makes it a lot harder to pick up for newbies.</li>
+<li>OpenGL 3 totally messed with the GLSL syntax, and added the notion of vertex buffer objects (VBOs) which I found out are <em>mandatory</em> to use although nothing will warn you if you do not use them. Things just wont show up. Also there is a new type of shader &ndash; the &lsquo;geometry&rsquo; shader.</li>
+<li>OpenGL 4 introduced the &lsquo;tessellation&rsquo; shader. I have no idea what that does yet as I have not started down the OpenGL 4 road.</li>
+</ul>
+
+
+<p>In addition to this, Windows only natively supports OpenGL 1, because they follow their whole DirectX thing. You can ask your users to upgrade their video drivers, or you can use an OpenGL &ndash;> DirectX translation layer to get around this problem (Qt apparently offers optional compatability via Googles <a href="https://code.google.com/p/angleproject/">ANGLE</a> library.)</p>
+
+<p>Plus, any platform may support any number of &lsquo;extensions&rsquo; which provide capabilities on top of the &lsquo;core&rsquo; functionality offered by that OpenGL version. A good application will check the availability of all extensions they are using, which seems like a massive hassle to me at this point. Theres a library called the GL Extension Wrangler (GLEW) thats supposed to help with this, and Qt has its own set of helpers to ensure that youre only able to invoke functionality thats actually provided by
+your chosen GL version.</p>
+
+<p>Oh, there are also the &lsquo;embedded&rsquo; versions of OpenGL &ndash; OpenGL ES. These are apparently much smaller and well supported so I think I will migrate towards using some OpenGL ES version in the near future &ndash; probably OpenGL ES 2.0, which is supposed to be compatible with OpenGL 4.1 I believe.</p>
+
+<p>In general I&rsquo;d say stay away from writing your own graphics drivers at this level &ndash; use higher level stuff that abstracts your OpenGL vs DirectX decisions from you. I went with OpenGL because I was suffering the delusion that it would make my experience with my QML layer simpler, but looking at the incompatabilities and weird differences between platforms I can see a lot of trouble in my future if I continue down this route.</p>
+
+<p>I plan to write a more thorough map of the path I took through this so that hopefully others do not have to make the same mistakes I did.</p>
+
+<h2>PolyVox voxel mesh generation</h2>
+
+<p>I didn&rsquo;t want to also have to figure out how to generate meshes for my game at this point, so I decided to go with a library that allows the easy generation of voxel meshes.</p>
+
+<p>PolyVox is actively being developed by a couple of pretty smart guys. A lot of it has the feel of a university thesis project, but it seems to work quite well, which is the most important thing. Most helpfully for me, they seem to be writing their examples using Qt in Windows and Linux, so I can learn from their mistakes with OpenGL on Windows (something I&rsquo;ll have to do soon.)</p>
+
+<p>I plan to try generating some models in Blender and use something like <a href="http://assimp.sourceforge.net">AssImp</a> to import them into my game soon.</p>
+
+<h2>General application design</h2>
+
+<p>I really want to put my stuff on github but I&rsquo;m finding myself a bit recalcitrant on that front, because its still got so much half-baked experimental stuff in it. I will push myself to do it soon however because I&rsquo;d like to link to parts of the code when writing these blog posts.</p>
+
+<p>It was somewhat satisfying to realise that all of the changes and work I&rsquo;ve done in the last couple of months has had no effect on the core modules I established for the 2D version of my game. All the terrain and entity management, along with the core module message passing mechanisms have remained the same.</p>
+
+<p>I spent some time discovering an intuitive way to describe my 3D scene for rendering in OpenGL (i.e., for encapsulating all the OpenGL buffers, shader programs and shader program attribute bindings.) Of course this has been done many times before but OpenGLs &lsquo;stateless&rsquo; approach (or whatever they call having to bind your objects to global state) makes this a challenge.</p>
+
+<p>The fundamental types in my scene description are:</p>
+
+<ul>
+<li><code>camera</code> encapsulates the perspective and view matrices (mapping world-space coordinates to pixels in the view). This has a <code>render()</code> method which tells the <code>scene</code> to render itself using this camera&rsquo;s view data</li>
+<li><code>scene</code> contains all the entities and light data that may be rendered into the view, as well as the active shader program. The scene invokes each <code>entity</code>s <code>render()</code> method</li>
+<li><code>entity</code> encapsulates a <code>model</code> that is to be rendered as well as the model matrix which maps the mesh from local &lsquo;model coordinates&rsquo; into the world coordinates, oriented the correct way and all that jazz</li>
+<li><code>model</code> encapsulates all the buffers and VBOs required to render a mesh</li>
+</ul>
+
+
+<p>My system is also pretty dynamic &ndash; changes to the shader program files on disk immediately cause the application to re-compile and start using the new shader in the application, which helps speed things up on occasion.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Week in Review: Making Games]]></title>
