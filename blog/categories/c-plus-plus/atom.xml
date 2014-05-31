@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C++ | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/c-plus-plus/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-05-31T23:54:27+09:00</updated>
+  <updated>2014-05-31T23:58:16+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -36,7 +36,7 @@
 
 <h2>World Building</h2>
 
-<p>The 3D functionality is just a thin layer that invokes the same game, player, mobile and prop unit services used by the 2D client. I took the time to finally make some extensive refactorings that I&rsquo;ve been planning for some time:</p>
+<p>The 3D functionality in my game so far is provided by a thin layer that invokes the exact same service layer (game, player, mobile and prop unit services) used by the 2D client. I took the time to finally make some extensive refactorings that I&rsquo;ve been planning for some time:</p>
 
 <h4>Infinte Terrain!</h4>
 
