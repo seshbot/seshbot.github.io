@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C++ | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/c-plus-plus/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-05-16T11:53:44+09:00</updated>
+  <updated>2014-05-31T23:54:27+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -12,6 +12,85 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Week in Review: Running in an infinite world]]></title>
+    <link href="http://seshbot.com/blog/2014/05/31/week-in-review-running-in-an-infinite-world/"/>
+    <updated>2014-05-31T20:24:19+09:00</updated>
+    <id>http://seshbot.com/blog/2014/05/31/week-in-review-running-in-an-infinite-world</id>
+    <content type="html"><![CDATA[<p>Here&rsquo;s a quick snap of the 2D SFML client alongside a new OpenGL client:
+<img src="/images/upload/2014-05-31-compare.png" title="&ldquo;SFML client alongside OpenGL client with QML overlays&rdquo;" ></p>
+
+<p>OK I could have spent a bit longer on the screenshot &ndash; I haven&rsquo;t made any models yet other than cubes, and I&rsquo;m not using any textures, and I should have adjusted the angle and colour of the directional light to make it look like evening or morning or something, to show off some of the immediate benefits of going to 3D.</p>
+
+<p>I did spend some time making the camera zoom in from a map-like view to a chase-cam view:
+<img src="/images/upload/2014-05-31-zoomed.png" title="&ldquo;The camera is tethered to the player character&rdquo;" ></p>
+
+<p>In general however I&rsquo;m hoping to ramp-down on the OpenGL stuff and go back to working on the core functionality. The last week was actually pretty productive:
+<img src="/images/upload/2014-05-31-bugfixes.png" title="&ldquo;Most recent git checkins&rdquo;" ></p>
+
+<p>Also I&rsquo;ve been spending a fair amount of time in <a href="http://picopicocafe.com">PicoPico Cafe</a> when it&rsquo;s open, and I&rsquo;m guessing I&rsquo;ll be spending more time there in the coming weeks as a bunch of construction is scheduled outside my house during business hours when nobody is supposed to be home.</p>
+
+<!-- more -->
+
+
+<h2>World Building</h2>
+
+<p>The 3D functionality is just a thin layer that invokes the same game, player, mobile and prop unit services used by the 2D client. I took the time to finally make some extensive refactorings that I&rsquo;ve been planning for some time:</p>
+
+<h4>Infinte Terrain!</h4>
+
+<p>The terrain now runs effectively infinitely, in that it can cache any combination of arbitrary regions. The complicating factor was the fact that I want the regions to be stored in a sensible way that provides for really fast lookups many times per second as entities roam around the countryside, even outside of the player&rsquo;s view. More work needs to be done on this to unload cached regions that are no longer relevant</p>
+
+<h4>Infinte Entities!</h4>
+
+<p>The entity service, responsible for facilitating rapid interactions with many geographically-local entities, can now scale out exponentially more efficiently than before. Entity &lsquo;moment&rsquo; information is stored contiguously in memory for super cache friendly iteration. Unfortunately this encourages the programmer to pre-allocate large portions of memory to allow the number of entities to fluctuate without large re-allocations.</p>
+
+<p>Because of this obsession with data locality, every region was previously allocating enough space for all entities in the game to coexist at once so I could trivially say <code>auto moment = entities_[entityId].moment;</code> (or something kinda like that.) Now I changed it so there is a single ledger shared outside the specific regions with lookup instructions for each entity indicating that entity&rsquo;s region and index within that region. This means that the regions can be much smaller, reducing the region-to-memory relationship from exponential to linear, which is HUGE. (Of course, the old scheme was never meant to stay in there.)</p>
+
+<p>I now have 1,000,000 entities pre-allocated without straining memory or computational resources at all (about 100MB memory for the whole app) whereas before I was settling for about 10,000 lest I run into gigabytes for a game with a relatively small number of regions.</p>
+
+<h4>Lots more stuff of course</h4>
+
+<p>I also made an interesting change to the core &lsquo;entity moment&rsquo; structure so it includes a &lsquo;facing direction&rsquo; as well as the existing velocity vector that indicates which direction and at what speed the entity is moving. I was having trouble determining the direction an entity should face when it is not moving (the velocity is 0,0 so has no implicit direction.) This wasnt a problem when I was rendering all entities as circles.</p>
+
+<h2>Back to OpenGL 2 again</h2>
+
+<p>The more I learn about the troubles people have with OpenGL the more concerned I became about getting my app to work on Windows. Through a fine bit of serendipity I met the always helpful <a href="http://greggman.com/">Greggman</a> at PicoPico, who was one of the devs who implemented WebGL in Google Chrome. He gave me some great advice that lined up with a few things I&rsquo;d found on the internet and convinced me to move to OpenGL ES 2.0.</p>
+
+<p>As I mentioned last week OpenGL support in Windows is lacking due to MS pushing their own DirectX 3D stack. But fortunately Google have written a library called <a href="https://code.google.com/p/angleproject/">ANGLE</a> that is a &lsquo;conformant implementation of the OpenGL ES 2.0 specification that is hardware‐accelerated via Direct3D.&rsquo; This means that if you write conformant OpenGL ES 2.0 code you get DirectX compliance for free (at least that is the idea.)</p>
+
+<p>Another advantage of OpenGL ES (other than the widespread support, including on mobile devices) is that it is much more stringently standardised. Apparently standard OpenGL does not come with conformance tests of any kind, so vendors don&rsquo;t have a mechanical way of verifying that they have implemented conformant drivers. ES does have such tests however so anecdotally provides a much cleaner integration experience.</p>
+
+<p>Of course I&rsquo;m effectively going back to OpenGL 2 syntax and functionality which is a bit of a drag, but I wasn&rsquo;t really using geometry shaders or complex alternative rendering pipelines anyway.</p>
+
+<h2>Object Picking with the mouse</h2>
+
+<p>If someone clicks on a pixel on the screen (in pixel coordinates), how do you discover which object they were clicking on? This is deceptively difficult! The old way of doing it involved using a special part of OpenGL called <em>selection buffers</em> that allows you to assign a name to each entity being rendered, and query a pixel for the name of the entity rendered therein. That is deprecated however.</p>
+
+<p>Typically people apparently perform a similar operation manually, rendering identifying values instead of colours to a special buffer that is not rendered. This image can be queried via <code>glReadPixels()</code></p>
+
+<p>Instead, I chose to do it entirely on the CPU by performing the rendering calculations in reverse, in a process often known as <em>raycasting</em>. The rendering process involves taking each entity in your scene and transforming it into world space, then into camera space, and then into screen space. To figure out what object is at a pixel, I pass those pixel coordinates to the <em>inverted</em> perspective matrix and then to an <em>inverted</em> view matrix. This gives you the location of a point in
+space corresponding to that point on the screen. If you draw a line from the location of the camera through that point, you have a <em>ray</em> into 3D space! The object picked is the object intersecting with that ray that is closest to the camera (I&rsquo;m just iterating through every object near the camera for now.)</p>
+
+<p>For more information on this have a look at <a href="http://antongerdelan.net/opengl/raycasting.html">this article on raycasting</a>. I like this because it is purely algorithmic and doesn&rsquo;t require special shader code or anything.</p>
+
+<h2>Qt Quick and OpenGL</h2>
+
+<p>I continue to be happy with Qt &ndash; they are so active, they&rsquo;re always releasing interesting new tech. It is hard to catch them for feedback but it can be done and when they are on IRC they are very helpful.</p>
+
+<p>Unfortunately the OpenGL support in Qt Quick is still in a great state of flux, so finding the correct way to use OpenGL ES was quite tricky. Turns out however that simply <em>not</em> specifying an OpenGL version, and using the default function pointers their <a href="http://qt-project.org/doc/qt-5/qopenglfunctions.html">utility library provides</a> is the proper way of using OpenGL ES in a portable fashion, even when your platform does not provide it (it falls back on the &lsquo;desktop&rsquo; 2.0 functions.)</p>
+
+<h2>Up Next</h2>
+
+<p>My representation of the world in the core code is still effectively 2D in that all entities have an <em>x</em> and a <em>y</em> but no altitude component. For rendering purposes that is extracted from the terrain service by the rendering engine for visual effect only. But if I am to allow jumping and have some notion of visual occlusion I will soon have to add a <em>z</em> component to the velocity and the position of each entity. This will also mean that the entity service will need to be dependent on the
+terrain service.</p>
+
+<p>I also want to implement a proper day/night cycle and some fancy controls in the GUI, like a slider that allows you to choose the time of day. This will hopefully provide a large ambiance improvement at little cost.</p>
+
+<p>As far as blogging goes, last week I was intending my next post to be about my adventures in OpenGL and to provide a clear roadmap for others who want to follow the same path I took, but it is such a <em>huge</em> topic, and I am still not certain I have all the facts right, that I have put it off so far. We&rsquo;ll see how that goes&hellip;</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Week in review: Porting to Qt/QML with OpenGL]]></title>
