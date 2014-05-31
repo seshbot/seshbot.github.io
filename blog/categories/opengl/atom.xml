@@ -4,7 +4,7 @@
   <title><![CDATA[Category: OpenGL | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/opengl/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-05-31T23:58:16+09:00</updated>
+  <updated>2014-06-01T00:10:22+09:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -40,7 +40,7 @@
 
 <h4>Infinte Terrain!</h4>
 
-<p>The terrain now runs effectively infinitely, in that it can cache any combination of arbitrary regions. The complicating factor was the fact that I want the regions to be stored in a sensible way that provides for really fast lookups many times per second as entities roam around the countryside, even outside of the player&rsquo;s view. More work needs to be done on this to unload cached regions that are no longer relevant</p>
+<p>The terrain now runs effectively infinitely, in that it can cache any combination of arbitrary regions. The complicating factor was the fact that I want the regions to be stored in a sensible way that provides for really fast lookups many times per second as entities roam around the countryside, even outside of the player&rsquo;s view. More work needs to be done on this to unload cached regions that are no longer relevant.</p>
 
 <h4>Infinte Entities!</h4>
 
@@ -68,7 +68,7 @@
 
 <p>If someone clicks on a pixel on the screen (in pixel coordinates), how do you discover which object they were clicking on? This is deceptively difficult! The old way of doing it involved using a special part of OpenGL called <em>selection buffers</em> that allows you to assign a name to each entity being rendered, and query a pixel for the name of the entity rendered therein. That is deprecated however.</p>
 
-<p>Typically people apparently perform a similar operation manually, rendering identifying values instead of colours to a special buffer that is not rendered. This image can be queried via <code>glReadPixels()</code></p>
+<p>Typically people apparently perform a similar operation manually, rendering identifying values instead of colours to a special buffer that is not rendered. This image can be queried via <code>glReadPixels()</code>, the returned result is the identifying value of the object at that pixel. I chose not to go down this route though.</p>
 
 <p>Instead, I chose to do it entirely on the CPU by performing the rendering calculations in reverse, in a process often known as <em>raycasting</em>. The rendering process involves taking each entity in your scene and transforming it into world space, then into camera space, and then into screen space. To figure out what object is at a pixel, I pass those pixel coordinates to the <em>inverted</em> perspective matrix and then to an <em>inverted</em> view matrix. This gives you the location of a point in
 space corresponding to that point on the screen. If you draw a line from the location of the camera through that point, you have a <em>ray</em> into 3D space! The object picked is the object intersecting with that ray that is closest to the camera (I&rsquo;m just iterating through every object near the camera for now.)</p>
