@@ -6,6 +6,9 @@ Day-to-day C++11 stuff
 uniform initialisation, auto, for, inline member initialisation, 
 
 
+GENERAL DESIGN PRINCIPLES
+ - clean interfaces over clean implementation
+
 
 THE TEMPTING PIT OF DESPAIR: NEW TECHNOLOGIES
 
@@ -14,6 +17,7 @@ even once you learn rails, you probably have to learn the idiosyncracies of each
 
 EMBER NOTES
 
+TODO: look at http://www.smashingmagazine.com/2013/11/07/an-in-depth-introduction-to-ember-js-2/
 good stuff
 - reactive/single page
 - uses urls and browser history to make a nice experience

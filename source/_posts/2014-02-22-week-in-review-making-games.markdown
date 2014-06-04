@@ -112,3 +112,5 @@ I recently added the all-important geo-spatial partitioning in a very simple way
 
 I really want to get some graphics in there but I have no experience with that, so am considering messing around with shaders to see if I can get a good lighting model in there first. This should really help me figure out the environmental aesthetic I'm going for. 
 
+At some stage I'll need to figure out how I'm going to make the game overlays such as menus, dialogs, text boxes etc. Previously I've used SFGUI (works well with SFML which is the C++ GUI library I'm using) but I would like to see if I can get QT Quick and QML working with SFML. I don't want to spend too long on this however because I intend to move the GUI code to perhaps another language (C# and Unity) so effort spent on the GUI might be ultimately wasted.
+
