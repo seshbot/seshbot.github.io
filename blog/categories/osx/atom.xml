@@ -4,7 +4,7 @@
   <title><![CDATA[Category: OSX | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/osx/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-06-04T05:07:45+00:00</updated>
+  <updated>2014-06-04T05:09:45+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -28,6 +28,9 @@ would be far better off being more declarative.</p>
 <p><img src="/images/upload/2014-06-04-swift-xcode6.png" title="&ldquo;Some Swift code in Xcode 6 beta&rdquo;" ></p>
 
 <p>In this article I go over what I like about this language that I see a lot of other languages striving for.</p>
+
+<!-- more -->
+
 
 <h2>Syntactic niceties</h2>
 
