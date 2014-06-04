@@ -155,6 +155,16 @@ I'll describe some features based on where I find them most familiar from:
 - *Objective-C* - Swift supports the notion of _protocols_ for polymorphic behaviour
 - *?* - Object identity can be compared (i.e., are these references to the same object?) using the ```===``` operator. 
 
+## Does it go far enough?
+
+In many ways this is a fairly conservative language - Swift is clean and nice to use, and I think would make a good replacement for Objective-C, but most other modern languages are focusing on higher level concepts that don't seem to be getting a showing here.
+
+The main thing that comes to mind is the lack of language features to help out with thread synchronisation and concurrency. Other languages are focusing on lightweight thread-like structures or coroutines, asynchronous actors or asynchronous computation expressions/monad type syntax (think F# ```async {}```.)
+
+This is the first release of this language and I think some initial conservatism might be sensible. Typically I think compiled and C-based languages have preferred to put new functionality into libraries and only reluctantly add keywords and syntax to the existing base language. On the other hand, other languages (C# 5, F#, Haskell) have shown that without syntactic sugar (like ```async { }```, ```do { }```, ```yield``` and the like) it is seemingly implausible to make async-friendly code look super readable and imperative, avoiding what is often known as _callback hell_.
+
+So here's hoping this project keeps the steam it's started off with.
+
 ## Do we need another language?
 
 Swift is certainly more approachable than Objective-C, which I very much appreciate. Apple have always been quite good at providing an environment where different languages interoperate seamlessly, so there really seems no downside - if you have a lot invested in Objective-C you can still leverage all your previous work with Swift, or presumably use other peoples swift libraries in your own Objective-C applications. 
