@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-06-01T00:32:24+09:00</updated>
+  <updated>2014-06-04T05:07:45+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -14,9 +14,226 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Swift: a solid modern imperative language]]></title>
+    <link href="http://seshbot.com/blog/2014/06/03/swift-a-good-example-of-a-modern-imperative-language/"/>
+    <updated>2014-06-03T23:25:06+00:00</updated>
+    <id>http://seshbot.com/blog/2014/06/03/swift-a-good-example-of-a-modern-imperative-language</id>
+    <content type="html"><![CDATA[<p>Apple recently announced the support of a new language targeted at the same application programming space as Objective C. It&rsquo;s called Swift and it seems to me a very good summary of the features all modern imperative languages are striving for.</p>
+
+<p>The last decade or so has seen a strong resurgence in functional programing evangelism. Languages like F#, Scala, Clojure and even Erlang for a while re-introduced to mainstream programmers high-level concepts that imperative programmers were largely unfamiliar with. A short experiment with a language supporting algebraic data types, type inference, higher order functions, closures, or the standard foundational map, reduce and fold functions will convince any programmer that their language
+would be far better off being more declarative.</p>
+
+<p>For a comprehensive guide to the Swift language see the <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/GuidedTour.html">Swift tour</a>.</p>
+
+<p><img src="http://seshbot.com/images/upload/2014-06-04-swift-xcode6.png" title="&#34;Some Swift code in Xcode 6 beta&#34;" alt="&#34;Some Swift code in Xcode 6 beta&#34;"></p>
+
+<p>In this article I go over what I like about this language that I see a lot of other languages striving for.</p>
+
+<h2>Syntactic niceties</h2>
+
+<p>Swift is a very much streamlined language, and for low friction it seems to take a lot from F#. Like F#, a programmer can seemingly almost approach swift as a scripting language &ndash; the first line in your source file can be functioning application code, no boilerplate required! And the &lsquo;playground&rsquo; concept is very familiar to anyone who has used Scala Workspaces or F# interactive mode.</p>
+
+<p>The clarity of syntax is quite impressive &ndash; type inference introduces <code>var</code> and <code>let</code> common to many modern languages, and bracket-less control flow operations and optional semicolons make your code look a lot cleaner (and a bit like golang).</p>
+
+<p>Structure types may be initialised in-line at the point of instantiation: <code>val vga = VideoMode(width: 800, height: 600)</code>. Once you see this you think <em>of course, why would it be otherwise?</em></p>
+
+<p>Syntactically there is a lot of shorthand available for interacting with fundamental data types:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="c1">// create an Array[Int]</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">xs</span> <span class="p">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// create a Dictionary&lt;String,Double&gt;</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">menu</span> <span class="p">=</span> <span class="p">[</span><span class="s">&quot;Coffee&quot;</span><span class="p">:</span> <span class="m">3.5</span><span class="p">,</span> <span class="s">&quot;Bacon&quot;</span><span class="p">:</span> <span class="m">5.1</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// create a tuple of two strings</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">location</span> <span class="p">=</span> <span class="p">(</span><span class="s">&quot;Tokyo&quot;</span><span class="p">,</span> <span class="s">&quot;TYO&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// shorthand for iterating over Sequences</span>
+</span><span class='line'><span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="n">xs</span> <span class="p">{</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;x is \(x)&quot;</span><span class="p">)</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And anyone who loves Scala&rsquo;s string interpolation operators will appreciate the ability to write <code>println("hi, my age is \(me.age - 5)")</code>.</p>
+
+<p>As a special treat, Swift also supports Objective-C style named parameters. This can make some functions arguments more clear when they have the same type:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">func</span> <span class="nf">replace</span><span class="p">(</span><span class="n">inString</span> <span class="n">str</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="err">#</span><span class="k">value</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="err">#</span><span class="n">withValue</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// ... </span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// then later call it:</span>
+</span><span class='line'><span class="n">val</span> <span class="n">simplified</span> <span class="p">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">inString</span><span class="p">:</span> <span class="n">url</span><span class="p">,</span> <span class="k">value</span><span class="p">:</span> <span class="s">&quot;http://&quot;</span><span class="p">,</span> <span class="n">withValue</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>OK perhaps that is not a great example, but I think the concept has a lot of merit.</p>
+
+<h2>Functional concepts</h2>
+
+<p>In addition to type inference and closures, Swift has obviously been checking out the Scala and F# and the like for ideas, much to its credit.</p>
+
+<p>First, fret not because higher-order operations are all available to you, and included in the standard library are standard set of foundational functions you&rsquo;d expect in a functional language such that it is possible to write <code>var ys = map([1,2,3], {i in i * 2})</code>.</p>
+
+<p>But one thing that seems quite interesting to me is the extended syntax available to enumerations (known as &lsquo;associated types&rsquo;) that make them almost seem like <em>algebraic data types</em>&hellip;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">enum</span> <span class="n">Shape</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nf">Circle</span><span class="p">(</span><span class="n">Double</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nf">Ellipse</span><span class="p">(</span><span class="n">Double</span><span class="p">,</span> <span class="n">Double</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">case</span> <span class="nf">Square</span><span class="p">(</span><span class="n">Double</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">func</span> <span class="nf">area</span><span class="p">(</span><span class="n">s</span> <span class="p">:</span> <span class="n">Shape</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="n">Double</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">switch</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="p">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">let</span> <span class="n">radius</span><span class="p">):</span> <span class="k">return</span> <span class="m">3.14159</span> <span class="p">*</span> <span class="n">radius</span> <span class="p">*</span> <span class="n">radius</span>
+</span><span class='line'>    <span class="k">case</span> <span class="p">.</span><span class="n">Ellipse</span><span class="p">(</span><span class="n">let</span> <span class="n">min</span><span class="p">,</span> <span class="n">let</span> <span class="n">maj</span><span class="p">):</span> <span class="k">return</span> <span class="m">3.14159</span> <span class="p">*</span> <span class="n">min</span> <span class="p">*</span> <span class="n">maj</span>
+</span><span class='line'>    <span class="k">case</span> <span class="p">.</span><span class="n">Square</span><span class="p">(</span><span class="n">let</span> <span class="n">width</span><span class="p">):</span> <span class="k">return</span> <span class="n">width</span> <span class="p">*</span> <span class="n">width</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">area</span><span class="p">(</span><span class="n">Shape</span><span class="p">.</span><span class="n">Circle</span><span class="p">(</span><span class="m">10</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&hellip;plus, if you add a new value (say, Rectangle) to the enumeration the <code>area()</code> function will fail to compile, as the compiler will complain that the switch <em>must</em> be exhaustive. Take that scala!</p>
+
+<p>Tuples can be <em>pattern matched</em> using placeholders, bound parameters and <em>where</em> clauses, which is a fairly awesome thing:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">switch</span> <span class="p">(</span><span class="n">bounds</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>   <span class="k">case</span> <span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">):</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;zero bounds!&quot;</span><span class="p">)</span>
+</span><span class='line'>   <span class="k">case</span> <span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;x == 0&quot;</span><span class="p">)</span>
+</span><span class='line'>   <span class="k">case</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="m">0</span><span class="p">):</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;y == 0&quot;</span><span class="p">)</span>
+</span><span class='line'>   <span class="k">case</span> <span class="nf">let</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="k">where</span> <span class="n">x</span> <span class="p">&lt;</span> <span class="m">0</span> <span class="p">||</span> <span class="n">y</span> <span class="p">&lt;</span> <span class="m">0</span><span class="p">:</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;invalid bounds!&quot;</span><span class="p">)</span>
+</span><span class='line'>   <span class="k">case</span> <span class="nf">let</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="p">:</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;bounds are [\(x),\(y)]&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There is no true currying though of course it can be simulated by having functions return other functions &ndash; garbage collection + closures means that you can create generators along the lines of:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">func</span> <span class="nf">makeGenerator</span><span class="p">(</span><span class="n">increment</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="p">()</span> <span class="p">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">x</span> <span class="p">=</span> <span class="m">0</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">x</span> <span class="p">+=</span> <span class="n">increment</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">x</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">var</span> <span class="n">gen</span> <span class="p">=</span> <span class="n">makeGenerator</span><span class="p">(</span><span class="m">10</span><span class="p">)</span>
+</span><span class='line'><span class="k">for</span> <span class="kt">var</span> <span class="n">n</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">n</span> <span class="p">&lt;</span> <span class="m">100</span><span class="p">;</span> <span class="n">n</span> <span class="p">=</span> <span class="n">gen</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c1">// prints 0, 10, 20, 30...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><em>On a side note, Scala&rsquo;s currying leaves a lot to be desired, as does it&rsquo;s support of ADTs &ndash; one must explicitly make structures a </em>case class<em> before you get functionality approaching an ADT.</em></p>
+
+<p><em>Optional types</em> are also supported in the library but also with nice syntactic sugar. The <code>?</code> operator defines an optional type (similar to C#) and also allows operations on that type to be optionally unwound. The <code>!</code> operator forces unwinding, and causes an error if the optional type is not set.</p>
+
+<p>Also, there is some fancy syntax for switching on an optional type:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">struct</span> <span class="nc">Job</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span>  <span class="n">title</span><span class="p">:</span> <span class="n">String</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">struct</span> <span class="nc">Person</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">name</span><span class="p">:</span> <span class="n">String</span>
+</span><span class='line'>    <span class="kt">var</span> <span class="n">job</span><span class="p">:</span> <span class="n">Job</span><span class="p">?</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// create a person with no job!</span>
+</span><span class='line'><span class="kt">var</span> <span class="n">paul</span> <span class="p">=</span> <span class="n">Person</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="s">&quot;Paul&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="n">title</span> <span class="p">=</span> <span class="n">paul</span><span class="p">.</span><span class="n">job</span><span class="p">?.</span><span class="n">title</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;you are a \(title)!&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">else</span> <span class="p">{</span> <span class="c1">// fallthrough because there was a nil optional</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;you have no title!&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I haven&rsquo;t even touched on a few other cool features like <code>@lazy</code> annotation, generics, variadic parameters, or the myriad ways closures can be specified (it turns out <code>{$0}</code> is a valid closure, with inferred argument and return value!)</p>
+
+<h2>Do we need another language?</h2>
+
+<p>Swift is certainly more approachable than Objective-C, which I very much appreciate. Apple have always been quite good at providing an environment where different languages interoperate seamlessly, so there really seems no downside &ndash; if you have a lot invested in Objective-C you can still leverage all your previous work with Swift, or presumably use other peoples swift libraries in your own Objective-C applications.</p>
+
+<p>There will always be curmudgeons of course, but they should be ignored. The lengths that some will go to to justify not having to learn new concepts is always amazing to me, especially when doing so is the best way to progress in our industry!</p>
+
+<p>Apple takes the development of programming languages quite seriously. They are heading up some of the more interesting additions to new versions of C++, most anticipated (by me) being the &lsquo;modules&rsquo; concept that promise to bring C++ compile times and binary interfaces in line with more modern high-level languages. They play this role of innovator well here because the concepts outlined in their proposal are drawn directly from practical experience in implementing said features in the
+Objective C language itself.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Week in Review: Running in an infinite world]]></title>
     <link href="http://seshbot.com/blog/2014/05/31/week-in-review-running-in-an-infinite-world/"/>
-    <updated>2014-05-31T20:24:19+09:00</updated>
+    <updated>2014-05-31T11:24:19+00:00</updated>
     <id>http://seshbot.com/blog/2014/05/31/week-in-review-running-in-an-infinite-world</id>
     <content type="html"><![CDATA[<p>Here&rsquo;s a quick snap of the 2D SFML client alongside a new OpenGL client:
 <img src="http://seshbot.com/images/upload/2014-05-31-compare.png" title="&#34;SFML client alongside OpenGL client with QML overlays&#34;" alt="&#34;SFML client alongside OpenGL client with QML overlays&#34;"></p>
@@ -95,7 +312,7 @@ terrain service.</p>
   <entry>
     <title type="html"><![CDATA[Week in review: Porting to Qt/QML with OpenGL]]></title>
     <link href="http://seshbot.com/blog/2014/05/16/week-in-review-c-plus-plus/"/>
-    <updated>2014-05-16T09:56:26+09:00</updated>
+    <updated>2014-05-16T00:56:26+00:00</updated>
     <id>http://seshbot.com/blog/2014/05/16/week-in-review-c-plus-plus</id>
     <content type="html"><![CDATA[<p><em>So I took a month holiday, and got out of the habit of writing blogs&hellip; hopefully this will break the dam, it&rsquo;s not like I don&rsquo;t have a billion things to write about</em></p>
 
@@ -246,7 +463,7 @@ your chosen GL version.</p>
   <entry>
     <title type="html"><![CDATA[Week in Review: Making Games]]></title>
     <link href="http://seshbot.com/blog/2014/02/22/week-in-review-making-games/"/>
-    <updated>2014-02-22T10:35:00+09:00</updated>
+    <updated>2014-02-22T01:35:00+00:00</updated>
     <id>http://seshbot.com/blog/2014/02/22/week-in-review-making-games</id>
     <content type="html"><![CDATA[<p>I have once again bitten off a whole lot &ndash; I started making a game based on my fairly limited knowledge of how such things are done, and have found it very difficult to take a moment to distill my thoughts. In fact it has been nearly impossible as I have been constantly unsure of whether the approach I&rsquo;m taking is actually going to pay off in the long run!</p>
 
@@ -370,9 +587,9 @@ in Windows but has been trivial in OSX.</p>
   
   <entry>
     <title type="html"><![CDATA[Week in Review: Pausing Web App, Starting C++ App]]></title>
-    <link href="http://seshbot.com/blog/2014/02/03/week-in-review-pausing-web-app/"/>
-    <updated>2014-02-03T07:52:52+09:00</updated>
-    <id>http://seshbot.com/blog/2014/02/03/week-in-review-pausing-web-app</id>
+    <link href="http://seshbot.com/blog/2014/02/02/week-in-review-pausing-web-app/"/>
+    <updated>2014-02-02T22:52:52+00:00</updated>
+    <id>http://seshbot.com/blog/2014/02/02/week-in-review-pausing-web-app</id>
     <content type="html"><![CDATA[<p>Just over a week ago I decided to put down my web tools for a while and move to working in an environment in which I&rsquo;m much more comfortable &ndash; C++. I will definitely pick up the &lsquo;Table Top&rsquo; app (or whatever it turns into) again soon but I felt the need to do work that resulted in a more <em>tangible</em> product.</p>
 
 <p>Over the last few weeks I&rsquo;ve had a growing realisation that the foundation of web programming is still immature, and I am doubting the value in investing too much time learning the high-level technologies. I am not really one for learning frameworks in general actually &ndash; I much prefer learning languages and idioms &ndash; and modern web programming is all about rapidly changing high-level frameworks.</p>
@@ -444,9 +661,9 @@ in Windows but has been trivial in OSX.</p>
   
   <entry>
     <title type="html"><![CDATA[The best way for programmers to interview programmers]]></title>
-    <link href="http://seshbot.com/blog/2014/01/24/the-best-way-for-programmers-to-interview-programmers/"/>
-    <updated>2014-01-24T05:56:52+09:00</updated>
-    <id>http://seshbot.com/blog/2014/01/24/the-best-way-for-programmers-to-interview-programmers</id>
+    <link href="http://seshbot.com/blog/2014/01/23/the-best-way-for-programmers-to-interview-programmers/"/>
+    <updated>2014-01-23T20:56:52+00:00</updated>
+    <id>http://seshbot.com/blog/2014/01/23/the-best-way-for-programmers-to-interview-programmers</id>
     <content type="html"><![CDATA[<p><strong>Every programmer should know how to give technical interviews.</strong> Although you will rarely be judged on your interviewing abilities, it is definitely in your best interest to help ensure your company is hiring effective programmers. If you manage to surround yourself with great programmers you&rsquo;ll foster a much better environment in which you can become a great programmer yourself. If you find yourself surrounded by programmers you consider sub-par you&rsquo;ll end up supporting their crappy software.</p>
 
 <p><span class='pullquote-right' data-pullquote='the best way to find great programmers is by giving them some control over the interview topic, and then going deep into a few questions instead of broad across many topics'>
@@ -557,7 +774,7 @@ This question puts the ball firmly in the candidate&rsquo;s court, and largely e
   <entry>
     <title type="html"><![CDATA[Client-side authentication with ember and rails]]></title>
     <link href="http://seshbot.com/blog/2014/01/22/client-side-authentication-with-ember-and-rails/"/>
-    <updated>2014-01-22T09:30:27+09:00</updated>
+    <updated>2014-01-22T00:30:27+00:00</updated>
     <id>http://seshbot.com/blog/2014/01/22/client-side-authentication-with-ember-and-rails</id>
     <content type="html"><![CDATA[<p><em>This post follows on from the previous post <a href="http://seshbot.com/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch/">creating and deploying a rails + ember app from scratch</a>. In that post I created a basic ember application being served from rails. Here I&rsquo;ll be adding user authentication to the application I created using the &lsquo;edge template&rsquo; option I discussed, which uses the &lsquo;ember-rails&rsquo; gem to establish the basic connectivity.</em></p>
 
@@ -800,7 +1017,7 @@ This question puts the ball firmly in the candidate&rsquo;s court, and largely e
   <entry>
     <title type="html"><![CDATA[Creating and deploying a Rails + Ember app]]></title>
     <link href="http://seshbot.com/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch/"/>
-    <updated>2014-01-15T17:54:16+09:00</updated>
+    <updated>2014-01-15T08:54:16+00:00</updated>
     <id>http://seshbot.com/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch</id>
     <content type="html"><![CDATA[<p>Today I decided to wield my new Rails and Ember knowledge and&hellip; look into yet another new technology. I thought it would be helpful to have an online app to demonstrate the fruits of my labours, so am deploying a new app to <strong><a href="http://heroku.com">Heroku</a></strong>.</p>
 
@@ -1087,7 +1304,7 @@ This question puts the ball firmly in the candidate&rsquo;s court, and largely e
   <entry>
     <title type="html"><![CDATA[Learning Ruby and Rails]]></title>
     <link href="http://seshbot.com/blog/2014/01/14/learning-ruby-and-rails/"/>
-    <updated>2014-01-14T10:32:29+09:00</updated>
+    <updated>2014-01-14T01:32:29+00:00</updated>
     <id>http://seshbot.com/blog/2014/01/14/learning-ruby-and-rails</id>
     <content type="html"><![CDATA[<p><em>Note: The formatting of this article is not great, but I pumped it out quickly after going through the tutorials</em></p>
 
@@ -1496,7 +1713,7 @@ This question puts the ball firmly in the candidate&rsquo;s court, and largely e
   <entry>
     <title type="html"><![CDATA[This week in review: my game table web app]]></title>
     <link href="http://seshbot.com/blog/2014/01/11/this-week-in-review-the-game-table-web-app/"/>
-    <updated>2014-01-11T11:19:08+09:00</updated>
+    <updated>2014-01-11T02:19:08+00:00</updated>
     <id>http://seshbot.com/blog/2014/01/11/this-week-in-review-the-game-table-web-app</id>
     <content type="html"><![CDATA[<p>First here&rsquo;s a quick summary of what I got up to:</p>
 
@@ -1570,7 +1787,7 @@ I&rsquo;m not saying the framework is terrible, but all of the Ember help I foun
   <entry>
     <title type="html"><![CDATA[What's so hard about programming?]]></title>
     <link href="http://seshbot.com/blog/2014/01/06/whats-so-hard-about-programming/"/>
-    <updated>2014-01-06T20:19:49+09:00</updated>
+    <updated>2014-01-06T11:19:49+00:00</updated>
     <id>http://seshbot.com/blog/2014/01/06/whats-so-hard-about-programming</id>
     <content type="html"><![CDATA[<p>It is a fact that every programmer is the star of their peer group, and would spin out the most awesome cleanly-built apps if only he or she didn&rsquo;t have to work under these circumstances. It is also a fact that every programmer understands that they were terribly misguided just a few years prior.</p>
 
@@ -1664,7 +1881,7 @@ The agile principle of avoiding &lsquo;big design up-front&rsquo; leads people t
   <entry>
     <title type="html"><![CDATA[JavaScript in Modern Web Apps]]></title>
     <link href="http://seshbot.com/blog/2014/01/03/javascript-in-modern-web-apps/"/>
-    <updated>2014-01-03T23:20:08+09:00</updated>
+    <updated>2014-01-03T14:20:08+00:00</updated>
     <id>http://seshbot.com/blog/2014/01/03/javascript-in-modern-web-apps</id>
     <content type="html"><![CDATA[<p>The web development scene has moved dramatically since my own minor experience at an Internet business company 14 years ago. Back then we created <em>web pages</em> in ColdFusion/PHP/ASP marked-up HTML. Our main tools were frames and tables and a lot of homegrown convention to ensure headers/footers looked right. We spent most of our efforts on effectively using CSS to make our lives easier &ndash; not separating views from data or dynamically updating HTML elements.</p>
 
@@ -1767,7 +1984,7 @@ use in the browser.</p>
   <entry>
     <title type="html"><![CDATA[The Grand Experiment]]></title>
     <link href="http://seshbot.com/blog/2013/12/20/the-grand-experiment/"/>
-    <updated>2013-12-20T10:07:06+09:00</updated>
+    <updated>2013-12-20T01:07:06+00:00</updated>
     <id>http://seshbot.com/blog/2013/12/20/the-grand-experiment</id>
     <content type="html"><![CDATA[<p>A few months ago I decided to hand in my notice and live off my savings for a while. In 13 years of software development this is the first proper hiatus I&rsquo;ve taken so I have no idea what to expect.</p>
 

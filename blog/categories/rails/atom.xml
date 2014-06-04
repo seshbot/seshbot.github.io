@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-06-01T00:32:24+09:00</updated>
+  <updated>2014-06-04T05:07:45+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Client-side authentication with ember and rails]]></title>
     <link href="http://seshbot.com/blog/2014/01/22/client-side-authentication-with-ember-and-rails/"/>
-    <updated>2014-01-22T09:30:27+09:00</updated>
+    <updated>2014-01-22T00:30:27+00:00</updated>
     <id>http://seshbot.com/blog/2014/01/22/client-side-authentication-with-ember-and-rails</id>
     <content type="html"><![CDATA[<p><em>This post follows on from the previous post <a href="/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch/">creating and deploying a rails + ember app from scratch</a>. In that post I created a basic ember application being served from rails. Here I&rsquo;ll be adding user authentication to the application I created using the &lsquo;edge template&rsquo; option I discussed, which uses the &lsquo;ember-rails&rsquo; gem to establish the basic connectivity.</em></p>
 
@@ -252,7 +252,7 @@ bundle exec rake db:migrate</p>
   <entry>
     <title type="html"><![CDATA[Creating and deploying a Rails + Ember app]]></title>
     <link href="http://seshbot.com/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch/"/>
-    <updated>2014-01-15T17:54:16+09:00</updated>
+    <updated>2014-01-15T08:54:16+00:00</updated>
     <id>http://seshbot.com/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch</id>
     <content type="html"><![CDATA[<p>Today I decided to wield my new Rails and Ember knowledge and&hellip; look into yet another new technology. I thought it would be helpful to have an online app to demonstrate the fruits of my labours, so am deploying a new app to <strong><a href="http://heroku.com">Heroku</a></strong>.</p>
 
@@ -486,7 +486,7 @@ heroku run rake db:migrate
   <entry>
     <title type="html"><![CDATA[Learning Ruby and Rails]]></title>
     <link href="http://seshbot.com/blog/2014/01/14/learning-ruby-and-rails/"/>
-    <updated>2014-01-14T10:32:29+09:00</updated>
+    <updated>2014-01-14T01:32:29+00:00</updated>
     <id>http://seshbot.com/blog/2014/01/14/learning-ruby-and-rails</id>
     <content type="html"><![CDATA[<p><em>Note: The formatting of this article is not great, but I pumped it out quickly after going through the tutorials</em></p>
 

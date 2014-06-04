@@ -4,7 +4,7 @@
   <title><![CDATA[Category: OpenGL | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/opengl/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-06-01T00:32:24+09:00</updated>
+  <updated>2014-06-04T05:07:45+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Week in Review: Running in an infinite world]]></title>
     <link href="http://seshbot.com/blog/2014/05/31/week-in-review-running-in-an-infinite-world/"/>
-    <updated>2014-05-31T20:24:19+09:00</updated>
+    <updated>2014-05-31T11:24:19+00:00</updated>
     <id>http://seshbot.com/blog/2014/05/31/week-in-review-running-in-an-infinite-world</id>
     <content type="html"><![CDATA[<p>Here&rsquo;s a quick snap of the 2D SFML client alongside a new OpenGL client:
 <img src="/images/upload/2014-05-31-compare.png" title="&ldquo;SFML client alongside OpenGL client with QML overlays&rdquo;" ></p>
