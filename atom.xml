@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-06-04T05:09:45+00:00</updated>
+  <updated>2014-06-04T05:28:48+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -220,7 +220,24 @@ would be far better off being more declarative.</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><em>Note: this doesn&rsquo;t currently compile &ndash; the current XCode 6 beta does not compile the samples provided by the documentation. I&rsquo;ll leave this here though because it still captures the intent of the optionals feature</em></p>
+
+<p>Notice how the <code>if`` resolves the expression as false because the</code>?&#8220;` operator did not resolve.</p>
+
 <p>I haven&rsquo;t even touched on a few other cool features like <code>@lazy</code> annotation, generics, variadic parameters, or the myriad ways closures can be specified (it turns out <code>{$0}</code> is a valid closure, with inferred argument and return value!)</p>
+
+<h2>OO niceties</h2>
+
+<p>I&rsquo;ll describe some features based on where I find them most familiar from:</p>
+
+<ul>
+<li><em>C#</em> &ndash; <code>struct</code> and <code>class</code> types. Classes are reference-counted (see below) while structs have value semantics (are destroyed automatically.)</li>
+<li><em>C#</em> &ndash; extensions and computed properties remind me of C# <em>extension methods</em></li>
+<li><em>Objective-C</em> &ndash; <em>Automatic Reference Counting</em> (ARC) provides a kind of semi-manual garbage collection. Essentially whenever you set a reference type to <code>nil</code> it will be collected. (The language also supports weak references.) This system is similar to using <code>shared_ptr</code>s in C++ in that you can end up with circular references, but unlike C++ there don&rsquo;t seem to be any automatic scoping facilities that relinquish resources as they move out of scope. I might be wrong about this.</li>
+<li><em>Objective-C</em> &ndash; Swift supports the notion of <em>protocols</em> for polymorphic behaviour</li>
+<li><em>?</em> &ndash; Object identity can be compared (i.e., are these references to the same object?) using the <code>===</code> operator.</li>
+</ul>
+
 
 <h2>Do we need another language?</h2>
 
