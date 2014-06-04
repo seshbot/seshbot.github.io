@@ -7,6 +7,10 @@ categories: Languages OSX
 keywords: "Swift,OSX,language" 
 ---
 
+_Note 1: these are first impressions only - I've only spent a day really looking at the docs and playing with the XCode beta so I am probably mistaken about some stuff_
+
+_Note 2: I am using a beta of XCode, and it has caused me some trouble (a mysterious service it starts keeps crashing, filling my HDD up with core files.) I would recommend waiting for the non-beta if I were you._
+
 Apple recently announced the support of a new language targeted at the same application programming space as Objective C. It's called Swift and it seems to me a very good summary of the features all modern imperative languages are striving for. 
 
 The last decade or so has seen a strong resurgence in functional programing evangelism. Languages like F#, Scala, Clojure and even Erlang for a while re-introduced to mainstream programmers high-level concepts that imperative programmers were largely unfamiliar with. A short experiment with a language supporting algebraic data types, type inference, higher order functions, closures, or the standard foundational map, reduce and fold functions will convince any programmer that their language
@@ -16,7 +20,9 @@ For a comprehensive guide to the Swift language see the [Swift tour](https://dev
 
 {% img /images/upload/2014-06-04-swift-xcode6.png "Some Swift code in Xcode 6 beta" %}
 
-In this article I go over what I like about this language that I see a lot of other languages striving for.
+I have wanted two write another iOS app for a while now, and so I'm thinking Swift may be the way forward for me there. To that end I've spent all this morning going through docs and messing with XCode to get a feel for the various idioms and coding styles it encourages... 
+
+<!-- more -->
 
 ## Syntactic niceties
 
@@ -133,7 +139,21 @@ else { // fallthrough because there was a nil optional
 }
 ```
 
+_Note: this doesn't currently compile - the current XCode 6 beta does not compile the samples provided by the documentation. I'll leave this here though because it still captures the intent of the optionals feature_
+
+Notice how the ```if`` resolves the expression as false because the ```?``` operator did not resolve.
+
 I haven't even touched on a few other cool features like ```@lazy``` annotation, generics, variadic parameters, or the myriad ways closures can be specified (it turns out ```{$0}``` is a valid closure, with inferred argument and return value!)
+
+## OO niceties
+
+I'll describe some features based on where I find them most familiar from:
+
+- *C#* - ```struct``` and ```class``` types. Classes are reference-counted (see below) while structs have value semantics (are destroyed automatically.) 
+- *C#* - extensions and computed properties remind me of C# _extension methods_
+- *Objective-C* - _Automatic Reference Counting_ (ARC) provides a kind of semi-manual garbage collection. Essentially whenever you set a reference type to ```nil``` it will be collected. (The language also supports weak references.) This system is similar to using ```shared_ptr```s in C++ in that you can end up with circular references, but unlike C++ there don't seem to be any automatic scoping facilities that relinquish resources as they move out of scope. I might be wrong about this. 
+- *Objective-C* - Swift supports the notion of _protocols_ for polymorphic behaviour
+- *?* - Object identity can be compared (i.e., are these references to the same object?) using the ```===``` operator. 
 
 ## Do we need another language?
 
