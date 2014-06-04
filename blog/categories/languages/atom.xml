@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Languages | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/languages/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-06-04T06:10:52+00:00</updated>
+  <updated>2014-06-04T09:23:36+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -193,6 +193,16 @@ else { // fallthrough because there was a nil optional</p>
 <li><em>?</em> &ndash; Object identity can be compared (i.e., are these references to the same object?) using the <code>===</code> operator.</li>
 </ul>
 
+
+<h2>Does it go far enough?</h2>
+
+<p>In many ways this is a fairly conservative language &ndash; Swift is clean and nice to use, and I think would make a good replacement for Objective-C, but most other modern languages are focusing on higher level concepts that don&rsquo;t seem to be getting a showing here.</p>
+
+<p>The main thing that comes to mind is the lack of language features to help out with thread synchronisation and concurrency. Other languages are focusing on lightweight thread-like structures or coroutines, asynchronous actors or asynchronous computation expressions/monad type syntax (think F# <code>async {}</code>.)</p>
+
+<p>This is the first release of this language and I think some initial conservatism might be sensible. Typically I think compiled and C-based languages have preferred to put new functionality into libraries and only reluctantly add keywords and syntax to the existing base language. On the other hand, other languages (C# 5, F#, Haskell) have shown that without syntactic sugar (like <code>async { }</code>, <code>do { }</code>, <code>yield</code> and the like) it is seemingly implausible to make async-friendly code look super readable and imperative, avoiding what is often known as <em>callback hell</em>.</p>
+
+<p>So here&rsquo;s hoping this project keeps the steam it&rsquo;s started off with.</p>
 
 <h2>Do we need another language?</h2>
 
