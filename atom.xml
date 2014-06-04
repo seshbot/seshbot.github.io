@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-06-04T09:24:32+00:00</updated>
+  <updated>2014-06-04T09:40:07+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -183,7 +183,7 @@ would be far better off being more declarative.</p>
 
 <p><em>On a side note, Scala&rsquo;s currying leaves a lot to be desired, as does it&rsquo;s support of ADTs &ndash; one must explicitly make structures a </em>case class<em> before you get functionality approaching an ADT.</em></p>
 
-<p><em>Optional types</em> are also supported in the library but also with nice syntactic sugar. The <code>?</code> operator defines an optional type (similar to C#) and also allows operations on that type to be optionally unwound. The <code>!</code> operator forces unwinding, and causes an error if the optional type is not set.</p>
+<p><em>Optional types</em> are also supported in the library but also with nice syntactic sugar. The <code>?</code> operator defines an optional type (similar to C#) and also allows operations on that type to be optionally unwound (unlike C#!) The <code>!</code> operator forces unwinding, and causes an error if the optional type is not set.</p>
 
 <p>Also, there is some fancy syntax for switching on an optional type:</p>
 
