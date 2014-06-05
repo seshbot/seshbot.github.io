@@ -4,7 +4,7 @@
   <title><![CDATA[Category: OSX | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/osx/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-06-04T09:40:07+00:00</updated>
+  <updated>2014-06-05T03:07:54+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -177,7 +177,7 @@ else { // fallthrough because there was a nil optional</p>
 
 <p><em>Note: this doesn&rsquo;t currently compile &ndash; the current XCode 6 beta does not compile the samples provided by the documentation. I&rsquo;ll leave this here though because it still captures the intent of the optionals feature</em></p>
 
-<p>Notice how the <code>if`` resolves the expression as false because the</code>?``` operator did not resolve.</p>
+<p>Notice how the <code>if</code> resolves the expression as false because the <code>?</code> operator did not resolve &ndash; these can be cascaded, which is something that&rsquo;s only being introduced to C# in the next version..</p>
 
 <p>I haven&rsquo;t even touched on a few other cool features like <code>@lazy</code> annotation, generics, variadic parameters, or the myriad ways closures can be specified (it turns out <code>{$0}</code> is a valid closure, with inferred argument and return value!)</p>
 
