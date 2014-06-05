@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-06-05T03:17:03+00:00</updated>
+  <updated>2014-06-05T05:13:11+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -31,7 +31,7 @@ would be far better off being more declarative.</p>
 
 <p><img src="http://seshbot.com/images/upload/2014-06-04-swift-xcode6.png" title="&#34;Some Swift code in Xcode 6 beta&#34;" alt="&#34;Some Swift code in Xcode 6 beta&#34;"></p>
 
-<p>I have wanted two write another iOS app for a while now, and so I&rsquo;m thinking Swift may be the way forward for me there. To that end I&rsquo;ve spent all this morning going through docs and messing with XCode to get a feel for the various idioms and coding styles it encourages&hellip;</p>
+<p>I have wanted to write another iOS app for a while now, and so I&rsquo;m thinking Swift may be the way forward for me there. To that end I&rsquo;ve spent all this morning going through docs and messing with XCode to get a feel for the various idioms and coding styles it encourages&hellip;</p>
 
 <!-- more -->
 
