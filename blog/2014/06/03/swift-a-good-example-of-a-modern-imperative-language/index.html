@@ -120,7 +120,7 @@ would be far better off being more declarative.</p>
 
 <p>The clarity of syntax is quite impressive &ndash; type inference introduces <code>var</code> and <code>let</code> common to many modern languages, and bracket-less control flow operations and optional semicolons make your code look a lot cleaner (and a bit like golang).</p>
 
-<p>Structure types may be initialised in-line at the point of instantiation: <code>val vga = VideoMode(width: 800, height: 600)</code>. Once you see this you think <em>of course, why would it be otherwise?</em></p>
+<p>Structure types may be initialised in-line at the point of instantiation: <code>let vga = VideoMode(width: 800, height: 600)</code>. Once you see this you think <em>of course, why would it be otherwise?</em></p>
 
 <p>Syntactically there is a lot of shorthand available for interacting with fundamental data types:</p>
 
@@ -136,13 +136,13 @@ would be far better off being more declarative.</p>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 </pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="c1">// create an Array[Int]</span>
-</span><span class='line'><span class="kt">var</span> <span class="n">xs</span> <span class="p">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">]</span>
+</span><span class='line'><span class="n">let</span> <span class="n">xs</span> <span class="p">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">]</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// create a Dictionary&lt;String,Double&gt;</span>
-</span><span class='line'><span class="kt">var</span> <span class="n">menu</span> <span class="p">=</span> <span class="p">[</span><span class="s">&quot;Coffee&quot;</span><span class="p">:</span> <span class="m">3.5</span><span class="p">,</span> <span class="s">&quot;Bacon&quot;</span><span class="p">:</span> <span class="m">5.1</span><span class="p">]</span>
+</span><span class='line'><span class="n">let</span> <span class="n">menu</span> <span class="p">=</span> <span class="p">[</span><span class="s">&quot;Coffee&quot;</span><span class="p">:</span> <span class="m">3.5</span><span class="p">,</span> <span class="s">&quot;Bacon&quot;</span><span class="p">:</span> <span class="m">5.1</span><span class="p">]</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// create a tuple of two strings</span>
-</span><span class='line'><span class="kt">var</span> <span class="n">location</span> <span class="p">=</span> <span class="p">(</span><span class="s">&quot;Tokyo&quot;</span><span class="p">,</span> <span class="s">&quot;TYO&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">let</span> <span class="n">location</span> <span class="p">=</span> <span class="p">(</span><span class="s">&quot;Tokyo&quot;</span><span class="p">,</span> <span class="s">&quot;TYO&quot;</span><span class="p">)</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// shorthand for iterating over Sequences</span>
 </span><span class='line'><span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="n">xs</span> <span class="p">{</span> <span class="n">println</span><span class="p">(</span><span class="s">&quot;x is \(x)&quot;</span><span class="p">)</span> <span class="p">}</span>
@@ -164,7 +164,7 @@ would be far better off being more declarative.</p>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// then later call it:</span>
-</span><span class='line'><span class="n">val</span> <span class="n">simplified</span> <span class="p">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">inString</span><span class="p">:</span> <span class="n">url</span><span class="p">,</span> <span class="k">value</span><span class="p">:</span> <span class="s">&quot;http://&quot;</span><span class="p">,</span> <span class="n">withValue</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="n">let</span> <span class="n">simplified</span> <span class="p">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">inString</span><span class="p">:</span> <span class="n">url</span><span class="p">,</span> <span class="k">value</span><span class="p">:</span> <span class="s">&quot;http://&quot;</span><span class="p">,</span> <span class="n">withValue</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">);</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
