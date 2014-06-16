@@ -9,7 +9,7 @@
 
 <meta name="author" content="Paul Cechner"> 
 
-<meta name="description" content="This is my favourite trick with make: easily create quick apps without setting up any projects or infrastructure at all. I have no idea where I &hellip;"> <meta name="keywords" content="">
+<meta name="description" content="I use CMake personally because managing Makefiles is a hassle. However, I still use make regularly for one purpose: to easily create quick apps &hellip;"> <meta name="keywords" content="">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -105,7 +105,7 @@ $(document).ready(
 			Make With No Makefile for C++ Playgrounds</a>
 	</h2>
 	<div class="entry-content">
-		<p>This is my favourite trick with make: easily create quick apps without setting up any projects or infrastructure at all. I have no idea where I first heard about this trick, and I can find very little referring to it on the internet. I recently found out that most people didn&rsquo;t know about it though, so I thought I&rsquo;d put a bit of info up here so others can benefit from it.</p>
+		<p>I use CMake personally because managing Makefiles is a hassle. However, I still use make regularly for one purpose: to easily create quick apps without setting up any projects or infrastructure at all. I have no idea where I first heard about this trick, and I can find very little referring to it on the internet. I recently found out that most people didn&rsquo;t know about it though, so I thought I&rsquo;d put a bit of info up here so others can benefit from it.</p>
 
 <p>Generally when using C++ in an IDE it can be a hassle to create a small test application for, say, verifying a new language feature works the way you think it does, or creating a test bed to create a self-contained but complicated algorithm. In such cases, when I am using an OS that supports <code>make</code>, I generally do this:</p>
 
@@ -122,9 +122,36 @@ $(document).ready(
 
 <p>There is no easy way to make it automatically detect dependencies and include them, so all your source has to be within that one file. But there are some further tricks you can do&hellip;</p>
 
+<h2>Compilation options</h2>
+
+<p>By default on my OSX at the moment, make will call my CLang compiler:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> <span class="s2">&quot;int main() {}&quot;</span> &gt; tmp.cpp
+</span><span class='line'>make tmp
+</span><span class='line'><span class="c"># c++ tmp.cpp -o tmp</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But without any special flags, CLang will compile without C++14 support, which I really want!</p>
+
+<p>An easy workaround to this is to set your <code>CXXFLAGS</code> environment variable that contains the flags you always want to be passed to your C++ compiler by default. In my machine I have added to my <code>~/.bash_profile</code> file: <code>CXXFLAGS='-std=c++1y -stdlib=libc++'</code>. Now when I run this command I get:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>make tmp
+</span><span class='line'><span class="c"># c++ -std=c++1y -stdlib=libc++    tmp.cpp   -o tmp</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Thats pretty cool. Of course you can set any of make&rsquo;s <a href="http://www.gnu.org/software/make/manual/html_node/Implicit-Variables.html">implicit variables</a> to ensure your app is built with these flags by default. For example, the compiler can be changed to GCC by setting <code>CXX=gcc</code>.</p>
+
+<p>You can also include default include paths and libraries to link against, so that your small apps are able to incorporate boost or even your own library that you are developing.</p>
 
 		
-		<a href="/blog/2014/06/16/make-with-no-makefile-for-c-plus-plus-playgrounds/" class="more-link">Read on &rarr;</a>
+		
 	</div>
 
 

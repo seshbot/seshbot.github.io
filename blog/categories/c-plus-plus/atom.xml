@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C++ | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/c-plus-plus/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-06-16T01:52:12+00:00</updated>
+  <updated>2014-06-16T02:01:08+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -18,7 +18,7 @@
     <link href="http://seshbot.com/blog/2014/06/16/make-with-no-makefile-for-c-plus-plus-playgrounds/"/>
     <updated>2014-06-16T01:23:57+00:00</updated>
     <id>http://seshbot.com/blog/2014/06/16/make-with-no-makefile-for-c-plus-plus-playgrounds</id>
-    <content type="html"><![CDATA[<p>This is my favourite trick with make: easily create quick apps without setting up any projects or infrastructure at all. I have no idea where I first heard about this trick, and I can find very little referring to it on the internet. I recently found out that most people didn&rsquo;t know about it though, so I thought I&rsquo;d put a bit of info up here so others can benefit from it.</p>
+    <content type="html"><![CDATA[<p>I use CMake personally because managing Makefiles is a hassle. However, I still use make regularly for one purpose: to easily create quick apps without setting up any projects or infrastructure at all. I have no idea where I first heard about this trick, and I can find very little referring to it on the internet. I recently found out that most people didn&rsquo;t know about it though, so I thought I&rsquo;d put a bit of info up here so others can benefit from it.</p>
 
 <p>Generally when using C++ in an IDE it can be a hassle to create a small test application for, say, verifying a new language feature works the way you think it does, or creating a test bed to create a self-contained but complicated algorithm. In such cases, when I am using an OS that supports <code>make</code>, I generally do this:</p>
 
@@ -34,26 +34,27 @@ vim blah.cpp</p>
 
 <p>There is no easy way to make it automatically detect dependencies and include them, so all your source has to be within that one file. But there are some further tricks you can do&hellip;</p>
 
-<!-- more -->
-
-
 <h2>Compilation options</h2>
 
 <p>By default on my OSX at the moment, make will call my CLang compiler:
-<code>
-echo "int main() {}" &gt; tmp.cpp
-make tmp
-c++ tmp.cpp -o tmp
-</code></p>
+```
+echo &ldquo;int main() {}&rdquo; > tmp.cpp
+make tmp</p>
 
-<p>But without any special flags, CLang will compile without C++11 support, which I really want!</p>
+<h1>c++ tmp.cpp -o tmp</h1>
 
-<p>An easy workaround to this is to set your <code>CXXFLAGS</code> environment variable that contains the flags you always want to be passed to your C++ compiler by default. In my machine I have added to my <code>~/.bash_profile</code> file: <code>CXXFLAGS='-std=c++11 -stdlib=libc++'</code>. Now when I run this command I get:</p>
+<p>```</p>
 
-<p><code>
-make tmp
-c++ -std=c++1y -stdlib=libc++    tmp.cpp   -o tmp
-</code></p>
+<p>But without any special flags, CLang will compile without C++14 support, which I really want!</p>
+
+<p>An easy workaround to this is to set your <code>CXXFLAGS</code> environment variable that contains the flags you always want to be passed to your C++ compiler by default. In my machine I have added to my <code>~/.bash_profile</code> file: <code>CXXFLAGS='-std=c++1y -stdlib=libc++'</code>. Now when I run this command I get:</p>
+
+<p>```
+make tmp</p>
+
+<h1>c++ -std=c++1y -stdlib=libc++    tmp.cpp   -o tmp</h1>
+
+<p>```</p>
 
 <p>Thats pretty cool. Of course you can set any of make&rsquo;s <a href="http://www.gnu.org/software/make/manual/html_node/Implicit-Variables.html">implicit variables</a> to ensure your app is built with these flags by default. For example, the compiler can be changed to GCC by setting <code>CXX=gcc</code>.</p>
 
