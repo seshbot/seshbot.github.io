@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: tricks | Seshbot Programs]]></title>
+  <link href="http://seshbot.com/blog/categories/tricks/atom.xml" rel="self"/>
+  <link href="http://seshbot.com/"/>
+  <updated>2014-06-16T01:52:12+00:00</updated>
+  <id>http://seshbot.com/</id>
+  <author>
+    <name><![CDATA[Paul Cechner]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Make with no Makefile for C++ playgrounds]]></title>
+    <link href="http://seshbot.com/blog/2014/06/16/make-with-no-makefile-for-c-plus-plus-playgrounds/"/>
+    <updated>2014-06-16T01:23:57+00:00</updated>
+    <id>http://seshbot.com/blog/2014/06/16/make-with-no-makefile-for-c-plus-plus-playgrounds</id>
+    <content type="html"><![CDATA[<p>This is my favourite trick with make: easily create quick apps without setting up any projects or infrastructure at all. I have no idea where I first heard about this trick, and I can find very little referring to it on the internet. I recently found out that most people didn&rsquo;t know about it though, so I thought I&rsquo;d put a bit of info up here so others can benefit from it.</p>
+
+<p>Generally when using C++ in an IDE it can be a hassle to create a small test application for, say, verifying a new language feature works the way you think it does, or creating a test bed to create a self-contained but complicated algorithm. In such cases, when I am using an OS that supports <code>make</code>, I generally do this:</p>
+
+<p>```bash
+vim blah.cpp</p>
+
+<h1>write your small app</h1>
+
+<p>make blah
+```</p>
+
+<p>&hellip; and that&rsquo;s it. It turns out <code>make</code>, when no makefile is present, will try a bunch of stuff that includes searching for <code>.c</code> and <code>.cpp</code> candidate files for generating your target. If the target (in this case &lsquo;blah&rsquo;) ended instead in <code>.o</code> it would sensibly generate an object file without linking it into an executable!</p>
+
+<p>There is no easy way to make it automatically detect dependencies and include them, so all your source has to be within that one file. But there are some further tricks you can do&hellip;</p>
+
+<!-- more -->
+
+
+<h2>Compilation options</h2>
+
+<p>By default on my OSX at the moment, make will call my CLang compiler:
+<code>
+echo "int main() {}" &gt; tmp.cpp
+make tmp
+c++ tmp.cpp -o tmp
+</code></p>
+
+<p>But without any special flags, CLang will compile without C++11 support, which I really want!</p>
+
+<p>An easy workaround to this is to set your <code>CXXFLAGS</code> environment variable that contains the flags you always want to be passed to your C++ compiler by default. In my machine I have added to my <code>~/.bash_profile</code> file: <code>CXXFLAGS='-std=c++11 -stdlib=libc++'</code>. Now when I run this command I get:</p>
+
+<p><code>
+make tmp
+c++ -std=c++1y -stdlib=libc++    tmp.cpp   -o tmp
+</code></p>
+
+<p>Thats pretty cool. Of course you can set any of make&rsquo;s <a href="http://www.gnu.org/software/make/manual/html_node/Implicit-Variables.html">implicit variables</a> to ensure your app is built with these flags by default. For example, the compiler can be changed to GCC by setting <code>CXX=gcc</code>.</p>
+
+<p>You can also include default include paths and libraries to link against, so that your small apps are able to incorporate boost or even your own library that you are developing.</p>
+]]></content>
+  </entry>
+  
+</feed>

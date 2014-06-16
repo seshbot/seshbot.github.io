@@ -9,7 +9,7 @@
 
 <meta name="author" content="Paul Cechner"> 
 
-<meta name="description" content="Note 1: these are first impressions only &ndash; I&rsquo;ve only spent a day really looking at the docs and playing with the XCode beta so I am &hellip;"> <meta name="keywords" content="">
+<meta name="description" content="This is my favourite trick with make: easily create quick apps without setting up any projects or infrastructure at all. I have no idea where I &hellip;"> <meta name="keywords" content="">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -100,6 +100,66 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/2014/06/16/make-with-no-makefile-for-c-plus-plus-playgrounds/">
+		
+			Make With No Makefile for C++ Playgrounds</a>
+	</h2>
+	<div class="entry-content">
+		<p>This is my favourite trick with make: easily create quick apps without setting up any projects or infrastructure at all. I have no idea where I first heard about this trick, and I can find very little referring to it on the internet. I recently found out that most people didn&rsquo;t know about it though, so I thought I&rsquo;d put a bit of info up here so others can benefit from it.</p>
+
+<p>Generally when using C++ in an IDE it can be a hassle to create a small test application for, say, verifying a new language feature works the way you think it does, or creating a test bed to create a self-contained but complicated algorithm. In such cases, when I am using an OS that supports <code>make</code>, I generally do this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vim blah.cpp
+</span><span class='line'><span class="c"># write your small app</span>
+</span><span class='line'>make blah
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&hellip; and that&rsquo;s it. It turns out <code>make</code>, when no makefile is present, will try a bunch of stuff that includes searching for <code>.c</code> and <code>.cpp</code> candidate files for generating your target. If the target (in this case &lsquo;blah&rsquo;) ended instead in <code>.o</code> it would sensibly generate an object file without linking it into an executable!</p>
+
+<p>There is no easy way to make it automatically detect dependencies and include them, so all your source has to be within that one file. But there are some further tricks you can do&hellip;</p>
+
+
+		
+		<a href="/blog/2014/06/16/make-with-no-makefile-for-c-plus-plus-playgrounds/" class="more-link">Read on &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-16T01:23:57+00:00" pubdate data-updated="true">Jun 16<span>th</span>, 2014</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/c-plus-plus/'>C++</a>, <a class='category' href='/blog/categories/tricks/'>tricks</a>
+
+</div>
+
+
+	
+		<span class="comments"><a href="/blog/2014/06/16/make-with-no-makefile-for-c-plus-plus-playgrounds//index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/2014/06/03/swift-a-good-example-of-a-modern-imperative-language/">
 		
 			Swift: A Solid Modern Imperative Language</a>
@@ -118,7 +178,7 @@ would be far better off being more declarative.</p>
 
 <p><img src="/images/upload/2014-06-04-swift-xcode6.png" title="&#34;Some Swift code in Xcode 6 beta&#34;" alt="&#34;Some Swift code in Xcode 6 beta&#34;"></p>
 
-<p>I have wanted to write another iOS app for a while now, and so I&rsquo;m thinking Swift may be the way forward for me there. To that end I&rsquo;ve spent all this morning going through docs and messing with XCode to get a feel for the various idioms and coding styles it encourages&hellip;</p>
+<p>I have wanted two write another iOS app for a while now, and so I&rsquo;m thinking Swift may be the way forward for me there. To that end I&rsquo;ve spent all this morning going through docs and messing with XCode to get a feel for the various idioms and coding styles it encourages&hellip;</p>
 
 
 		
@@ -597,74 +657,6 @@ I have been interviewing programmers for many years and reckon the best way to f
 
 	
 		<span class="comments"><a href="/blog/2014/01/14/learning-ruby-and-rails//index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/01/11/this-week-in-review-the-game-table-web-app/">
-		
-			This Week in Review: My Game Table Web App</a>
-	</h2>
-	<div class="entry-content">
-		<p>First here&rsquo;s a quick summary of what I got up to:</p>
-
-<ol>
-<li>trying to build a simple &lsquo;gaming table&rsquo; application in Ember.js,</li>
-<li>styling with Twitter bootstrap,</li>
-<li>messing with plugins in my blog (trying unsuccessfully to fix code highlighting, and adding a UML tool &ndash; see below)</li>
-</ol>
-
-
-<center><img src='/images/plantuml/7f148dfb8d968e365103d42622a30b55.png'></center>
-
-
-<p>I spent most of my time learning about Ember. <a href="http://emberjs.com">Ember.js</a> is a very nice looking front-end MVC framework that has a very appealing <a href="http://emberjs.com/guides/">getting started guide</a> that make it look <em>super simple</em> to create a reactive application. Three things that people will not tell you however:</p>
-
-<ul>
-<li>demo videos only ever show the main usage scenario of that framework</li>
-<li>most new frameworks change so often that they&rsquo;re either unstable or very little up-to-date documentation exists, and</li>
-<li>many of the benefits they offer you probably won&rsquo;t end up using anyway, for various reasons</li>
-</ul>
-
-
-<p>For now though I&rsquo;ll go ahead with it because I feel that I&rsquo;m just about to start doing cool stuff in it (it kinda always feels like this though.)</p>
-
-<p><strong>Next week</strong> I&rsquo;m thinking of switching back to some C++ stuff so I can dabble in a realm I&rsquo;m more comfortable with for a while&hellip; Monday is a public holiday in Japan though so I&rsquo;ll probably be wandering around and not programming much.</p>
-
-
-		
-		<a href="/blog/2014/01/11/this-week-in-review-the-game-table-web-app/" class="more-link">Read on &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-11T02:19:08+00:00" pubdate data-updated="true">Jan 11<span>th</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/ember/'>Ember</a>, <a class='category' href='/blog/categories/weekinreview/'>WeekInReview</a>
-
-</div>
-
-
-	
-		<span class="comments"><a href="/blog/2014/01/11/this-week-in-review-the-game-table-web-app//index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 
