@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tricks | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/tricks/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-06-16T02:13:45+00:00</updated>
+  <updated>2014-06-16T02:23:27+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -14,11 +14,11 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Make with no Makefile for small C++ testbed apps]]></title>
+    <title type="html"><![CDATA[C++ trick: Use Make without Makefiles]]></title>
     <link href="http://seshbot.com/blog/2014/06/16/make-with-no-makefile-for-c-plus-plus-playgrounds/"/>
     <updated>2014-06-16T01:23:57+00:00</updated>
     <id>http://seshbot.com/blog/2014/06/16/make-with-no-makefile-for-c-plus-plus-playgrounds</id>
-    <content type="html"><![CDATA[<p>I use CMake personally because managing Makefiles is a hassle. However, I still use make regularly for one purpose: to easily create quick apps without setting up any projects or infrastructure at all. I have no idea where I first heard about this trick, and I can find very little referring to it on the internet. I recently found out that most people didn&rsquo;t know about it though, so I thought I&rsquo;d put a bit of info up here so others can benefit from it.</p>
+    <content type="html"><![CDATA[<p>I use CMake personally because managing Makefiles is a hassle. However, I still use <code>make</code> regularly for one purpose: to easily create quick apps without setting up any projects or infrastructure at all. I have no idea where I first heard about this trick, and I can find very little referring to it on the internet. I recently found out that most people didn&rsquo;t know about it though, so I thought I&rsquo;d put a bit of info up here so others can benefit from it.</p>
 
 <p>Generally when using C++ in an IDE it can be a hassle to create a small test application for, say, verifying a new language feature works the way you think it does, or creating a test bed to create a self-contained but complicated algorithm. In such cases, when I am using an OS that supports <code>make</code>, I generally do this:</p>
 
