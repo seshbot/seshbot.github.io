@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C++ | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/c-plus-plus/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-06-16T02:23:27+00:00</updated>
+  <updated>2014-06-16T02:29:37+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -27,7 +27,11 @@ vim blah.cpp</p>
 
 <h1>write your small app</h1>
 
-<p>make blah
+<p>make blah</p>
+
+<h1>make magically runs &lsquo;c++ tmp.cpp -o tmp&rsquo;</h1>
+
+<p>./blah
 ```</p>
 
 <p>&hellip; and that&rsquo;s it. It turns out <code>make</code>, when no makefile is present, will try a bunch of stuff that includes searching for <code>.c</code> and <code>.cpp</code> candidate files for generating your target. If the target (in this case &lsquo;blah&rsquo;) ended instead in <code>.o</code> it would sensibly generate an object file without linking it into an executable!</p>
