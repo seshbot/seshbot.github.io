@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-08-18T13:49:47+00:00</updated>
+  <updated>2014-08-18T13:57:50+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -308,23 +308,23 @@ But the first thing that struck me when I started using C++11 was the smaller fe
 <li>lambda helpers <code>std::bind</code> and <code>std::function</code></li>
 <li>new thread library, although <code>std::future</code> still needs a lot of work (to get a <code>then()</code> function equivalent)</li>
 <li><code>std::optional</code> to make our interfaces more explicit when invalid data may be returned</li>
-<li>the boost unit test library is simple but effective, and you might as well use it if you&rsquo;re already using boost</li>
 <li>the <code>&lt;cstdint&gt;</code> header for precise platform-independent types (for example <code>uint32_t</code> instead of <code>unsigned int</code>)</li>
 </ul>
 
 
 <p>Of note as well are the new regex, random and type index libraries, though they didn&rsquo;t make the list because I don&rsquo;t use them as often.</p>
 
-<p><strong>Functionality that I wish they had taken from boost</strong> :</p>
+<p><strong>Functionality that I wish they had taken from boost, or that I would still use boost for</strong> :</p>
 
 <ul>
 <li>program options: it&rsquo;s a bit complicated to use, but it gives very high quality functionality and catches all the corner cases I&rsquo;ve ever needed</li>
 <li>the new log library (there are probably better ones out there, but as long as I&rsquo;m using boost I might as well use this one)</li>
-<li>filesystem, although that is coming in C++17 I believe</li>
+<li>similarly, the boost unit test library is simple but effective, and you might as well use it if you&rsquo;re already using boost</li>
+<li>filesystem, although that is coming in C++17</li>
 <li>asio, which has also been proposed for C++17</li>
-<li>the range library is a hot topic, people are still trying to figure out how to get this right but boost has had a pretty good stab at it</li>
-<li>I often expose basic event stream attributes on my classes using the signals2 library</li>
-<li>the string manipulation libraries can be pretty sweet as well</li>
+<li>the range library is a hot topic, people are still trying to figure out how to get this right but boost has had a pretty good stab at it (though sadly <code>range::indexed</code> doesnt play well with range-based for yet)</li>
+<li>I often expose basic event attributes on my classes using the signals2 library</li>
+<li>the string manipulation and string formatting libraries can be pretty sweet as well</li>
 </ul>
 
 
