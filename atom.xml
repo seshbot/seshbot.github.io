@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-08-18T10:33:57+00:00</updated>
+  <updated>2014-08-18T11:22:07+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -166,6 +166,29 @@ But the first thing that struck me when I started using C++11 was the smaller fe
 </span><span class='line'>   <span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span>
 </span><span class='line'>   <span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span>
 </span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This smacks of &lsquo;struct initialisation&rsquo; which I really liked:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="k">struct</span> <span class="n">TcpHeader</span> <span class="p">{</span>
+</span><span class='line'>   <span class="n">uint16_t</span> <span class="n">src_port</span><span class="p">;</span> <span class="n">uint16_t</span> <span class="n">dst_port</span><span class="p">;</span>
+</span><span class='line'>   <span class="n">uint32_t</span> <span class="n">seq</span><span class="p">;</span>
+</span><span class='line'>   <span class="n">uint32_t</span> <span class="n">ack</span><span class="p">;</span>
+</span><span class='line'>   <span class="c1">// ... plus other stuff</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// this works in C++03 as well</span>
+</span><span class='line'><span class="n">TcpHeader</span> <span class="n">hdr</span> <span class="o">=</span> <span class="p">{</span><span class="mi">10012</span><span class="p">,</span> <span class="mi">8088</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="cm">/* ... */</span> <span class="p">};</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
