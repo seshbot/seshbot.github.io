@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C++ | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/c-plus-plus/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-08-18T13:57:50+00:00</updated>
+  <updated>2014-08-18T14:03:38+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -93,9 +93,9 @@ struct irange_iterator {
    int Val;</p>
 
 <p>   // minimalistic forward-iterator implementation
-   int operator*() { return Val; }
+   int operator*()                            { return Val;          }
    bool operator!=(irange_iterator const &amp; r) { return Val != r.Val; }
-   irange_iterator operator++() { return {++Val}; }
+   irange_iterator operator++()               { return {++Val};      }
 };</p>
 
 <p>// begin() and end() are invoked by range-based for
@@ -113,7 +113,7 @@ irange_iterator end(irange const &amp; r) { return { r.Last + 1 }; }</p>
 <p>// prints &lsquo;10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,&rsquo;
 ```</p>
 
-<p>&hellip;but don&rsquo;t do it &ndash; the iterator is incomplete and it doesn&rsquo;t cover reverse ranges for starters. Plus there are some cool libraries out there, like <a href="https://github.com/ryanhaining/cppitertools/blob/master/README.md">CPPItertools</a> perhaps?</p>
+<p>&hellip;but don&rsquo;t do it &ndash; the iterator is incomplete (and non-const-correct, and probably buggy) and it doesn&rsquo;t cover reverse ranges for starters. Plus there are some cool libraries out there, like <a href="https://github.com/ryanhaining/cppitertools/blob/master/README.md">CPPItertools</a> perhaps?</p>
 
 <h3>Many new basic STL utilities</h3>
 

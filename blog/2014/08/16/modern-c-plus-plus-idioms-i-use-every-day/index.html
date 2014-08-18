@@ -200,9 +200,9 @@ But the first thing that struck me when I started using C++11 was the smaller fe
 </span><span class='line'>   <span class="kt">int</span> <span class="n">Val</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'>   <span class="c1">// minimalistic forward-iterator implementation</span>
-</span><span class='line'>   <span class="kt">int</span> <span class="k">operator</span><span class="o">*</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">Val</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>   <span class="kt">int</span> <span class="k">operator</span><span class="o">*</span><span class="p">()</span>                            <span class="p">{</span> <span class="k">return</span> <span class="n">Val</span><span class="p">;</span>          <span class="p">}</span>
 </span><span class='line'>   <span class="kt">bool</span> <span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="n">irange_iterator</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">Val</span> <span class="o">!=</span> <span class="n">r</span><span class="p">.</span><span class="n">Val</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>   <span class="n">irange_iterator</span> <span class="k">operator</span><span class="o">++</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="p">{</span><span class="o">++</span><span class="n">Val</span><span class="p">};</span> <span class="p">}</span>
+</span><span class='line'>   <span class="n">irange_iterator</span> <span class="k">operator</span><span class="o">++</span><span class="p">()</span>               <span class="p">{</span> <span class="k">return</span> <span class="p">{</span><span class="o">++</span><span class="n">Val</span><span class="p">};</span>      <span class="p">}</span>
 </span><span class='line'><span class="p">};</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// begin() and end() are invoked by range-based for</span>
@@ -218,7 +218,7 @@ But the first thing that struck me when I started using C++11 was the smaller fe
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>&hellip;but don&rsquo;t do it &ndash; the iterator is incomplete and it doesn&rsquo;t cover reverse ranges for starters. Plus there are some cool libraries out there, like <a href="https://github.com/ryanhaining/cppitertools/blob/master/README.md">CPPItertools</a> perhaps?</p>
+<p>&hellip;but don&rsquo;t do it &ndash; the iterator is incomplete (and non-const-correct, and probably buggy) and it doesn&rsquo;t cover reverse ranges for starters. Plus there are some cool libraries out there, like <a href="https://github.com/ryanhaining/cppitertools/blob/master/README.md">CPPItertools</a> perhaps?</p>
 
 <h3>Many new basic STL utilities</h3>
 
