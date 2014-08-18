@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C++ | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/c-plus-plus/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-08-18T14:03:38+00:00</updated>
+  <updated>2014-08-18T15:11:25+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -69,7 +69,8 @@
 <p>For example:</p>
 
 <p>``` c++
-int calculated = [&amp;] {
+// create an immutable type or one that has no &lsquo;uninitialised&rsquo; state
+const int calculated = [&amp;] {
    auto l = lock();
    auto first = stage1();
    auto second = stage2();
@@ -117,9 +118,9 @@ irange_iterator end(irange const &amp; r) { return { r.Last + 1 }; }</p>
 
 <h3>Many new basic STL utilities</h3>
 
-<p>But one thing people dont mention much is that the standard library now includes a bunch of small helper functions for basic string conversions! Previously one might use boost <code>lexical_cast</code> for this sort of thing, but now you can generally rely on <code>std::to_string()</code> overloads and <code>std::stoi()</code> and its variants to do the simple stuff for you.</p>
+<p>But one thing people dont mention much is that the standard library now includes a bunch of small helper functions for basic string conversions! Previously one might use boost <code>lexical_cast&lt;&gt;()</code> for this sort of thing, but now you can generally rely on <code>std::to_string()</code> overloads and <code>std::stoi()</code> and its variants to do the simple stuff for you.</p>
 
-<p>The standard library also has new container types and algorithms. If you haven&rsquo;t familiarised yourself with the new <code>std::unordered_map</code> and <code>std::array</code> containers you really should. And new algorithms that you&rsquo;d kick yourself for reimplementing include <code>all_of</code>/<code>any_of</code>/<code>none_of</code>, <code>iota</code>, <code>minmax</code>, <code>is_permutation</code> (as well as all the other is_ functions) and <code>shuffle</code>.</p>
+<p>The standard library also has new container types and algorithms. If you haven&rsquo;t familiarised yourself with the new <code>std::unordered_map</code> and <code>std::array</code> containers you really should. And new algorithms that you&rsquo;d kick yourself for reimplementing include <code>all_of()</code>/<code>any_of()</code>/<code>none_of()</code>, <code>iota()</code>, <code>minmax()</code>, <code>is_permutation()</code> (as well as all the other is_ functions) and <code>shuffle</code>. See this well-known <a href="http://channel9.msdn.com/Events/GoingNative/2013/Cpp-Seasoning">Sean Parent&rsquo;s talk on C++ Seasoning</a> for some great discussion on using C++ algorithms to their fullest.</p>
 
 <h2>Clearer declarations</h2>
 
