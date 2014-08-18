@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-08-18T11:22:07+00:00</updated>
+  <updated>2014-08-18T13:49:47+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -148,7 +148,7 @@ But the first thing that struck me when I started using C++11 was the smaller fe
 
 <p>The standard library also has new container types and algorithms. If you haven&rsquo;t familiarised yourself with the new <code>std::unordered_map</code> and <code>std::array</code> containers you really should. And new algorithms that you&rsquo;d kick yourself for reimplementing include <code>all_of</code>/<code>any_of</code>/<code>none_of</code>, <code>iota</code>, <code>minmax</code>, <code>is_permutation</code> (as well as all the other is_ functions) and <code>shuffle</code>.</p>
 
-<h2>Type safety</h2>
+<h2>Clearer declarations</h2>
 
 <p>Initialisation is the backbone of C++ &ndash; typically all resources should be allocated and initialised in constructors and released deterministically in destructors according to very specific rules, ensuring exception safety and preventing resource leaks.</p>
 
@@ -280,20 +280,18 @@ But the first thing that struck me when I started using C++11 was the smaller fe
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-<span class='line-number'>14</span>
 </pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="k">struct</span> <span class="n">Handle</span> <span class="p">{</span>
-</span><span class='line'>   <span class="n">Handle</span><span class="p">(</span><span class="kt">int</span> <span class="n">h</span><span class="p">)</span> <span class="o">:</span> <span class="n">h_</span><span class="p">(</span><span class="n">h</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
-</span><span class='line'>   <span class="o">~</span><span class="n">Handle</span><span class="p">()</span> <span class="p">{</span> <span class="cm">/* destroy resource */</span> <span class="p">}</span>
+</span><span class='line'>   <span class="n">Handle</span><span class="p">(</span><span class="kt">int</span> <span class="n">h</span><span class="p">)</span> <span class="o">:</span> <span class="n">impl_</span><span class="p">(</span><span class="mi">100000000</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>   <span class="c1">// disallow copying</span>
+</span><span class='line'>   <span class="c1">// disallow copying, it would be super inefficient </span>
 </span><span class='line'>   <span class="n">Handle</span><span class="p">(</span><span class="n">Handle</span> <span class="k">const</span> <span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
 </span><span class='line'>   <span class="n">Handle</span> <span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">Handle</span> <span class="k">const</span> <span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>   <span class="c1">// ...but allow moving!</span>
+</span><span class='line'>   <span class="c1">// ...but allow moving, it is super fast!</span>
 </span><span class='line'>   <span class="n">Handle</span><span class="p">(</span><span class="n">Handle</span> <span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
 </span><span class='line'>   <span class="n">Handle</span> <span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">Handle</span> <span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>   <span class="kt">int</span> <span class="n">h_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>   <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">impl_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 </span><span class='line'><span class="p">};</span>
 </span></code></pre></td></tr></table></div></figure>
 

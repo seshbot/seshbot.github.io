@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C++ | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/c-plus-plus/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-08-18T11:22:07+00:00</updated>
+  <updated>2014-08-18T13:49:47+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -121,7 +121,7 @@ irange_iterator end(irange const &amp; r) { return { r.Last + 1 }; }</p>
 
 <p>The standard library also has new container types and algorithms. If you haven&rsquo;t familiarised yourself with the new <code>std::unordered_map</code> and <code>std::array</code> containers you really should. And new algorithms that you&rsquo;d kick yourself for reimplementing include <code>all_of</code>/<code>any_of</code>/<code>none_of</code>, <code>iota</code>, <code>minmax</code>, <code>is_permutation</code> (as well as all the other is_ functions) and <code>shuffle</code>.</p>
 
-<h2>Type safety</h2>
+<h2>Clearer declarations</h2>
 
 <p>Initialisation is the backbone of C++ &ndash; typically all resources should be allocated and initialised in constructors and released deterministically in destructors according to very specific rules, ensuring exception safety and preventing resource leaks.</p>
 
@@ -204,18 +204,17 @@ struct base {
 
 <p>``` c++
 struct Handle {
-   Handle(int h) : h_(h) { }
-   ~Handle() { /<em> destroy resource </em>/ }</p>
+   Handle(int h) : impl_(100000000, h) { }</p>
 
-<p>   // disallow copying
+<p>   // disallow copying, it would be super inefficient
    Handle(Handle const &amp;) = delete;
    Handle &amp; operator=(Handle const &amp;) = delete;</p>
 
-<p>   // &hellip;but allow moving!
+<p>   // &hellip;but allow moving, it is super fast!
    Handle(Handle &amp;&amp;) = default;
    Handle &amp; operator=(Handle &amp;&amp;) = default;</p>
 
-<p>   int h_ = 0;
+<p>   std::vector<int> impl_ = 0;
 };
 ```</p>
 
