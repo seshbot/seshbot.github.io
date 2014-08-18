@@ -9,7 +9,7 @@
 
 <meta name="author" content="Paul Cechner"> 
 
-<meta name="description" content="I&rsquo;ve had this sitting around for ever and thought &lsquo;screw it I&rsquo;ll just post it&rsquo;. It&rsquo;s a bit scattered Most attention on &hellip;"> <meta name="keywords" content="">
+<meta name="description" content="Most attention on the new C++ has focused on the changes that provide functionality and performance that was previously not possible, both library &hellip;"> <meta name="keywords" content="">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -105,18 +105,23 @@ $(document).ready(
 			C++11/14 Idioms I Use Every Day</a>
 	</h2>
 	<div class="entry-content">
-		<p><em>I&rsquo;ve had this sitting around for ever and thought &lsquo;screw it I&rsquo;ll just post it&rsquo;. It&rsquo;s a bit scattered</em></p>
+		<p>Most attention on the new C++ has focused on the changes that provide functionality and performance that was previously not possible, both library enhancements (chrono, regex, smart pointers, and stuff to help with lambdas for example) and core language enhancements (perfect forwarding, variadic templates, the new memory model and threading capabilities, initialiser lists and the like). This functionality will impact us all in helping to write more correct code and efficient libraries, but often will only be relevant in certain parts of our code.</p>
 
-<p>Most attention on the new C++ has focused on the changes that allow functionality and performance that was previously not possible, both library enhancements (chrono, regex, smart pointers, and stuff to help with lambdas for example) and core language enhancements (perfect forwarding, variadic templates, the new memory model and threading capabilities, initialiser lists and the like). This functionality will impact us all in helping to write more correct code and efficient libraries, but often will only be relevant in certain parts of our code.</p>
-
-<p><span class='pullquote-right' data-pullquote='the first thing that struck me when I started using C++11 was the more minor features that I could take advantage of every time I put my fingers to the keyboard.'>
-But the first thing that struck me when I started using C++11 was the more minor features that I could take advantage of every time I put my fingers to the keyboard. These are the things that make code more concise, simple and allow me to present my intentions more clearly.
+<p><span class='pullquote-right' data-pullquote='the first thing that struck me when I started using C++11 was the smaller features that I could take advantage of every time I put my fingers to the keyboard.'>
+But the first thing that struck me when I started using C++11 was the smaller features that I could take advantage of every time I put my fingers to the keyboard. These are the things that make code more concise and simple and allow me to present my intentions more clearly.
 </span></p>
 
 <p>Stuff I take advantage of every day:</p>
 
 <ul>
-<li>far fewer dependencies on boost</li>
+<li>more concise general coding:
+
+<ul>
+<li>lambdas for scoped initialisation or inline &lsquo;builder&rsquo; functions</li>
+<li>new standard library functionality for string manipulation, particularly std::to_string() and std::stoi() etc</li>
+<li>range-based for loop</li>
+</ul>
+</li>
 <li>type safety:
 
 <ul>
@@ -127,14 +132,7 @@ But the first thing that struck me when I started using C++11 was the more minor
 <li>auto type deduction everywhere!</li>
 </ul>
 </li>
-<li>more concise general coding:
-
-<ul>
-<li>lambdas for scoped initialisation or inline &lsquo;builder&rsquo; functions</li>
-<li>new standard library functionality for string manipulation, particularly std::to_string() and std::stoi() etc</li>
-<li>range-based for loop</li>
-</ul>
-</li>
+<li>far fewer dependencies on boost</li>
 </ul>
 
 

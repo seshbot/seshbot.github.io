@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-08-18T03:49:08+00:00</updated>
+  <updated>2014-08-18T10:33:57+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -18,18 +18,23 @@
     <link href="http://seshbot.com/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day/"/>
     <updated>2014-08-16T04:49:33+00:00</updated>
     <id>http://seshbot.com/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day</id>
-    <content type="html"><![CDATA[<p><em>I&rsquo;ve had this sitting around for ever and thought &lsquo;screw it I&rsquo;ll just post it&rsquo;. It&rsquo;s a bit scattered</em></p>
+    <content type="html"><![CDATA[<p>Most attention on the new C++ has focused on the changes that provide functionality and performance that was previously not possible, both library enhancements (chrono, regex, smart pointers, and stuff to help with lambdas for example) and core language enhancements (perfect forwarding, variadic templates, the new memory model and threading capabilities, initialiser lists and the like). This functionality will impact us all in helping to write more correct code and efficient libraries, but often will only be relevant in certain parts of our code.</p>
 
-<p>Most attention on the new C++ has focused on the changes that allow functionality and performance that was previously not possible, both library enhancements (chrono, regex, smart pointers, and stuff to help with lambdas for example) and core language enhancements (perfect forwarding, variadic templates, the new memory model and threading capabilities, initialiser lists and the like). This functionality will impact us all in helping to write more correct code and efficient libraries, but often will only be relevant in certain parts of our code.</p>
-
-<p><span class='pullquote-right' data-pullquote='the first thing that struck me when I started using C++11 was the more minor features that I could take advantage of every time I put my fingers to the keyboard.'>
-But the first thing that struck me when I started using C++11 was the more minor features that I could take advantage of every time I put my fingers to the keyboard. These are the things that make code more concise, simple and allow me to present my intentions more clearly.
+<p><span class='pullquote-right' data-pullquote='the first thing that struck me when I started using C++11 was the smaller features that I could take advantage of every time I put my fingers to the keyboard.'>
+But the first thing that struck me when I started using C++11 was the smaller features that I could take advantage of every time I put my fingers to the keyboard. These are the things that make code more concise and simple and allow me to present my intentions more clearly.
 </span></p>
 
 <p>Stuff I take advantage of every day:</p>
 
 <ul>
-<li>far fewer dependencies on boost</li>
+<li>more concise general coding:
+
+<ul>
+<li>lambdas for scoped initialisation or inline &lsquo;builder&rsquo; functions</li>
+<li>new standard library functionality for string manipulation, particularly std::to_string() and std::stoi() etc</li>
+<li>range-based for loop</li>
+</ul>
+</li>
 <li>type safety:
 
 <ul>
@@ -40,14 +45,7 @@ But the first thing that struck me when I started using C++11 was the more minor
 <li>auto type deduction everywhere!</li>
 </ul>
 </li>
-<li>more concise general coding:
-
-<ul>
-<li>lambdas for scoped initialisation or inline &lsquo;builder&rsquo; functions</li>
-<li>new standard library functionality for string manipulation, particularly std::to_string() and std::stoi() etc</li>
-<li>range-based for loop</li>
-</ul>
-</li>
+<li>far fewer dependencies on boost</li>
 </ul>
 
 
@@ -58,44 +56,103 @@ But the first thing that struck me when I started using C++11 was the more minor
 <!-- more -->
 
 
-<h2>Far fewer Boost dependencies</h2>
+<h2>More concise coding</h2>
 
-<p>Boost is fantastic, but it&rsquo;s a beast and can really slow down compile times. C++11 and onward have made it so I no longer feel it necessary to include boost when starting out with a new project &ndash; I will often add it at a much later stage.</p>
+<p>These are the most obvious every-day enhancements, mostly focusing on making code easier to write and to read. Some of the most pleasing languages to use (like F#) are so because the ratio between language constructs and code relating to logic is very low.</p>
 
-<p>Essential functionality that has been taken from boost that I use all the time:</p>
+<h3>use the auto keyword where possible</h3>
 
-<ul>
-<li>chrono for time measurement: e.g., <code>using clock = std::chrono::steady_clock; auto now = clock::now(); auto later = now + std::chrono::seconds(10);</code></li>
-<li>smart pointer libraries</li>
-<li>lambda helpers <code>std::bind</code> and <code>std::function</code></li>
-<li>new thread library, although <code>std::future</code> still needs a lot of work (to get a <code>then()</code> function equivalent)</li>
-<li><code>std::optional</code> to make our interfaces more explicit when invalid data may be returned</li>
-<li>the boost unit test library is simple but effective, and you might as well use it if you&rsquo;re already using boost</li>
-</ul>
+<p>The <code>auto</code> keyword should be used wherever possible. Functions should be short and readable, so don&rsquo;t pollute your code with unneccessary type declarations! Curmudgeons often claim they prefer to see the type written with the declaration, but I think readability and maintainability trumps this. Yes, maintainability &ndash; you want to be able to change return values, template signatures, class names and such, and auto adapts without complaint.</p>
+
+<h3>other uses for lambdas</h3>
+
+<p>Lambdas are of course a fantastic feature that helps us all out in so many ways. But I tend to use it in general day-to-day stuff for what I call <strong>inline builder functions</strong>. This is when you want to perform some complicated ritual to create some resource but don&rsquo;t like setting your resources to some default &lsquo;uninitialised&rsquo; state.</p>
+
+<p>For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="kt">int</span> <span class="n">calculated</span> <span class="o">=</span> <span class="p">[</span><span class="o">&amp;</span><span class="p">]</span> <span class="p">{</span>
+</span><span class='line'>   <span class="k">auto</span> <span class="n">l</span> <span class="o">=</span> <span class="n">lock</span><span class="p">();</span>
+</span><span class='line'>   <span class="k">auto</span> <span class="n">first</span> <span class="o">=</span> <span class="n">stage1</span><span class="p">();</span>
+</span><span class='line'>   <span class="k">auto</span> <span class="n">second</span> <span class="o">=</span> <span class="n">stage2</span><span class="p">();</span>
+</span><span class='line'>   <span class="k">return</span> <span class="n">combine</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">);</span>
+</span><span class='line'><span class="p">}();</span> <span class="c1">// notice I invoke the lambda here!</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// ... use the calculated value</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Of note as well are the new regex, random and type index libraries, though they didn&rsquo;t make the list because I don&rsquo;t use them as often.</p>
+<p>Of course you could put this functionality in a function somewhere but this means you don&rsquo;t pollute your class namespace, and the functionality is localised to the place you use it.</p>
 
-<p><strong>Functionality that I wish they had taken from boost</strong> :</p>
+<h3>range-based for loops</h3>
 
-<ul>
-<li>program options: it&rsquo;s a bit complicated to use, but it gives very high quality functionality and catches all the corner cases I&rsquo;ve ever needed</li>
-<li>the new log library (there are probably better ones out there, but as long as I&rsquo;m using boost I might as well use this one)</li>
-<li>filesystem, although that is coming in C++17 I believe</li>
-<li>asio, which has also been proposed for C++17</li>
-<li>the range library is a hot topic, people are still trying to figure out how to get this right but boost has had a pretty good stab at it</li>
-<li>I often expose basic event stream attributes on my classes using the signals2 library</li>
-<li>the string manipulation libraries can be pretty sweet as well</li>
-</ul>
+<p>The range-based for loop is also a no-brainer. It is not as useful as it could be &ndash; for example you often want to maintain some index as you iterate over something, and the standard library (and even boost range) don&rsquo;t provide a nice wrapper around iterators to help with this.</p>
+
+<p>As a side note (I don&rsquo;t actually do this very often,) you can extend any type to be range-based for loop-compatible by providing specialisations of <code>std::begin()</code> and <code>std::end()</code> for that type. For example, I suppose one could do:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="k">struct</span> <span class="n">irange</span> <span class="p">{</span> <span class="kt">int</span> <span class="n">First</span><span class="p">;</span> <span class="kt">int</span> <span class="n">Last</span><span class="p">;</span> <span class="p">};</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">irange_iterator</span> <span class="p">{</span>
+</span><span class='line'>   <span class="kt">int</span> <span class="n">Val</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="c1">// minimalistic forward-iterator implementation</span>
+</span><span class='line'>   <span class="kt">int</span> <span class="k">operator</span><span class="o">*</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">Val</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>   <span class="kt">bool</span> <span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="n">irange_iterator</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">Val</span> <span class="o">!=</span> <span class="n">r</span><span class="p">.</span><span class="n">Val</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>   <span class="n">irange_iterator</span> <span class="k">operator</span><span class="o">++</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="p">{</span><span class="o">++</span><span class="n">Val</span><span class="p">};</span> <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// begin() and end() are invoked by range-based for</span>
+</span><span class='line'><span class="n">irange_iterator</span> <span class="n">begin</span><span class="p">(</span><span class="n">irange</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="p">{</span> <span class="n">r</span><span class="p">.</span><span class="n">First</span> <span class="p">};</span> <span class="p">}</span>
+</span><span class='line'><span class="n">irange_iterator</span> <span class="n">end</span><span class="p">(</span><span class="n">irange</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="p">{</span> <span class="n">r</span><span class="p">.</span><span class="n">Last</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">};</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>   <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">v</span> <span class="o">:</span> <span class="n">irange</span><span class="p">{</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">})</span>
+</span><span class='line'>      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">v</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, &quot;</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// prints &#39;10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>I will generally end up including boost in my apps because I really like these libraries.</p>
+<p>&hellip;but don&rsquo;t do it &ndash; the iterator is incomplete and it doesn&rsquo;t cover reverse ranges for starters. Plus there are some cool libraries out there, like <a href="https://github.com/ryanhaining/cppitertools/blob/master/README.md">CPPItertools</a> perhaps?</p>
+
+<h3>Many new basic STL utilities</h3>
+
+<p>But one thing people dont mention much is that the standard library now includes a bunch of small helper functions for basic string conversions! Previously one might use boost <code>lexical_cast</code> for this sort of thing, but now you can generally rely on <code>std::to_string()</code> overloads and <code>std::stoi()</code> and its variants to do the simple stuff for you.</p>
+
+<p>The standard library also has new container types and algorithms. If you haven&rsquo;t familiarised yourself with the new <code>std::unordered_map</code> and <code>std::array</code> containers you really should. And new algorithms that you&rsquo;d kick yourself for reimplementing include <code>all_of</code>/<code>any_of</code>/<code>none_of</code>, <code>iota</code>, <code>minmax</code>, <code>is_permutation</code> (as well as all the other is_ functions) and <code>shuffle</code>.</p>
 
 <h2>Type safety</h2>
 
-<p>Initialisation is the backbone of C++ &ndash; typically all resources should be allocated and initialised in constructors and released in destructors, ensuring exception safety and preventing resource leaks.</p>
+<p>Initialisation is the backbone of C++ &ndash; typically all resources should be allocated and initialised in constructors and released deterministically in destructors according to very specific rules, ensuring exception safety and preventing resource leaks.</p>
 
-<h3>Initialisation</h3>
+<h3>Initialisation is much simpler</h3>
 
 <p>C++11 allows us to focus on our intents more than focusing on our types. For example, the <code>auto</code> keyword and uniform initialisation both make code far clearer:</p>
 
@@ -112,7 +169,7 @@ But the first thing that struck me when I started using C++11 was the more minor
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>Construction</h3>
+<h3>Construction is much more flexible</h3>
 
 <p>Now for trivial types you sometimes don&rsquo;t need a constructor:</p>
 
@@ -218,40 +275,39 @@ But the first thing that struck me when I started using C++11 was the more minor
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>General concise coding</h2>
+<h2>Far fewer Boost dependencies</h2>
 
-<p>The <code>auto</code> keyword should be used wherever possible. Functions should be short and readable, so don&rsquo;t pollute your code with unneccessary type declarations! Curmudgeons often claim they prefer to see the type written with the declaration, but I think readability and maintainability trumps this. Yes, maintainability &ndash; you want to be able to change return values, template signatures, class names and such, and auto adapts without complaint.</p>
+<p>Boost is fantastic, but it&rsquo;s a beast and can really slow down compile times. C++11 and onward have made it so I no longer feel it necessary to include boost when starting out with a new project &ndash; I will often add it at a much later stage.</p>
 
-<p>Lambdas are of course a fantastic feature that helps us all out in so many ways. But I tend to use it in general day-to-day stuff for what I call <strong>inline builder functions</strong>. This is when you want to perform some complicated ritual to create some resource but don&rsquo;t like setting your resources to some default &lsquo;uninitialised&rsquo; state.</p>
+<p>Essential functionality that has been taken from boost that I use all the time:</p>
 
-<p>For example:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="kt">int</span> <span class="n">calculated</span> <span class="o">=</span> <span class="p">[</span><span class="o">&amp;</span><span class="p">]</span> <span class="p">{</span>
-</span><span class='line'>   <span class="k">auto</span> <span class="n">l</span> <span class="o">=</span> <span class="n">lock</span><span class="p">();</span>
-</span><span class='line'>   <span class="k">auto</span> <span class="n">first</span> <span class="o">=</span> <span class="n">stage1</span><span class="p">();</span>
-</span><span class='line'>   <span class="k">auto</span> <span class="n">second</span> <span class="o">=</span> <span class="n">stage2</span><span class="p">();</span>
-</span><span class='line'>   <span class="k">return</span> <span class="n">combine</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">);</span>
-</span><span class='line'><span class="p">}();</span> <span class="c1">// notice I invoke the lambda here!</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// ... use the calculated value</span>
-</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li>chrono for time measurement: e.g., <code>using clock = std::chrono::steady_clock; auto now = clock::now(); auto later = now + std::chrono::seconds(10);</code></li>
+<li>smart pointer libraries</li>
+<li>lambda helpers <code>std::bind</code> and <code>std::function</code></li>
+<li>new thread library, although <code>std::future</code> still needs a lot of work (to get a <code>then()</code> function equivalent)</li>
+<li><code>std::optional</code> to make our interfaces more explicit when invalid data may be returned</li>
+<li>the boost unit test library is simple but effective, and you might as well use it if you&rsquo;re already using boost</li>
+<li>the <code>&lt;cstdint&gt;</code> header for precise platform-independent types (for example <code>uint32_t</code> instead of <code>unsigned int</code>)</li>
+</ul>
 
 
-<p>Of course you could put this functionality in a function somewhere but this means you don&rsquo;t pollute your class namespace, and the functionality is localised to the place you use it.</p>
+<p>Of note as well are the new regex, random and type index libraries, though they didn&rsquo;t make the list because I don&rsquo;t use them as often.</p>
 
-<p>The range-based for loop is also a no-brainer. It is not as useful as it could be &ndash; for example you often want to maintain some index as you iterate over something, and the standard library (and even boost range) don&rsquo;t provide a nice wrapper around iterators to help with this.</p>
+<p><strong>Functionality that I wish they had taken from boost</strong> :</p>
 
-<p>But one thing people dont mention much is that the standard library now includes a bunch of small helper functions for basic string conversions! Previously one might use boost <code>lexical_cast</code> for this sort of thing, but now you can generally rely on <code>std::to_string()</code> overloads and <code>std::stoi()</code> and its variants to do the simple stuff for you.</p>
+<ul>
+<li>program options: it&rsquo;s a bit complicated to use, but it gives very high quality functionality and catches all the corner cases I&rsquo;ve ever needed</li>
+<li>the new log library (there are probably better ones out there, but as long as I&rsquo;m using boost I might as well use this one)</li>
+<li>filesystem, although that is coming in C++17 I believe</li>
+<li>asio, which has also been proposed for C++17</li>
+<li>the range library is a hot topic, people are still trying to figure out how to get this right but boost has had a pretty good stab at it</li>
+<li>I often expose basic event stream attributes on my classes using the signals2 library</li>
+<li>the string manipulation libraries can be pretty sweet as well</li>
+</ul>
 
-<p>The standard library also has new container types and algorithms. If you haven&rsquo;t familiarised yourself with the new <code>std::unordered_map</code> and <code>std::array</code> containers you really should. And new algorithms that you&rsquo;d kick yourself for reimplementing include <code>all_of</code>/<code>any_of</code>/<code>none_of</code>, <code>iota</code>, <code>minmax</code>, <code>is_permutation</code> (as well as all the other is_ functions) and <code>shuffle</code>.</p>
+
+<p>I will generally end up including boost in my apps because I really like these libraries.</p>
 
 <h2>Hope for the future</h2>
 
