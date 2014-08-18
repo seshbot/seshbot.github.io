@@ -67,27 +67,31 @@
         <lastmod>2014-06-16T02:29:28+00:00</lastmod>
     </url>
     <url>
-        <loc>http://seshbot.com/robots.txt</loc>
-        <lastmod>2014-06-09T03:10:15+00:00</lastmod>
-    </url>
-    <url>
-        <loc>http://seshbot.com/</loc>
-        <lastmod>2014-06-16T02:29:28+00:00</lastmod>
-    </url>
-    <url>
-        <loc>http://seshbot.com/blog/</loc>
-        <lastmod>2014-06-16T02:29:28+00:00</lastmod>
-    </url>
-    <url>
-        <loc>http://seshbot.com/blog/archives/</loc>
-        <lastmod>2014-06-16T02:29:28+00:00</lastmod>
-    </url>
-    <url>
-        <loc>http://seshbot.com/archives/</loc>
-        <lastmod>2014-06-16T02:29:28+00:00</lastmod>
+        <loc>http://seshbot.com/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day/</loc>
+        <lastmod>2014-08-18T03:47:35+00:00</lastmod>
     </url>
     <url>
         <loc>http://seshbot.com/about/</loc>
+        <lastmod>2014-06-09T03:10:15+00:00</lastmod>
+    </url>
+    <url>
+        <loc>http://seshbot.com/archives/</loc>
+        <lastmod>2014-08-18T03:47:35+00:00</lastmod>
+    </url>
+    <url>
+        <loc>http://seshbot.com/blog/archives/</loc>
+        <lastmod>2014-08-18T03:47:35+00:00</lastmod>
+    </url>
+    <url>
+        <loc>http://seshbot.com/blog/</loc>
+        <lastmod>2014-08-18T03:47:35+00:00</lastmod>
+    </url>
+    <url>
+        <loc>http://seshbot.com/</loc>
+        <lastmod>2014-08-18T03:47:35+00:00</lastmod>
+    </url>
+    <url>
+        <loc>http://seshbot.com/robots.txt</loc>
         <lastmod>2014-06-09T03:10:15+00:00</lastmod>
     </url>
 </urlset>

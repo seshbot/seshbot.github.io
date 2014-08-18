@@ -9,7 +9,7 @@
 
 <meta name="author" content="Paul Cechner"> 
 
-<meta name="description" content="I use CMake personally because managing Makefiles is a hassle. However, I still use make regularly for one purpose: to easily create quick apps &hellip;"> <meta name="keywords" content="">
+<meta name="description" content="I&rsquo;ve had this sitting around for ever and thought &lsquo;screw it I&rsquo;ll just post it&rsquo;. It&rsquo;s a bit scattered Most attention on &hellip;"> <meta name="keywords" content="">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -95,6 +95,86 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day/">
+		
+			C++11/14 Idioms I Use Every Day</a>
+	</h2>
+	<div class="entry-content">
+		<p><em>I&rsquo;ve had this sitting around for ever and thought &lsquo;screw it I&rsquo;ll just post it&rsquo;. It&rsquo;s a bit scattered</em></p>
+
+<p>Most attention on the new C++ has focused on the changes that allow functionality and performance that was previously not possible, both library enhancements (chrono, regex, smart pointers, and stuff to help with lambdas for example) and core language enhancements (perfect forwarding, variadic templates, the new memory model and threading capabilities, initialiser lists and the like). This functionality will impact us all in helping to write more correct code and efficient libraries, but often will only be relevant in certain parts of our code.</p>
+
+<p><span class='pullquote-right' data-pullquote='the first thing that struck me when I started using C++11 was the more minor features that I could take advantage of every time I put my fingers to the keyboard.'>
+But the first thing that struck me when I started using C++11 was the more minor features that I could take advantage of every time I put my fingers to the keyboard. These are the things that make code more concise, simple and allow me to present my intentions more clearly.
+</span></p>
+
+<p>Stuff I take advantage of every day:</p>
+
+<ul>
+<li>far fewer dependencies on boost</li>
+<li>type safety:
+
+<ul>
+<li>inline member initialisation,</li>
+<li>the <code>override</code>, <code>default</code> and <code>delete</code> keywords</li>
+<li>delegating constructors,</li>
+<li>uniform initialisation, especially when invoking or returning from functions</li>
+<li>auto type deduction everywhere!</li>
+</ul>
+</li>
+<li>more concise general coding:
+
+<ul>
+<li>lambdas for scoped initialisation or inline &lsquo;builder&rsquo; functions</li>
+<li>new standard library functionality for string manipulation, particularly std::to_string() and std::stoi() etc</li>
+<li>range-based for loop</li>
+</ul>
+</li>
+</ul>
+
+
+<p>These are the things I think all C++ programmers should learn first, because they benefit you <em>straight away</em> and confer very little risk of being learned wrong.</p>
+
+<p>At the very end I also mention a few upcoming features that I&rsquo;m really excited about as they will be game-changers.</p>
+
+
+		
+		<a href="/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day/" class="more-link">Read on &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-16T04:49:33+00:00" pubdate data-updated="true">Aug 16<span>th</span>, 2014</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/c-plus-plus/'>C++</a>
+
+</div>
+
+
+	
+		<span class="comments"><a href="/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day//index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
 
 
     <article class="post">
@@ -632,62 +712,6 @@ I have been interviewing programmers for many years and reckon the best way to f
 
 	
 		<span class="comments"><a href="/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch//index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/01/14/learning-ruby-and-rails/">
-		
-			Learning Ruby and Rails</a>
-	</h2>
-	<div class="entry-content">
-		<p><em>Note: The formatting of this article is not great, but I pumped it out quickly after going through the tutorials</em></p>
-
-<p>I dedicated this morning to learning some Ruby and Ruby on Rails (RoR). For my purposes, RoR provides the server-side API to a web application, like this:</p>
-
-<center><img src='/images/plantuml/dc42b2dad537dd0af4f1a7d3eed736ba.png'></center>
-
-
-<p>To my delight, I quickly discovered that Ember (which I have been messing around with quite a bit) is modelled directly on Rails &ndash; not just in the generic they-are-both-MVC-architectures-way, but down to their usages being identical in many respects. I think many new webby techs follow this same style (Meteor seems to, for example.)</p>
-
-<p>This post outlines the core concepts I have picked up from the various tutorials. I also included a RoR cheat-sheet I created while doing the Rails tutorial.</p>
-
-<p>To get started on Windows/Mac, I&rsquo;m guessing the easiest way is by downloading the <a href="http://railsinstaller.org">RailsInstaller</a>.</p>
-
-
-		
-		<a href="/blog/2014/01/14/learning-ruby-and-rails/" class="more-link">Read on &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-14T01:32:29+00:00" pubdate data-updated="true">Jan 14<span>th</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/learning/'>Learning</a>, <a class='category' href='/blog/categories/rails/'>Rails</a>
-
-</div>
-
-
-	
-		<span class="comments"><a href="/blog/2014/01/14/learning-ruby-and-rails//index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 

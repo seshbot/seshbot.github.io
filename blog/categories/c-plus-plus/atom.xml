@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C++ | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/c-plus-plus/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-06-16T02:29:37+00:00</updated>
+  <updated>2014-08-18T03:49:08+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -12,6 +12,224 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[C++11/14 idioms I use every day]]></title>
+    <link href="http://seshbot.com/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day/"/>
+    <updated>2014-08-16T04:49:33+00:00</updated>
+    <id>http://seshbot.com/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day</id>
+    <content type="html"><![CDATA[<p><em>I&rsquo;ve had this sitting around for ever and thought &lsquo;screw it I&rsquo;ll just post it&rsquo;. It&rsquo;s a bit scattered</em></p>
+
+<p>Most attention on the new C++ has focused on the changes that allow functionality and performance that was previously not possible, both library enhancements (chrono, regex, smart pointers, and stuff to help with lambdas for example) and core language enhancements (perfect forwarding, variadic templates, the new memory model and threading capabilities, initialiser lists and the like). This functionality will impact us all in helping to write more correct code and efficient libraries, but often will only be relevant in certain parts of our code.</p>
+
+<p>Surround your pullquote like this {" text to be quoted "}</p>
+
+<p>Stuff I take advantage of every day:</p>
+
+<ul>
+<li>far fewer dependencies on boost</li>
+<li>type safety:
+
+<ul>
+<li>inline member initialisation,</li>
+<li>the <code>override</code>, <code>default</code> and <code>delete</code> keywords</li>
+<li>delegating constructors,</li>
+<li>uniform initialisation, especially when invoking or returning from functions</li>
+<li>auto type deduction everywhere!</li>
+</ul>
+</li>
+<li>more concise general coding:
+
+<ul>
+<li>lambdas for scoped initialisation or inline &lsquo;builder&rsquo; functions</li>
+<li>new standard library functionality for string manipulation, particularly std::to_string() and std::stoi() etc</li>
+<li>range-based for loop</li>
+</ul>
+</li>
+</ul>
+
+
+<p>These are the things I think all C++ programmers should learn first, because they benefit you <em>straight away</em> and confer very little risk of being learned wrong.</p>
+
+<p>At the very end I also mention a few upcoming features that I&rsquo;m really excited about as they will be game-changers.</p>
+
+<!-- more -->
+
+
+<h2>Far fewer Boost dependencies</h2>
+
+<p>Boost is fantastic, but it&rsquo;s a beast and can really slow down compile times. C++11 and onward have made it so I no longer feel it necessary to include boost when starting out with a new project &ndash; I will often add it at a much later stage.</p>
+
+<p>Essential functionality that has been taken from boost that I use all the time:</p>
+
+<ul>
+<li>chrono for time measurement: e.g., <code>using clock = std::chrono::steady_clock; auto now = clock::now(); auto later = now + std::chrono::seconds(10);</code></li>
+<li>smart pointer libraries</li>
+<li>lambda helpers <code>std::bind</code> and <code>std::function</code></li>
+<li>new thread library, although <code>std::future</code> still needs a lot of work (to get a <code>then()</code> function equivalent)</li>
+<li><code>std::optional</code> to make our interfaces more explicit when invalid data may be returned</li>
+<li>the boost unit test library is simple but effective, and you might as well use it if you&rsquo;re already using boost</li>
+</ul>
+
+
+<p>Of note as well are the new regex, random and type index libraries, though they didn&rsquo;t make the list because I don&rsquo;t use them as often.</p>
+
+<p><strong>Functionality that I wish they had taken from boost</strong> :</p>
+
+<ul>
+<li>program options: it&rsquo;s a bit complicated to use, but it gives very high quality functionality and catches all the corner cases I&rsquo;ve ever needed</li>
+<li>the new log library (there are probably better ones out there, but as long as I&rsquo;m using boost I might as well use this one)</li>
+<li>filesystem, although that is coming in C++17 I believe</li>
+<li>asio, which has also been proposed for C++17</li>
+<li>the range library is a hot topic, people are still trying to figure out how to get this right but boost has had a pretty good stab at it</li>
+<li>I often expose basic event stream attributes on my classes using the signals2 library</li>
+<li>the string manipulation libraries can be pretty sweet as well</li>
+</ul>
+
+
+<p>I will generally end up including boost in my apps because I really like these libraries.</p>
+
+<h2>Type safety</h2>
+
+<p>Initialisation is the backbone of C++ &ndash; typically all resources should be allocated and initialised in constructors and released in destructors, ensuring exception safety and preventing resource leaks.</p>
+
+<h3>Initialisation</h3>
+
+<p>C++11 allows us to focus on our intents more than focusing on our types. For example, the <code>auto</code> keyword and uniform initialisation both make code far clearer:</p>
+
+<p>For example, we can expect to use a nice 3D mesh API like so:</p>
+
+<p><code>c++
+auto square = create_triangle_mesh({
+   {-1, 1, 1}, {-1, -1, 1}, {1, -1, 1},
+   {-1, 1, 1}, { 1, -1, 1}, {1,  1, 1},
+});
+</code></p>
+
+<h3>Construction</h3>
+
+<p>Now for trivial types you sometimes don&rsquo;t need a constructor:</p>
+
+<p>``` c++
+// no constructor needed!
+struct counter {
+   int last<em> { 0 };
+   int step</em> { 1 };</p>
+
+<p>   int next() { last<em> += step</em>; return last_; }
+};
+```</p>
+
+<p>Now there&rsquo;s a way to share construction code without resorting to a private init() function:</p>
+
+<p>``` c++
+struct counter {
+   int last<em>;
+   int step</em>;
+   counter()
+   : counter { 0, 1 } { } // delegating constructor!
+   counter(int last, int step)
+   : last<em>(last), step</em>(step) { }</p>
+
+<p>   int next() { last<em> += step</em>; return last_; }
+};
+```</p>
+
+<h3>More explicit inheritance</h3>
+
+<p>I have always been jealous of languages that have the <code>override</code> keyword, because a common trap when refactoring is to rename a virtual base method &ndash; the compiler cannot warn you that you forgot to replace the overridden methods in specialised classes (unless it is pure virtual, which it really should be, but anyway&hellip;)</p>
+
+<p>``` c++
+struct base {
+  virtual string name() { return &ldquo;default&rdquo;; }
+};</p>
+
+<p>struct derived : public base {
+   // compile error &ndash; xname() is not an inherited member!
+   virtual string xname() override { return &ldquo;derived!&rdquo; }
+};
+```</p>
+
+<p>The <code>default</code> keyword can be a godsend to the concientious coder who likes to always obey the &lsquo;rule of three&rsquo; (or now the rule of five, or <a href="https://isocpp.org/blog/2012/11/rule-of-zero">rule of zero</a> as of lately.) Again the benefit is in reducing code that you need to write and maintain &ndash; the best code is no code at all.</p>
+
+<p>To illustrate, imagine you have a class that encapsulates some resource handle. The resource will of course be destroyed in the destructor, and we choose to disallow copying to ensure that resource isn&rsquo;t double-destroyed. We want to allow moving however, because we don&rsquo;t want to force clients to wrap the resource in pointer types to pass it around&hellip;</p>
+
+<p>The problem is that when one disables the copy constructor, one also disables the move constructor. The <code>default</code> keyword allows us to re-enable it without actually maintaining it as we update the class in future:</p>
+
+<p>``` c++
+struct Handle {
+   Handle(int h) : h_(h) { }
+   ~Handle() { /<em> destroy resource </em>/ }</p>
+
+<p>   // disallow copying
+   Handle(Handle const &amp;) = delete;
+   Handle &amp; operator=(Handle const &amp;) = delete;</p>
+
+<p>   // &hellip;but allow moving!
+   Handle(Handle &amp;&amp;) = default;
+   Handle &amp; operator=(Handle &amp;&amp;) = default;</p>
+
+<p>   int h_ = 0;
+};
+```</p>
+
+<h2>General concise coding</h2>
+
+<p>The <code>auto</code> keyword should be used wherever possible. Functions should be short and readable, so don&rsquo;t pollute your code with unneccessary type declarations! Curmudgeons often claim they prefer to see the type written with the declaration, but I think readability and maintainability trumps this. Yes, maintainability &ndash; you want to be able to change return values, template signatures, class names and such, and auto adapts without complaint.</p>
+
+<p>Lambdas are of course a fantastic feature that helps us all out in so many ways. But I tend to use it in general day-to-day stuff for what I call <strong>inline builder functions</strong>. This is when you want to perform some complicated ritual to create some resource but don&rsquo;t like setting your resources to some default &lsquo;uninitialised&rsquo; state.</p>
+
+<p>For example:</p>
+
+<p>``` c++
+int calculated = [&amp;] {
+   auto l = lock();
+   auto first = stage1();
+   auto second = stage2();
+   return combine(first, second);
+}(); // notice I invoke the lambda here!</p>
+
+<p>// &hellip; use the calculated value
+```</p>
+
+<p>Of course you could put this functionality in a function somewhere but this means you don&rsquo;t pollute your class namespace, and the functionality is localised to the place you use it.</p>
+
+<p>The range-based for loop is also a no-brainer. It is not as useful as it could be &ndash; for example you often want to maintain some index as you iterate over something, and the standard library (and even boost range) don&rsquo;t provide a nice wrapper around iterators to help with this.</p>
+
+<p>But one thing people dont mention much is that the standard library now includes a bunch of small helper functions for basic string conversions! Previously one might use boost <code>lexical_cast</code> for this sort of thing, but now you can generally rely on <code>std::to_string()</code> overloads and <code>std::stoi()</code> and its variants to do the simple stuff for you.</p>
+
+<p>The standard library also has new container types and algorithms. If you haven&rsquo;t familiarised yourself with the new <code>std::unordered_map</code> and <code>std::array</code> containers you really should. And new algorithms that you&rsquo;d kick yourself for reimplementing include <code>all_of</code>/<code>any_of</code>/<code>none_of</code>, <code>iota</code>, <code>minmax</code>, <code>is_permutation</code> (as well as all the other is_ functions) and <code>shuffle</code>.</p>
+
+<h2>Hope for the future</h2>
+
+<p>The C++ language committee is known for being <em>very</em> conservative, with the explicit objective of only adding to the language features they think will still be relevant in the distant future. Created in 1983, the first standard was released in 1998, and with a relatively minor update in 2003 you could be forgiven for saying it was a relatively stagnant language.</p>
+
+<p>Surround your pullquote like this {" text to be quoted "}</p>
+
+<p>C++17 is probably even more exciting for me than C++11 was, because it solves a couple of C++&rsquo;s greatest problems: complicated error messages and crazy compile times. Concepts will allow programmers to write template code <em>without even knowing it is template code</em> !. And we will all be able to create template overloads without resorting to those crazy SFINAE techniques that are so ugly I generally don&rsquo;t use them at all.</p>
+
+<p>But the real truly beautiful feature will be modules. Apple have been heading up a team that will allow us to import modules without causing the pre-processor to continually parse massive compilation units, which is the vast majority of what it does these days. Apple have already implemented the beginnings of this in ObjectiveC, so they have a good grip on the problems. Check out <a href="http://llvm.org/devmtg/2012-11/Gregor-Modules.pdf">this fantastic presentation on modules</a> for more details.</p>
+
+<p>A great summary of the current state of C++17 is the <a href="http://botondballo.wordpress.com/2014/07/17/trip-report-c-standards-committee-meeting-in-rapperswil-june-2014/">notes of the last standards committee meeting</a> . Within you will find such goodies as:</p>
+
+<ul>
+<li>Herb Sutter&rsquo;s <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4029.pdf">proposal to make return values explicit</a> . This will make returning <code>unique_ptr</code> types as simple as <code>return {new Thing}</code>.</li>
+<li>a proposal for <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4026.html">better nested namespace syntax</a> (e.g., <code>namespace pcx::gl { /* my declarations */ }</code> )</li>
+<li>the proposal for enhanced ranged-based for syntax to prevent accidental misuse (currently the recommended syntax is actuall <code>for (auto &amp;&amp; x : xs)</code>, but this will allow us to use <code>for (x : xs)</code>)</li>
+</ul>
+
+
+<p>My wishlist for future enhancements include:</p>
+
+<ul>
+<li>better functional constructs (I found a youtube clip of some guy fantasising about <a href="https://www.youtube.com/watch?v=YJIaGRDIyEE">piping data ranges around</a> ).</li>
+<li>declarative computation expressions: python, C# and every functional language ever have great consise declarative formats for generating series of data that I would love in C++.</li>
+<li>new primitives to make async programming easier &ndash; (<code>async</code> and <code>await</code> are apparently on the way, boost already has a coroutines library!)</li>
+<li>stable C++ ABI allowing portable libraries (compilation units from different compilers or even platforms), would mean header-only types can be used in library interfaces/boundaries (e.g., currently cant have boost::any&lt;> in an exported header because it would turn into different code on client and library.) This is already proposed by Herb Sutter <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4028.pdf">here</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[C++ trick: Use Make without Makefiles]]></title>
@@ -402,80 +620,6 @@ in Windows but has been trivial in OSX.</p>
 <p>I really want to get some graphics in there but I have no experience with that, so am considering messing around with shaders to see if I can get a good lighting model in there first. This should really help me figure out the environmental aesthetic I&rsquo;m going for.</p>
 
 <p>At some stage I&rsquo;ll need to figure out how I&rsquo;m going to make the game overlays such as menus, dialogs, text boxes etc. Previously I&rsquo;ve used SFGUI (works well with SFML which is the C++ GUI library I&rsquo;m using) but I would like to see if I can get QT Quick and QML working with SFML. I don&rsquo;t want to spend too long on this however because I intend to move the GUI code to perhaps another language (C# and Unity) so effort spent on the GUI might be ultimately wasted.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Week in Review: Pausing Web App, Starting C++ App]]></title>
-    <link href="http://seshbot.com/blog/2014/02/02/week-in-review-pausing-web-app/"/>
-    <updated>2014-02-02T22:52:52+00:00</updated>
-    <id>http://seshbot.com/blog/2014/02/02/week-in-review-pausing-web-app</id>
-    <content type="html"><![CDATA[<p>Just over a week ago I decided to put down my web tools for a while and move to working in an environment in which I&rsquo;m much more comfortable &ndash; C++. I will definitely pick up the &lsquo;Table Top&rsquo; app (or whatever it turns into) again soon but I felt the need to do work that resulted in a more <em>tangible</em> product.</p>
-
-<p>Over the last few weeks I&rsquo;ve had a growing realisation that the foundation of web programming is still immature, and I am doubting the value in investing too much time learning the high-level technologies. I am not really one for learning frameworks in general actually &ndash; I much prefer learning languages and idioms &ndash; and modern web programming is all about rapidly changing high-level frameworks.</p>
-
-<p>That said however, I feel that I&rsquo;m finally at a point where I can start making useful stuff in Ember and Rails without feeling like I&rsquo;m misusing the tools or spending most of my time in Google. So last week I knocked off a few high-level features in my app to show the basic scaffolding I was considering (it only took a few hours in the end!), and then set it aside.</p>
-
-<p><img class="center" src="/images/upload/2014-02-03-seshbot-framework.png" title="&ldquo;Game Table App as of Feb 2014 &ndash; still doesn&rsquo;t do much&rdquo;" ></p>
-
-<p>There is a very duct-tape and chicken-wire feel to web technologies, but once you&rsquo;re familiar with the tech you can pump stuff out pretty quickly. Because of the immediate and ethereal nature of the web it can be a fantastic way of creating a product that is immediately globally available. All of the magic we see however is still largely magic however, and magic doesn&rsquo;t bode well in any application. The web as a platform for applications is still unbaked and young, and I feel that unless you&rsquo;re forging new territory on the frontier you&rsquo;re probably working with technologies that won&rsquo;t be interesting in a few years time.</p>
-
-<!-- more -->
-
-
-<h2>The Web as a Software Platform</h2>
-
-<p>HTTP, HTML, JavaScript and CSS have been around for a while now, so why have all the useful standards for building proper web applications (like WebGL, WebSockets, local storage, drag-and-drop and all those other HTML5 goodies) only started coming along recently?</p>
-
-<p>It turns out that for a long time web standards were committee-driven by a group of beard-stroking high-falutin non-visionaries called W3C. I still recall fairly recent times when the latest advances in the web were all about creating HTML that was also standards-conforming XML for some reason (so that perhaps machines could deal with it more easily or something?) and very little practical advancement was being made. (Side note: the same thing seems to be happening with OAuth, which is a morass of unproven ideas and conflicting ideals.)</p>
-
-<p>At some stage however another working group arose called <a href="http://en.wikipedia.org/wiki/WHATWG">WHATWG</a>, formed of people that were actually interested in pushing practical new technologies onto the web, and they pretty much ignored the W3C&rsquo;s direction.</p>
-
-<p>The WHATWG formed in 2004 in response to the stagnating web standards, and in 2007 the W3C finally got on board and standardised HTML5 based on a whole bunch of the WHATWG&rsquo;s tools. They pretty much totally abandoned their whole XHTML thing, which I don&rsquo;t think anyone really regrets.</p>
-
-<p>All of a sudden there have been bursts of innovation on the web, but without a fully baked platform on which to create them. So all these high-level frameworks have temporarily filled the gaps while the HTML spec catches up. In fact, Google&rsquo;s Angular framework (an alternative to Ember.js) has the explicit goal of becoming obsolete when Google manages to get their tools into the standard &ndash; it&rsquo;s a kind of proof-of-concept of Google&rsquo;s vision for client-side application development.</p>
-
-<p>I chose Ember because if you&rsquo;re going with a framework, you might as well go with one that provides abstractions that make sense to you. But I don&rsquo;t have high hopes for it&rsquo;s long-term availability as the web matures, and so feel that there is limited long-term value in becoming some kind of Ember guru.</p>
-
-<h2>My Web App</h2>
-
-<p>The current proof of concept is at <a href="http://seshbot.herokuapp.com.">http://seshbot.herokuapp.com.</a> It still doesn&rsquo;t have the meat in it but it has the authentication, some mobile-friendliness, and sorta models the notions of &lsquo;games&rsquo; and &lsquo;players&rsquo; in games.</p>
-
-<p>I was much surprised to find out that there is not much of a story yet for how to provide a real-time connection between the backend and the Ember application, where updates on the server are actively pushed out to the client. This is probably the next big thing I&rsquo;ll have to do &ndash; create an adapter that connects to the server (probably using server-side events and one of the <a href="http://www.sitepoint.com/streaming-with-rails-4/">Rails4 streaming APIs</a>) and injects incoming updates into the model using the Ember Data API, similar to the <a href="https://github.com/thomasboyt/ember-firebase-adapter">EmberFire Firebase library</a>.</p>
-
-<p>Other than that, the two remaining things I can think of are: making it look like a gaming application (nice rose-wood tabletop look or something?) and adding a few components that I want to have in there like a chat client, a dice area and some kind of card game. This is the nice bit where I get to play around with things, I&rsquo;m looking forward to experimenting with the interactivity side of things, perhaps dragging cards around or having some sound built into it.</p>
-
-<p>I have put this aside however because I don&rsquo;t want to burn out on it. I think it&rsquo;s time to take a break so that I can come back with a fresh set of eyes &ndash; perhaps I&rsquo;ll decide it&rsquo;s not worth continuing at all in lieu of some other app.</p>
-
-<h2>New C++ App</h2>
-
-<p>I&rsquo;ve been wanting to mess around with C++11 for a long time now, and have made a lot of little sample applications that allow me to get a feel for it. I really want to try creating a real application that is:</p>
-
-<ul>
-<li>cross platform</li>
-<li>uses built-in C++11 stuff like chrono, threads, lambdas, auto etc</li>
-<li>provides a few services I&rsquo;ve come to enjoy in newer languages such as dependency containers (if feasible!)</li>
-<li>allows me to experiment with GL shaders, which I&rsquo;ve wanted to play with for <em>years</em>.</li>
-</ul>
-
-
-<p>So I spent a few days writing a basic app in <a href="https://qt-project.org/wiki/Category:Tools::QtCreator">QT Creator</a> using <a href="http://www.cmake.org/">CMake</a> as the build system. There were a few hurdles but it didn&rsquo;t take long to get up and running. Because I&rsquo;m limiting myself to core C++, boost and a couple of cross-platform libraries (<a href="http://www.sfml-dev.org/">SFML</a> for graphics and <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a> for linear algebra stuff) it&rsquo;s still pretty versatile. And because I&rsquo;m using CMake I&rsquo;ll be able to use Visual Studio to develop in Windows and QT Creator or XCode or whatever I want in OSX. I&rsquo;ll try to stick with QT Creator where possible though for consistency.</p>
-
-<p><img class="center" src="/images/upload/2014-02-03-qtcreator.png" title="&ldquo;QT Creator actually looks pretty nice&rdquo;" ></p>
-
-<p>I am a bit worried about Windows compatability &ndash; Visual C++ has always lagged behind in standards conformance, but they have picked up their pace somewhat in the recent future. I am avoiding some of the more esoteric stuff however, such as variadic templates, because of VC++.</p>
-
-<p>I would also really like to try messing around with QML &ndash; Qt&rsquo;s DSL for writing GUI applications. It reminds me of WPF only in a much cleaner, less hacky way, with JavaScript capabilities built straight into it. Ideally I will figure out a way to use Qt Quick/QML seamlessly with the OpenGL stuff provided by SFML, though I am less optimistic about that. Previous experience tells me that you don&rsquo;t want to be re-creating GUI widget libraries because layout management is a complete bitch, but I think QML is still a bit young to work in arbitrary circumstances.</p>
-
-<h2>Blogging</h2>
-
-<p>I found it very difficult to blog about my experiences with Ember and Rails. There is a lot of stuff out there covering the same stuff I would cover, only terribly out of date. This made me feel that my posts too would just become so much flotsam on a sea of irrelevant minutiae.</p>
-
-<p>The main value I was really getting though was as a reference for myself so I could close some of my browser tabs without worrying that I wouldn&rsquo;t be able to find that one piece of information again, and also so that I could distill my thoughts on something before putting it aside.</p>
-
-<p>I have about 3 unpublished posts on my experience over the last few weeks &ndash; I&rsquo;ll probably put them together under one post about Ember development, but not for a little while now I&rsquo;m guessing.</p>
-
-<p>I am much more certain of my opinion on C++ related matters, so I imagine that there will be a few long rants in that general direction coming up.</p>
 ]]></content>
   </entry>
   
