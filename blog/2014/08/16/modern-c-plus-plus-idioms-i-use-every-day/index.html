@@ -144,6 +144,19 @@ But the first thing that struck me when I started using C++11 was the smaller fe
 
 <p>Scott Meyers dedicates a chapter to this in his new &lsquo;Effective Modern C++&rsquo; book (the item is <em>Item 4: Prefer auto to explicit type declarations</em>) &ndash; also have a look at his presentation also entitled <a href="http://vimeo.com/channels/ndc2014/97318797">Effective Modern C++</a> where he covers the matter.</p>
 
+<p>If you&rsquo;re still unconvinced, <a href="http://www.reddit.com/r/cpp/comments/2dvirt/new_c_idioms_i_use_every_day/cju6c4w">academican helpfully pointed out</a> on the <a href="http://www.reddit.com/r/cpp/comments/2dvirt/new_c_idioms_i_use_every_day/">reddit discussion</a> of this article that <em>Herb Sutter wrote a <a href="http://herbsutter.com/2013/06/07/gotw-92-solution-auto-variables-part-1/">series</a> of <a href="http://herbsutter.com/2013/06/13/gotw-93-solution-auto-variables-part-2/">GOTW</a> <a href="http://herbsutter.com/2013/08/12/gotw-94-solution-aaa-style-almost-always-auto/">articles</a> on this topic last year which defend the principle of &ldquo;Almost Always Auto&rdquo;. He does a much better job than I could</em> . The <a href="http://herbsutter.com/2013/08/12/gotw-94-solution-aaa-style-almost-always-auto/">third article</a> explores this topic <em>particularly</em> thoroughly.</p>
+
+<p>These articles are a real treasure-trove, where Herb concludes that:</p>
+
+<ul>
+<li>Guideline: Prefer to declare local variables using auto x = expr; when you don’t need to explicitly commit to a type. It is efficient by default and guarantees that no implicit conversions or temporary objects will occur</li>
+<li>Guideline: Prefer to declare local variables using auto. It guarantees that you get the exact type and so is the simplest way to portably spell the implementation-specific type of arithmetic operations on built-in types, which vary by platform, and ensure that you cannot accidentally get narrowing conversions when storing the result</li>
+<li>Guideline: Remember that preferring auto variables is motivated primarily by correctness, performance, maintainability, and robustness—and only lastly about typing convenience</li>
+</ul>
+
+
+<p>If you still don&rsquo;t agree with Scott and Herb, two of the most influential C++ gurus out there, then perhaps it would be well worth exploring why &ndash; if you know something they don&rsquo;t you&rsquo;re probably able to make a lucrative living lecturing!</p>
+
 <h3>other uses for lambdas</h3>
 
 <p>Lambdas are of course a fantastic feature that helps us all out in so many ways. But I tend to use it in general day-to-day stuff for what I call <strong>inline builder functions</strong>. This is when you want to perform some complicated ritual to create some resource but don&rsquo;t like setting your resources to some default &lsquo;uninitialised&rsquo; state.</p>
