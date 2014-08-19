@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C++ | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/c-plus-plus/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-08-19T05:10:29+00:00</updated>
+  <updated>2014-08-19T07:06:34+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -18,7 +18,9 @@
     <link href="http://seshbot.com/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day/"/>
     <updated>2014-08-16T04:49:33+00:00</updated>
     <id>http://seshbot.com/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day</id>
-    <content type="html"><![CDATA[<p>Most attention on the new C++ has focused on the changes that provide functionality and performance that was previously not possible, both library enhancements (chrono, regex, smart pointers, and stuff to help with lambdas for example) and core language enhancements (perfect forwarding, variadic templates, the new memory model and threading capabilities, initialiser lists and the like). This functionality will impact us all in helping to write more correct code and efficient libraries, but often will only be relevant in certain parts of our code.</p>
+    <content type="html"><![CDATA[<p><em>if you want to see a bunch of people complaining about my rules regarding </em>auto<em>, have a look at <a href="https://news.ycombinator.com/item?id=8193157">HackerNews</a> and <a href="http://www.reddit.com/r/cpp/comments/2dvirt/new_c_idioms_i_use_every_day/">Reddit</a></em></p>
+
+<p>Most attention on the new C++ has focused on the changes that provide functionality and performance that was previously not possible, both library enhancements (chrono, regex, smart pointers, and stuff to help with lambdas for example) and core language enhancements (perfect forwarding, variadic templates, the new memory model and threading capabilities, initialiser lists and the like). This functionality will impact us all in helping to write more correct code and efficient libraries, but often will only be relevant in certain parts of our code.</p>
 
 <p>Surround your pullquote like this {" text to be quoted "}</p>
 
