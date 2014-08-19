@@ -113,7 +113,7 @@ But the first thing that struck me when I started using C++11 was the smaller fe
 <li>range-based for loop</li>
 </ul>
 </li>
-<li>type safety:
+<li>clearer declarations:
 
 <ul>
 <li>inline member initialisation,</li>
@@ -141,6 +141,8 @@ But the first thing that struck me when I started using C++11 was the smaller fe
 <h3>use the auto keyword where possible</h3>
 
 <p>The <code>auto</code> keyword should be used wherever possible. Functions should be short and readable, so don&rsquo;t pollute your code with unneccessary type declarations! Curmudgeons often claim they prefer to see the type written with the declaration, but I think readability and maintainability trumps this. Yes, maintainability &ndash; you want to be able to change return values, template signatures, class names and such, and auto adapts without complaint.</p>
+
+<p>Scott Meyers dedicates a chapter to this in his new &lsquo;Effective Modern C++&rsquo; book (the item is <em>Item 4: Prefer auto to explicit type declarations</em>) &ndash; also have a look at his presentation also entitled <a href="http://vimeo.com/channels/ndc2014/97318797">Effective Modern C++</a> where he covers the matter.</p>
 
 <h3>other uses for lambdas</h3>
 
@@ -360,8 +362,10 @@ But the first thing that struck me when I started using C++11 was the smaller fe
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
+<span class='line-number'>14</span>
 </pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="k">struct</span> <span class="n">Handle</span> <span class="p">{</span>
 </span><span class='line'>   <span class="n">Handle</span><span class="p">(</span><span class="kt">int</span> <span class="n">h</span><span class="p">)</span> <span class="o">:</span> <span class="n">impl_</span><span class="p">(</span><span class="mi">100000000</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+</span><span class='line'>   <span class="o">~</span><span class="n">Handle</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span> <span class="c1">// just for &#39;rule of five&#39; completeness</span>
 </span><span class='line'>
 </span><span class='line'>   <span class="c1">// disallow copying, it would be super inefficient </span>
 </span><span class='line'>   <span class="n">Handle</span><span class="p">(</span><span class="n">Handle</span> <span class="k">const</span> <span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
@@ -375,6 +379,8 @@ But the first thing that struck me when I started using C++11 was the smaller fe
 </span><span class='line'><span class="p">};</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p>I also use this to ensure my base class destructors are virtual, a simple <code>virtual ~MyType() = default;</code> makes my intentions clear.</p>
 
 <h2>Far fewer Boost dependencies</h2>
 
