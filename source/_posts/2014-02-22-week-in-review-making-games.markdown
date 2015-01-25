@@ -4,8 +4,8 @@ title: "Week in Review: Making Games"
 date: 2014-02-22 10:35:00 +0900
 comments: true
 published: true
-categories: WeekInReview C++ Game
-keywords: C++,C++11,gamedev,game,osx,qtcreator
+categories: [WeekInReview, C++, Game]
+keywords: "C++,C++11,gamedev,game,osx,qtcreator"
 description: creating a game in C++ on OSX
 ---
 

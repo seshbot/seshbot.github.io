@@ -3,7 +3,7 @@ layout: post
 title: "Week in Review: Pausing Web App, Starting C++ App"
 date: 2014-02-03 07:52:52 +0900
 comments: true
-categories: WeekInReview Ember C++
+categories: [WeekInReview, Ember, C++]
 keywords: "Ember,Rails,C++,Web"
 ---
 

@@ -3,7 +3,7 @@ layout: post
 title: "Swift: a solid modern imperative language"
 date: 2014-06-04 08:25:06 +0900
 comments: true
-categories: Languages OSX
+categories: [Languages, OSX]
 keywords: "Swift,OSX,language" 
 ---
 

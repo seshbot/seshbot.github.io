@@ -3,13 +3,11 @@ layout: post
 title: "Week in review: Porting to Qt/QML with OpenGL"
 date: 2014-05-16 09:56:26 +0900
 comments: true
-categories: WeekInReview C++ Game
-keyworkds: C++,Qt,QtQuick,QML,OpenGL
+categories: [WeekInReview, C++, Game]
+keywords: "C++,Qt,QtQuick,QML,OpenGL"
 description: porting my game to Qt with OpenGL
 ---
 _So I took a month holiday, and got out of the habit of writing blogs... hopefully this will break the dam, it's not like I don't have a billion things to write about_
-
-_Initial version only! I will add pics soon_
 
 Over the last many weeks I have been ploughing through a whole lot of new stuff I've never used before. As mentioned in my last post I decided to up the graphics a bit, but specifically I wanted to figure out a system for a extensible UI for menus and other 2D overlays, and 3D or pseudo-3D graphics. Creating a decent UI controls library I have learned is very difficult (if kind of fun to be honest.) Making something that is flexible enough to automatically layout your controls in a sensible way where everything resizes based on the
 content contained within is a very difficult problem that nobody should have to re-solve in this day and age. So I wanted to re-use one that I also wanted to learn for myself. 

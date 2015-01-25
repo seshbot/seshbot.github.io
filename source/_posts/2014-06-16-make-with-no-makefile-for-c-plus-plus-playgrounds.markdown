@@ -3,7 +3,7 @@ layout: post
 title: "C++ trick: Use Make without Makefiles"
 date: 2014-06-16 01:23:57 +0000
 comments: true
-categories: C++ tricks
+categories: [C++, tricks]
 keywords: "C++,make,linux"
 ---
 

@@ -3,7 +3,7 @@ layout: post
 title: "Week in Review: Running in an infinite world"
 date: 2014-05-31 20:24:19 +0900
 comments: true
-categories: WeekInReview C++ OpenGL
+categories: [WeekInReview, C++, OpenGL]
 keywords: "C++,OpenGL,OSX,Windows"
 ---
 
