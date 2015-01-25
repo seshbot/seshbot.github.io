@@ -39,7 +39,7 @@ It features:
 
  - CPU: [Intel Core i5-4590](http://ark.intel.com/products/80815/Intel-Core-i5-4590-Processor-6M-Cache-up-to-3_70-GHz)
  - Motherboard: [Asus H97M-E](http://www.asus.com/au/Motherboards/H97ME/)
- - RAM: 8GB (2x 4GB) DDR3-1600 (can't recall brand)
+ - RAM: 16GB (2x 8GB) DDR3-1600 (can't recall brand)
  - SSD: [Samsung 840 EVO 250GB](http://www.samsung.com/au/consumer/pc-peripherals/solid-state-drive/ssd-840-evo/MZ-7TE250BW)
  - Case: [Corsair Obsidian 350D](http://www.corsair.com/de-de/obsidian-series-350d-micro-atx-pc-case)
  - GPU: I reused my NVidia 550 GTX from my previous machine
