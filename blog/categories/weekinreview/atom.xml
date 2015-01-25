@@ -4,7 +4,7 @@
   <title><![CDATA[Category: WeekInReview | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/weekinreview/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-08-19T07:06:34+00:00</updated>
+  <updated>2015-01-25T03:29:55+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -12,6 +12,89 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Week in Review: back from my hiatus (from my hiatus)]]></title>
+    <link href="http://seshbot.com/blog/2015/01/24/week-in-review-back-from-my-hiatus-from-my-hiatus/"/>
+    <updated>2015-01-24T04:49:15+00:00</updated>
+    <id>http://seshbot.com/blog/2015/01/24/week-in-review-back-from-my-hiatus-from-my-hiatus</id>
+    <content type="html"><![CDATA[<p>In September I went to Spain for 6 weeks to chill out with my family and check out what the countryside had to offer. Then I moved from Japan to Australia and got caught up in the Christams spirit. So although I have done some stuff (below) I have not made much progress on any big projects in the last few months&hellip;</p>
+
+<p>BUT I have: started a C++ OpenGL library, started creating some nicer OpenGL documentation, set up a new computer,</p>
+
+<p>On the side I&rsquo;ve been helping a mate out set up an e-commerce site for his new Japanese Brewery &ndash; more information to come when it is released in a few months!</p>
+
+<!-- more -->
+
+
+<h2>Australian lifestyle</h2>
+
+<p>Things are <strong>really</strong> breezy here &ndash; it is a great relief to be in a country where I can just pick up a medicare card, or drivers licence, or bank card, or ANYTHING that involves beurocracy and signing documents without worrying about not understanding or sitting through hours of pawing through contracts and legalese, or running up against brick walls because I&rsquo;m a foreigner. Although the service is generally not as nice as that in Japan, people are more willing to take the initiative when helping you out.</p>
+
+<p>Everything is a long drive away. The computer store <a href="https://www.ple.com.au/">PLE</a> is easily a 30 minute drive away, out in one of Perth&rsquo;s industrial areas. Oh and speaking of that, there are very very few good computer stores around here. PLE is fantastic however, all staff members I&rsquo;ve spoken with are really knowledgable about hardware and have been super helpful.</p>
+
+<h2>My new office</h2>
+
+<p>I&rsquo;m currently living in Kalamunda &ndash; a beautiful area in the hills east of Perth, although it&rsquo;s a bit far from anywhere (as is everything else in WA!) As predicted the internet in Australia has been nothing but trouble, but we are close to the exchange so once I get some technical stuff sorted out we should have OK speeds (although with a download cap which feels very 90s).</p>
+
+<p>The big lesson I&rsquo;ve learned is that no company that provides a utility (e.g., telephony) should ever be privatised. They live in a privileged state of natural monopoly and will always screw their customers by providing the cheapest possible service, if any service at all.</p>
+
+<h2>My new computer</h2>
+
+<p>To celebrate moving to Australia, and because my old office computer is in a box on the ocean somewhere, I decided to get a new well-spec&rsquo;d machine. Having last built a machine about 15 years ago I decided to trust in the most recent <a href="http://arstechnica.com/gadgets/2014/08/ars-technica-system-guide-august-2014/">ArsTechnica system guide</a> by largely basing my decisions on the <a href="http://arstechnica.com/gadgets/2014/08/ars-technica-system-guide-august-2014/4/">Hot-Rod specifications</a> contained therein.</p>
+
+<p>It features:</p>
+
+<ul>
+<li>CPU: <a href="http://ark.intel.com/products/80815/Intel-Core-i5-4590-Processor-6M-Cache-up-to-3_70-GHz">Intel Core i5-4590</a></li>
+<li>Motherboard: <a href="http://www.asus.com/au/Motherboards/H97ME/">Asus H97M-E</a></li>
+<li>RAM: 8GB (2x 4GB) DDR3-1600 (can&rsquo;t recall brand)</li>
+<li>SSD: <a href="http://www.samsung.com/au/consumer/pc-peripherals/solid-state-drive/ssd-840-evo/MZ-7TE250BW">Samsung 840 EVO 250GB</a></li>
+<li>Case: <a href="http://www.corsair.com/de-de/obsidian-series-350d-micro-atx-pc-case">Corsair Obsidian 350D</a></li>
+<li>GPU: I reused my NVidia 550 GTX from my previous machine</li>
+<li>PSU: I also brought my old 750W power unit from Japan</li>
+</ul>
+
+
+<p>Windows 8 boots up <em>really</em> quickly and the machine in general is just super speedy and a pleasure to use. I am especially happy with the case, it pops open and closed easily without tools and has fantastic airflow and filtering.</p>
+
+<h2>New OpenGL work</h2>
+
+<p>I have put aside the game stuff I was doing to focus on my core OpenGL knowledge a bit. OpenGL is crufty and problematic to use, and often if you make a mistake it can take hours or days to figure out what the problem is.</p>
+
+<p>As such I begun work on <a href="https://github.com/seshbot/glpp">glpp</a> &ndash; a C++ library that provides a strongly-typed interface to OpenGL that also features utilities to easly create rendering pipelines, typed buffers, and under the covers utilises third-party libraries to provide context creation, image loading and 3d model loading. It also builds on OSX and Windows (using ANGLE so you dont have to install your own OpenGL drivers!) and targets OpenGL ES 2.0 to ensure maximum support across platforms.</p>
+
+<p>I want to try automatically generating my type-safe versions of the OpenGL API (enums, bit fields and functions), and would like to somehow transform the <a href="https://cvs.khronos.org/svn/repos/ogl/trunk/doc/registry/public/api/gl.xml">Khronos OpenGL API Registry</a> to reduce the amount of manual work required. In considering this I came up with another idea &ndash; how about making some nice interactive documentation that doesn&rsquo;t suck as much as all the other docs!?</p>
+
+<p>So with this in mind I have started experimenting with creating a static single-page-app with Ember.js that will source a set of auto-generated JSON docs of my own fashioning, using the &lsquo;fixture adapter&rsquo; instead of loading data from some REST-ful service. I created a github repo called <a href="https://github.com/seshbot/gldoc">gldoc</a> which I&rsquo;ll be pushing my efforts into. For now it&rsquo;s just a small skeleton Ember app though, as I struggle to recall how Ember works.</p>
+
+<p>Of course instead of writing an ember app and generating the JSON data I could just generate a bunch of static pages (or maybe make it single page with creative uses of divs, jQuery and handlebars), but I would like to mess with ember a bit more so I&rsquo;ll go down that route.</p>
+
+<p>In other news however, Microsoft has release Visual Studio 13 &lsquo;community edition&rsquo; which is totally free to use! This is fantastic news as the &lsquo;express edition&rsquo; was missing a bunch of features I really like using such as performance profiling and the interactive command window, among other things.</p>
+
+<h2>3D modelling with Blender</h2>
+
+<p>To cut a long story short, Blender is a very nice 3D modelling application. If you want to learn it I would highly recommend starting with the <a href="http://cgcookie.com/blender/cgc-courses/blender-basics-introduction-for-beginners/">Blender Cookie introduction for beginners</a> series of videos. Also, install the &lsquo;pie menus&rsquo; (look it up) &ndash; they make switching between states super simple.</p>
+
+<p><img src="/images/upload/2015-01-25-dude.png" title="&ldquo;I made a dude&rdquo;" ></p>
+
+<h2>Games</h2>
+
+<p>I went a bit crazy and decided to start playing Dark Souls and the new Elite: Dangerous.</p>
+
+<p>Dark Souls is so awesome I am considering making a lets play video as I&rsquo;ve seen others do. I downloaded <a href="https://obsproject.com/">OBS</a> and am excited to give it a try.</p>
+
+<p>Elite: Dangerous is a fantastic successor to the Elite games of the 80s, made by the same guy via KickStarter. The feel of the game is fantastic, but the multiplayer aspect is quite lackluster at the moment &ndash; it is very difficult to locate your friends or help them out in battles etc. But at least it HAS a multiplayer aspect!</p>
+
+<p>In fact I enjoy the game so much I purchased a <a href="http://www.thrustmaster.com/products/tflight-hotas-x">ThrustMaster T-Flight HOTAS X</a> which makes the experience much better. I am seriously considering an Oculus Rift as well, as in addition to the natural synergies with this game, I&rsquo;d love to try making some software for it.</p>
+
+<p>Finally, I headed into Tactics in Perth and purchased Ticket to Ride, Munchkin and an Adventure Time card game as well.</p>
+
+<h2>Blogging</h2>
+
+<p>I have learned so much about OpenGL over the last few months that I can envisage a 4 or 5 part series of articles on the subject. Specifically exploring what OpenGL is and how to get started, how to set up a simple 2D scene, how to set up a typical 3D scene (including shading), shadows and stencils, frame buffers and render pipelines, and texturing.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Week in Review: Running in an infinite world]]></title>
@@ -98,8 +181,6 @@ terrain service.</p>
     <updated>2014-05-16T00:56:26+00:00</updated>
     <id>http://seshbot.com/blog/2014/05/16/week-in-review-c-plus-plus</id>
     <content type="html"><![CDATA[<p><em>So I took a month holiday, and got out of the habit of writing blogs&hellip; hopefully this will break the dam, it&rsquo;s not like I don&rsquo;t have a billion things to write about</em></p>
-
-<p><em>Initial version only! I will add pics soon</em></p>
 
 <p>Over the last many weeks I have been ploughing through a whole lot of new stuff I&rsquo;ve never used before. As mentioned in my last post I decided to up the graphics a bit, but specifically I wanted to figure out a system for a extensible UI for menus and other 2D overlays, and 3D or pseudo-3D graphics. Creating a decent UI controls library I have learned is very difficult (if kind of fun to be honest.) Making something that is flexible enough to automatically layout your controls in a sensible way where everything resizes based on the
 content contained within is a very difficult problem that nobody should have to re-solve in this day and age. So I wanted to re-use one that I also wanted to learn for myself.</p>
@@ -423,76 +504,6 @@ in Windows but has been trivial in OSX.</p>
 <p>I have about 3 unpublished posts on my experience over the last few weeks &ndash; I&rsquo;ll probably put them together under one post about Ember development, but not for a little while now I&rsquo;m guessing.</p>
 
 <p>I am much more certain of my opinion on C++ related matters, so I imagine that there will be a few long rants in that general direction coming up.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This week in review: my game table web app]]></title>
-    <link href="http://seshbot.com/blog/2014/01/11/this-week-in-review-the-game-table-web-app/"/>
-    <updated>2014-01-11T02:19:08+00:00</updated>
-    <id>http://seshbot.com/blog/2014/01/11/this-week-in-review-the-game-table-web-app</id>
-    <content type="html"><![CDATA[<p>First here&rsquo;s a quick summary of what I got up to:</p>
-
-<ol>
-<li>trying to build a simple &lsquo;gaming table&rsquo; application in Ember.js,</li>
-<li>styling with Twitter bootstrap,</li>
-<li>messing with plugins in my blog (trying unsuccessfully to fix code highlighting, and adding a UML tool &ndash; see below)</li>
-</ol>
-
-
-<p><center><img src='/images/plantuml/00178544eeee1acd089c0ec4883b3611.png'></center></p>
-
-<p>I spent most of my time learning about Ember. <a href="http://emberjs.com">Ember.js</a> is a very nice looking front-end MVC framework that has a very appealing <a href="http://emberjs.com/guides/">getting started guide</a> that make it look <em>super simple</em> to create a reactive application. Three things that people will not tell you however:</p>
-
-<ul>
-<li>demo videos only ever show the main usage scenario of that framework</li>
-<li>most new frameworks change so often that they&rsquo;re either unstable or very little up-to-date documentation exists, and</li>
-<li>many of the benefits they offer you probably won&rsquo;t end up using anyway, for various reasons</li>
-</ul>
-
-
-<p>For now though I&rsquo;ll go ahead with it because I feel that I&rsquo;m just about to start doing cool stuff in it (it kinda always feels like this though.)</p>
-
-<p><strong>Next week</strong> I&rsquo;m thinking of switching back to some C++ stuff so I can dabble in a realm I&rsquo;m more comfortable with for a while&hellip; Monday is a public holiday in Japan though so I&rsquo;ll probably be wandering around and not programming much.</p>
-
-<!-- more -->
-
-
-<h3>Problem 1: binding non-nested components was difficult</h3>
-
-<p>I figured I would devote my first day last week to creating the framework for a small Gaming Table application. Perhaps just start off with a quick chat client or sketching app. I was not accounting however for the vagaries of modern web application development, and I ended up messing around with stupid little problems for most of the week. Looking back I feel it was quite frustrating overall &ndash; it seems that many of these new techs do not quite work as advertised, if at all.</p>
-
-<p>Most tutorials and documentation will usually only tell you about one way to make an ember app &ndash; showing the details of a single entity or collection of entities of the same type at a time. Perhaps it might be some blogging application that lets you dig down into various blog entries, or perhaps it will involve showing all the tweets from a particular tweeter. Whatever the demo, I&rsquo;m sure it will show you how to explore <em>a single concept</em>.</p>
-
-<p>The first thing I wanted to do was to show your online friends on the left side and allow you to create or enter an existing chat room. I immediately got stuck on a stupid little problem however that I stubbornly refused to get past, leading to several wasted days.</p>
-
-<p>My specific problem was <em>how can I make the nav bar show the name of the current gaming table (kind of like a chat room), but show some placeholder message if I&rsquo;m not in a room</em>. The problem being that the region dedicated to showing information about the current table (players, cards etc) is not a descendent hierarchically of the nav bar.</p>
-
-<p><center><img src='/images/plantuml/09385b523a9258b9f2b64d6596a93d8e.png'></center></p>
-
-<p>Long story short, the correct way seems to involve: 1) modifying the &lsquo;Nav Bar&rsquo; controller to add a dependency to the &lsquo;Game Table&rsquo; controller; 2) add to the Nav Bar controller an alias or dynamic property pointing to the Game Table controller (this is conceptually the last table loaded); and 3) creating another dynamic property in the Nav Bar controller that is updated whenever <code>currentPath</code> is updated, and returns <code>null</code> if the route (<code>currentRouteName</code>) is no longer a table.</p>
-
-<p>This might make sense, but it was a pain in the ass to discover. (Side note: I&rsquo;m working on a general &lsquo;getting to know Ember.js&rsquo; post that goes into a lot more detail on this so others tackling the same problem might not have to spend as long as I spent on it.)</p>
-
-<p>Surround your pullquote like this {" text to be quoted "}</p>
-
-<p>I&rsquo;m concerned that the Ember docs might not cover enough real world scenarios that &lsquo;proper&rsquo; applications might encounter (e.g., several regions dedicated to different information.)</p>
-
-<h3>Live Help in IRC! 1980&rsquo;s tech to the rescue</h3>
-
-<p>The IRC channel is pretty awesome &ndash; the #emberjs channel of freenode.org is one of the most populated channels on the server, and I&rsquo;ve saved a lot of time by asking for help there.</p>
-
-<p>I spent a long time digging through documentation on how to solve this problem before I turned to IRC. Then within 10 minutes I had someone giving me meaningful advice that I ended up using. The secret was that I went in there with a minimalistic example of my problem that they could mark up and fix for me. <a href="http://jsbin.com/UzaFUZE/1/edit?html,js,output">Here&rsquo;s</a> the code I gave them and <a href="http://jsbin.com/UzaFUZE/4/edit?html,js,output">here&rsquo;s</a> what they gave me.</p>
-
-<h3>Hosting a backend</h3>
-
-<p>I have been mainly concentrating on the front end functionality so far, so didn&rsquo;t want to spend too long messing around with the server side. I had originally decided that I&rsquo;d learn some rails, but decided to try out a &lsquo;no backend&rsquo; solution &ndash; in this case <a href="http://deployd.com">deployd</a>. The two criteria I was after were a simple REST API and some kind of authentication, both of which deployd ostensibly offers. There were a few hiccups though.</p>
-
-<p>The first was that deployd is still actively being developed, so the web UI isn&rsquo;t totally intuative. I won&rsquo;t go too far into it but it has been a hassle.</p>
-
-<p>The next problem is that although both Ember and Deployd declare that they speak standard REST JSON language, it turns out they don&rsquo;t agree on how that language should look. I had to mess around a fair amount and ask around on IRC before discovering that you need to apply your own serializer, that intercepts all remote data transfers and allows you to &lsquo;munge&rsquo; it a little into a format that Ember is happy with.</p>
-
-<p>Again, I&rsquo;ll include the details of all this in a post dedicated to Ember later.</p>
 ]]></content>
   </entry>
   

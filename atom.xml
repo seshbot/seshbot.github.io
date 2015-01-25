@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2014-08-19T07:06:34+00:00</updated>
+  <updated>2015-01-25T03:29:55+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -14,375 +14,85 @@
 
   
   <entry>
-    <title type="html"><![CDATA[C++11/14 idioms I use every day]]></title>
-    <link href="http://seshbot.com/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day/"/>
-    <updated>2014-08-16T04:49:33+00:00</updated>
-    <id>http://seshbot.com/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day</id>
-    <content type="html"><![CDATA[<p><em>if you want to see a bunch of people complaining about my rules regarding </em>auto<em>, have a look at <a href="https://news.ycombinator.com/item?id=8193157">HackerNews</a> and <a href="http://www.reddit.com/r/cpp/comments/2dvirt/new_c_idioms_i_use_every_day/">Reddit</a></em></p>
+    <title type="html"><![CDATA[Week in Review: back from my hiatus (from my hiatus)]]></title>
+    <link href="http://seshbot.com/blog/2015/01/24/week-in-review-back-from-my-hiatus-from-my-hiatus/"/>
+    <updated>2015-01-24T04:49:15+00:00</updated>
+    <id>http://seshbot.com/blog/2015/01/24/week-in-review-back-from-my-hiatus-from-my-hiatus</id>
+    <content type="html"><![CDATA[<p>In September I went to Spain for 6 weeks to chill out with my family and check out what the countryside had to offer. Then I moved from Japan to Australia and got caught up in the Christams spirit. So although I have done some stuff (below) I have not made much progress on any big projects in the last few months&hellip;</p>
 
-<p>Most attention on the new C++ has focused on the changes that provide functionality and performance that was previously not possible, both library enhancements (chrono, regex, smart pointers, and stuff to help with lambdas for example) and core language enhancements (perfect forwarding, variadic templates, the new memory model and threading capabilities, initialiser lists and the like). This functionality will impact us all in helping to write more correct code and efficient libraries, but often will only be relevant in certain parts of our code.</p>
+<p>BUT I have: started a C++ OpenGL library, started creating some nicer OpenGL documentation, set up a new computer,</p>
 
-<p><span class='pullquote-right' data-pullquote='the first thing that struck me when I started using C++11 was the smaller features that I could take advantage of every time I put my fingers to the keyboard.'>
-But the first thing that struck me when I started using C++11 was the smaller features that I could take advantage of every time I put my fingers to the keyboard. These are the things that make code more concise and simple and allow me to present my intentions more clearly.
-</span></p>
-
-<p>Stuff I take advantage of every day:</p>
-
-<ul>
-<li>more concise general coding:
-
-<ul>
-<li>lambdas for scoped initialisation or inline &lsquo;builder&rsquo; functions</li>
-<li>new standard library functionality for string manipulation, particularly std::to_string() and std::stoi() etc</li>
-<li>range-based for loop</li>
-</ul>
-</li>
-<li>clearer declarations:
-
-<ul>
-<li>inline member initialisation,</li>
-<li>the <code>override</code>, <code>default</code> and <code>delete</code> keywords</li>
-<li>delegating constructors,</li>
-<li>uniform initialisation, especially when invoking or returning from functions</li>
-<li>auto type deduction everywhere!</li>
-</ul>
-</li>
-<li>far fewer dependencies on boost</li>
-</ul>
-
-
-<p>These are the things I think all C++ programmers should learn first, because they benefit you <em>straight away</em> and confer very little risk of being learned wrong.</p>
-
-<p>At the very end I also mention a few upcoming features that I&rsquo;m really excited about as they will be game-changers.</p>
+<p>On the side I&rsquo;ve been helping a mate out set up an e-commerce site for his new Japanese Brewery &ndash; more information to come when it is released in a few months!</p>
 
 <!-- more -->
 
 
-<h2>More concise coding</h2>
+<h2>Australian lifestyle</h2>
 
-<p>These are the most obvious every-day enhancements, mostly focusing on making code easier to write and to read. Some of the most pleasing languages to use (like F#) are so because the ratio between language constructs and code relating to logic is very low.</p>
+<p>Things are <strong>really</strong> breezy here &ndash; it is a great relief to be in a country where I can just pick up a medicare card, or drivers licence, or bank card, or ANYTHING that involves beurocracy and signing documents without worrying about not understanding or sitting through hours of pawing through contracts and legalese, or running up against brick walls because I&rsquo;m a foreigner. Although the service is generally not as nice as that in Japan, people are more willing to take the initiative when helping you out.</p>
 
-<h3>use the auto keyword where possible</h3>
+<p>Everything is a long drive away. The computer store <a href="https://www.ple.com.au/">PLE</a> is easily a 30 minute drive away, out in one of Perth&rsquo;s industrial areas. Oh and speaking of that, there are very very few good computer stores around here. PLE is fantastic however, all staff members I&rsquo;ve spoken with are really knowledgable about hardware and have been super helpful.</p>
 
-<p>The <code>auto</code> keyword should be used wherever possible. Functions should be short and readable, so don&rsquo;t pollute your code with unneccessary type declarations! Curmudgeons often claim they prefer to see the type written with the declaration, but I think readability and maintainability trumps this. Yes, maintainability &ndash; you want to be able to change return values, template signatures, class names and such, and auto adapts without complaint.</p>
+<h2>My new office</h2>
 
-<p>Scott Meyers dedicates a chapter to this in his new &lsquo;Effective Modern C++&rsquo; book (the item is <em>Item 4: Prefer auto to explicit type declarations</em>) &ndash; also have a look at his presentation also entitled <a href="http://vimeo.com/channels/ndc2014/97318797">Effective Modern C++</a> where he covers the matter.</p>
+<p>I&rsquo;m currently living in Kalamunda &ndash; a beautiful area in the hills east of Perth, although it&rsquo;s a bit far from anywhere (as is everything else in WA!) As predicted the internet in Australia has been nothing but trouble, but we are close to the exchange so once I get some technical stuff sorted out we should have OK speeds (although with a download cap which feels very 90s).</p>
 
-<p>If you&rsquo;re still unconvinced, <a href="http://www.reddit.com/r/cpp/comments/2dvirt/new_c_idioms_i_use_every_day/cju6c4w">academican helpfully pointed out</a> on the <a href="http://www.reddit.com/r/cpp/comments/2dvirt/new_c_idioms_i_use_every_day/">reddit discussion</a> of this article that <em>Herb Sutter wrote a <a href="http://herbsutter.com/2013/06/07/gotw-92-solution-auto-variables-part-1/">series</a> of <a href="http://herbsutter.com/2013/06/13/gotw-93-solution-auto-variables-part-2/">GOTW</a> <a href="http://herbsutter.com/2013/08/12/gotw-94-solution-aaa-style-almost-always-auto/">articles</a> on this topic last year which defend the principle of &ldquo;Almost Always Auto&rdquo;. He does a much better job than I could</em> . The <a href="http://herbsutter.com/2013/08/12/gotw-94-solution-aaa-style-almost-always-auto/">third article</a> explores this topic <em>particularly</em> thoroughly.</p>
+<p>The big lesson I&rsquo;ve learned is that no company that provides a utility (e.g., telephony) should ever be privatised. They live in a privileged state of natural monopoly and will always screw their customers by providing the cheapest possible service, if any service at all.</p>
 
-<p>These articles are a real treasure-trove, where Herb concludes that:</p>
+<h2>My new computer</h2>
+
+<p>To celebrate moving to Australia, and because my old office computer is in a box on the ocean somewhere, I decided to get a new well-spec&rsquo;d machine. Having last built a machine about 15 years ago I decided to trust in the most recent <a href="http://arstechnica.com/gadgets/2014/08/ars-technica-system-guide-august-2014/">ArsTechnica system guide</a> by largely basing my decisions on the <a href="http://arstechnica.com/gadgets/2014/08/ars-technica-system-guide-august-2014/4/">Hot-Rod specifications</a> contained therein.</p>
+
+<p>It features:</p>
 
 <ul>
-<li>Guideline: Prefer to declare local variables using auto x = expr; when you don’t need to explicitly commit to a type. It is efficient by default and guarantees that no implicit conversions or temporary objects will occur</li>
-<li>Guideline: Prefer to declare local variables using auto. It guarantees that you get the exact type and so is the simplest way to portably spell the implementation-specific type of arithmetic operations on built-in types, which vary by platform, and ensure that you cannot accidentally get narrowing conversions when storing the result</li>
-<li>Guideline: Remember that preferring auto variables is motivated primarily by correctness, performance, maintainability, and robustness—and only lastly about typing convenience</li>
+<li>CPU: <a href="http://ark.intel.com/products/80815/Intel-Core-i5-4590-Processor-6M-Cache-up-to-3_70-GHz">Intel Core i5-4590</a></li>
+<li>Motherboard: <a href="http://www.asus.com/au/Motherboards/H97ME/">Asus H97M-E</a></li>
+<li>RAM: 8GB (2x 4GB) DDR3-1600 (can&rsquo;t recall brand)</li>
+<li>SSD: <a href="http://www.samsung.com/au/consumer/pc-peripherals/solid-state-drive/ssd-840-evo/MZ-7TE250BW">Samsung 840 EVO 250GB</a></li>
+<li>Case: <a href="http://www.corsair.com/de-de/obsidian-series-350d-micro-atx-pc-case">Corsair Obsidian 350D</a></li>
+<li>GPU: I reused my NVidia 550 GTX from my previous machine</li>
+<li>PSU: I also brought my old 750W power unit from Japan</li>
 </ul>
 
 
-<p>If you still don&rsquo;t agree with Scott and Herb, two of the most influential C++ gurus out there, then perhaps it would be well worth exploring why &ndash; if you know something they don&rsquo;t you&rsquo;re probably able to make a lucrative living lecturing!</p>
+<p>Windows 8 boots up <em>really</em> quickly and the machine in general is just super speedy and a pleasure to use. I am especially happy with the case, it pops open and closed easily without tools and has fantastic airflow and filtering.</p>
 
-<h3>other uses for lambdas</h3>
+<h2>New OpenGL work</h2>
 
-<p>Lambdas are of course a fantastic feature that helps us all out in so many ways. But I tend to use it in general day-to-day stuff for what I call <strong>inline builder functions</strong>. This is when you want to perform some complicated ritual to create some resource but don&rsquo;t like setting your resources to some default &lsquo;uninitialised&rsquo; state.</p>
+<p>I have put aside the game stuff I was doing to focus on my core OpenGL knowledge a bit. OpenGL is crufty and problematic to use, and often if you make a mistake it can take hours or days to figure out what the problem is.</p>
 
-<p>For example:</p>
+<p>As such I begun work on <a href="https://github.com/seshbot/glpp">glpp</a> &ndash; a C++ library that provides a strongly-typed interface to OpenGL that also features utilities to easly create rendering pipelines, typed buffers, and under the covers utilises third-party libraries to provide context creation, image loading and 3d model loading. It also builds on OSX and Windows (using ANGLE so you dont have to install your own OpenGL drivers!) and targets OpenGL ES 2.0 to ensure maximum support across platforms.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="c1">// create an immutable type or one that has no &#39;uninitialised&#39; state</span>
-</span><span class='line'><span class="k">const</span> <span class="kt">int</span> <span class="n">calculated</span> <span class="o">=</span> <span class="p">[</span><span class="o">&amp;</span><span class="p">]</span> <span class="p">{</span>
-</span><span class='line'>   <span class="k">auto</span> <span class="n">l</span> <span class="o">=</span> <span class="n">lock</span><span class="p">();</span>
-</span><span class='line'>   <span class="k">auto</span> <span class="n">first</span> <span class="o">=</span> <span class="n">stage1</span><span class="p">();</span>
-</span><span class='line'>   <span class="k">auto</span> <span class="n">second</span> <span class="o">=</span> <span class="n">stage2</span><span class="p">();</span>
-</span><span class='line'>   <span class="k">return</span> <span class="n">combine</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">);</span>
-</span><span class='line'><span class="p">}();</span> <span class="c1">// notice I invoke the lambda here!</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// ... use the calculated value</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>I want to try automatically generating my type-safe versions of the OpenGL API (enums, bit fields and functions), and would like to somehow transform the <a href="https://cvs.khronos.org/svn/repos/ogl/trunk/doc/registry/public/api/gl.xml">Khronos OpenGL API Registry</a> to reduce the amount of manual work required. In considering this I came up with another idea &ndash; how about making some nice interactive documentation that doesn&rsquo;t suck as much as all the other docs!?</p>
 
+<p>So with this in mind I have started experimenting with creating a static single-page-app with Ember.js that will source a set of auto-generated JSON docs of my own fashioning, using the &lsquo;fixture adapter&rsquo; instead of loading data from some REST-ful service. I created a github repo called <a href="https://github.com/seshbot/gldoc">gldoc</a> which I&rsquo;ll be pushing my efforts into. For now it&rsquo;s just a small skeleton Ember app though, as I struggle to recall how Ember works.</p>
 
-<p>Of course you could put this functionality in a function somewhere but this means you don&rsquo;t pollute your class namespace, and the functionality is localised to the place you use it.</p>
+<p>Of course instead of writing an ember app and generating the JSON data I could just generate a bunch of static pages (or maybe make it single page with creative uses of divs, jQuery and handlebars), but I would like to mess with ember a bit more so I&rsquo;ll go down that route.</p>
 
-<h3>range-based for loops</h3>
+<p>In other news however, Microsoft has release Visual Studio 13 &lsquo;community edition&rsquo; which is totally free to use! This is fantastic news as the &lsquo;express edition&rsquo; was missing a bunch of features I really like using such as performance profiling and the interactive command window, among other things.</p>
 
-<p>The range-based for loop is also a no-brainer. It is not as useful as it could be &ndash; for example you often want to maintain some index as you iterate over something, and the standard library (and even boost range) don&rsquo;t provide a nice wrapper around iterators to help with this.</p>
+<h2>3D modelling with Blender</h2>
 
-<p>As a side note (I don&rsquo;t actually do this very often,) you can extend any type to be range-based for loop-compatible by providing specialisations of <code>std::begin()</code> and <code>std::end()</code> for that type. For example, I suppose one could do:</p>
+<p>To cut a long story short, Blender is a very nice 3D modelling application. If you want to learn it I would highly recommend starting with the <a href="http://cgcookie.com/blender/cgc-courses/blender-basics-introduction-for-beginners/">Blender Cookie introduction for beginners</a> series of videos. Also, install the &lsquo;pie menus&rsquo; (look it up) &ndash; they make switching between states super simple.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="k">struct</span> <span class="n">irange</span> <span class="p">{</span> <span class="kt">int</span> <span class="n">First</span><span class="p">;</span> <span class="kt">int</span> <span class="n">Last</span><span class="p">;</span> <span class="p">};</span>
-</span><span class='line'><span class="k">struct</span> <span class="n">irange_iterator</span> <span class="p">{</span>
-</span><span class='line'>   <span class="kt">int</span> <span class="n">Val</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="c1">// minimalistic forward-iterator implementation</span>
-</span><span class='line'>   <span class="kt">int</span> <span class="k">operator</span><span class="o">*</span><span class="p">()</span>                            <span class="p">{</span> <span class="k">return</span> <span class="n">Val</span><span class="p">;</span>          <span class="p">}</span>
-</span><span class='line'>   <span class="kt">bool</span> <span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="n">irange_iterator</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">Val</span> <span class="o">!=</span> <span class="n">r</span><span class="p">.</span><span class="n">Val</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>   <span class="n">irange_iterator</span> <span class="k">operator</span><span class="o">++</span><span class="p">()</span>               <span class="p">{</span> <span class="k">return</span> <span class="p">{</span><span class="o">++</span><span class="n">Val</span><span class="p">};</span>      <span class="p">}</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// begin() and end() are invoked by range-based for</span>
-</span><span class='line'><span class="n">irange_iterator</span> <span class="n">begin</span><span class="p">(</span><span class="n">irange</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="p">{</span> <span class="n">r</span><span class="p">.</span><span class="n">First</span> <span class="p">};</span> <span class="p">}</span>
-</span><span class='line'><span class="n">irange_iterator</span> <span class="n">end</span><span class="p">(</span><span class="n">irange</span> <span class="k">const</span> <span class="o">&amp;</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="p">{</span> <span class="n">r</span><span class="p">.</span><span class="n">Last</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">};</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>   <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">v</span> <span class="o">:</span> <span class="n">irange</span><span class="p">{</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">})</span>
-</span><span class='line'>      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">v</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;, &quot;</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// prints &#39;10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p><img src="http://seshbot.com/images/upload/2015-01-25-dude.png" title="&#34;I made a dude&#34;" alt="&#34;I made a dude&#34;"></p>
 
+<h2>Games</h2>
 
-<p>&hellip;but don&rsquo;t do it &ndash; the iterator is incomplete (and non-const-correct, and probably buggy) and it doesn&rsquo;t cover reverse ranges for starters. Plus there are some cool libraries out there, like <a href="https://github.com/ryanhaining/cppitertools/blob/master/README.md">CPPItertools</a> perhaps?</p>
+<p>I went a bit crazy and decided to start playing Dark Souls and the new Elite: Dangerous.</p>
 
-<h3>Many new basic STL utilities</h3>
+<p>Dark Souls is so awesome I am considering making a lets play video as I&rsquo;ve seen others do. I downloaded <a href="https://obsproject.com/">OBS</a> and am excited to give it a try.</p>
 
-<p>But one thing people dont mention much is that the standard library now includes a bunch of small helper functions for basic string conversions! Previously one might use boost <code>lexical_cast&lt;&gt;()</code> for this sort of thing, but now you can generally rely on <code>std::to_string()</code> overloads and <code>std::stoi()</code> and its variants to do the simple stuff for you.</p>
+<p>Elite: Dangerous is a fantastic successor to the Elite games of the 80s, made by the same guy via KickStarter. The feel of the game is fantastic, but the multiplayer aspect is quite lackluster at the moment &ndash; it is very difficult to locate your friends or help them out in battles etc. But at least it HAS a multiplayer aspect!</p>
 
-<p>The standard library also has new container types and algorithms. If you haven&rsquo;t familiarised yourself with the new <code>std::unordered_map</code> and <code>std::array</code> containers you really should. And new algorithms that you&rsquo;d kick yourself for reimplementing include <code>all_of()</code>/<code>any_of()</code>/<code>none_of()</code>, <code>iota()</code>, <code>minmax()</code>, <code>is_permutation()</code> (as well as all the other is_ functions) and <code>shuffle</code>. See this well-known <a href="http://channel9.msdn.com/Events/GoingNative/2013/Cpp-Seasoning">Sean Parent&rsquo;s talk on C++ Seasoning</a> for some great discussion on using C++ algorithms to their fullest.</p>
+<p>In fact I enjoy the game so much I purchased a <a href="http://www.thrustmaster.com/products/tflight-hotas-x">ThrustMaster T-Flight HOTAS X</a> which makes the experience much better. I am seriously considering an Oculus Rift as well, as in addition to the natural synergies with this game, I&rsquo;d love to try making some software for it.</p>
 
-<h2>Clearer declarations</h2>
+<p>Finally, I headed into Tactics in Perth and purchased Ticket to Ride, Munchkin and an Adventure Time card game as well.</p>
 
-<p>Initialisation is the backbone of C++ &ndash; typically all resources should be allocated and initialised in constructors and released deterministically in destructors according to very specific rules, ensuring exception safety and preventing resource leaks.</p>
+<h2>Blogging</h2>
 
-<h3>Initialisation is much simpler</h3>
-
-<p>C++11 allows us to focus on our intents more than focusing on our types. For example, the <code>auto</code> keyword and uniform initialisation both make code far clearer:</p>
-
-<p>For example, we can expect to use a nice 3D mesh API like so:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="k">auto</span> <span class="n">square</span> <span class="o">=</span> <span class="n">create_triangle_mesh</span><span class="p">({</span>
-</span><span class='line'>   <span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span>
-</span><span class='line'>   <span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This smacks of &lsquo;struct initialisation&rsquo; which I really liked:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="k">struct</span> <span class="n">TcpHeader</span> <span class="p">{</span>
-</span><span class='line'>   <span class="n">uint16_t</span> <span class="n">src_port</span><span class="p">;</span> <span class="n">uint16_t</span> <span class="n">dst_port</span><span class="p">;</span>
-</span><span class='line'>   <span class="n">uint32_t</span> <span class="n">seq</span><span class="p">;</span>
-</span><span class='line'>   <span class="n">uint32_t</span> <span class="n">ack</span><span class="p">;</span>
-</span><span class='line'>   <span class="c1">// ... plus other stuff</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// this works in C++03 as well</span>
-</span><span class='line'><span class="n">TcpHeader</span> <span class="n">hdr</span> <span class="o">=</span> <span class="p">{</span><span class="mi">10012</span><span class="p">,</span> <span class="mi">8088</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="cm">/* ... */</span> <span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Construction is much more flexible</h3>
-
-<p>Now for trivial types you sometimes don&rsquo;t need a constructor:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="c1">// no constructor needed!</span>
-</span><span class='line'><span class="k">struct</span> <span class="n">counter</span> <span class="p">{</span>
-</span><span class='line'>   <span class="kt">int</span> <span class="n">last_</span> <span class="p">{</span> <span class="mi">0</span> <span class="p">};</span>
-</span><span class='line'>   <span class="kt">int</span> <span class="n">step_</span> <span class="p">{</span> <span class="mi">1</span> <span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="kt">int</span> <span class="n">next</span><span class="p">()</span> <span class="p">{</span> <span class="n">last_</span> <span class="o">+=</span> <span class="n">step_</span><span class="p">;</span> <span class="k">return</span> <span class="n">last_</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now there&rsquo;s a way to share construction code without resorting to a private init() function:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="k">struct</span> <span class="n">counter</span> <span class="p">{</span>
-</span><span class='line'>   <span class="kt">int</span> <span class="n">last_</span><span class="p">;</span>
-</span><span class='line'>   <span class="kt">int</span> <span class="n">step_</span><span class="p">;</span>
-</span><span class='line'>   <span class="n">counter</span><span class="p">()</span>
-</span><span class='line'>   <span class="o">:</span> <span class="n">counter</span> <span class="p">{</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="p">}</span> <span class="p">{</span> <span class="p">}</span> <span class="c1">// delegating constructor!</span>
-</span><span class='line'>   <span class="n">counter</span><span class="p">(</span><span class="kt">int</span> <span class="n">last</span><span class="p">,</span> <span class="kt">int</span> <span class="n">step</span><span class="p">)</span>
-</span><span class='line'>   <span class="o">:</span> <span class="n">last_</span><span class="p">(</span><span class="n">last</span><span class="p">),</span> <span class="n">step_</span><span class="p">(</span><span class="n">step</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="kt">int</span> <span class="n">next</span><span class="p">()</span> <span class="p">{</span> <span class="n">last_</span> <span class="o">+=</span> <span class="n">step_</span><span class="p">;</span> <span class="k">return</span> <span class="n">last_</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>More explicit inheritance</h3>
-
-<p>I have always been jealous of languages that have the <code>override</code> keyword, because a common trap when refactoring is to rename a virtual base method &ndash; the compiler cannot warn you that you forgot to replace the overridden methods in specialised classes (unless it is pure virtual, which it really should be, but anyway&hellip;)</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="k">struct</span> <span class="n">base</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">virtual</span> <span class="n">string</span> <span class="n">name</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="s">&quot;default&quot;</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">struct</span> <span class="n">derived</span> <span class="o">:</span> <span class="k">public</span> <span class="n">base</span> <span class="p">{</span>
-</span><span class='line'>   <span class="c1">// compile error - xname() is not an inherited member! </span>
-</span><span class='line'>   <span class="k">virtual</span> <span class="n">string</span> <span class="n">xname</span><span class="p">()</span> <span class="n">override</span> <span class="p">{</span> <span class="k">return</span> <span class="s">&quot;derived!&quot;</span> <span class="p">}</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>default</code> keyword can be a godsend to the concientious coder who likes to always obey the &lsquo;rule of three&rsquo; (or now the rule of five, or <a href="https://isocpp.org/blog/2012/11/rule-of-zero">rule of zero</a> as of lately.) Again the benefit is in reducing code that you need to write and maintain &ndash; the best code is no code at all.</p>
-
-<p>To illustrate, imagine you have a class that encapsulates some resource handle. The resource will of course be destroyed in the destructor, and we choose to disallow copying to ensure that resource isn&rsquo;t double-destroyed. We want to allow moving however, because we don&rsquo;t want to force clients to wrap the resource in pointer types to pass it around&hellip;</p>
-
-<p>The problem is that when one disables the copy constructor, one also disables the move constructor. The <code>default</code> keyword allows us to re-enable it without actually maintaining it as we update the class in future:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="k">struct</span> <span class="n">Handle</span> <span class="p">{</span>
-</span><span class='line'>   <span class="n">Handle</span><span class="p">(</span><span class="kt">int</span> <span class="n">h</span><span class="p">)</span> <span class="o">:</span> <span class="n">impl_</span><span class="p">(</span><span class="mi">100000000</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
-</span><span class='line'>   <span class="o">~</span><span class="n">Handle</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span> <span class="c1">// just for &#39;rule of five&#39; completeness</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="c1">// disallow copying, it would be super inefficient </span>
-</span><span class='line'>   <span class="n">Handle</span><span class="p">(</span><span class="n">Handle</span> <span class="k">const</span> <span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
-</span><span class='line'>   <span class="n">Handle</span> <span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">Handle</span> <span class="k">const</span> <span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="c1">// ...but allow moving, it is super fast!</span>
-</span><span class='line'>   <span class="n">Handle</span><span class="p">(</span><span class="n">Handle</span> <span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
-</span><span class='line'>   <span class="n">Handle</span> <span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">Handle</span> <span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">impl_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I also use this to ensure my base class destructors are virtual, a simple <code>virtual ~MyType() = default;</code> makes my intentions clear.</p>
-
-<h2>Far fewer Boost dependencies</h2>
-
-<p>Boost is fantastic, but it&rsquo;s a beast and can really slow down compile times. C++11 and onward have made it so I no longer feel it necessary to include boost when starting out with a new project &ndash; I will often add it at a much later stage.</p>
-
-<p>Essential functionality that has been taken from boost that I use all the time:</p>
-
-<ul>
-<li>chrono for time measurement: e.g., <code>using clock = std::chrono::steady_clock; auto now = clock::now(); auto later = now + std::chrono::seconds(10);</code></li>
-<li>smart pointer libraries</li>
-<li>lambda helpers <code>std::bind</code> and <code>std::function</code></li>
-<li>new thread library, although <code>std::future</code> still needs a lot of work (to get a <code>then()</code> function equivalent)</li>
-<li><code>std::optional</code> to make our interfaces more explicit when invalid data may be returned</li>
-<li>the <code>&lt;cstdint&gt;</code> header for precise platform-independent types (for example <code>uint32_t</code> instead of <code>unsigned int</code>)</li>
-</ul>
-
-
-<p>Of note as well are the new regex, random and type index libraries, though they didn&rsquo;t make the list because I don&rsquo;t use them as often.</p>
-
-<p><strong>Functionality that I wish they had taken from boost, or that I would still use boost for</strong> :</p>
-
-<ul>
-<li>program options: it&rsquo;s a bit complicated to use, but it gives very high quality functionality and catches all the corner cases I&rsquo;ve ever needed</li>
-<li>the new log library (there are probably better ones out there, but as long as I&rsquo;m using boost I might as well use this one)</li>
-<li>similarly, the boost unit test library is simple but effective, and you might as well use it if you&rsquo;re already using boost</li>
-<li>filesystem, although that is coming in C++17</li>
-<li>asio, which has also been proposed for C++17</li>
-<li>the range library is a hot topic, people are still trying to figure out how to get this right but boost has had a pretty good stab at it (though sadly <code>range::indexed</code> doesnt play well with range-based for yet)</li>
-<li>I often expose basic event attributes on my classes using the signals2 library</li>
-<li>the string manipulation and string formatting libraries can be pretty sweet as well</li>
-</ul>
-
-
-<p>I will generally end up including boost in my apps because I really like these libraries.</p>
-
-<h2>Hope for the future</h2>
-
-<p>The C++ language committee is known for being <em>very</em> conservative, with the explicit objective of only adding to the language features they think will still be relevant in the distant future. Created in 1983, the first standard was released in 1998, and with a relatively minor update in 2003 you could be forgiven for saying it was a relatively stagnant language.</p>
-
-<p><span class='pullquote-left' data-pullquote='Today even the most knowledgable C++ consultants are feeling their way around the language'>
-But in the last 5 years the landscape has changed dramatically. C++11, although released years later than intended, brings massive changes to both the core language and standard libraries, and the language committee has resolved to release new standards every few years, with C++14 almost released and C++17 well underway. Today even the most knowledgable C++ consultants are feeling their way around the language ; how to most effectively use the new range-based for loops (prefer <code>for (auto &amp;&amp; x: xs)</code>!) and whether perhaps movable types should be <a href="http://scottmeyers.blogspot.jp/2014/07/should-move-only-types-ever-be-passed.html?utm_source=twitterfeed&amp;utm_medium=twitter&amp;m=1">passed by value or by rvalue reference</a>.
-</span></p>
-
-<p>C++17 is probably even more exciting for me than C++11 was, because it solves a couple of C++&rsquo;s greatest problems: complicated error messages and crazy compile times. Concepts will allow programmers to write template code <em>without even knowing it is template code</em> !. And we will all be able to create template overloads without resorting to those crazy SFINAE techniques that are so ugly I generally don&rsquo;t use them at all.</p>
-
-<p>But the real truly beautiful feature will be modules. Apple have been heading up a team that will allow us to import modules without causing the pre-processor to continually parse massive compilation units, which is the vast majority of what it does these days. Apple have already implemented the beginnings of this in ObjectiveC, so they have a good grip on the problems. Check out <a href="http://llvm.org/devmtg/2012-11/Gregor-Modules.pdf">this fantastic presentation on modules</a> for more details.</p>
-
-<p>A great summary of the current state of C++17 is the <a href="http://botondballo.wordpress.com/2014/07/17/trip-report-c-standards-committee-meeting-in-rapperswil-june-2014/">notes of the last standards committee meeting</a> . Within you will find such goodies as:</p>
-
-<ul>
-<li>Herb Sutter&rsquo;s <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4029.pdf">proposal to make return values explicit</a> . This will make returning <code>unique_ptr</code> types as simple as <code>return {new Thing}</code>.</li>
-<li>a proposal for <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4026.html">better nested namespace syntax</a> (e.g., <code>namespace pcx::gl { /* my declarations */ }</code> )</li>
-<li>the proposal for enhanced ranged-based for syntax to prevent accidental misuse (currently the recommended syntax is actuall <code>for (auto &amp;&amp; x : xs)</code>, but this will allow us to use <code>for (x : xs)</code>)</li>
-</ul>
-
-
-<p>My wishlist for future enhancements include:</p>
-
-<ul>
-<li>better functional constructs (I found a youtube clip of some guy fantasising about <a href="https://www.youtube.com/watch?v=YJIaGRDIyEE">piping data ranges around</a> ).</li>
-<li>declarative computation expressions: python, C# and every functional language ever have great consise declarative formats for generating series of data that I would love in C++.</li>
-<li>new primitives to make async programming easier &ndash; (<code>async</code> and <code>await</code> are apparently on the way, boost already has a coroutines library!)</li>
-<li>stable C++ ABI allowing portable libraries (compilation units from different compilers or even platforms), would mean header-only types can be used in library interfaces/boundaries (e.g., currently cant have boost::any&lt;> in an exported header because it would turn into different code on client and library.) This is already proposed by Herb Sutter <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4028.pdf">here</a></li>
-</ul>
-
+<p>I have learned so much about OpenGL over the last few months that I can envisage a 4 or 5 part series of articles on the subject. Specifically exploring what OpenGL is and how to get started, how to set up a simple 2D scene, how to set up a typical 3D scene (including shading), shadows and stencils, frame buffers and render pipelines, and texturing.</p>
 ]]></content>
   </entry>
   
@@ -778,8 +488,6 @@ terrain service.</p>
     <updated>2014-05-16T00:56:26+00:00</updated>
     <id>http://seshbot.com/blog/2014/05/16/week-in-review-c-plus-plus</id>
     <content type="html"><![CDATA[<p><em>So I took a month holiday, and got out of the habit of writing blogs&hellip; hopefully this will break the dam, it&rsquo;s not like I don&rsquo;t have a billion things to write about</em></p>
-
-<p><em>Initial version only! I will add pics soon</em></p>
 
 <p>Over the last many weeks I have been ploughing through a whole lot of new stuff I&rsquo;ve never used before. As mentioned in my last post I decided to up the graphics a bit, but specifically I wanted to figure out a system for a extensible UI for menus and other 2D overlays, and 3D or pseudo-3D graphics. Creating a decent UI controls library I have learned is very difficult (if kind of fun to be honest.) Making something that is flexible enough to automatically layout your controls in a sensible way where everything resizes based on the
 content contained within is a very difficult problem that nobody should have to re-solve in this day and age. So I wanted to re-use one that I also wanted to learn for myself.</p>

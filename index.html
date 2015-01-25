@@ -9,7 +9,7 @@
 
 <meta name="author" content="Paul Cechner"> 
 
-<meta name="description" content="if you want to see a bunch of people complaining about my rules regarding auto, have a look at HackerNews and Reddit Most attention on the new C++ &hellip;"> <meta name="keywords" content="">
+<meta name="description" content="In September I went to Spain for 6 weeks to chill out with my family and check out what the countryside had to offer. Then I moved from Japan to &hellip;"> <meta name="keywords" content="">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -100,51 +100,20 @@ $(document).ready(
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day/">
+		<a href="/blog/2015/01/24/week-in-review-back-from-my-hiatus-from-my-hiatus/">
 		
-			C++11/14 Idioms I Use Every Day</a>
+			Week in Review: Back From My Hiatus (From My Hiatus)</a>
 	</h2>
 	<div class="entry-content">
-		<p><em>if you want to see a bunch of people complaining about my rules regarding </em>auto<em>, have a look at <a href="https://news.ycombinator.com/item?id=8193157">HackerNews</a> and <a href="http://www.reddit.com/r/cpp/comments/2dvirt/new_c_idioms_i_use_every_day/">Reddit</a></em></p>
+		<p>In September I went to Spain for 6 weeks to chill out with my family and check out what the countryside had to offer. Then I moved from Japan to Australia and got caught up in the Christams spirit. So although I have done some stuff (below) I have not made much progress on any big projects in the last few months&hellip;</p>
 
-<p>Most attention on the new C++ has focused on the changes that provide functionality and performance that was previously not possible, both library enhancements (chrono, regex, smart pointers, and stuff to help with lambdas for example) and core language enhancements (perfect forwarding, variadic templates, the new memory model and threading capabilities, initialiser lists and the like). This functionality will impact us all in helping to write more correct code and efficient libraries, but often will only be relevant in certain parts of our code.</p>
+<p>BUT I have: started a C++ OpenGL library, started creating some nicer OpenGL documentation, set up a new computer,</p>
 
-<p><span class='pullquote-right' data-pullquote='the first thing that struck me when I started using C++11 was the smaller features that I could take advantage of every time I put my fingers to the keyboard.'>
-But the first thing that struck me when I started using C++11 was the smaller features that I could take advantage of every time I put my fingers to the keyboard. These are the things that make code more concise and simple and allow me to present my intentions more clearly.
-</span></p>
-
-<p>Stuff I take advantage of every day:</p>
-
-<ul>
-<li>more concise general coding:
-
-<ul>
-<li>lambdas for scoped initialisation or inline &lsquo;builder&rsquo; functions</li>
-<li>new standard library functionality for string manipulation, particularly std::to_string() and std::stoi() etc</li>
-<li>range-based for loop</li>
-</ul>
-</li>
-<li>clearer declarations:
-
-<ul>
-<li>inline member initialisation,</li>
-<li>the <code>override</code>, <code>default</code> and <code>delete</code> keywords</li>
-<li>delegating constructors,</li>
-<li>uniform initialisation, especially when invoking or returning from functions</li>
-<li>auto type deduction everywhere!</li>
-</ul>
-</li>
-<li>far fewer dependencies on boost</li>
-</ul>
-
-
-<p>These are the things I think all C++ programmers should learn first, because they benefit you <em>straight away</em> and confer very little risk of being learned wrong.</p>
-
-<p>At the very end I also mention a few upcoming features that I&rsquo;m really excited about as they will be game-changers.</p>
+<p>On the side I&rsquo;ve been helping a mate out set up an e-commerce site for his new Japanese Brewery &ndash; more information to come when it is released in a few months!</p>
 
 
 		
-		<a href="/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day/" class="more-link">Read on &rarr;</a>
+		<a href="/blog/2015/01/24/week-in-review-back-from-my-hiatus-from-my-hiatus/" class="more-link">Read on &rarr;</a>
 	</div>
 
 
@@ -161,18 +130,18 @@ But the first thing that struck me when I started using C++11 was the smaller fe
   
 
 
-<time datetime="2014-08-16T04:49:33+00:00" pubdate data-updated="true">Aug 16<span>th</span>, 2014</time></div>
+<time datetime="2015-01-24T04:49:15+00:00" pubdate data-updated="true">Jan 24<span>th</span>, 2015</time></div>
 	
 
 <div class="tags">
 
-	<a class='category' href='/blog/categories/c-plus-plus/'>C++</a>
+	<a class='category' href='/blog/categories/c-plus-plus/'>C++</a>, <a class='category' href='/blog/categories/game/'>Game</a>, <a class='category' href='/blog/categories/weekinreview/'>WeekInReview</a>
 
 </div>
 
 
 	
-		<span class="comments"><a href="/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day//index.html#disqus_thread">Comments</a></span>
+		<span class="comments"><a href="/blog/2015/01/24/week-in-review-back-from-my-hiatus-from-my-hiatus//index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 
@@ -391,8 +360,6 @@ would be far better off being more declarative.</p>
 	</h2>
 	<div class="entry-content">
 		<p><em>So I took a month holiday, and got out of the habit of writing blogs&hellip; hopefully this will break the dam, it&rsquo;s not like I don&rsquo;t have a billion things to write about</em></p>
-
-<p><em>Initial version only! I will add pics soon</em></p>
 
 <p>Over the last many weeks I have been ploughing through a whole lot of new stuff I&rsquo;ve never used before. As mentioned in my last post I decided to up the graphics a bit, but specifically I wanted to figure out a system for a extensible UI for menus and other 2D overlays, and 3D or pseudo-3D graphics. Creating a decent UI controls library I have learned is very difficult (if kind of fun to be honest.) Making something that is flexible enough to automatically layout your controls in a sensible way where everything resizes based on the
 content contained within is a very difficult problem that nobody should have to re-solve in this day and age. So I wanted to re-use one that I also wanted to learn for myself.</p>
@@ -722,7 +689,7 @@ I have been interviewing programmers for many years and reckon the best way to f
     
     <div class="center"><a href="/archives">Blog Archives</a></div>
 </nav></div>
-	<footer id="footer" class="inner">Copyright &copy; 2014
+	<footer id="footer" class="inner">Copyright &copy; 2015
 
     Paul Cechner
 

@@ -2,96 +2,98 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://seshbot.com/blog/2013/12/20/the-grand-experiment/</loc>
-        <lastmod>2014-06-09T03:10:15+00:00</lastmod>
+        <lastmod>2015-01-18T17:28:32+00:00</lastmod>
     </url>
     <url>
         <loc>http://seshbot.com/blog/2014/01/03/javascript-in-modern-web-apps/</loc>
-        <lastmod>2014-06-09T03:10:15+00:00</lastmod>
+        <lastmod>2015-01-18T17:28:32+00:00</lastmod>
     </url>
     <url>
         <loc>http://seshbot.com/blog/2014/01/06/whats-so-hard-about-programming/</loc>
-        <lastmod>2014-06-09T03:10:15+00:00</lastmod>
+        <lastmod>2015-01-18T17:28:32+00:00</lastmod>
     </url>
     <url>
         <loc>http://seshbot.com/blog/2014/01/11/this-week-in-review-the-game-table-web-app/</loc>
-        <lastmod>2014-06-09T03:10:15+00:00</lastmod>
+        <lastmod>2015-01-18T17:28:32+00:00</lastmod>
     </url>
     <url>
         <loc>http://seshbot.com/blog/2014/01/14/learning-ruby-and-rails/</loc>
-        <lastmod>2014-06-09T03:10:15+00:00</lastmod>
+        <lastmod>2015-01-18T17:28:32+00:00</lastmod>
     </url>
     <url>
         <loc>
             http://seshbot.com/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch/
         </loc>
-        <lastmod>2014-06-09T03:10:15+00:00</lastmod>
+        <lastmod>2015-01-18T17:28:32+00:00</lastmod>
     </url>
     <url>
         <loc>
             http://seshbot.com/blog/2014/01/22/client-side-authentication-with-ember-and-rails/
         </loc>
-        <lastmod>2014-06-09T03:10:15+00:00</lastmod>
+        <lastmod>2015-01-18T17:28:32+00:00</lastmod>
     </url>
     <url>
         <loc>
             http://seshbot.com/blog/2014/01/23/the-best-way-for-programmers-to-interview-programmers/
         </loc>
-        <lastmod>2014-06-09T03:10:15+00:00</lastmod>
+        <lastmod>2015-01-18T17:28:32+00:00</lastmod>
     </url>
     <url>
         <loc>http://seshbot.com/blog/2014/02/02/week-in-review-pausing-web-app/</loc>
-        <lastmod>2014-06-09T03:10:15+00:00</lastmod>
+        <lastmod>2015-01-24T04:50:57+00:00</lastmod>
     </url>
     <url>
         <loc>http://seshbot.com/blog/2014/02/22/week-in-review-making-games/</loc>
-        <lastmod>2014-06-09T03:10:15+00:00</lastmod>
+        <lastmod>2015-01-24T04:51:19+00:00</lastmod>
     </url>
     <url>
         <loc>http://seshbot.com/blog/2014/05/16/week-in-review-c-plus-plus/</loc>
-        <lastmod>2014-06-09T03:10:15+00:00</lastmod>
+        <lastmod>2015-01-24T04:53:23+00:00</lastmod>
     </url>
     <url>
         <loc>http://seshbot.com/blog/2014/05/31/week-in-review-running-in-an-infinite-world/</loc>
-        <lastmod>2014-06-09T03:10:15+00:00</lastmod>
+        <lastmod>2015-01-24T04:51:41+00:00</lastmod>
     </url>
     <url>
         <loc>
             http://seshbot.com/blog/2014/06/03/swift-a-good-example-of-a-modern-imperative-language/
         </loc>
-        <lastmod>2014-06-09T03:10:15+00:00</lastmod>
+        <lastmod>2015-01-24T04:51:47+00:00</lastmod>
     </url>
     <url>
         <loc>
             http://seshbot.com/blog/2014/06/16/make-with-no-makefile-for-c-plus-plus-playgrounds/
         </loc>
-        <lastmod>2014-06-16T02:29:28+00:00</lastmod>
+        <lastmod>2015-01-24T04:51:57+00:00</lastmod>
     </url>
     <url>
-        <loc>http://seshbot.com/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day/</loc>
-        <lastmod>2014-08-19T07:12:19+00:00</lastmod>
+        <loc>
+            http://seshbot.com/blog/2015/01/24/week-in-review-back-from-my-hiatus-from-my-hiatus/
+        </loc>
+        <lastmod>2015-01-25T03:28:58+00:00</lastmod>
     </url>
     <url>
         <loc>http://seshbot.com/about/</loc>
-        <lastmod>2014-06-09T03:10:15+00:00</lastmod>
+        <lastmod>2015-01-18T17:28:33+00:00</lastmod>
     </url>
     <url>
         <loc>http://seshbot.com/archives/</loc>
-        <lastmod>2014-08-19T07:12:19+00:00</lastmod>
+        <lastmod>2015-01-25T03:28:58+00:00</lastmod>
     </url>
     <url>
         <loc>http://seshbot.com/blog/archives/</loc>
-        <lastmod>2014-08-19T07:12:19+00:00</lastmod>
+        <lastmod>2015-01-25T03:28:58+00:00</lastmod>
     </url>
     <url>
         <loc>http://seshbot.com/blog/</loc>
-        <lastmod>2014-08-19T07:12:19+00:00</lastmod>
+        <lastmod>2015-01-25T03:28:58+00:00</lastmod>
     </url>
     <url>
         <loc>http://seshbot.com/</loc>
-        <lastmod>2014-08-19T07:12:19+00:00</lastmod>
+        <lastmod>2015-01-25T03:28:58+00:00</lastmod>
     </url>
     <url>
         <loc>http://seshbot.com/robots.txt</loc>
-        <lastmod>2014-06-09T03:10:15+00:00</lastmod>
+        <lastmod>2015-01-18T17:28:32+00:00</lastmod>
     </url>
 </urlset>

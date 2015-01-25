@@ -1,0 +1,273 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>Week in Review: back from my hiatus (from my hiatus)  | Seshbot Programs</title>
+
+<meta name="author" content="Paul Cechner"> 
+
+<meta name="description" content="learning OpenGL by creating docs"> <meta name="keywords" content="C++,Qt,QtQuick,QML,OpenGL">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Seshbot Programs" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Seshbot Programs</a></h1>
+<h4>...and makes software</h4>
+<nav id="main-nav"><ul>
+	<li><a href="/">Blog</a></li>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archive</a></li>
+   <li class="subscription"><a title="subscribe via RSS" rel="subscribe-rss" href="/atom.xml">RSS</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/">Blog</a></li>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archive</a></li>
+   <li class="subscription"><a title="subscribe via RSS" rel="subscribe-rss" href="/atom.xml">RSS</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:seshbot.com">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Week in Review: Back From My Hiatus (From My Hiatus)</h2>
+	<div class="entry-content"><p>In September I went to Spain for 6 weeks to chill out with my family and check out what the countryside had to offer. Then I moved from Japan to Australia and got caught up in the Christams spirit. So although I have done some stuff (below) I have not made much progress on any big projects in the last few months&hellip;</p>
+
+<p>BUT I have: started a C++ OpenGL library, started creating some nicer OpenGL documentation, set up a new computer,</p>
+
+<p>On the side I&rsquo;ve been helping a mate out set up an e-commerce site for his new Japanese Brewery &ndash; more information to come when it is released in a few months!</p>
+
+<!-- more -->
+
+
+<h2>Australian lifestyle</h2>
+
+<p>Things are <strong>really</strong> breezy here &ndash; it is a great relief to be in a country where I can just pick up a medicare card, or drivers licence, or bank card, or ANYTHING that involves beurocracy and signing documents without worrying about not understanding or sitting through hours of pawing through contracts and legalese, or running up against brick walls because I&rsquo;m a foreigner. Although the service is generally not as nice as that in Japan, people are more willing to take the initiative when helping you out.</p>
+
+<p>Everything is a long drive away. The computer store <a href="https://www.ple.com.au/">PLE</a> is easily a 30 minute drive away, out in one of Perth&rsquo;s industrial areas. Oh and speaking of that, there are very very few good computer stores around here. PLE is fantastic however, all staff members I&rsquo;ve spoken with are really knowledgable about hardware and have been super helpful.</p>
+
+<h2>My new office</h2>
+
+<p>I&rsquo;m currently living in Kalamunda &ndash; a beautiful area in the hills east of Perth, although it&rsquo;s a bit far from anywhere (as is everything else in WA!) As predicted the internet in Australia has been nothing but trouble, but we are close to the exchange so once I get some technical stuff sorted out we should have OK speeds (although with a download cap which feels very 90s).</p>
+
+<p>The big lesson I&rsquo;ve learned is that no company that provides a utility (e.g., telephony) should ever be privatised. They live in a privileged state of natural monopoly and will always screw their customers by providing the cheapest possible service, if any service at all.</p>
+
+<h2>My new computer</h2>
+
+<p>To celebrate moving to Australia, and because my old office computer is in a box on the ocean somewhere, I decided to get a new well-spec&rsquo;d machine. Having last built a machine about 15 years ago I decided to trust in the most recent <a href="http://arstechnica.com/gadgets/2014/08/ars-technica-system-guide-august-2014/">ArsTechnica system guide</a> by largely basing my decisions on the <a href="http://arstechnica.com/gadgets/2014/08/ars-technica-system-guide-august-2014/4/">Hot-Rod specifications</a> contained therein.</p>
+
+<p>It features:</p>
+
+<ul>
+<li>CPU: <a href="http://ark.intel.com/products/80815/Intel-Core-i5-4590-Processor-6M-Cache-up-to-3_70-GHz">Intel Core i5-4590</a></li>
+<li>Motherboard: <a href="http://www.asus.com/au/Motherboards/H97ME/">Asus H97M-E</a></li>
+<li>RAM: 8GB (2x 4GB) DDR3-1600 (can&rsquo;t recall brand)</li>
+<li>SSD: <a href="http://www.samsung.com/au/consumer/pc-peripherals/solid-state-drive/ssd-840-evo/MZ-7TE250BW">Samsung 840 EVO 250GB</a></li>
+<li>Case: <a href="http://www.corsair.com/de-de/obsidian-series-350d-micro-atx-pc-case">Corsair Obsidian 350D</a></li>
+<li>GPU: I reused my NVidia 550 GTX from my previous machine</li>
+<li>PSU: I also brought my old 750W power unit from Japan</li>
+</ul>
+
+
+<p>Windows 8 boots up <em>really</em> quickly and the machine in general is just super speedy and a pleasure to use. I am especially happy with the case, it pops open and closed easily without tools and has fantastic airflow and filtering.</p>
+
+<h2>New OpenGL work</h2>
+
+<p>I have put aside the game stuff I was doing to focus on my core OpenGL knowledge a bit. OpenGL is crufty and problematic to use, and often if you make a mistake it can take hours or days to figure out what the problem is.</p>
+
+<p>As such I begun work on <a href="https://github.com/seshbot/glpp">glpp</a> &ndash; a C++ library that provides a strongly-typed interface to OpenGL that also features utilities to easly create rendering pipelines, typed buffers, and under the covers utilises third-party libraries to provide context creation, image loading and 3d model loading. It also builds on OSX and Windows (using ANGLE so you dont have to install your own OpenGL drivers!) and targets OpenGL ES 2.0 to ensure maximum support across platforms.</p>
+
+<p>I want to try automatically generating my type-safe versions of the OpenGL API (enums, bit fields and functions), and would like to somehow transform the <a href="https://cvs.khronos.org/svn/repos/ogl/trunk/doc/registry/public/api/gl.xml">Khronos OpenGL API Registry</a> to reduce the amount of manual work required. In considering this I came up with another idea &ndash; how about making some nice interactive documentation that doesn&rsquo;t suck as much as all the other docs!?</p>
+
+<p>So with this in mind I have started experimenting with creating a static single-page-app with Ember.js that will source a set of auto-generated JSON docs of my own fashioning, using the &lsquo;fixture adapter&rsquo; instead of loading data from some REST-ful service. I created a github repo called <a href="https://github.com/seshbot/gldoc">gldoc</a> which I&rsquo;ll be pushing my efforts into. For now it&rsquo;s just a small skeleton Ember app though, as I struggle to recall how Ember works.</p>
+
+<p>Of course instead of writing an ember app and generating the JSON data I could just generate a bunch of static pages (or maybe make it single page with creative uses of divs, jQuery and handlebars), but I would like to mess with ember a bit more so I&rsquo;ll go down that route.</p>
+
+<p>In other news however, Microsoft has release Visual Studio 13 &lsquo;community edition&rsquo; which is totally free to use! This is fantastic news as the &lsquo;express edition&rsquo; was missing a bunch of features I really like using such as performance profiling and the interactive command window, among other things.</p>
+
+<h2>3D modelling with Blender</h2>
+
+<p>To cut a long story short, Blender is a very nice 3D modelling application. If you want to learn it I would highly recommend starting with the <a href="http://cgcookie.com/blender/cgc-courses/blender-basics-introduction-for-beginners/">Blender Cookie introduction for beginners</a> series of videos. Also, install the &lsquo;pie menus&rsquo; (look it up) &ndash; they make switching between states super simple.</p>
+
+<p><img src="/images/upload/2015-01-25-dude.png" title="&#34;I made a dude&#34;" alt="&#34;I made a dude&#34;"></p>
+
+<h2>Games</h2>
+
+<p>I went a bit crazy and decided to start playing Dark Souls and the new Elite: Dangerous.</p>
+
+<p>Dark Souls is so awesome I am considering making a lets play video as I&rsquo;ve seen others do. I downloaded <a href="https://obsproject.com/">OBS</a> and am excited to give it a try.</p>
+
+<p>Elite: Dangerous is a fantastic successor to the Elite games of the 80s, made by the same guy via KickStarter. The feel of the game is fantastic, but the multiplayer aspect is quite lackluster at the moment &ndash; it is very difficult to locate your friends or help them out in battles etc. But at least it HAS a multiplayer aspect!</p>
+
+<p>In fact I enjoy the game so much I purchased a <a href="http://www.thrustmaster.com/products/tflight-hotas-x">ThrustMaster T-Flight HOTAS X</a> which makes the experience much better. I am seriously considering an Oculus Rift as well, as in addition to the natural synergies with this game, I&rsquo;d love to try making some software for it.</p>
+
+<p>Finally, I headed into Tactics in Perth and purchased Ticket to Ride, Munchkin and an Adventure Time card game as well.</p>
+
+<h2>Blogging</h2>
+
+<p>I have learned so much about OpenGL over the last few months that I can envisage a 4 or 5 part series of articles on the subject. Specifically exploring what OpenGL is and how to get started, how to set up a simple 2D scene, how to set up a typical 3D scene (including shading), shadows and stencils, frame buffers and render pipelines, and texturing.</p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-24T04:49:15+00:00" pubdate data-updated="true">Jan 24<span>th</span>, 2015</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/c-plus-plus/'>C++</a>, <a class='category' href='/blog/categories/game/'>Game</a>, <a class='category' href='/blog/categories/weekinreview/'>WeekInReview</a>
+
+</div>
+
+
+	
+		<span class="comments"><a href="/blog/2015/01/24/week-in-review-back-from-my-hiatus-from-my-hiatus/#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2015
+
+    Paul Cechner
+
+<br>
+Powered by Octopress.
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'seshbot';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://seshbot.com/blog/2015/01/24/week-in-review-back-from-my-hiatus-from-my-hiatus/';
+        var disqus_url = 'http://seshbot.com/blog/2015/01/24/week-in-review-back-from-my-hiatus-from-my-hiatus/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+   <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-46903701-1', 'seshbot.com');
+      ga('send', 'pageview');
+
+   </script>
+
+
+
+</body>
+</html>
