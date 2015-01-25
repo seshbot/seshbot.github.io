@@ -109,7 +109,7 @@ $(document).ready(
 
 <p>BUT I have done a lot. Below the fold I talk about starting a C++ OpenGL library, creating some nicer OpenGL documentation, learning Blender 3D, setting up a new computer and moving country.</p>
 
-<p>On the side I&rsquo;ve been helping a mate out set up an e-commerce site for his new Japanese Brewery &ndash; more information to come when it is released in a few months!</p>
+<p>On the side I&rsquo;ve been helping a mate out set up an e-commerce site for his new Japanese brewery &ndash; more information to come when it is released in a few months!</p>
 
 
 		
@@ -142,6 +142,86 @@ $(document).ready(
 
 	
 		<span class="comments"><a href="/blog/2015/01/24/week-in-review-back-from-my-hiatus-from-my-hiatus//blog/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day/">
+		
+			C++11/14 Idioms I Use Every Day</a>
+	</h2>
+	<div class="entry-content">
+		<p><em>if you want to see a bunch of people complaining about my rules regarding </em>auto<em>, have a look at <a href="https://news.ycombinator.com/item?id=8193157">HackerNews</a> and <a href="http://www.reddit.com/r/cpp/comments/2dvirt/new_c_idioms_i_use_every_day/">Reddit</a></em></p>
+
+<p>Most attention on the new C++ has focused on the changes that provide functionality and performance that was previously not possible, both library enhancements (chrono, regex, smart pointers, and stuff to help with lambdas for example) and core language enhancements (perfect forwarding, variadic templates, the new memory model and threading capabilities, initialiser lists and the like). This functionality will impact us all in helping to write more correct code and efficient libraries, but often will only be relevant in certain parts of our code.</p>
+
+<p><span class='pullquote-right' data-pullquote='the first thing that struck me when I started using C++11 was the smaller features that I could take advantage of every time I put my fingers to the keyboard.'>
+But the first thing that struck me when I started using C++11 was the smaller features that I could take advantage of every time I put my fingers to the keyboard. These are the things that make code more concise and simple and allow me to present my intentions more clearly.
+</span></p>
+
+<p>Stuff I take advantage of every day:</p>
+
+<ul>
+<li>more concise general coding:
+
+<ul>
+<li>lambdas for scoped initialisation or inline &lsquo;builder&rsquo; functions</li>
+<li>new standard library functionality for string manipulation, particularly std::to_string() and std::stoi() etc</li>
+<li>range-based for loop</li>
+</ul>
+</li>
+<li>clearer declarations:
+
+<ul>
+<li>inline member initialisation,</li>
+<li>the <code>override</code>, <code>default</code> and <code>delete</code> keywords</li>
+<li>delegating constructors,</li>
+<li>uniform initialisation, especially when invoking or returning from functions</li>
+<li>auto type deduction everywhere!</li>
+</ul>
+</li>
+<li>far fewer dependencies on boost</li>
+</ul>
+
+
+<p>These are the things I think all C++ programmers should learn first, because they benefit you <em>straight away</em> and confer very little risk of being learned wrong.</p>
+
+<p>At the very end I also mention a few upcoming features that I&rsquo;m really excited about as they will be game-changers.</p>
+
+
+		
+		<a href="/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day/" class="more-link">Read on &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-16T04:49:33+00:00" pubdate data-updated="true">Aug 16<span>th</span>, 2014</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/c-plus-plus/'>C++</a>
+
+</div>
+
+
+	
+		<span class="comments"><a href="/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day//blog/index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 
@@ -621,64 +701,6 @@ I have been interviewing programmers for many years and reckon the best way to f
 
 	
 		<span class="comments"><a href="/blog/2014/01/22/client-side-authentication-with-ember-and-rails//blog/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch/">
-		
-			Creating and Deploying a Rails + Ember App</a>
-	</h2>
-	<div class="entry-content">
-		<p>Today I decided to wield my new Rails and Ember knowledge and&hellip; look into yet another new technology. I thought it would be helpful to have an online app to demonstrate the fruits of my labours, so am deploying a new app to <strong><a href="http://heroku.com">Heroku</a></strong>.</p>
-
-<p>Heroku is an &lsquo;application platform&rsquo; in the cloud, meaning that you can push certain kinds of apps (written in Ruby, Python, Java and Node.js) and it will ensure all the correct infrastructure is in place. When you sign up you get to host one app for free so it&rsquo;s easy to try out.</p>
-
-<p>Later I will probably move to <a href="http://aws.amazon.com">Amazon Web Services</a>, which provides a basic virtual machine in the cloud that you can do anything with. This will allow me to host multiple applications without having to worry about paying money. Heroku <em>does</em> offer some pretty nice scaling, monitoring and deployment tools though (the admin panel literally has a slider to allow you to spin up new application instances.)</p>
-
-<p>This post shows how I went through all steps, including setting up the PostgreSQL database on OSX, creating a skeleton Rails app, and deploying to Heroku. It is a culmination of having gone through several sources:</p>
-
-<ul>
-<li>much was taken from this useful step-by-step &lsquo;<a href="http://www.devmynd.com/blog/2013-3-rails-ember-js">Rails + Ember blog post</a>&rsquo; and this <a href="http://www.devmynd.com/blog/2013-10-live-on-the-edge-with-rails-ember-js">follow up post</a> that incorporates changes for newer versions of the frameworks.</li>
-<li>when I got to the part involving installing the &lsquo;ember-rails&rsquo; gem, I found that the <a href="https://github.com/emberjs/ember-rails">ember-rails documentation</a> was pretty useful.</li>
-<li>some of the Heroku stuff came from the <a href="https://www.codeschool.com/code_tv/heroku">Heroku Code School lesson</a> summary.</li>
-</ul>
-
-
-
-		
-		<a href="/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch/" class="more-link">Read on &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-15T08:54:16+00:00" pubdate data-updated="true">Jan 15<span>th</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/ember/'>Ember</a>, <a class='category' href='/blog/categories/howto/'>HowTo</a>, <a class='category' href='/blog/categories/rails/'>Rails</a>
-
-</div>
-
-
-	
-		<span class="comments"><a href="/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch//blog/index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 
