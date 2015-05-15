@@ -27,22 +27,22 @@ The next thing to know about modern OpenGL is that these days it does very littl
 The third immediate concern - _OpenGL does not work out of the box_! An annoying truth is that OpenGL realistically requires supporting libraries in order to function, most importantly to create a context within which the rendering operations can work. At the least you'll probably be incorporating at least three libraries - one to generate a GL context into which you render, a matrix and linear algebra library, and an extension loader for when you need a little more functionality than your platform provides.
 
 {% pullquote left %}
-So why would you even consider it?! Why would you write a series of articles on a technology that scares you so much? The reason it has kept its relevance is because {"OpenGL is the only low-level graphics API supported on pretty much all platforms you'd want to render graphics on."} Because it is so very widely adopted it is still the defacto standard for developers wanting a powerful low-level intrinsics that work on multiple platforms. Extensions allow vendors to quickly and flexibly add functionality, but multiple vendors introduced similar yet incompatible extensions creating confusion around which to use.
+So why would you even consider it?! Why would you write a series of articles on a technology that scares you so much? The reason it has kept its relevance is because {"OpenGL is the only low-level graphics API supported on pretty much all platforms you'd want to render graphics on."} Because it is so very widely adopted it is still the defacto standard for developers wanting a powerful low-level intrinsics that work on multiple platforms.
 {% endpullquote %}
 
 If you are only targeting Windows you might consider DirectX. If you don't need to interact directly with your shaders, and are happy to work at a higher level of abstraction and not with the GPU directly, perhaps a higher level graphics library such as Unity or UDK would work better for you.
 
-So assuming you still want to start using OpenGL, this article might be for you. My intention is to cover all the stuff I had to hunt around for that seemed pretty important to me while I was trying to learn it myself. 
+So assuming you still want to start using OpenGL, this article might be helpful to you. My intention is to mention a lot of stuff I had to hunt around for that seemed pretty important to me while I was trying to learn it myself. I will not be doing a step-by-step guide to performing specific OpenGL tasks however - for a good getting started guide check out [open.gl](https://open.gl/) which is both modern and easy to follow.
 
-In this article I discuss the basic minimum you'll need to get a modern OpenGL application running:
+In this article I discuss the basic minimum set of concepts you'll need to understand to use OpenGL effectively:
 
  - opening an OpenGL window (i.e., creating a context)
- - the basics of rendering
+ - the basics of rendering:
    - primitives, vertices and fragments
-   - coordinate systems
-     - built-in normalised device coords
+   - coordinate systems:
+     - built-in normalised device coordinates (NDC) and clip coordinates
      - 3D model, view and perspective coordinates
-   - shaders and the render pipeline (how data gets from your app to the screen)
+   - shaders and the render pipeline (how data gets from your app to the screen):
      - vertex and fragment shaders
      - passing uniforms and attributes into the pipeline
      - vertex buffers (VBOs)
@@ -61,6 +61,8 @@ Here's a bit of a glossary of terms and concepts that are necessary to become fa
 
 Take a moment to read some OpenGL specifications - they are probably easier to understand than you'd think. Here's the [OpenGL ES 2.0 Spec](https://www.khronos.org/registry/gles/specs/2.0/es_full_spec_2.0.25.pdf) if you want a definitive source for all this stuff.
 
+I will probably mention the Khronos Group a lot throughout this article. The Khronos Group is a consortium of companies such as Sun Microsystems, NVidia and Silicon Graphics who work on standardising graphics APIs, including OpenGL. Part of their OpenGL standardisation process is to provide reference interfaces (header files) for each version of the API that vendor implementations should conform to.
+
 _Note:_ I'm using OpenGL ES 2 GLSL syntax in my examples because I believe that's probably got the broadest platform support, and is most similar to WebGL. The concepts are the same for later versions, aside from the syntactic differences. As I am focusing on explaining core concepts only OpenGL ES 2 should be fine for my purposes.
 
 ### The OpenGL API - commands, enums and objects
@@ -73,11 +75,13 @@ OpenGL __objects__ are the conceptual entities you create using the API, such as
 OpenGL commands that operate on OpenGL objects require those objects to be _bound_. For example when you call `glDrawElements()` you don't pass the program, the target framebuffer or the vertex or index buffer IDs to the function, it just operates on whichever program, framebuffer and vertex buffers are currently bound (through the `glUseProgram()`, `glBindFramebuffer()` and `glBindBuffer()` commands.) Many people feel this is a confusing and error-prone way to do things; it means that if you call some library or function that uses OpenGL there is no way to determine whether it has modified the current context in any way, so you have to re-bind all your stuff. It's unfortunate but that's the API we are stuck with :(
 
 ### OpenGL context
+_Here I'll describe the concepts involved in creating and using OpenGL contexts. For a more tutorial-type approach have a look at [this guide](https://open.gl/context) that shows how to use several different popular context management libraries._
+
 The __context__ encapsulates the rendering view, its rendering settings and which OpenGL _objects_ are currently active (such as which shader will be used to render). When starting your application you will need to create a context and set the capabilities you want the driver will use while rendering, such as whether the renderer will perform depth testing, how the renderer will blend fragments into final pixel colours and what part of the window to render into (the viewport). Contexts are not thread-safe (unfortunately!) and are essentially global in scope (even more unfortunately!) and are the cause of most of the grief people have with OpenGL.
 
 You should avoid querying the state of the context too much if possible (get information about bound objects, or even constantly querying error state) - it is apparently quite slow. You should also avoid accesing context from multiple different threads. I believe you are supposed to create separate contexts, along with totally separate OpenGL objects, in each thread you wish to render from.
 
-Unfortunately the creation of an OpenGL context is not defined by the OpenGL spec. If you want to create one you'll either have to look up how to do this on your platform of choice (for example Windows provides WGL, while OSX and Linux systems use GLX) or use another third-party library that does this for you (I like GLFW, but SDL2 is very popular, and some people still use the older GLUT.) These libraries often give you access to keyboard and mouse input as well as various other utilities you might need when making your app (such as buffer swapping, text, audio and the like.)
+Unfortunately the creation of an OpenGL context is not defined by the OpenGL spec. If you want to create one you'll either have to look up how to do this on your platform of choice (for example Windows provides WGL, while [OSX](http://www.geeks3d.com/20121109/overview-of-opengl-support-on-os-x/) and Linux systems use GLX) or use another third-party library that does this for you (I like GLFW, but SDL2 is very popular, and some people still use the older GLUT.) These libraries often give you access to keyboard and mouse input as well as various other utilities you might need when making your app (such as buffer swapping, text, audio and the like.)
 
 Below is a simple example of creating a context using GLFW in C or C++. For a line-by-line explanation of this see [the official GLFW docs](http://www.glfw.org/docs/latest/quick.html).
 
@@ -104,6 +108,11 @@ int main() {
 
   // tell GLFW to notify us when keys are pressed (esc will exit)
   glfwSetKeyCallback(window, key_callback);
+
+  // configure the context capabilities
+  glEnable(GL_DEPTH_TEST);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   // TODO: create OpenGL objects (shader programs, vertex buffers, etc) here
 
@@ -137,7 +146,7 @@ Most OpenGL context management libraries are very similar in usage to this.
 ### Primitives, Vertices and Fragments
 Each time you call an OpenGL drawing function you are drawing a __primitive__. You can think of a primitive as a shape of some kind that can be either 2D or 3D and rendered as a collection of points, lines or triangles.
 
-Primitives are described as a collection of __vertices__. These vertices are passed to the GPU and it then transforms them to triangles then _rasterises_ those triangles into __fragments__. These fragments may be filtered, blended and anti-aliased and ultimately may be drawn as pixels on your screen. So technically _fragments are not pixels_.
+You will describe your primitives as collections of __vertices__. These vertices are passed to the GPU and it then transforms them to triangles then _rasterises_ those triangles into __fragments__. These fragments may be filtered, blended and anti-aliased and ultimately may be drawn as pixels on your screen. So technically _fragments are not pixels_.
 
 ### Coordinate systems
 The OpenGL __coordinate system__ is simple but requires some explanation - put simply, the range of visible coordinates within the viewport goes from -1.0 to 1.0 in the X, Y and Z directions. This coordinate space is known as __normalized device coordinates__ or NDC, and anything falling outside of this range will not be rendered. The X and Y coordinates describe the horizontal and vertical component of the pixel (-1, -1 corresponds with the bottom left corner of the viewport) and the Z axis is the _depth_ component that is used for depth testing (if enabled.) By default the NDC Z coordinates move _away from_ the viewer, so +Z is into the screen.
@@ -146,22 +155,22 @@ The OpenGL __coordinate system__ is simple but requires some explanation - put s
 
 But __you won't be using NDC directly__ - you will be rendering your primitives in what is known as _clip coordinates_, which are _very_ similar to NDC except with a 4th dimension (x, y, z and w). You might be somewhat confused when you write your vertex shader, when setting the mandatory `gl_Position` variable with the vertex coordinates (described later) you'll notice it is a `vec4`. What's the 4th dimension for? It turns out the 4th dimension _w_ is used for _perspective division_, which is super useful for 3D graphics but useless for 2D. For now you just have to know that when the GPU transforms from _clip coordinates_ to _NDC_ it calculates something like this: `ndc_coords = clip_coords.xyz / clip_coords.w`. So if rendering 2D stuff to the screen just set `gl_Position.w` to 1.0.
 
-When programming in 2D you may choose to draw all your primitives using these NDC coordinates to avoid having to convert between coordinate spaces at all. The sample application in this article will draw a primitive using normalised device coordinates directly.
+When programming in 2D you may choose to draw all your primitives using these NDC coordinates to avoid having to convert between coordinate spaces at all. The samples in this article draw primitives using normalised device coordinates directly.
 
 3D coordinate systems are more complicated and I will discuss them in depth in a later article. For now it is interesting to note two things: first, by convention OpenGL coordinate systems other than NDC generally have the Z axis moving _towards_ the viewer, so the _negative_ Z axis goes into the screen.
 
 Secondly, when rendering 3D primitives the verticies that describe the primitive are usually transformed in between a well defined sequence of coordinate spaces. The coordinates in the model's local __model space__ are first moved to __world space__ where their position and orientation is given relative to all other objects in a scene (some may use the same model, but will look different because they have different model space transformations.) Then the coordinates are transformed to __view space__ where their position and orientation are relative to the viewer's eye. Then they are transformed into clip coordinates and finally NDC as before.  All this will be described later - I just wanted to list the terms here for completeness.
 
-One final thing I will mention about 3D coordinates is that it is common to specify 3D positions, directions and transformations using 4 dimensional vectors and matricies. I won't go into it now but it is very useful to remember that _positional_ coordinates generally have a 4th dimension _w_ set to 1.0 and _directions_ generally have _w_ set to 0. This makes the linear algebra work out nicely when multiplying against transformation matricies as the 4th dimension in the vector usually controls the translation factor of the transformation, which is not relevant for directions. 
+One final thing I will mention about 3D coordinates is that it is common to specify 3D positions, directions and transformations using 4 dimensional vectors and matricies. I won't go into it now but it is very useful to remember that _positional_ coordinates generally have a 4th dimension _w_ set to 1.0 and _directions_ generally have _w_ set to 0. This makes the linear algebra work out nicely when multiplying against transformation matricies as the 4th dimension in the vector usually controls the translation factor of the transformation, which is not relevant for directions (i.e., a 'north' pointing vector is stil pointing north no matter where the vector is located in space.)
 
 ### Shaders and the render pipeline
 Every time you call an OpenGL draw operation (the `glDrawArrays()` or `glDrawElements()` commands) you invoke the entire render pipeline. This is when the GPU passes the verticies in your primitives to your vertex shader, clips the resulting coordinates, generates triangles from the vertices, rasterises them into fragments, passes those fragments to your fragment shader then blends and otherwise processes those fragments into pixels on your screen (or some other framebuffer.)
 
-The difference between `glDrawArrays()` and `glDrawElements()` is in how the GPU transform your vertices into triangles. `glDrawArrays()` is simpler in that it builds triangles using the vertices in their given order - triangle T0 will be built from vertices V0, V1 and V2, triangle T1 built from V1, V2, V3 and so on.
+The difference between `glDrawArrays()` and `glDrawElements()` is in how the GPU transform your vertices into triangles. `glDrawArrays()` is simpler in that it builds triangles using the vertices in their given order - in a GL_TRIANGLE_STRIP, triangle T0 will be built from vertices V0, V1 and V2, triangle T1 built from V2, V1, V3 and so on.
 
-`glDrawElements()` is more complex but more performant. Instead of using the vertex data strictly in the order you declared them, it uses a separate buffer called the _index buffer_ (also known as the _element buffer_) to determine which vertices to use in which triangles. This is great because it allows you to reuse vertices to create multiple triangles - an index buffer of `[0, 1, 2, 2, 1, 3, 1, 0, 4]` will construct 3 triangles from only 5 vertices!
+`glDrawElements()` is more complex but often more performant. Instead of using the vertex data strictly in the order you declared them, it uses a separate buffer called the _index buffer_ (also known as the _element buffer_) to determine which vertices to use in which triangles. This is great because it allows you to reuse vertices to create multiple triangles - an index buffer of `[0, 1, 2, 2, 1, 3, 1, 0, 4]` will construct 3 triangles from only 5 vertices!
 
-_Note:_ Vertex buffers are bound by invoking `glBindBuffer(GL_ARRAY_BUFFER, my_buff)` and index buffers are bound with `glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, my_buff)`. Don't ask me about the names.
+_Note:_ Vertex buffers are bound by invoking `glBindBuffer(GL_ARRAY_BUFFER, my_buff_loc)` and index buffers are bound with `glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, my_buff_loc)`. Don't ask me about the names.
 
 #### Pipeline summary
 To draw a primitive, the GPU first needs your _vertex data_. The GPU will decode your vertex data to extract _vertex attributes_ and pass those into your _vertex shader_ once for each vertex. Your vertex shader is expected to output clip coordinates for that vertex so the GPU knows where on the screen to show it (if at all,) and information that the GPU should pass on to your fragment shader for fragments derived from this vertex.
@@ -217,6 +226,12 @@ There are two ways your application can pass data to your shaders - _uniforms_ t
 ##### Sending uniform data to the GPU
 A _uniform_ represents a variable that remains the same for the rendering of an entire primitive. This might be something like the object material or the position of the sun. The pattern for setting a uniform is to first get a handle to the uniform with `glGetUniformLocation(my_program, "my_uniform")`. Pass this handle to the `glUniform*` functions to set the uniform (for example `glUniform3f()` will set a uniform of type `vec3` in your shader.) Setting a uniform will make it available in any of the shaders in the bound program that are want to use it.
 
+In the code example a few pages down you can see how the unifrom data is bound and updated:
+``` c++ uniform updating snippet
+  auto time_loc = glGetUniformLocation(shaderProgram, "time");
+  glUniform1f(time_loc, glfwGetTime());
+```
+
 Uniforms may also be structures and arrays - the syntax to declare and use structs and arrays in GLSL (the shader code) is very similar to C, but setting them from the client application is a little tricky.
 
 _To set uniform values in a structure_: you essentially treat the variable as if it is in the namespace of the structure name. E.g., if the shader contains the code `struct Point { float x; float y; }; uniform Point p1;` you can access `p1.x` with exactly that syntax: `auto u_p1x = glGetUniformLocation(my_program, "p1.x")`.
@@ -231,7 +246,7 @@ The standard form for using a vertex attribute is something like:
 // ... first bind the appropriate shader
 
 // during initialisation
-GLint position_loc = glGetAttribLocation(shaderProgram, "my_attrib");
+GLint position_loc = glGetAttribLocation(shaderProgram, "position");
 glEnableVertexAttribArray(position_loc);
 const float vertex_buffer[] = { 0., 0., 0., ... }; // x, y, z positions
 glVertexAttribPointer(position_loc, 3, GL_FLOAT, false, 0, vertex_buffer);
@@ -321,13 +336,14 @@ The partial application code below shows a basic vertex shader, fragment shader 
 ``` c++ rendering a 'triangle strip' primitive using a buffer of vertex positions
   // just define our shader in-line
   const char vertex_src[] = "\
-    attribute vec2 position;  // passed in from application \n
-    attribute vec3 colour;    // passed in from application \n
+    uniform float time;       // passed in for whole primitive \n
+    attribute vec2 position;  // passed in with vertex data \n
+    attribute vec3 colour;    // passed in with vertex data \n
     varying vec4 frag_colour; // passed out to frag shader  \n
     void main() {                                           \n
       // this is where we would transform to NDC, but  our coordinates are already NDC
-      // so just pass the position through as-is            \n
-      gl_Position = position;                               \n
+      // so just pass the position through as-is with a little animation \n
+      gl_Position = vec4(position * sin(time), 0., 1.);     \n
       frag_colour = vec4(colour, 1.);
   }";
   const char fragment_src[] = "\
@@ -361,7 +377,9 @@ The partial application code below shows a basic vertex shader, fragment shader 
      0.5, 0.0,   .5, .5, 1.,    // x, y,  r, g, b,
   };
 
-  // we need this to pass the 'position' attribute in to the vertex shader
+  // we need this to pass the 'time' uniform to the shaders
+  auto time_loc = glGetUniformLocation(shaderProgram, "time");
+  // we need this to pass the 'position' and 'colour' attributes in to the vertex shader
   auto position_loc = glGetAttribLocation(shaderProgram, "position");
   auto colour_loc = glGetAttribLocation(shaderProgram, "colour");
   glEnableVertexAttribArray(position_loc);
@@ -374,6 +392,8 @@ The partial application code below shows a basic vertex shader, fragment shader 
 
   while (!quit) {
     // ... clear viewport etc 
+
+    glUniform1f(time_loc, glfwGetTime());
 
     glEnableVertexAttribArray(position_loc);
     glEnableVertexAttribArray(colour_loc);
@@ -401,7 +421,7 @@ The most basic understanding you should have is that vectors are usually used to
 
 Once again, the OpenGL API does not help you in dealing with matricies or vectors, but there is a great supporting library that does - [GLM](http://glm.g-truc.net/). 
 
-There are two ways the elements in a matrix may be stored - OpenGL programmers often use _column-major_ matrix layouts. This is a convention only, but is generally used in the official documentation and in OpenGL support libraries such as GLM. The reason this is important is that unlike scalar multiplication, matrix multiplication is not _reflexive_, meaning `A * B` does not equal `B * A`. The main impact of using column-major vs row-major matricies is the order of multiplications must be reversed to have the same effect. In column-major (the most usual) you would accumulate your transformations to the left, so if you want to first rotate (_R_) then scale (_S_) then translate (_T_) last, you would execute `T * S * R`. A more common example would be when calculating the _model view projection_ matrix it would be accumulated as `mat4 mvp = P * V * M`. When calculating this with a _row-major_ library you would be expected to accumulate it as `mat4 mvp = M * V * P`.
+There are two ways the elements in a matrix may be stored - OpenGL programmers often use _column-major_ matrix layouts. This is a convention only, but is generally used in the official documentation and in OpenGL support libraries such as GLM. The reason this is important is that unlike scalar multiplication, matrix multiplication is not _commutative_, meaning `A * B` does not equal `B * A`. The main impact of using column-major vs row-major matricies is the order of multiplications must be reversed to have the same effect. In column-major (the most usual) you would accumulate your transformations to the left, so if you want to first rotate (_R_) then scale (_S_) then translate (_T_) last, you would execute `T * S * R`. A more common example would be when calculating the _model view projection_ matrix it would be accumulated as `mat4 mvp = P * V * M`. When calculating this with a _row-major_ library you would be expected to accumulate it as `mat4 mvp = M * V * P`.
 
 Vector operations are even more interesting. A few things I want to point out here are _dot product_, _cross product_ and the difference between _positional coordinates_ and _directional coordinates_.
 
@@ -461,13 +481,14 @@ I personally do use a few extensions in a few circumstances: either to get aroun
  - Immediate mode only (fixed function pipeline)
  - no shaders
  - a lot of people still use this when demonstrating functionality
- - latest version natively supported by Windows
+ - only version natively supported by Windows
 
 ### OpenGL 2 - shaders run on the GPU
  - first shader-based version
  - vertex and fragment shaders
+ - still have access to the fixed function pipeline - even within shaders
 
-### OpenGL 3 - a controversial release, was going to fix architectural problems but abandoned
+### OpenGL 3 - a controversial release
  - framebuffers for rendering to non-screen targets (e.g., render to a texture)
  - vertex array objects (VAOs) allow great performance boosts by quickly binding and unbinding whole groups of buffers and attribute bindings
  - geometry shaders
