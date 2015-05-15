@@ -1,0 +1,1152 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>An Introduction to OpenGL - Getting Started  | Seshbot Programs</title>
+
+<meta name="author" content="Paul Cechner"> 
+
+<meta name="description" content="learning OpenGL"> <meta name="keywords" content="OpenGL,C++,OpenGL ES">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Seshbot Programs" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Seshbot Programs</a></h1>
+<h4>...and makes software</h4>
+<nav id="main-nav"><ul>
+	<li><a href="/">Blog</a></li>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archive</a></li>
+   <li class="subscription"><a title="subscribe via RSS" rel="subscribe-rss" href="/atom.xml">RSS</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/">Blog</a></li>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archive</a></li>
+   <li class="subscription"><a title="subscribe via RSS" rel="subscribe-rss" href="/atom.xml">RSS</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:seshbot.com">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">An Introduction to OpenGL - Getting Started</h2>
+	<div class="entry-content"><p><em>This article is a culmination of all the little notes I took while learning OpenGL over the last several months. It&rsquo;s mostly stuff that I found difficult to research plus a little summary of the differences between OpenGL versions.</em></p>
+
+<p><em>What a daunting task!</em></p>
+
+<p><em>If you have any recommendations on how this could be more beginner-friendly please tell me.</em></p>
+
+<h2>Things I wish I knew when learning OpenGL</h2>
+
+<p>The most important thing a programmer should know before deciding whether to learn OpenGL is that OpenGL is very low level, poorly documented and extremely crufty. This is because it is an API specification and not a product library per-se. It is up to the many various vendors to implement the API spec as best they can.</p>
+
+<p><span class='pullquote-right' data-pullquote='Anyone looking to learn to use OpenGL will face a constant battle with finding relevant documentation for their chosen version on their chosen platform with their chosen extensions.'>
+In its various incarnations OpenGL spans almost 20 years and at least 7 major revisions, including the embedded versions. Anyone looking to learn to use OpenGL will face a constant battle with finding relevant documentation for their chosen version on their chosen platform with their chosen extensions.
+</span></p>
+
+<p>The next thing to know about modern OpenGL is that these days it does very little legwork for you other than allowing you to run a program on the GPU. You will have to write the GPU shader programs that do everything from transforming your own application data into screen-space coordinates, to calculating the exact colour of every pixel on the screen incorporating lighting and shading algorithms that you implement yourself (fortunately linear algebra makes this stuff a lot simpler than it sounds!) So OpenGL will not do any inherently 3D stuff for you &ndash; most OpenGL commands and types are capable of describing 3D positions, directions and transformations but you have to do the grunt work yourself.</p>
+
+<p>The third immediate concern &ndash; <em>OpenGL does not work out of the box</em>! An annoying truth is that OpenGL realistically requires supporting libraries in order to function, most importantly to create a context within which the rendering operations can work. At the least you&rsquo;ll probably be incorporating at least three libraries &ndash; one to generate a GL context into which you render, a matrix and linear algebra library, and an extension loader for when you need a little more functionality than your platform provides.</p>
+
+<p><span class='pullquote-left' data-pullquote='OpenGL is the only low-level graphics API supported on pretty much all platforms you&#8217;d want to render graphics on.'>
+So why would you even consider it?! Why would you write a series of articles on a technology that scares you so much? The reason it has kept its relevance is because OpenGL is the only low-level graphics API supported on pretty much all platforms you&rsquo;d want to render graphics on. Because it is so very widely adopted it is still the defacto standard for developers wanting a powerful low-level intrinsics that work on multiple platforms.
+</span></p>
+
+<p>If you are only targeting Windows you might consider DirectX. If you don&rsquo;t need to interact directly with your shaders, and are happy to work at a higher level of abstraction and not with the GPU directly, perhaps a higher level graphics library such as Unity or UDK would work better for you.</p>
+
+<p>So assuming you still want to start using OpenGL, this article might be helpful to you. My intention is to mention a lot of stuff I had to hunt around for that seemed pretty important to me while I was trying to learn it myself. I will not be doing a step-by-step guide to performing specific OpenGL tasks however &ndash; for a good getting started guide check out <a href="https://open.gl/">open.gl</a> which is both modern and easy to follow.</p>
+
+<p>To use OpenGL effectively I figure you&rsquo;d need to understand:</p>
+
+<ul>
+<li>opening an OpenGL window (i.e., creating a context)</li>
+<li>the basics of rendering:
+
+<ul>
+<li>primitives, vertices and fragments</li>
+<li>coordinate systems:
+
+<ul>
+<li>built-in normalised device coordinates (NDC) and clip coordinates</li>
+<li>3D model, view and perspective coordinates</li>
+</ul>
+</li>
+<li>shaders and the render pipeline (how data gets from your app to the screen):
+
+<ul>
+<li>vertex and fragment shaders</li>
+<li>passing uniforms and attributes into the pipeline</li>
+<li>vertex buffers (VBOs)</li>
+<li>passing varying data from the vertex shader to the fragment shader</li>
+</ul>
+</li>
+<li>the fixed-function pipeline (now deprecated)</li>
+</ul>
+</li>
+<li>linear algebra (the magical language of graphics programming)</li>
+<li>a rundown on all the different major OpenGL versions</li>
+<li>major challenges that you certainly will face moving forward</li>
+</ul>
+
+
+<p>I&rsquo;ll leave more advanced core concepts such as framebuffers and textures for a later article.</p>
+
+<!-- more -->
+
+
+<h2>Understanding the OpenGL API</h2>
+
+<p><em>Note:</em> I&rsquo;m using OpenGL ES 2 GLSL syntax in my examples because I believe that&rsquo;s probably got the broadest platform support, and is most similar to WebGL. The concepts are the same for later versions, aside from the syntactic differences. As I am focusing on explaining core concepts only OpenGL ES 2 should be fine for my purposes.</p>
+
+<p>Take a moment to read some OpenGL specifications &ndash; they are probably easier to understand than you&rsquo;d think. Here&rsquo;s the <a href="https://www.khronos.org/registry/gles/specs/2.0/es_full_spec_2.0.25.pdf">OpenGL ES 2.0 Spec</a> if you want a definitive source for all this stuff.</p>
+
+<p>I will probably mention the Khronos Group a lot throughout this article. The <a href="http://khronos.org">Khronos Group</a> is a consortium of companies such as Sun Microsystems, NVidia and Silicon Graphics who work on standardising graphics APIs, including OpenGL. Part of their OpenGL standardisation process is to provide reference interfaces (header files) for each version of the API that vendor implementations should conform to.</p>
+
+<p>Here&rsquo;s a bit of a glossary of terms and concepts that are necessary to become familiar with in order to be an effective OpenGL programmer.</p>
+
+<h3>The OpenGL API &ndash; commands, enums and objects</h3>
+
+<p>The OpenGL API consists entirely of commands (e.g., <code>glDrawElements()</code>), enums (e.g., <code>GL_COLOR_BUFFER_BIT</code>) and, conceptually, objects.</p>
+
+<p>The <strong>commands</strong> and <strong>enums</strong> are described in the specification but can also be browsed on the Khronos API header files &ndash; have a look at <a href="https://www.khronos.org/registry/gles/api/GLES2/gl2.h">GLES2/gl2.h</a> for the standard GLES2 header. Most vendor implementations use these exact files as the entry point for their libraries.</p>
+
+<p>OpenGL <strong>objects</strong> are the conceptual entities you create using the API, such as vertex buffers (VBOs), vertex arrays (VAOs), shaders, programs, textures and framebuffers. OpenGL has commands to create, bind and delete each of the different types of objects. Note that the objects you create are only valid with the context that was active when you created them!</p>
+
+<p>OpenGL commands that operate on OpenGL objects require those objects to be <em>bound</em>. For example when you call <code>glDrawElements()</code> you don&rsquo;t pass the program, the target framebuffer or the vertex or index buffer IDs to the function, it just operates on whichever program, framebuffer and vertex buffers are currently bound (through the <code>glUseProgram()</code>, <code>glBindFramebuffer()</code> and <code>glBindBuffer()</code> commands.) Many people feel this is a confusing and error-prone way to do things; it means that if you call some library or function that uses OpenGL there is no way to determine whether it has modified the current context in any way, so you have to re-bind all your stuff. It&rsquo;s unfortunate but that&rsquo;s the API we are stuck with :(</p>
+
+<h3>OpenGL context</h3>
+
+<p><em>Here I&rsquo;ll describe the concepts involved in creating and using OpenGL contexts. For a more tutorial-type approach have a look at <a href="https://open.gl/context">this guide</a> that shows how to use several different popular context management libraries.</em></p>
+
+<p>The <strong>context</strong> encapsulates the rendering view, its rendering settings and which OpenGL <em>objects</em> are currently active (such as which shader will be used to render). When starting your application you will need to create a context and set the capabilities you want the driver will use while rendering, such as whether the renderer will perform depth testing, how the renderer will blend fragments into final pixel colours and what part of the window to render into (the viewport). Contexts are not thread-safe (unfortunately!) and are essentially global in scope (even more unfortunately!) and are the cause of most of the grief people have with OpenGL.</p>
+
+<p>You should avoid querying the state of the context too much if possible (get information about bound objects, or even constantly querying error state) &ndash; it is apparently quite slow. You should also avoid accessing context from multiple different threads. I believe you are supposed to create separate contexts, along with totally separate OpenGL objects, in each thread you wish to render from.</p>
+
+<p>Unfortunately the creation of an OpenGL context is not defined by the OpenGL spec. If you want to create one you&rsquo;ll either have to look up how to do this on your platform of choice (for example Windows provides WGL, while <a href="http://www.geeks3d.com/20121109/overview-of-opengl-support-on-os-x/">OSX</a> and Linux systems use GLX) or use another third-party library that does this for you (I like GLFW, but SDL2 is very popular, and some people still use the older GLUT.) These libraries often give you access to keyboard and mouse input as well as various other utilities you might need when making your app (such as buffer swapping, text, audio and the like.)</p>
+
+<p>Below is a simple example of creating a context using GLFW in C or C++. For a line-by-line explanation of this see <a href="http://www.glfw.org/docs/latest/quick.html">the official GLFW docs</a>.</p>
+
+<figure class='code'><figcaption><span>Creating a context with GLFW</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="cp">#include &lt;GLFW/glfw3.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">static</span> <span class="kt">void</span> <span class="n">key_callback</span><span class="p">(</span><span class="n">GLFWwindow</span><span class="o">*</span> <span class="n">window</span><span class="p">,</span> <span class="kt">int</span> <span class="n">key</span><span class="p">,</span> <span class="kt">int</span> <span class="n">scancode</span><span class="p">,</span> <span class="kt">int</span> <span class="n">action</span><span class="p">,</span> <span class="kt">int</span> <span class="n">mods</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">key</span> <span class="o">==</span> <span class="n">GLFW_KEY_ESCAPE</span> <span class="o">&amp;&amp;</span> <span class="n">action</span> <span class="o">==</span> <span class="n">GLFW_PRESS</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">glfwSetWindowShouldClose</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">GL_TRUE</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">glfwInit</span><span class="p">())</span>
+</span><span class='line'>      <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// create context (unfortunately GLFW bundles this in with window creation)</span>
+</span><span class='line'>  <span class="n">GLFWwindow</span><span class="o">*</span> <span class="n">window</span> <span class="o">=</span> <span class="n">glfwCreateWindow</span><span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">,</span> <span class="s">&quot;Simple example&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">window</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">glfwTerminate</span><span class="p">();</span>
+</span><span class='line'>    <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">glfwMakeContextCurrent</span><span class="p">(</span><span class="n">window</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">glfwSwapInterval</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">// wait for a vsync before swapping to avoid &#39;tearing&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// tell GLFW to notify us when keys are pressed (esc will exit)</span>
+</span><span class='line'>  <span class="n">glfwSetKeyCallback</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">key_callback</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// configure the context capabilities</span>
+</span><span class='line'>  <span class="n">glClearColor</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">glEnable</span><span class="p">(</span><span class="n">GL_DEPTH_TEST</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">glEnable</span><span class="p">(</span><span class="n">GL_BLEND</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">glBlendFunc</span><span class="p">(</span><span class="n">GL_SRC_ALPHA</span><span class="p">,</span> <span class="n">GL_ONE_MINUS_SRC_ALPHA</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// TODO: create OpenGL objects (shader programs, vertex buffers, etc) here</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// main loop</span>
+</span><span class='line'>  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">glfwWindowShouldClose</span><span class="p">(</span><span class="n">window</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">glfwGetFramebufferSize</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">width</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">height</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// viewport takes up whole window client area</span>
+</span><span class='line'>    <span class="n">glViewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// clear the viewport to red</span>
+</span><span class='line'>    <span class="n">glClear</span><span class="p">(</span><span class="n">GL_COLOR_BUFFER_BIT</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// TODO: draw your primitives here!</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">glfwSwapBuffers</span><span class="p">(</span><span class="n">window</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// TODO: destroy OpenGL objects here</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">glfwDestroyWindow</span><span class="p">(</span><span class="n">window</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">glfwTerminate</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">exit</span><span class="p">(</span><span class="n">EXIT_SUCCESS</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Most OpenGL context management libraries are very similar in usage to this.</p>
+
+<h3>Primitives, Vertices and Fragments</h3>
+
+<p>Each time you call an OpenGL drawing function you are drawing a <strong>primitive</strong>. You can think of a primitive as a shape of some kind that can be either 2D or 3D and rendered as a collection of points, lines or triangles.</p>
+
+<p>You specify the primitive type you want to draw when invoking <code>glDrawElements()</code> or <code>glDrawArrays()</code>. Among the valid types are:</p>
+
+<ul>
+<li><code>GL_TRIANGLES</code>, which uses each 3 vectors to create a triangle. If you provide 9 vertices you will draw 3 triangles.</li>
+<li><code>GL_TRIANGLE_STRIP</code> is more complicated in that it will use each set of 3 consecutive vertices to draw a triangle. In other words if you supply 4 vertices it will draw 2 triangles &ndash; one from v0, v1 and v2, another from v2, v1, v3. Notice that the first two vertices of every second triangle are re-ordered &ndash; this is to ensure that the triangles all face the same direction, as triangle direction is derived from which direction the triangle&rsquo;s vertices appear to be counter-clockwise in order (relevant if face culling is enabled.)</li>
+<li><code>GL_POINTS</code>, which renders unconnected dots. You can control the size of the points by calling the <code>glPointSize()</code> command in desktop GL or by setting the <code>gl_PointSize</code> GLSL variable in OpenGL ES. You can also apply a texture to the point to render more complex particles (the GPU passes your fragment a <code>gl_PointCoord</code> variable to indicate which texture UV coordinates you should render.)</li>
+<li><code>GL_LINES</code> is useful for quickly drawing a wireframe of your model.</li>
+<li>there are also <code>GL_LINE_STRIP</code>, <code>GL_LINE_LOOP</code>, <code>GL_TRIANGLE_FAN</code>, <code>GL_QUADS</code>, <code>GL_QUAD_STRIP</code> and <code>GL_POLYGON</code>.</li>
+</ul>
+
+
+<p>You will describe your primitives as collections of <strong>vertices</strong>. These vertices are passed to the GPU and it then transforms them to triangles then <em>rasterises</em> those triangles into <strong>fragments</strong>. These fragments may be filtered, blended and anti-aliased and ultimately may be drawn as pixels on your screen. So technically <em>fragments are not pixels</em>.</p>
+
+<h3>Coordinate systems</h3>
+
+<p>The OpenGL <strong>coordinate system</strong> is simple but requires some explanation &ndash; put simply, the range of visible coordinates within the viewport goes from -1.0 to 1.0 in the X, Y and Z directions. This coordinate space is known as <strong>normalized device coordinates</strong> or NDC, and anything falling outside of this range will not be rendered. The X and Y coordinates describe the horizontal and vertical component of the pixel (-1, -1 corresponds with the bottom left corner of the viewport) and the Z axis is the <em>depth</em> component that is used for depth testing (if enabled.) By default the NDC Z coordinates move <em>away from</em> the viewer, so +Z is into the screen.</p>
+
+<p><img class="center" src="/images/upload/2015-05-09-gl_1_ndc.png" title="&#34;Normalised device coordinates (NDC). By convention XYZ shown as RGB&#34;" alt="&#34;Normalised device coordinates (NDC). By convention XYZ shown as RGB&#34;"></p>
+
+<p>But <strong>you won&rsquo;t be using NDC directly</strong> &ndash; you will be rendering your primitives in what is known as <em>clip coordinates</em>, which are <em>very</em> similar to NDC except with a 4th dimension (x, y, z and w). You might be somewhat confused when you write your vertex shader, when setting the mandatory <code>gl_Position</code> variable with the vertex coordinates (described later) you&rsquo;ll notice it is a <code>vec4</code>. What&rsquo;s the 4th dimension for? It turns out the 4th dimension <em>w</em> is used for <em>perspective division</em>, which is super useful for 3D graphics but useless for 2D. For now you just have to know that when the GPU transforms from <em>clip coordinates</em> to <em>NDC</em> it calculates something like this: <code>ndc_coords = clip_coords.xyz / clip_coords.w</code>. So if rendering 2D stuff to the screen just set <code>gl_Position.w</code> to 1.0.</p>
+
+<p>When programming in 2D you may choose to draw all your primitives using these NDC coordinates to avoid having to convert between coordinate spaces at all. The samples in this article draw primitives using normalised device coordinates directly.</p>
+
+<p>3D coordinate systems are more complicated and I will discuss them in depth in a later article. For now it is interesting to note two things: first, by convention OpenGL coordinate systems other than NDC generally have the Z axis moving <em>towards</em> the viewer, so the <em>negative</em> Z axis goes into the screen.</p>
+
+<p>Secondly, when rendering 3D primitives the verticies that describe the primitive are usually transformed in between a well defined sequence of coordinate spaces. The coordinates in the model&rsquo;s local <strong>model space</strong> are first moved to <strong>world space</strong> where their position and orientation is given relative to all other objects in a scene (the same model may be used many times in the one scene, but each will look different if they have different model space transformations.) Then the coordinates are transformed to <strong>view space</strong> where their position and orientation are relative to the viewer&rsquo;s eye. Then they are transformed into clip coordinates and finally NDC as before. I hope to go into more detail on this process in a later article &ndash; I just wanted to list the terms here for completeness.</p>
+
+<p>One final thing I will mention about 3D coordinates is that it is common to specify 3D positions, directions and transformations using 4 dimensional vectors and matricies. I won&rsquo;t go into it now but it is very useful to remember that <em>positional</em> coordinates generally have a 4th dimension <em>w</em> set to 1.0 and <em>directions</em> generally have <em>w</em> set to 0. This makes the linear algebra work out nicely when multiplying against transformation matricies as the 4th dimension in the vector usually controls the translation factor of the transformation, which is not relevant for directions (i.e., a &lsquo;north&rsquo; pointing vector is stil pointing north no matter where the vector is located in space.)</p>
+
+<h3>Shaders and the render pipeline</h3>
+
+<p>Every time you call an OpenGL draw operation (the <code>glDrawArrays()</code> or <code>glDrawElements()</code> commands) you invoke the entire render pipeline. This is when the GPU passes the verticies in your primitives to your vertex shader, clips the resulting coordinates, generates triangles from the vertices, rasterises them into fragments, passes those fragments to your fragment shader then blends and otherwise processes those fragments into pixels on your screen (or some other framebuffer.)</p>
+
+<p>The difference between <code>glDrawArrays()</code> and <code>glDrawElements()</code> is in how the GPU knows which vertices to use when transforming your vertices into triangles. <code>glDrawArrays()</code> is simpler in that it builds triangles using the vertices in their given order &ndash; in a GL_TRIANGLES primitive, triangle T0 will be built from vertices V0, V1 and V2, triangle T1 built from V3, V4, V5 and so on.</p>
+
+<p><code>glDrawElements()</code> is more complex but often more performant. Instead of using the vertex data strictly in the order you declared them, it uses a separate buffer called the <em>index buffer</em> (also known as the <em>element buffer</em>) to determine which vertices to use in which triangles. This is great because it allows you to reuse vertices to create multiple triangles &ndash; an index buffer of <code>[0, 1, 2, 2, 1, 3, 1, 0, 4]</code> will construct 3 triangles from only 5 vertices! The first triangle will be using v0, v1 and v2, the second using v2, v1, v3 and the third using v1, v0 and v4.</p>
+
+<p><em>Note:</em> Vertex buffers are bound by invoking <code>glBindBuffer(GL_ARRAY_BUFFER, my_buff_loc)</code> and index buffers are bound with <code>glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, my_buff_loc)</code>. Don&rsquo;t ask me about the names.</p>
+
+<h4>Pipeline summary</h4>
+
+<p>To draw a primitive, the GPU first needs your <em>vertex data</em>. The GPU will decode your vertex data to extract <em>vertex attributes</em> and pass those into your <em>vertex shader</em> once for each vertex. Your vertex shader is expected to output clip coordinates for that vertex so the GPU knows where on the screen to show it (if at all,) and information that the GPU should pass on to your fragment shader for fragments derived from this vertex.</p>
+
+<p>Once the GPU has processed all vertices the GPU can clip the vertices to within the NDC area only, it transform those vertices into triangles and then <em>rasterises</em> the triangles into fragments which sort-of represent the pixels of the primitive being drawn. The GPU will then call your <em>fragment shader</em> for each fragment, passing it the relevant output data of your <em>vertex shader</em>.</p>
+
+<p>You invoke the rendering pipeline by calling either the <code>glDrawArrays()</code> or <code>glDrawElements()</code> commands (or one of their variations.) Unless you&rsquo;re using the fixed function pipeline you&rsquo;ll have to have a shader program bound so the GPU knows which vertex shader and fragment shader to invoke. You will also have to specify the vertex data (the vertex positions and perhaps other information such as the vertex normals and colours) of the primitive you are rendering. The &lsquo;basic shader program&rsquo; a few pages down shows one way to do both of these things.</p>
+
+<center><img src='/images/plantuml/40c1ceacc43d3519b9e919430a1278c9.png'></center>
+
+
+<p>Once again, if you want more details on how this works have a look at the specs, like the <a href="https://www.khronos.org/registry/gles/specs/2.0/es_full_spec_2.0.25.pdf">OpenGL ES 2.0 Spec</a>.</p>
+
+<h4>Passing data to the GPU &ndash; uniforms, attributes and varyings</h4>
+
+<p>There are two ways your application can pass data to your shaders &ndash; <em>uniforms</em> that are set only once per <code>glDraw*</code> call and and <em>attributes</em> that may be different per-vertex. In addition, fragment shaders receive per-fragment input derived from the output of the vertex shader in <em>varyings</em> (see the <em>rendering pipeline</em> diagram above.)</p>
+
+<h5>Sending uniform data to the GPU</h5>
+
+<p>A <em>uniform</em> represents a variable that remains the same for the rendering of an entire primitive. This might be something like the object material or the position of the sun. The pattern for setting a uniform is to first get a handle to the uniform with <code>glGetUniformLocation(my_program, "my_uniform")</code>. Pass this handle to the <code>glUniform*</code> functions to set the uniform (for example <code>glUniform3f()</code> will set a uniform of type <code>vec3</code> in your shader.) Setting a uniform will make it available in any of the shaders in the bound program that are want to use it.</p>
+
+<p>In the code example a few pages down you can see how the unifrom data is bound and updated:</p>
+
+<figure class='code'><figcaption><span>uniform updating snippet</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'>  <span class="k">auto</span> <span class="n">time_loc</span> <span class="o">=</span> <span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderProgram</span><span class="p">,</span> <span class="s">&quot;time&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">glUniform1f</span><span class="p">(</span><span class="n">time_loc</span><span class="p">,</span> <span class="n">glfwGetTime</span><span class="p">());</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Uniforms may also be structures and arrays &ndash; the syntax to declare and use structs and arrays in GLSL (the shader code) is very similar to C, but setting them from the client application is a little tricky.</p>
+
+<p><em>To set uniform values in a structure</em>: you essentially treat the variable as if it is in the namespace of the structure name. E.g., if the shader contains the code <code>struct Point { float x; float y; }; uniform Point p1;</code> you can access <code>p1.x</code> with exactly that syntax: <code>auto u_p1x = glGetUniformLocation(my_program, "p1.x")</code>.</p>
+
+<p><em>To set uniform values in an array</em>: you access the specific array element using standard C syntax. If the shader contains the code <code>float xs[10];</code> you can get the location of a particluar element of <code>xs</code> with <code>auto u_xs = glGetUniformLocation(my_program, "xs[0]")</code>. You can use this uniform location to either set a single element using <code>glUniform*()</code> or set a number of the elements using <code>glUniform*v()</code>.</p>
+
+<h5>Sending vertex attribute data to the GPU</h5>
+
+<p>An <em>attribute</em> represents data related to the current vertex being processed. You specify where the GPU can find vertex data by calling the <code>glVertexAttribPointer*</code> functions for each vertex attribute in your vertex shader. This process is <em>very</em> different to specifying uniforms!</p>
+
+<p>The standard form for using a vertex attribute is something like:</p>
+
+<figure class='code'><figcaption><span>setting vertex attribute data</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="c1">// ... first bind the appropriate shader</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// during initialisation</span>
+</span><span class='line'><span class="n">GLint</span> <span class="n">position_loc</span> <span class="o">=</span> <span class="n">glGetAttribLocation</span><span class="p">(</span><span class="n">shaderProgram</span><span class="p">,</span> <span class="s">&quot;position&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="n">position_loc</span><span class="p">);</span>
+</span><span class='line'><span class="k">const</span> <span class="kt">float</span> <span class="n">vertex_buffer</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="p">...</span> <span class="p">};</span> <span class="c1">// x, y, z positions</span>
+</span><span class='line'><span class="n">glVertexAttribPointer</span><span class="p">(</span><span class="n">position_loc</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">GL_FLOAT</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">vertex_buffer</span><span class="p">);</span>
+</span><span class='line'><span class="n">glDisableVertexAttribArray</span><span class="p">(</span><span class="n">position_loc</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// at render time</span>
+</span><span class='line'><span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="n">position_loc</span><span class="p">);</span>
+</span><span class='line'><span class="n">glDrawArrays</span><span class="p">(</span><span class="n">GL_TRIANGLES</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span> <span class="c1">// draw verts 0..4 as triangles</span>
+</span><span class='line'><span class="n">glDisableVertexAttribArray</span><span class="p">(</span><span class="n">position_loc</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The above code snippet illustrates how to passing a raw pointer to your vertex data to the GPU. This is not the usual case, because quite often your buffered data will contain more than one attribute&rsquo;s worth of information (such as normals, vertex colours etc.) Usually you will create a <strong>vertex buffer object</strong> (VBO) and use <code>glVertexAttribPointer()</code> to dictate how the GPU should extract the vertex info from that.</p>
+
+<p><em>vertex buffer objects</em> are created, bound and destroyed like any other OpenGL object. You specify the data to buffer by calling the <code>glBindBuffer()</code> command with a pointer to the buffer. While this buffer is bound, any calls to <code>glVertexAttribPointer()</code> with a null pointer in the final parameter will implicitly be referring to the bound buffer.</p>
+
+<p><em>Note</em>: in OpenGL 3.0 and above you will want to use <strong>vertex array objects</strong> (VAOs) to speed up your rendering process. A <em>VAO</em> offers you shorthand for binding vertex bufffers and the related vertex attributes for those buffers. This means that <code>glBindVertexArray()</code> can replace a number of <code>glBindBuffer()</code> and <code>glEnableVertexAttribArray()</code> commands.</p>
+
+<p>The pattern for using this is:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="c1">// at init time when creating buffers</span>
+</span><span class='line'><span class="n">glBindVertexArray</span><span class="p">(</span><span class="n">my_vao</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">glBindBuffer</span><span class="p">(</span><span class="n">my_vbo</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">GLfloat</span> <span class="n">verts</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span>  <span class="mf">.5</span><span class="p">,</span> <span class="mf">.5</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">,</span> <span class="mf">.5</span> <span class="p">};</span>
+</span><span class='line'>  <span class="n">glBufferData</span><span class="p">(</span><span class="n">GL_ARRAY_BUFFER</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">verts</span><span class="p">),</span> <span class="n">verts</span><span class="p">,</span> <span class="n">GL_STATIC_DRAW</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="n">position_loc</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">glVertexAttribPointer</span><span class="p">(</span><span class="n">position_loc</span><span class="p">,</span> <span class="p">...);</span>
+</span><span class='line'><span class="n">glBindVertexArray</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// at render time</span>
+</span><span class='line'><span class="n">glBindVertexArray</span><span class="p">(</span><span class="n">my_vao</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">glDrawElements</span><span class="p">(...);</span>
+</span><span class='line'><span class="n">glBindVertexArray</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I won&rsquo;t be illustrating those here because I am focusing on OpenGL ES 2.0 for this article.</p>
+
+<h5>Sending per-fragment varyings to the fragment shader</h5>
+
+<p><em>Varyings</em> are per-fragment data the fragment shader uses to calculate the output colour of a fragment. Examples of this might be the normal of the surface at that point, or the material colour interpolated from the material colours of the surrounding vertices. A 3D program will often use this information along with the location of the sun (passed through a uniform) in its lighting calculations &ndash; a fragment on a surface directly facing a light source will have a brighter colour than one not.</p>
+
+<p>The calculation of what value is passed into a varying is a little bit tricky. Fragment shaders get their per-fragment input indirectly from the vertex shaders through variables called <em>varyings</em>. Of course for any three vertices forming a triangle you could have hundreds of fragments, so the GPU takes the varyings coming out of the vertex shader for each vertex influencing a fragment and interpolates them before passing them into the fragment shader.</p>
+
+<h4>The Vertex Shader</h4>
+
+<p>Below is a simple vertex shader that expects two input variables from the application: the uniform <code>time</code> and the vertex attribute <code>vert_position</code>.</p>
+
+<figure class='code'><figcaption><span>a simple vertex shader</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="c1">// per-primitive variables passed in from your application</span>
+</span><span class='line'><span class="n">uniform</span> <span class="kt">float</span> <span class="n">time</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// per-vertex variables passed in from your application</span>
+</span><span class='line'><span class="n">attribute</span> <span class="n">vec4</span> <span class="n">vert_position</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// output data to send to the fragment shader for each fragment derived from this vertex</span>
+</span><span class='line'><span class="n">varying</span> <span class="n">vec4</span> <span class="n">frag_colour</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">void</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// mandatory! calculate the NDC coordinates of this vertex</span>
+</span><span class='line'>  <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="mf">0.01</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">time</span><span class="p">),</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">)</span> <span class="o">+</span> <span class="n">vert_position</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">// frags go from black on the left side to red on the right side of the viewport</span>
+</span><span class='line'>  <span class="n">frag_colour</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">((</span><span class="n">vert_position</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="mf">1.</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>The Fragment Shader</h4>
+
+<p>The fragment shader captures all the logic required to determine the colour of a fragment. This might be as simple as just returning a uniform RGBA value or might involve complex 3D shading calculations incorporating a number of light sources and shadow maps. I will explore the 3D stuff in a later article.</p>
+
+<p>A simple fragment shader that works with the above vertex shader might look like this:</p>
+
+<figure class='code'><figcaption><span>a simple fragment shader</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="c1">// per-primitive variables passed in from your application</span>
+</span><span class='line'><span class="n">uniform</span> <span class="kt">float</span> <span class="n">time</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// interpolated from output data of vertex shader</span>
+</span><span class='line'><span class="n">varying</span> <span class="n">vec4</span> <span class="n">frag_colour</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">void</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="n">frag_colour</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that the <code>varying</code> variables are not passed directly from the vertex shader but is actually interpolated from the results of all vertex shader invocations for the vertices surrounding this fragment. This means that, for example, colour gradients look smooth between vertices.</p>
+
+<h4>How the GPU writes fragments to the FrameBuffer</h4>
+
+<p>In this context the <em>framebuffer</em> is the rendering target, which is usually either the viewport or a texture. (Framebuffers are also used for other purposes such as combining multiple rendering passes that I will go into in a later article.) When the GPU has collected all the fragments it is going to render, it goes through a series of per-fragment operations to determine what gets written to the framebuffer.</p>
+
+<p>First the GPU checks to ensure this bit of the viewport is actually owned by this framebuffer, because is possible to have one viewport obscuring another. Next the fragment is tested against the scissor test region if it was enabled in the context. Then multisampling (anti-aliasing) is performed if enabled. Then the GPU checks the appropriate user-defined context settings to perform the stencil test, the depth test and the blending operation (all of which are performed against what is read from the framebuffer before the render operation began.) The resultant fragment is finally written to the framebuffer.</p>
+
+<h4>Basic shader example</h4>
+
+<p>The partial application code below shows a basic vertex shader, fragment shader being invoked to render a square in the middle of the window.</p>
+
+<figure class='code'><figcaption><span>rendering a &#8216;triangle strip&#8217; primitive using a buffer of vertex positions</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'>  <span class="c1">// just define our shader in-line</span>
+</span><span class='line'>  <span class="k">const</span> <span class="kt">char</span> <span class="n">vertex_src</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;\</span>
+</span><span class='line'><span class="s">    uniform float time;       // passed in for whole primitive </span><span class="se">\n</span>
+</span><span class='line'>    <span class="n">attribute</span> <span class="n">vec2</span> <span class="n">position</span><span class="p">;</span>  <span class="c1">// passed in with vertex data \n</span>
+</span><span class='line'>    <span class="n">attribute</span> <span class="n">vec3</span> <span class="n">colour</span><span class="p">;</span>    <span class="c1">// passed in with vertex data \n</span>
+</span><span class='line'>    <span class="n">varying</span> <span class="n">vec4</span> <span class="n">frag_colour</span><span class="p">;</span> <span class="c1">// passed out to frag shader  \n</span>
+</span><span class='line'>    <span class="kt">void</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>                                           <span class="err">\</span><span class="n">n</span>
+</span><span class='line'>      <span class="c1">// this is where we would transform to NDC, but  our coordinates are already NDC</span>
+</span><span class='line'>      <span class="c1">// so just pass the position through as-is with a little animation \n</span>
+</span><span class='line'>      <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">position</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">time</span><span class="p">),</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">);</span>     <span class="err">\</span><span class="n">n</span>
+</span><span class='line'>      <span class="n">frag_colour</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">colour</span><span class="p">,</span> <span class="mf">1.</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span><span class="s">&quot;;</span>
+</span><span class='line'>  <span class="k">const</span> <span class="kt">char</span> <span class="n">fragment_src</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;\</span>
+</span><span class='line'><span class="s">    varying vec4 frag_colour; // passed in from vert shader (and interpolated) </span><span class="se">\n</span>
+</span><span class='line'>    <span class="kt">void</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>                              <span class="err">\</span><span class="n">n</span>
+</span><span class='line'>      <span class="c1">// fragment colour is dark gray          \n</span>
+</span><span class='line'>      <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="n">frag_colour</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span><span class="s">&quot;;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// create shaders</span>
+</span><span class='line'>  <span class="k">auto</span> <span class="n">vertexShader</span> <span class="o">=</span> <span class="n">glCreateShader</span><span class="p">(</span><span class="n">GL_VERTEX_SHADER</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">glShaderSource</span><span class="p">(</span><span class="n">vertexShader</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">vertex_src</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">glCompileShader</span><span class="p">(</span><span class="n">vertexShader</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">auto</span> <span class="n">fragmentShader</span> <span class="o">=</span> <span class="n">glCreateShader</span><span class="p">(</span><span class="n">GL_FRAGMENT_SHADER</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">glShaderSource</span><span class="p">(</span><span class="n">fragmentShader</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">fragment_src</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">glCompileShader</span><span class="p">(</span><span class="n">fragmentShader</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// create shader program using the shaders</span>
+</span><span class='line'>  <span class="n">GLuint</span> <span class="n">shaderProgram</span> <span class="o">=</span> <span class="n">glCreateProgram</span><span class="p">();</span>
+</span><span class='line'>  <span class="n">glAttachShader</span><span class="p">(</span><span class="n">shaderProgram</span><span class="p">,</span> <span class="n">vertexShader</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">glAttachShader</span><span class="p">(</span><span class="n">shaderProgram</span><span class="p">,</span> <span class="n">fragmentShader</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">glLinkProgram</span><span class="p">(</span><span class="n">shaderProgram</span><span class="p">);</span>    <span class="c1">// link the program</span>
+</span><span class='line'>  <span class="n">glUseProgram</span><span class="p">(</span><span class="n">shaderProgram</span><span class="p">);</span>    <span class="c1">// and select it for usage</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// these are the NDC coordinates of a square on the viewport</span>
+</span><span class='line'>  <span class="k">static</span> <span class="k">const</span> <span class="kt">float</span> <span class="n">vertexArray</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>     <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span>   <span class="mf">1.</span><span class="p">,</span> <span class="mf">.5</span><span class="p">,</span> <span class="mf">.5</span><span class="p">,</span>    <span class="c1">// x, y,  r, g, b,</span>
+</span><span class='line'>     <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span>  <span class="mf">.5</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">.5</span><span class="p">,</span>    <span class="c1">// x, y,  r, g, b,</span>
+</span><span class='line'>     <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span>   <span class="mf">1.</span><span class="p">,</span> <span class="mf">.5</span><span class="p">,</span> <span class="mf">.5</span><span class="p">,</span>    <span class="c1">// x, y,  r, g, b,</span>
+</span><span class='line'>     <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span>  <span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span> <span class="mf">.9</span><span class="p">,</span>    <span class="c1">// x, y,  r, g, b,</span>
+</span><span class='line'>     <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span>   <span class="mf">.5</span><span class="p">,</span> <span class="mf">.5</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span>    <span class="c1">// x, y,  r, g, b,</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// we need this to pass the &#39;time&#39; uniform to the shaders</span>
+</span><span class='line'>  <span class="k">auto</span> <span class="n">time_loc</span> <span class="o">=</span> <span class="n">glGetUniformLocation</span><span class="p">(</span><span class="n">shaderProgram</span><span class="p">,</span> <span class="s">&quot;time&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="c1">// we need this to pass the &#39;position&#39; and &#39;colour&#39; attributes in to the vertex shader</span>
+</span><span class='line'>  <span class="k">auto</span> <span class="n">position_loc</span> <span class="o">=</span> <span class="n">glGetAttribLocation</span><span class="p">(</span><span class="n">shaderProgram</span><span class="p">,</span> <span class="s">&quot;position&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">auto</span> <span class="n">colour_loc</span> <span class="o">=</span> <span class="n">glGetAttribLocation</span><span class="p">(</span><span class="n">shaderProgram</span><span class="p">,</span> <span class="s">&quot;colour&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="n">position_loc</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="n">colour_loc</span><span class="p">);</span>
+</span><span class='line'>  <span class="c1">// glVertexAttribPointer allows you to specify vertices in many ways, so its pretty complicated</span>
+</span><span class='line'>  <span class="n">glVertexAttribPointer</span><span class="p">(</span><span class="n">position_loc</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">GL_FLOAT</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">GLfloat</span><span class="p">)</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">GLfloat</span><span class="p">)</span> <span class="o">*</span> <span class="n">vertexArray</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">glVertexAttribPointer</span><span class="p">(</span><span class="n">position_loc</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">GL_FLOAT</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">GLfloat</span><span class="p">)</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">GLfloat</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">vertexArray</span> <span class="o">+</span> <span class="mi">2</span><span class="p">));</span>
+</span><span class='line'>  <span class="n">glDisableVertexAttribArray</span><span class="p">(</span><span class="n">position_loc</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">glDisableVertexAttribArray</span><span class="p">(</span><span class="n">colour_loc</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">quit</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// ... clear viewport etc </span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">glUniform1f</span><span class="p">(</span><span class="n">time_loc</span><span class="p">,</span> <span class="n">glfwGetTime</span><span class="p">());</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="n">position_loc</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">glEnableVertexAttribArray</span><span class="p">(</span><span class="n">colour_loc</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">glDrawArrays</span><span class="p">(</span><span class="n">GL_TRIANGLE_STRIP</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">glDisableVertexAttribArray</span><span class="p">(</span><span class="n">position_loc</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">glDisableVertexAttribArray</span><span class="p">(</span><span class="n">colour_loc</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// ... swap buffers etc</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This should look something like the below:</p>
+
+<center>
+  <iframe src="/assets/2015-05-13-gl1.html" width="320" height="200" scrolling="no" style="border: 2px solid black; -moz-box-shadow: black 2px 2px 2px;"></iframe>
+  <br/>
+  <a style="clear:both;" href="/assets/2015-05-13-gl1.html" target="_blank">click here to open in a separate window</a>
+</center>
+
+
+<h3>Immediate mode and the fixed function pipeline</h3>
+
+<p>I discuss this more when discussing the different OpenGL versions below, but OpenGL 1 was much simpler to use than later versions, though much less powerful. OpenGL 1 operated using a <em>fixed-function pipeline</em> using an <em>immediate mode</em> API, where the programmer not only describes high-level primitives&#8217; individual vertices but also describe the lighting model to use, define several lights and set up materials to use during rendering. Retained mode allows all of this functionality to be executed on a shader program, which is written by the developer but run on the GPU directly. This is much more performant but requires a lot of extra work on the part of the developer.</p>
+
+<p>The term immediate mode means that the drawing operations are explicitly executed in your client application each frame, which is considered slower because it ties the client application logic too closely with the GPU rendering operations, so the GPU is not able to make as many optimisations as it would if the instructions were on the GPU itself (retained mode.)</p>
+
+<h3>Linear algebra (magic!)</h3>
+
+<p>Linear algebra is the language of graphics programming. You <em>need</em> to learn some basics if you&rsquo;re going to tackle this stuff. I won&rsquo;t go into what a vector or matrix is here but you will have to learn the basics of their form and function if you don&rsquo;t already know them.</p>
+
+<p>The most basic understanding you should have is that vectors are usually used to describe coordinates in space and directions, and matricies are used to describe transformations (translation, scale, rotation, shear etc) to those vectors. Another thing to note is that a single matrix may represent an accumulation of many different transformations performed in sequence, so if I said (in pseudo-code) <code>auto m = translate * scale * rotate</code>, then any time I multiply <code>m</code> by a vector it will have the same effect as performing all of those transformations at once &ndash; amazing!</p>
+
+<p>Once again, the OpenGL API does not help you in dealing with matricies or vectors, but there is a great supporting library that does &ndash; <a href="http://glm.g-truc.net/">GLM</a>.</p>
+
+<p>There are two ways the elements in a matrix may be stored &ndash; OpenGL programmers often use <em>column-major</em> matrix layouts. This is a convention only, but is generally used in the official documentation and in OpenGL support libraries such as GLM. The reason this is important is that unlike scalar multiplication, matrix multiplication is not <em>commutative</em>, meaning <code>A * B</code> does not equal <code>B * A</code>. The main impact of using column-major vs row-major matricies is the order of multiplications must be reversed to have the same effect. In column-major (the most usual) you would accumulate your transformations to the left, so if you want to first rotate (<em>R</em>) then scale (<em>S</em>) then translate (<em>T</em>) last, you would execute <code>T * S * R</code>. A more common example would be when calculating the <em>model view projection</em> matrix it would be accumulated as <code>mat4 mvp = P * V * M</code>. When calculating this with a <em>row-major</em> library you would be expected to accumulate it as <code>mat4 mvp = M * V * P</code>. Converting a matrix to or from column-major to row-major is known as <em>transposing</em> the matrix.</p>
+
+<p>A common term in linear algebra is the <em>identity matrix</em>. This is a matrix <em>I</em> where multiplying it with another matrix <em>A</em> gives that matrix (<code>I * A = A</code>.) It is easily recognisable as it is entirely made of 0s with 1s on the diagonal.</p>
+
+<p>Another generally useful matrix operation is the <em>inverse</em> of a matrix. The inverse of a matrix A is the matrix required to multiply with A so that the result is the identity matrix. In other words, <code>Ai * A = I</code>. This is useful when rolling back a matrix multiplication. If you have the <em>model view projection</em> matrix <code>mat4 mvp = proj * view * model</code>, you can find the <em>model view</em> matrix by calculating the inverse projection <em>inv_proj</em> and calculating: <code>mat4 mv = inv_proj * mvp</code>.</p>
+
+<p>Vector operations are even more interesting. A few things I want to point out here are <em>dot product</em>, <em>cross product</em> and the difference between <em>positional coordinates</em> and <em>directional coordinates</em>.</p>
+
+<p>The <strong>dot product</strong> operation (sometimes known as the <em>inner product</em>) is used for many purposes; the dot product of two vectors A and B is a scalar (not a vector) number that is the sum of the products of their components (e.g., <code>auto a_dot_b = A.x * B.x + A.y * B.y + A.z * B.z</code>). It turns out that this simple formula gives you the cosine of the angle between those vectors multiplied by their magnitudes (<code>|A||B|cos(Ɵ)</code>), which is really useful because:</p>
+
+<ul>
+<li>if the vectors are unit vectors (they each have magnitude of 1) the dot product will just give you <code>cos(Ɵ)</code> which is a number between 0 and 1, where 0 implies that they are perpendicular to each other (at 90 degrees) and 1 implies they are parallel. This is great for calculating how much light should bounce off a surface if the light direction is one vector and the surface normal is the other.</li>
+<li>if the vectors are both unit vectors you can inverse cos the dot product to find the angle between the vectors (<code>auto angle = acos(dot(A, B))</code>)</li>
+<li>you can find the projection of vector A onto vector B by finding the dot product of A and B then dividing the result by the length of A.</li>
+<li>calculating the dot product of a vector with itself will give you the distance squared. If you are checking to see which vector is longer, you can just compare their squared distances (saving you a square root operation)</li>
+</ul>
+
+
+<p>The <strong>cross product</strong> is another simple formula that gives you a vector that is perpendicular to two given vectors. In other words, if you have vectors A and B that both lie along the same surface, calculating <code>cross(A, B)</code> will give a vector that represents the normal to that surface. This normal vector will also follow the <em>right-hand rule</em> as pictured below (Note: you will usually want to normalise your normal before using it, so lighting calculations can dot product them straight out of the box!)</p>
+
+<p><img class="center" src="http://upload.wikimedia.org/wikipedia/commons/d/d2/Right_hand_rule_cross_product.svg" width="200" height="200" title="&#34;Cross product follows the right-hand rule&#34;" alt="&#34;Cross product follows the right-hand rule&#34;"></p>
+
+<h2>OpenGL versions and extensions</h2>
+
+<p>A constant frustration when reading documentation and code examples is that OpenGL 1.0 is <em>worlds apart</em> from OpenGL 2.0. Many of us would have been well served if they had given it a totally different name, so different are the products!</p>
+
+<p><strong>OpenGL 1</strong> functions in what is now called <em>immediate mode</em> and is considered deprecated. In this version the programmer describes the scene lights, materials and fog, then notifies the driver of each polygon explicitly. The driver would then render the scene using its own internal lighting model using the described lights and materials. This is called the <em>fixed function pipeline</em>.</p>
+
+<figure class='code'><figcaption><span>OpenGL 1 example code snippet</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="c1">// configure light</span>
+</span><span class='line'><span class="n">glEnable</span><span class="p">(</span><span class="n">GL_LIGHTING</span><span class="p">);</span>     <span class="c1">// deprecated</span>
+</span><span class='line'><span class="n">glEnable</span><span class="p">(</span><span class="n">GL_LIGHT0</span><span class="p">);</span>       <span class="c1">// deprecated</span>
+</span><span class='line'><span class="n">glLightfv</span><span class="p">(</span><span class="n">GL_LIGHT0</span><span class="p">,</span> <span class="n">GL_AMBIENT</span><span class="p">,</span> <span class="p">{</span><span class="mf">.4f</span><span class="p">,</span> <span class="mf">.1f</span><span class="p">,</span> <span class="mf">.1f</span><span class="p">});</span> <span class="c1">// deprecated</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// draw a primitive</span>
+</span><span class='line'><span class="n">glPushMatrix</span><span class="p">();</span>            <span class="c1">// deprecated</span>
+</span><span class='line'><span class="c1">// matrix operations will apply to all vertices until glPopMatrix()</span>
+</span><span class='line'><span class="n">glLoadIdentity</span><span class="p">();</span>          <span class="c1">// deprecated</span>
+</span><span class='line'><span class="n">glRotatef</span><span class="p">(</span><span class="mf">3.14f</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">);</span> <span class="c1">// deprecated</span>
+</span><span class='line'><span class="n">glBegin</span><span class="p">(</span><span class="n">GL_TRIANGLE</span><span class="p">);</span>      <span class="c1">// deprecated</span>
+</span><span class='line'>  <span class="n">glVertex3f</span><span class="p">(</span><span class="mf">.0</span><span class="p">,</span> <span class="mf">.0</span><span class="p">.,</span> <span class="mf">.0</span><span class="p">);</span> <span class="c1">// deprecated</span>
+</span><span class='line'>  <span class="n">glVertex3f</span><span class="p">(</span><span class="mf">.1</span><span class="p">,</span> <span class="mf">.0</span><span class="p">.,</span> <span class="mf">.0</span><span class="p">);</span> <span class="c1">// deprecated</span>
+</span><span class='line'>  <span class="n">glVertex3f</span><span class="p">(</span><span class="mf">.1</span><span class="p">,</span> <span class="mf">.1</span><span class="p">.,</span> <span class="mf">.0</span><span class="p">);</span> <span class="c1">// deprecated</span>
+</span><span class='line'><span class="n">glEnd</span><span class="p">();</span>                   <span class="c1">// deprecated</span>
+</span><span class='line'><span class="n">glPopMatrix</span><span class="p">();</span>             <span class="c1">// deprecated</span>
+</span><span class='line'><span class="n">glFlush</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>OpenGL 2</strong> introduced shaders, yet still provided compatability with the above described model. Shaders had access to the state declared in the fixed function pipeline through standard global variables (such as the <code>gl_LightSource[]</code> array and the <code>gl_FrontMaterial</code> variable sent from the client and the <code>gl_ModelViewProjection</code> matrix which was generated by the driver.) The vertex shader can invoke the standard fixed-function pipeline functionality by callling <code>gl_Position = ftransform();</code>.</p>
+
+<p><strong>OpenGL 3</strong> completely deprecated the immediate mode fixed-function pipeline. Of course this introduced backwards-compatability issues so they also introduced several <em>profiles</em> to allow backward compatability to be optionally compiled in. The <em>compatability profile</em> can be requested to enable deprecated features, while the <em>core profile</em> disallows the use of these features.</p>
+
+<p>Since OpenGL 2 however there have been no truly large architectural changes (unfortunately.) Changes have focused around adding features (new types of shaders, for example) to provide better performance and more generally useful aspects of existing functionality. This is a shame because there are still a lot of problems with OpenGL that many developers want addressed &ndash; the original goal of OpenGL 3 was to include massive refactorings to remove all the global state (more on this later) but vendors objected so strenuously that this work was put off until <em>GLNext</em> which is now known as <a href="https://www.khronos.org/vulkan">Vulkan</a>.</p>
+
+<p>OpenGL shaders are written in their own language &ndash; <strong>GLSL</strong>. GLSL has its own varied syntax between versions, and to make things even more complicated they support the notion of extensions. The best bet is to decide on which version of OpenGL you will be learning and learn the GLSL appropriate to that version. They are all quite similar in form but are syntactically incompatible with each other.</p>
+
+<p>Some mention should be made regarding extensions.  Extensions are often touted as a great feature in OpenGL not available in other graphics libraries such as DirectX. New commands and enumerations are often added to the OpenGL API by vendors as extensions, and then if this functionality proves popular it becomes formalised as part of the API in a later version.</p>
+
+<p>Each OpenGL version has a known set of extensions. These can be browsed in the Khronos reference implementations &ndash; for example the OpenGL ES 2 extensions are in the <a href="https://www.khronos.org/registry/gles/api/GLES2/gl2ext.h">GLES2/gl2ext.h</a> header file. There are idiomatic ways to detect support for and load these extensions using system calls but most people use an <strong>extension loader</strong> of some type. A very popular extension loader is the <a href="http://glew.sourceforge.net/">OpenGL Extension Wrangler Library</a> (also known as GLEW.)</p>
+
+<p>If you want some functionality not natively available in your chosen version of the OpenGL API you will often find an extension that provides that functionality. The problem is, extensions are not supported uniformly on all platforms with all drivers, so quite often you&rsquo;ll have to work around the missing functionality in some platform anyway. This severely limits the usefulness of extensions, and in general you should try to do without them if possible.</p>
+
+<p>I personally do use a few extensions in a few circumstances: either to get around eccentricities of a particular platform (e.g., some Windows platforms use BGRA instead of RGBA framebuffer formats, which are only available through the GL_EXT_texture_format_BGRA8888 extension) or if I have through experimentation determined that an extension is very broadly supported.</p>
+
+<p>Here&rsquo;s a quick summary of what I understand of the different OpenGL versions:</p>
+
+<h3>OpenGL 1 &ndash; high level and slow but simple</h3>
+
+<ul>
+<li>Immediate mode only (fixed function pipeline)</li>
+<li>no shaders</li>
+<li>a lot of people still use this when demonstrating functionality</li>
+<li>only version natively supported by Windows</li>
+</ul>
+
+
+<h3>OpenGL 2 &ndash; shaders run on the GPU</h3>
+
+<ul>
+<li>first shader-based version</li>
+<li>vertex and fragment shaders</li>
+<li>still have access to the fixed function pipeline &ndash; even within shaders</li>
+</ul>
+
+
+<h3>OpenGL 3 &ndash; a controversial release</h3>
+
+<ul>
+<li>framebuffers for rendering to non-screen targets (e.g., render to a texture)</li>
+<li>vertex array objects (VAOs) allow great performance boosts by quickly binding and unbinding whole groups of buffers and attribute bindings</li>
+<li>geometry shaders (modify/extend geometry of primitives)</li>
+<li>significant (breaking!) changes to GLSL shader language</li>
+<li>deprecated most 1.0 functionality (immediate mode stuff) introducing compatability and core modes
+
+<ul>
+<li>compatability mode gives access to the old fixed function pipeline</li>
+<li>core mode does not</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>OpenGL 4 &ndash; modernisation, performance and professional enhancements</h3>
+
+<ul>
+<li>OpenGL 4.0 goal was to achieve parity with Direct3D 11</li>
+<li><a href="http://arstechnica.com/information-technology/2014/08/opengl-4-5-released-with-one-of-direct3ds-best-features/">OpenGL 4.5</a> goal was to achieve parity with Direct3D 12</li>
+<li>tesselation shaders introduce extra polygons for &lsquo;denser&rsquo; meshes with smoother curves</li>
+<li>compute shaders for using the GPU for non-graphics computations (GPGPU stuff)</li>
+<li>GPGPU compute shader uses SPIR &ndash; an intermediate language based on LLVM</li>
+<li>Direct State Access &ndash; mitigate long-standing architectural problems with immediate mode</li>
+<li>modern OSX supports up to OpenGL 4.1</li>
+</ul>
+
+
+<h3>OpenGL ES &ndash; simplified for embedded systems</h3>
+
+<ul>
+<li>OpenGL ES 1.0 based on OpenGL 1.3</li>
+<li>OpenGL ES 1.1 based on OpenGL 1.5</li>
+<li>OpenGL ES 2.0 based on OpenGL 2.0
+
+<ul>
+<li>WebGL is based on OpenGL ES 2.0</li>
+<li><a href="https://code.google.com/p/angleproject/">Google ANGLE project</a> provides OpenGL ES 2.0 support on Windows (wraps DirectX API)</li>
+</ul>
+</li>
+<li>OpenGL ES 3.0 full subset of OpenGL 4.3
+
+<ul>
+<li>supported by modern iOS and Android devices</li>
+<li><a href="https://code.google.com/p/angleproject/wiki/Update20150105">experimental support</a> in Google ANGLE project</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>WebGL</h3>
+
+<ul>
+<li>based on OpenGL ES 2.0</li>
+<li>I don&rsquo;t know much about this yet, but <a href="http://webglfundamentals.com">WebGL Fundamentals</a> is a great resource</li>
+</ul>
+
+
+<h3>Vulkan &ndash; GLNext, lots of hype but not much information yet</h3>
+
+<ul>
+<li>get away from immediate mode single-threaded global state context heritage</li>
+<li>allow shaders to be written in a variety of languages</li>
+<li><a href="http://arstechnica.com/gadgets/2015/03/khronos-unveils-vulkan-opengl-built-for-modern-systems/">http://arstechnica.com/gadgets/2015/03/khronos-unveils-vulkan-opengl-built-for-modern-systems/</a></li>
+</ul>
+
+
+<p>I have chosen to do most of my experimentation in OpenGL ES 2. This should give me the broadest platform availability as well as being compatible with WebGL for web demonstrations. I have resorted to using a few extensions that are supported on the platforms I use where necessary (e.g., to get anti aliasing), though I try to avoid this where possible.</p>
+
+<h2>Getting Started</h2>
+
+<p>I have created a <a href="https://github.com/seshbot/new-gl-app">simple GL application on GitHub</a> that I intended to be used as a starting point for OpenGL ES 2 experimentation. It should work on Windows, Linux and OSX, and the only external dependency should be CMake which is pretty easy to install. Then, hopefully, getting it running is a matter of (depending on your platform of choice):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone https://github.com/seshbot/new-gl-app
+</span><span class='line'><span class="nb">cd </span>new-gl-app
+</span><span class='line'>mkdir build <span class="o">&amp;&amp;</span> <span class="nb">cd </span>build
+</span><span class='line'>cmake ..
+</span><span class='line'>
+</span><span class='line'>./glapp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>My sample app uses <a href="http://www.glfw.org/">GLFW</a> for context management, <a href="http://glm.g-truc.net/">GLM</a> for vector and matrix implementations and <a href="http://glew.sourceforge.net/">GLEW</a> for extension management. On Windows it also uses Google&rsquo;s <a href="https://code.google.com/p/angleproject/">ANGLE project</a> to ensure OpenGL ES 2 is available even if Windows only provides an OpenGL 1 implementation. Unfortunately ANGLE doesn&rsquo;t work with extension loaders so you&rsquo;ll have to read <a href="https://code.google.com/p/angleproject/wiki/ExtensionSupport">ANGLE&rsquo;s extension support page</a> to know which extensions you have access to.</p>
+
+<p>Alternatively you could try copying <a href="/assets/2015-05-13-gl1.html">my sample GL HTML page</a> and copy the <a href="/assets/js/webgl-utils.js">webgl-utils.js</a> file into a subdirectory called &lsquo;js&rsquo; under that. Run the HTML file in your browser and you&rsquo;ll have a WebGL app!</p>
+
+<h3>Challenges you will face</h3>
+
+<ul>
+<li>Having to learn support libraries in addition to the OpenGL API</li>
+<li>Cross platform support is difficult as many features are not uniformly supported</li>
+<li>Debugging GL state in different platforms &ndash; OpenGL debugging tools are not great, and there are none that work cross-platform</li>
+<li>Multithreading correctly is extremely difficult &ndash; if possible just do all your rendering on one thread!</li>
+<li>Managing extensions can be a pain in the ass</li>
+<li>State management &ndash; OpenGL uses global state, so it is impossible to write optimal abstractions because cannot encapsulate state, and state querying is prohibitively expensive. So you end up redundantly setting state that has often already been set.</li>
+<li>lots of problems: <a href="http://richg42.blogspot.jp/2014/05/things-that-drive-me-nuts-about-opengl.html">http://richg42.blogspot.jp/2014/05/things-that-drive-me-nuts-about-opengl.html</a></li>
+</ul>
+
+
+<h3>Documentation</h3>
+
+<p>As I mentioned there&rsquo;s not a lot of great documentation out there. I started to create <a href="http://cechner.github.io/">my own responsive OpenGL documentation</a> and then discovered that there&rsquo;s already a pretty sweet one out there called <a href="http://docs.gl/">docs.gl</a>. Docs.gl is great because it makes it clear which commands are supported in which versions of OpenGL &ndash; something that&rsquo;s hard to figure out from the more official sources.</p>
+
+<p>A great beginner tutorial is <a href="http://open.gl/">open.gl</a> &ndash; it&rsquo;s modern, minimalistic and well written. A very similar-seeming tutorial series that goes into more advanced techniques is <a href="http://learnopengl.com/">Learn OpenGL</a>. There used to be a fantastic series called the ArcSynthesis tutorials but they seem to have died. There is a <a href="http://www.pdfiles.com/pdf/files/English/Designing_&amp;_Graphics/Learning_Modern_3D_Graphics_Programming.pdf">PDF version of their content</a> that seems pretty good though.</p>
+
+<p><a href="http://ogldev.atspace.co.uk/index.html">OGLdev</a> is a series of tutorials that go into more depth than the open.gl site above, and is in bite-sized chunks for easier consumption.</p>
+
+<p>If you want to step through some sample code, download the <a href="https://github.com/progschj/OpenGL-Examples">OpenGL-Examples</a> github repository. It seems pretty easy to use and goes into fairly advanced topics.</p>
+
+<p>If you want <em>really really detailed</em> runthrough of the graphics pipeline, have a look at <a href="https://fgiesen.wordpress.com/category/graphics-pipeline/">the ryg blog</a>. I haven&rsquo;t made my way through it yet but I really want to. Fabien Gleson seems to be pretty knowledgable about not only low level rendering details but also general low level computing concepts in general.</p>
+
+<p>Finally, if you&rsquo;re into WebGL you should check out Gregg Tavares&#8217; <a href="http://webglfundamentals.org/">WebGL Fundamentals</a>. Gregg has a lot of experience working on WebGL in Chrome and game programming in general and has made some fantastic javascript support libraries that make every-day WebGL much simpler.</p>
+
+<p>As I mentioned before though, you can easily try reading the specs yourself. Google is your friend here &ndash; search for the specific version + &lsquo;spec&rsquo; and it will <a href="https://www.google.com.au/search?q=opengl+3+spec">usually be the first hit</a>.</p>
+
+<h3>Debugging</h3>
+
+<p>There are <a href="https://www.opengl.org/wiki/Debugging_Tools">many different OpenGL debugging tools</a> on different platforms and they are all generally pretty bad. I haven&rsquo;t spent a lot of time with any of them so please tell me if you find a good one! If you&rsquo;re on OSX you can give the <a href="https://developer.apple.com/library/mac/documentation/GraphicsImaging/Conceptual/OpenGLProfilerUserGuide/Introduction/Introduction.html">OpenGL Profiler</a> a go &ndash; it allows you to set breakpoints on certain GL calls, look at frame buffers (though I found this difficult to do) and much more.</p>
+
+<p>It&rsquo;s also a great idea to have some macros that optionally call <code>glGetError()</code> after every OpenGL call you make so you can easily track down where things begin to go awry. Unfortunately though querying the context can be fairly expensive so you should make it easy to disable this macro when things are not going awry.</p>
+
+<p>Feel free to copy-paste this into your codebase:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="c1">// #define DEBUG_OPENGL_COMMANDS // uncomment this to enable error checking</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#ifdef DEBUG_OPENGL_COMMANDS</span>
+</span><span class='line'>  <span class="kt">void</span> <span class="n">checkOpenGLError</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">function</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">file</span><span class="p">,</span> <span class="kt">int</span> <span class="n">line</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">auto</span> <span class="n">err</span> <span class="o">=</span> <span class="n">glGetError</span><span class="p">();</span> <span class="k">if</span> <span class="p">(</span><span class="n">err</span> <span class="o">==</span> <span class="n">GL_NO_ERROR</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">err_msg</span> <span class="o">=</span> <span class="s">&quot;unrecognised&quot;</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">switch</span> <span class="p">(</span><span class="n">err</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">case</span> <span class="nl">GL_INVALID_ENUM:</span> <span class="n">err_msg</span> <span class="o">=</span> <span class="s">&quot;GL_INVALID_ENUM&quot;</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">case</span> <span class="nl">GL_INVALID_VALUE:</span> <span class="n">err_msg</span> <span class="o">=</span> <span class="s">&quot;GL_INVALID_VALUE&quot;</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">case</span> <span class="nl">GL_INVALID_OPERATION:</span> <span class="n">err_msg</span> <span class="o">=</span> <span class="s">&quot;GL_INVALID_OPERATION&quot;</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">case</span> <span class="nl">GL_STACK_OVERFLOW:</span> <span class="n">err_msg</span> <span class="o">=</span> <span class="s">&quot;GL_STACK_OVERFLOW&quot;</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">case</span> <span class="nl">GL_STACK_UNDERFLOW:</span> <span class="n">err_msg</span> <span class="o">=</span> <span class="s">&quot;GL_STACK_UNDERFLOW&quot;</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">case</span> <span class="nl">GL_OUT_OF_MEMORY:</span> <span class="n">err_msg</span> <span class="o">=</span> <span class="s">&quot;GL_OUT_OF_MEMORY&quot;</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">case</span> <span class="nl">GL_INVALID_FRAMEBUFFER_OPERATION:</span> <span class="n">err_msg</span> <span class="o">=</span> <span class="s">&quot;GL_INVALID_FRAMEBUFFER_OPERATION&quot;</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">default</span><span class="o">:</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="c1">// on Windows call ::OutputDebugString </span>
+</span><span class='line'>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;OpenGL error &#39;%s&#39; (0x%04x) called from %s in file %s line %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">err_msg</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">line</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#  define GL_VERIFY(stmt) do { stmt; checkOpenGLError(#stmt, __FUNCTION__, __FILE__, __LINE__); } while (0)</span>
+</span><span class='line'><span class="cp">#  define GL_CHECK() do { checkOpenGLError(__FUNCTION__, __FILE__, __LINE__); } while (0)</span>
+</span><span class='line'><span class="cp">#  define GL_IGNORE(stmt) do { GL_CHECK(); stmt; glGetError(); } while (0)</span>
+</span><span class='line'><span class="cp">#else</span>
+</span><span class='line'><span class="cp">#  define GL_VERIFY(stmt) stmt</span>
+</span><span class='line'><span class="cp">#  define GL_CHECK()</span>
+</span><span class='line'><span class="cp">#  define GL_IGNORE(stmt) stmt</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then you just wrap all your function calls like so: <code>GL_VERIFY(glDrawElements(...))</code>. If you want to just check for errors at a particular point in your code, just call <code>GL_CHECK()</code>.</p>
+
+<h3>Upcoming</h3>
+
+<p>Now that I&rsquo;ve gotten all the basic stuff out of the way I&rsquo;d like to go into a bunch of other more advanced things that I thought wasn&rsquo;t particularly easy to get help with. In no particular order:</p>
+
+<p>Pros and cons of writing an OpenGL wrapper library (<a href="https://github.com/seshbot/glpp">my glpp library</a>)</p>
+
+<p>Building and using Google&rsquo;s ANGLE library</p>
+
+<p>Using OpenGL for 2D:</p>
+
+<ul>
+<li>setting up the GL context (depth buffer)</li>
+<li>basic 2D coords</li>
+<li>drawing primitives</li>
+<li>simple texture</li>
+<li>using orthographic projection with 2D</li>
+</ul>
+
+
+<p>Using OpenGL for 3D:</p>
+
+<ul>
+<li>setting up the GL context (blending, face culling)</li>
+<li>3d coordinate system (plus MVP, normal matrix)</li>
+<li>drawing primitives</li>
+<li>perspective projection and the frustum</li>
+</ul>
+
+
+<p>3D lighting</p>
+
+<p>3D shadows</p>
+
+<p>Texturing (textures, texture unit and samplers), sampling, blending, alpha discard, stencil testing, <a href="http://stackoverflow.com/questions/9224300/what-does-gltexstorage-do">glTexStorage</a></p>
+
+<p>Multi pass rendering (using FrameBuffers):</p>
+
+<ul>
+<li>Render scene &ndash;> FBO &ndash;> texture colour buffer &ndash;> screen rectangle &ndash;> post effect frag shader &ndash;> screen</li>
+<li>Post processing (HSV and gamma correction)</li>
+</ul>
+
+
+<p>Loading models and animations (using assimp)</p>
+
+<p>Rendering text (using stb)</p>
+
+<p>Using Qt/QML with OpenGL</p>
+
+<p>Object Picking in a 3D scene</p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-05T07:40:37+00:00" pubdate data-updated="true">May 5<span>th</span>, 2015</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/c-plus-plus/'>C++</a>, <a class='category' href='/blog/categories/howto/'>HowTo</a>, <a class='category' href='/blog/categories/opengl/'>OpenGL</a>
+
+</div>
+
+
+	
+		<span class="comments"><a href="/blog/2015/05/05/an-introduction-to-opengl-getting-started/#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2015
+
+    Paul Cechner
+
+<br>
+Powered by Octopress.
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'seshbot';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://seshbot.com/blog/2015/05/05/an-introduction-to-opengl-getting-started/';
+        var disqus_url = 'http://seshbot.com/blog/2015/05/05/an-introduction-to-opengl-getting-started/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+   <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-46903701-1', 'seshbot.com');
+      ga('send', 'pageview');
+
+   </script>
+
+
+
+</body>
+</html>

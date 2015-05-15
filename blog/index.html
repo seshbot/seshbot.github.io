@@ -9,7 +9,7 @@
 
 <meta name="author" content="Paul Cechner"> 
 
-<meta name="description" content="In September I went to Spain for 6 weeks to chill out with my family and check out what the countryside had to offer. Then I moved from Japan to &hellip;"> <meta name="keywords" content="">
+<meta name="description" content="This article is a culmination of all the little notes I took while learning OpenGL over the last several months. It&rsquo;s mostly stuff that I &hellip;"> <meta name="keywords" content="">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -95,6 +95,110 @@ $(document).ready(
 </header>
 
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2015/05/05/an-introduction-to-opengl-getting-started/">
+		
+			An Introduction to OpenGL - Getting Started</a>
+	</h2>
+	<div class="entry-content">
+		<p><em>This article is a culmination of all the little notes I took while learning OpenGL over the last several months. It&rsquo;s mostly stuff that I found difficult to research plus a little summary of the differences between OpenGL versions.</em></p>
+
+<p><em>What a daunting task!</em></p>
+
+<p><em>If you have any recommendations on how this could be more beginner-friendly please tell me.</em></p>
+
+<h2>Things I wish I knew when learning OpenGL</h2>
+
+<p>The most important thing a programmer should know before deciding whether to learn OpenGL is that OpenGL is very low level, poorly documented and extremely crufty. This is because it is an API specification and not a product library per-se. It is up to the many various vendors to implement the API spec as best they can.</p>
+
+<p><span class='pullquote-right' data-pullquote='Anyone looking to learn to use OpenGL will face a constant battle with finding relevant documentation for their chosen version on their chosen platform with their chosen extensions.'>
+In its various incarnations OpenGL spans almost 20 years and at least 7 major revisions, including the embedded versions. Anyone looking to learn to use OpenGL will face a constant battle with finding relevant documentation for their chosen version on their chosen platform with their chosen extensions.
+</span></p>
+
+<p>The next thing to know about modern OpenGL is that these days it does very little legwork for you other than allowing you to run a program on the GPU. You will have to write the GPU shader programs that do everything from transforming your own application data into screen-space coordinates, to calculating the exact colour of every pixel on the screen incorporating lighting and shading algorithms that you implement yourself (fortunately linear algebra makes this stuff a lot simpler than it sounds!) So OpenGL will not do any inherently 3D stuff for you &ndash; most OpenGL commands and types are capable of describing 3D positions, directions and transformations but you have to do the grunt work yourself.</p>
+
+<p>The third immediate concern &ndash; <em>OpenGL does not work out of the box</em>! An annoying truth is that OpenGL realistically requires supporting libraries in order to function, most importantly to create a context within which the rendering operations can work. At the least you&rsquo;ll probably be incorporating at least three libraries &ndash; one to generate a GL context into which you render, a matrix and linear algebra library, and an extension loader for when you need a little more functionality than your platform provides.</p>
+
+<p><span class='pullquote-left' data-pullquote='OpenGL is the only low-level graphics API supported on pretty much all platforms you&#8217;d want to render graphics on.'>
+So why would you even consider it?! Why would you write a series of articles on a technology that scares you so much? The reason it has kept its relevance is because OpenGL is the only low-level graphics API supported on pretty much all platforms you&rsquo;d want to render graphics on. Because it is so very widely adopted it is still the defacto standard for developers wanting a powerful low-level intrinsics that work on multiple platforms.
+</span></p>
+
+<p>If you are only targeting Windows you might consider DirectX. If you don&rsquo;t need to interact directly with your shaders, and are happy to work at a higher level of abstraction and not with the GPU directly, perhaps a higher level graphics library such as Unity or UDK would work better for you.</p>
+
+<p>So assuming you still want to start using OpenGL, this article might be helpful to you. My intention is to mention a lot of stuff I had to hunt around for that seemed pretty important to me while I was trying to learn it myself. I will not be doing a step-by-step guide to performing specific OpenGL tasks however &ndash; for a good getting started guide check out <a href="https://open.gl/">open.gl</a> which is both modern and easy to follow.</p>
+
+<p>To use OpenGL effectively I figure you&rsquo;d need to understand:</p>
+
+<ul>
+<li>opening an OpenGL window (i.e., creating a context)</li>
+<li>the basics of rendering:
+
+<ul>
+<li>primitives, vertices and fragments</li>
+<li>coordinate systems:
+
+<ul>
+<li>built-in normalised device coordinates (NDC) and clip coordinates</li>
+<li>3D model, view and perspective coordinates</li>
+</ul>
+</li>
+<li>shaders and the render pipeline (how data gets from your app to the screen):
+
+<ul>
+<li>vertex and fragment shaders</li>
+<li>passing uniforms and attributes into the pipeline</li>
+<li>vertex buffers (VBOs)</li>
+<li>passing varying data from the vertex shader to the fragment shader</li>
+</ul>
+</li>
+<li>the fixed-function pipeline (now deprecated)</li>
+</ul>
+</li>
+<li>linear algebra (the magical language of graphics programming)</li>
+<li>a rundown on all the different major OpenGL versions</li>
+<li>major challenges that you certainly will face moving forward</li>
+</ul>
+
+
+<p>I&rsquo;ll leave more advanced core concepts such as framebuffers and textures for a later article.</p>
+
+
+		
+		<a href="/blog/2015/05/05/an-introduction-to-opengl-getting-started/" class="more-link">Read on &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-05T07:40:37+00:00" pubdate data-updated="true">May 5<span>th</span>, 2015</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/c-plus-plus/'>C++</a>, <a class='category' href='/blog/categories/howto/'>HowTo</a>, <a class='category' href='/blog/categories/opengl/'>OpenGL</a>
+
+</div>
+
+
+	
+		<span class="comments"><a href="/blog/2015/05/05/an-introduction-to-opengl-getting-started//blog/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
 
 
     <article class="post">
@@ -644,63 +748,6 @@ I have been interviewing programmers for many years and reckon the best way to f
 
 	
 		<span class="comments"><a href="/blog/2014/01/23/the-best-way-for-programmers-to-interview-programmers//blog/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/01/22/client-side-authentication-with-ember-and-rails/">
-		
-			Client-side Authentication With Ember and Rails</a>
-	</h2>
-	<div class="entry-content">
-		<p><em>This post follows on from the previous post <a href="/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch/">creating and deploying a rails + ember app from scratch</a>. In that post I created a basic ember application being served from rails. Here I&rsquo;ll be adding user authentication to the application I created using the &lsquo;edge template&rsquo; option I discussed, which uses the &lsquo;ember-rails&rsquo; gem to establish the basic connectivity.</em></p>
-
-<p>I do not want to implement authentication and authorization myself. It is tricky to get right and tends to cause huge damage when it goes wrong in production.</p>
-
-<p>So I have spent at least three full days looking at various solutions I can build into my simple Ember/Rails application and spent a lot of time experimenting.</p>
-
-<p>This post describes my current understanding of authentication for web applications, and the approach I used to implement a basic authentication system I put up on heroku at <a href="http://seshbot.herokuapp.com">http://seshbot.herokuapp.com</a></p>
-
-<p>If you want to see the source code, have a look at <a href="https://github.com/seshbot/new-ember-rails-app">https://github.com/seshbot/new-ember-rails-app</a></p>
-
-<p><img class="center" src="/images/upload/2014-01-22-seshbot-login.png" title="&#34;Oh jeez I already forgot my password&#34;" alt="&#34;Oh jeez I already forgot my password&#34;"></p>
-
-<p><em>NOTE: this is very text-heavy because after three full days I decided not to spend too long on this blog post. Therefore there are no images at this time. I may update it later to have some nice UML or screenshots, but that time is not now.</em></p>
-
-
-		
-		<a href="/blog/2014/01/22/client-side-authentication-with-ember-and-rails/" class="more-link">Read on &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-22T00:30:27+00:00" pubdate data-updated="true">Jan 22<span>nd</span>, 2014</time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/ember/'>Ember</a>, <a class='category' href='/blog/categories/howto/'>HowTo</a>, <a class='category' href='/blog/categories/rails/'>Rails</a>
-
-</div>
-
-
-	
-		<span class="comments"><a href="/blog/2014/01/22/client-side-authentication-with-ember-and-rails//blog/index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 
