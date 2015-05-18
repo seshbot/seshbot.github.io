@@ -111,6 +111,8 @@ $(document).ready(
 
 <p><em>If you have any recommendations on how this could be more beginner-friendly please tell me.</em></p>
 
+<p><em>Also thanks <a href="http://greggman.com/">Gregg Tavares</a> for pointing out my various errors!</em></p>
+
 <h2>Things I wish I knew when learning OpenGL</h2>
 
 <p>The most important thing a programmer should know before deciding whether to learn OpenGL is that OpenGL is very low level, poorly documented and extremely crufty. This is because it is an API specification and not a product library per-se. It is up to the many various vendors to implement the API spec as best they can.</p>
@@ -121,7 +123,7 @@ In its various incarnations OpenGL spans almost 20 years and at least 7 major re
 
 <p>The next thing to know about modern OpenGL is that these days it does very little legwork for you other than allowing you to run a program on the GPU. You will have to write the GPU shader programs that do everything from transforming your own application data into screen-space coordinates, to calculating the exact colour of every pixel on the screen incorporating lighting and shading algorithms that you implement yourself (fortunately linear algebra makes this stuff a lot simpler than it sounds!) So OpenGL will not do any inherently 3D stuff for you &ndash; most OpenGL commands and types are capable of describing 3D positions, directions and transformations but you have to do the grunt work yourself.</p>
 
-<p>The third immediate concern &ndash; <em>OpenGL does not work out of the box</em>! An annoying truth is that OpenGL realistically requires supporting libraries in order to function, most importantly to create a context within which the rendering operations can work. At the least you&rsquo;ll probably be incorporating at least three libraries &ndash; one to generate a GL context into which you render, a matrix and linear algebra library, and an extension loader for when you need a little more functionality than your platform provides.</p>
+<p>The third immediate concern &ndash; <em>OpenGL does not work out of the box</em>! An annoying truth is that OpenGL realistically requires supporting libraries in order to function, most importantly to create a context within which the rendering operations can work. It is very common to incorporating at least three libraries &ndash; one to generate a GL context into which you render, a matrix and vector manipulation library, and an extension loader for when you need a little more functionality than your platform provides.</p>
 
 <p><span class='pullquote-left' data-pullquote='OpenGL is the only low-level graphics API supported on pretty much all platforms you&#8217;d want to render graphics on.'>
 So why would you even consider it?! Why would you write a series of articles on a technology that scares you so much? The reason it has kept its relevance is because OpenGL is the only low-level graphics API supported on pretty much all platforms you&rsquo;d want to render graphics on. Because it is so very widely adopted it is still the defacto standard for developers wanting a powerful low-level intrinsics that work on multiple platforms.
