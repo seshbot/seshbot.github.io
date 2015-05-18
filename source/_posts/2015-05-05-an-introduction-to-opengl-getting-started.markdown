@@ -15,6 +15,8 @@ _What a daunting task!_
 
 _If you have any recommendations on how this could be more beginner-friendly please tell me._
 
+_Also thanks [Gregg Tavares](http://greggman.com/) for pointing out my various errors!_
+
 ## Things I wish I knew when learning OpenGL
 The most important thing a programmer should know before deciding whether to learn OpenGL is that OpenGL is very low level, poorly documented and extremely crufty. This is because it is an API specification and not a product library per-se. It is up to the many various vendors to implement the API spec as best they can.
 
@@ -24,7 +26,7 @@ In its various incarnations OpenGL spans almost 20 years and at least 7 major re
 
 The next thing to know about modern OpenGL is that these days it does very little legwork for you other than allowing you to run a program on the GPU. You will have to write the GPU shader programs that do everything from transforming your own application data into screen-space coordinates, to calculating the exact colour of every pixel on the screen incorporating lighting and shading algorithms that you implement yourself (fortunately linear algebra makes this stuff a lot simpler than it sounds!) So OpenGL will not do any inherently 3D stuff for you - most OpenGL commands and types are capable of describing 3D positions, directions and transformations but you have to do the grunt work yourself.
 
-The third immediate concern - _OpenGL does not work out of the box_! An annoying truth is that OpenGL realistically requires supporting libraries in order to function, most importantly to create a context within which the rendering operations can work. At the least you'll probably be incorporating at least three libraries - one to generate a GL context into which you render, a matrix and linear algebra library, and an extension loader for when you need a little more functionality than your platform provides.
+The third immediate concern - _OpenGL does not work out of the box_! An annoying truth is that OpenGL realistically requires supporting libraries in order to function, most importantly to create a context within which the rendering operations can work. It is very common to incorporating at least three libraries - one to generate a GL context into which you render, a matrix and vector manipulation library, and an extension loader for when you need a little more functionality than your platform provides.
 
 {% pullquote left %}
 So why would you even consider it?! Why would you write a series of articles on a technology that scares you so much? The reason it has kept its relevance is because {"OpenGL is the only low-level graphics API supported on pretty much all platforms you'd want to render graphics on."} Because it is so very widely adopted it is still the defacto standard for developers wanting a powerful low-level intrinsics that work on multiple platforms.
@@ -56,6 +58,29 @@ I'll leave more advanced core concepts such as framebuffers and textures for a l
 
 <!-- more -->
 
+## Starting a new project
+I suppose this is the most important thing to a lot of people, so I'll show how I bootstrap a new OpenGL project. I haven't been at it long so take it with a grain of salt, but I tried to focus on building a cross-platform solution.
+
+I generally depend on four libraries. Although technically you could get away without any supporting libraries, these save a lot of time and effort. The libraries are:
+
+- Google's [ANGLE project](https://code.google.com/p/angleproject/) provides an OpenGL ES 2.0 (soon 3.0) driver on Windows that wraps DirectX. This is useful so you don't have to depend on the user downloading the OpenGL drivers for their graphics card on Windows.
+- [GLFW](glfw.org) to create a window and otherwise interact with the OS and other devices. Many people prefer [SDL2](https://www.libsdl.org/) or [GLUT](https://www.opengl.org/resources/libraries/glut/). Alternatively you could use the standard low-level supporting libraries supported by your operating system - WGL, GLX or EGL.
+- [GLM](glm.g-truc.net) is a widely used vector and matrix library. It's particularly nice because it mirrors GLSL standard types and operations as much as possible, so hopefully there's some learning synergies there. I have tried using [Eigen](http://eigen.tuxfamily.org/) which is more of a general linear algebra library focusing on performance, but it has a lot of limitations on how you can use (passing or storing types by value is complicated) it because it uses low-level processor vector operations under the covers. Of course you could always write your own matrix classes, but it's a pretty big task.
+- [GLEW](http://glew.sourceforge.net/) is a commonly used extension loader. Unfortunately extension loaders in general don't seem to work with ANGLE so I haven't used it much. [glbinding](https://github.com/hpicgs/glbinding) and [glLoadGen](https://bitbucket.org/alfonse/glloadgen/wiki/Home) are both code generators that create loaders for specific target versions of OpenGL. These don't seem to be able to target OpenGL ES versions however.
+
+I have created a [simple GL application on GitHub](https://github.com/seshbot/new-gl-app) that I intended to be used as a starting point for OpenGL ES 2 experimentation. It should work on Windows, Linux and OSX, and the only external dependency should be CMake which is pretty easy to install. Then, hopefully, getting it running is a matter of (depending on your platform of choice):
+
+``` bash
+git clone https://github.com/seshbot/new-gl-app
+cd new-gl-app
+mkdir build && cd build
+cmake ..
+
+./glapp
+```
+
+Alternatively you could try copying [my sample GL HTML page](/assets/2015-05-13-gl1.html) and copy the [webgl-utils.js](/assets/js/webgl-utils.js) file into a subdirectory called 'js' under that. Run the HTML file in your browser and you'll have a WebGL app!
+
 ## Understanding the OpenGL API
 _Note:_ I'm using OpenGL ES 2 GLSL syntax in my examples because I believe that's probably got the broadest platform support, and is most similar to WebGL. The concepts are the same for later versions, aside from the syntactic differences. As I am focusing on explaining core concepts only OpenGL ES 2 should be fine for my purposes.
 
@@ -73,6 +98,8 @@ The __commands__ and __enums__ are described in the specification but can also b
 OpenGL __objects__ are the conceptual entities you create using the API, such as vertex buffers (VBOs), vertex arrays (VAOs), shaders, programs, textures and framebuffers. OpenGL has commands to create, bind and delete each of the different types of objects. Note that the objects you create are only valid with the context that was active when you created them!
 
 OpenGL commands that operate on OpenGL objects require those objects to be _bound_. For example when you call `glDrawElements()` you don't pass the program, the target framebuffer or the vertex or index buffer IDs to the function, it just operates on whichever program, framebuffer and vertex buffers are currently bound (through the `glUseProgram()`, `glBindFramebuffer()` and `glBindBuffer()` commands.) Many people feel this is a confusing and error-prone way to do things; it means that if you call some library or function that uses OpenGL there is no way to determine whether it has modified the current context in any way, so you have to re-bind all your stuff. It's unfortunate but that's the API we are stuck with :(
+
+_Note:_ it is interesting to note that the `glCreate`-type functions don't actually create or allocate anything! They give you back a free handle, but that handle isn't actually allocated until it is bound. This means that technically you're free to keep track of these IDs yourself and allocate them according to whatever scheme you most desire, though I'm not sure why you'd do that.
 
 ### OpenGL context
 _Here I'll describe the concepts involved in creating and using OpenGL contexts. For a more tutorial-type approach have a look at [this guide](https://open.gl/context) that shows how to use several different popular context management libraries._
@@ -246,6 +273,8 @@ _To set uniform values in a structure_: you essentially treat the variable as if
 
 _To set uniform values in an array_: you access the specific array element using standard C syntax. If the shader contains the code `float xs[10];` you can get the location of a particluar element of `xs` with `auto u_xs = glGetUniformLocation(my_program, "xs[0]")`. You can use this uniform location to either set a single element using `glUniform*()` or set a number of the elements using `glUniform*v()`.
 
+_Note:_ that you cannot apply offsets to the returned uniform location to access specific array elements - in the above example, I cannot call `glUniform1f(u_xs + 2, 1.)` as that could be the location of a totally different uniform. In this case you would either have to find the location of the element you want to access directly (in this case `glGetUniformLocation(my_program, "xs[2]")`) or set multiple elements (using `glUniform*v()`) in the array starting from the index we retrieved.
+
 ##### Sending vertex attribute data to the GPU
 An _attribute_ represents data related to the current vertex being processed. You specify where the GPU can find vertex data by calling the `glVertexAttribPointer*` functions for each vertex attribute in your vertex shader. This process is _very_ different to specifying uniforms!
 
@@ -265,9 +294,28 @@ glEnableVertexAttribArray(position_loc);
 glDrawArrays(GL_TRIANGLES, 0, 4); // draw verts 0..4 as triangles
 glDisableVertexAttribArray(position_loc);
 ```
-The above code snippet illustrates how to passing a raw pointer to your vertex data to the GPU. This is not the usual case, because quite often your buffered data will contain more than one attribute's worth of information (such as normals, vertex colours etc.) Usually you will create a __vertex buffer object__ (VBO) and use `glVertexAttribPointer()` to dictate how the GPU should extract the vertex info from that.
+The above code snippet illustrates how to passing a raw pointer to your vertex data to the GPU. This is not the usual case, because quite often your buffered data will interleave more than one attribute's worth of information (such as normals, vertex colours etc.) Usually you will create a __vertex buffer object__ (VBO) and use `glVertexAttribPointer()` to dictate how the GPU should extract the vertex info from that.
 
-_vertex buffer objects_ are created, bound and destroyed like any other OpenGL object. You specify the data to buffer by calling the `glBindBuffer()` command with a pointer to the buffer. While this buffer is bound, any calls to `glVertexAttribPointer()` with a null pointer in the final parameter will implicitly be referring to the bound buffer.
+_vertex buffer objects_ are created, bound and destroyed like any other OpenGL object. You specify the data to buffer by calling the `glBindBuffer()` command with a pointer to the buffer. While this buffer is bound, any calls to `glVertexAttribPointer()` with a non-pointer in the final parameter will implicitly be referring to the bound buffer, using the final parameter instead as an offset into the buffer where the data may be found. This is necessary for interleaving vertex data in the same buffer.
+
+Having a single buffer with different types of vertex information interleaved is very common. Your two tools for describing how this buffer data is formatted are the above-mentioned _offset_ parameter and the _stride_ parameter. While the _offset_ describes the starting byte of an attribute in the buffer, the _stride_ describes the total distance (in bytes!) between the start of that attribute and the start of the next instance of that attribute. A stride of `0` is considered special - it is used if the attribute is 'tightly packed', meaning the buffer contains only that attribute with no space between them. 
+
+This is best illustrated with an example:
+``` c++ specifying attributes in an interleaved buffer
+    float positions_and_colours_buffer[] = {
+      -1., 0.,   1., 0., 0.,   // x, y,   r, g, b
+      -1., -1.,  0., 1., 0.,   // x, y,   r, g, b
+      // ...
+    };
+    glBindBuffer(GL_ARRAY_BUFFER, positions_and_colours_buffer);
+
+    auto position_offset = 0U;  // positions start 0 bytes in
+    auto colour_offset = 2 * sizeof(GLfloat); // normals start 8 bytes in
+    int stride = 5 * sizeof(GLfloat);  // each vertex is total 10 bytes
+
+    glVertexAttribPointer(position_loc, 3, GL_FLOAT, false, stride, (void*)position_offset);  
+    glVertexAtrirbPointer(colour_loc, 3, GL_FLOAT, false, stride, (void*)colour_offset);
+```
 
 _Note_: in OpenGL 3.0 and above you will want to use __vertex array objects__ (VAOs) to speed up your rendering process. A _VAO_ offers you shorthand for binding vertex bufffers and the related vertex attributes for those buffers. This means that `glBindVertexArray()` can replace a number of `glBindBuffer()` and `glEnableVertexAttribArray()` commands.
 
@@ -528,6 +576,8 @@ Here's a quick summary of what I understand of the different OpenGL versions:
   - WebGL is based on OpenGL ES 2.0
   - [Google ANGLE project](https://code.google.com/p/angleproject/) provides OpenGL ES 2.0 support on Windows (wraps DirectX API)
 - OpenGL ES 3.0 full subset of OpenGL 4.3
+  - GLSL ES 3.0 based on GLSL 3.3
+  - similar to OpenGL 3 but without geometry shaders
   - supported by modern iOS and Android devices
   - [experimental support](https://code.google.com/p/angleproject/wiki/Update20150105) in Google ANGLE project
 
@@ -541,22 +591,6 @@ Here's a quick summary of what I understand of the different OpenGL versions:
 - http://arstechnica.com/gadgets/2015/03/khronos-unveils-vulkan-opengl-built-for-modern-systems/
 
 I have chosen to do most of my experimentation in OpenGL ES 2. This should give me the broadest platform availability as well as being compatible with WebGL for web demonstrations. I have resorted to using a few extensions that are supported on the platforms I use where necessary (e.g., to get anti aliasing), though I try to avoid this where possible.
-
-## Getting Started
-I have created a [simple GL application on GitHub](https://github.com/seshbot/new-gl-app) that I intended to be used as a starting point for OpenGL ES 2 experimentation. It should work on Windows, Linux and OSX, and the only external dependency should be CMake which is pretty easy to install. Then, hopefully, getting it running is a matter of (depending on your platform of choice):
-
-``` bash
-git clone https://github.com/seshbot/new-gl-app
-cd new-gl-app
-mkdir build && cd build
-cmake ..
-
-./glapp
-```
-
-My sample app uses [GLFW](http://www.glfw.org/) for context management, [GLM](http://glm.g-truc.net/) for vector and matrix implementations and [GLEW](http://glew.sourceforge.net/) for extension management. On Windows it also uses Google's [ANGLE project](https://code.google.com/p/angleproject/) to ensure OpenGL ES 2 is available even if Windows only provides an OpenGL 1 implementation. Unfortunately ANGLE doesn't work with extension loaders so you'll have to read [ANGLE's extension support page](https://code.google.com/p/angleproject/wiki/ExtensionSupport) to know which extensions you have access to. 
-
-Alternatively you could try copying [my sample GL HTML page](/assets/2015-05-13-gl1.html) and copy the [webgl-utils.js](/assets/js/webgl-utils.js) file into a subdirectory called 'js' under that. Run the HTML file in your browser and you'll have a WebGL app!
 
 ### Challenges you will face
  - Having to learn support libraries in addition to the OpenGL API
@@ -583,7 +617,11 @@ Finally, if you're into WebGL you should check out Gregg Tavares' [WebGL Fundame
 As I mentioned before though, you can easily try reading the specs yourself. Google is your friend here - search for the specific version + 'spec' and it will [usually be the first hit](https://www.google.com.au/search?q=opengl+3+spec).
 
 ### Debugging
-There are [many different OpenGL debugging tools](https://www.opengl.org/wiki/Debugging_Tools) on different platforms and they are all generally pretty bad. I haven't spent a lot of time with any of them so please tell me if you find a good one! If you're on OSX you can give the [OpenGL Profiler](https://developer.apple.com/library/mac/documentation/GraphicsImaging/Conceptual/OpenGLProfilerUserGuide/Introduction/Introduction.html) a go - it allows you to set breakpoints on certain GL calls, look at frame buffers (though I found this difficult to do) and much more.
+There are [many different OpenGL debugging tools](https://www.opengl.org/wiki/Debugging_Tools) on different platforms and they are all generally pretty bad. I haven't spent a lot of time with any of them so please tell me if you find a good one!
+
+If you're on OSX you can give the [OpenGL Profiler](https://developer.apple.com/library/mac/documentation/GraphicsImaging/Conceptual/OpenGLProfilerUserGuide/Introduction/Introduction.html) a go - it allows you to set breakpoints on certain GL calls, look at frame buffers (though I found this difficult to do) and much more.
+
+Windows users should check out [RenderDoc](https://github.com/baldurk/renderdoc), which allows you to track API calls, view render buffers and a lot of other stuff, for both OpenGL and DirectX. You can also invoke the DLL directly to dump various information from within your application. I haven't used it myself though so I won't go on further.
 
 It's also a great idea to have some macros that optionally call `glGetError()` after every OpenGL call you make so you can easily track down where things begin to go awry. Unfortunately though querying the context can be fairly expensive so you should make it easy to disable this macro when things are not going awry.
 
@@ -625,40 +663,27 @@ Then you just wrap all your function calls like so: `GL_VERIFY(glDrawElements(..
 ### Upcoming
 Now that I've gotten all the basic stuff out of the way I'd like to go into a bunch of other more advanced things that I thought wasn't particularly easy to get help with. In no particular order:
 
-Pros and cons of writing an OpenGL wrapper library ([my glpp library](https://github.com/seshbot/glpp))
-
-Building and using Google's ANGLE library
-
-Using OpenGL for 2D:
-
-- setting up the GL context (depth buffer)
-- basic 2D coords
-- drawing primitives
-- simple texture
-- using orthographic projection with 2D
-
-Using OpenGL for 3D:
-
-- setting up the GL context (blending, face culling)
-- 3d coordinate system (plus MVP, normal matrix)
-- drawing primitives
-- perspective projection and the frustum
-
-3D lighting
-
-3D shadows
-
-Texturing (textures, texture unit and samplers), sampling, blending, alpha discard, stencil testing, [glTexStorage](http://stackoverflow.com/questions/9224300/what-does-gltexstorage-do)
-
-Multi pass rendering (using FrameBuffers):
-
-- Render scene -> FBO -> texture colour buffer -> screen rectangle -> post effect frag shader -> screen
-- Post processing (HSV and gamma correction)
-
-Loading models and animations (using assimp)
-
-Rendering text (using stb)
-
-Using Qt/QML with OpenGL
-
-Object Picking in a 3D scene
+- Pros and cons of writing an OpenGL wrapper library ([my glpp library](https://github.com/seshbot/glpp))
+- Building and using Google's ANGLE library
+- Using OpenGL for 2D:
+  - setting up the GL context (depth buffer)
+  - basic 2D coords
+  - drawing primitives
+  - simple texture
+  - using orthographic projection with 2D
+- Using OpenGL for 3D:
+  - setting up the GL context (blending, face culling)
+  - 3d coordinate system (plus MVP, normal matrix)
+  - drawing primitives
+  - perspective projection and the frustum
+- 3D lighting
+- 3D shadows
+- Particle systems
+- Texturing (textures, texture unit and samplers), sampling, blending, alpha discard, stencil testing, [glTexStorage](http://stackoverflow.com/questions/9224300/what-does-gltexstorage-do)
+- Multi pass rendering (using FrameBuffers):
+  - Render scene -> FBO -> texture colour buffer -> screen rectangle -> post effect frag shader -> screen
+  - Post processing (HSV and gamma correction)
+- Loading models and animations (using assimp)
+- Rendering text (using stb)
+- Using Qt/QML with OpenGL
+- Object Picking in a 3D scene
