@@ -169,7 +169,7 @@ So why would you even consider it?! Why would you write a series of articles on 
 <p>I generally depend on four libraries. Although technically you could get away without any supporting libraries, these save a lot of time and effort. The libraries are:</p>
 
 <ul>
-<li>Google&rsquo;s <a href="https://code.google.com/p/angleproject/">ANGLE project</a> provides an OpenGL ES 2.0 (soon 3.0) driver on Windows that wraps DirectX. This is useful so you don&rsquo;t have to depend on the user downloading the OpenGL drivers for their graphics card on Windows.</li>
+<li>Google&rsquo;s <a href="https://code.google.com/p/angleproject/">ANGLE project</a> provides an OpenGL ES 2.0 (soon 3.0) driver library for Windows that wraps Direct3D. This is useful so you don&rsquo;t have to depend on the user downloading the OpenGL drivers for their graphics card on Windows.</li>
 <li><a href="glfw.org">GLFW</a> to create a window and otherwise interact with the OS and other devices. Many people prefer <a href="https://www.libsdl.org/">SDL2</a> or <a href="https://www.opengl.org/resources/libraries/glut/">GLUT</a>. Alternatively you could use the standard low-level supporting libraries supported by your operating system &ndash; WGL, GLX or EGL.</li>
 <li><a href="glm.g-truc.net">GLM</a> is a widely used vector and matrix library. It&rsquo;s particularly nice because it mirrors GLSL standard types and operations as much as possible, so hopefully there&rsquo;s some learning synergies there. I have tried using <a href="http://eigen.tuxfamily.org/">Eigen</a> which is more of a general linear algebra library focusing on performance, but it has a lot of limitations on how you can use (passing or storing types by value is complicated) it because it uses low-level processor vector operations under the covers. Of course you could always write your own matrix classes, but it&rsquo;s a pretty big task.</li>
 <li><a href="http://glew.sourceforge.net/">GLEW</a> is a commonly used extension loader. Unfortunately extension loaders in general don&rsquo;t seem to work with ANGLE so I haven&rsquo;t used it much. <a href="https://github.com/hpicgs/glbinding">glbinding</a> and <a href="https://bitbucket.org/alfonse/glloadgen/wiki/Home">glLoadGen</a> are both code generators that create loaders for specific target versions of OpenGL. These don&rsquo;t seem to be able to target OpenGL ES versions however.</li>
@@ -221,9 +221,11 @@ So why would you even consider it?! Why would you write a series of articles on 
 
 <p><em>Here I&rsquo;ll describe the concepts involved in creating and using OpenGL contexts. For a more tutorial-type approach have a look at <a href="https://open.gl/context">this guide</a> that shows how to use several different popular context management libraries.</em></p>
 
-<p>The <strong>context</strong> encapsulates the rendering view, its rendering settings and which OpenGL <em>objects</em> are currently active (such as which shader will be used to render). When starting your application you will need to create a context and set the capabilities you want the driver will use while rendering, such as whether the renderer will perform depth testing, how the renderer will blend fragments into final pixel colours and what part of the window to render into (the viewport). Contexts are not thread-safe (unfortunately!) and are essentially global in scope (even more unfortunately!) and are the cause of most of the grief people have with OpenGL.</p>
+<p>The <strong>context</strong> encapsulates the rendering view, its rendering settings and which OpenGL <em>objects</em> are currently active (such as which shader will be invoked during rendering). When starting your application you will need to create a context and set the capabilities you want the driver will use while rendering, such as whether the renderer will perform scissor, stencil, depth or alpha testing, how the renderer will blend fragments into final pixel colours and what part of the window to render into (the viewport). Contexts are not thread-safe (unfortunately!) and are essentially global in scope (even more unfortunately!) and are the cause of most of the grief people have with OpenGL.</p>
 
-<p>You should avoid querying the state of the context too much if possible (get information about bound objects, or even constantly querying error state) &ndash; it is apparently quite slow. You should also avoid accessing context from multiple different threads. I believe you are supposed to create separate contexts, along with totally separate OpenGL objects, in each thread you wish to render from.</p>
+<p>You should avoid querying the state of the context too much if possible (i.e., querying information about bound objects, or even constantly querying error state) &ndash; it is apparently quite slow. You should also avoid accessing context from multiple different threads. I believe you are supposed to create separate contexts in each thread you wish to render from, or more preferably not render from multiple threads at all.</p>
+
+<p>It is also possible to create a <em>shared context</em> where objects created on one context are available in another. This can be tricky so proceed with caution &ndash; for example, according to the spec shared contexts may not share framebuffer objects for some reason. I found that out <a href="https://code.google.com/p/angleproject/issues/detail?id=979">the hard way</a>.</p>
 
 <p>Unfortunately the creation of an OpenGL context is not defined by the OpenGL spec. If you want to create one you&rsquo;ll either have to look up how to do this on your platform of choice (for example Windows provides WGL, while <a href="http://www.geeks3d.com/20121109/overview-of-opengl-support-on-os-x/">OSX</a> and Linux systems use GLX) or use another third-party library that does this for you (I like GLFW, but SDL2 is very popular, and some people still use the older GLUT.) These libraries often give you access to keyboard and mouse input as well as various other utilities you might need when making your app (such as buffer swapping, text, audio and the like.)</p>
 
@@ -283,6 +285,8 @@ So why would you even consider it?! Why would you write a series of articles on 
 <span class='line-number'>52</span>
 <span class='line-number'>53</span>
 <span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
 </pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="cp">#include &lt;GLFW/glfw3.h&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">static</span> <span class="kt">void</span> <span class="n">key_callback</span><span class="p">(</span><span class="n">GLFWwindow</span><span class="o">*</span> <span class="n">window</span><span class="p">,</span> <span class="kt">int</span> <span class="n">key</span><span class="p">,</span> <span class="kt">int</span> <span class="n">scancode</span><span class="p">,</span> <span class="kt">int</span> <span class="n">action</span><span class="p">,</span> <span class="kt">int</span> <span class="n">mods</span><span class="p">)</span> <span class="p">{</span>
@@ -306,26 +310,28 @@ So why would you even consider it?! Why would you write a series of articles on 
 </span><span class='line'>  <span class="c1">// tell GLFW to notify us when keys are pressed (esc will exit)</span>
 </span><span class='line'>  <span class="n">glfwSetKeyCallback</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">key_callback</span><span class="p">);</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="c1">// configure the context capabilities</span>
+</span><span class='line'>  <span class="c1">/////</span>
+</span><span class='line'>  <span class="c1">// OpenGL configure context capabilities</span>
 </span><span class='line'>  <span class="n">glClearColor</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">);</span>
 </span><span class='line'>  <span class="n">glEnable</span><span class="p">(</span><span class="n">GL_DEPTH_TEST</span><span class="p">);</span>
 </span><span class='line'>  <span class="n">glEnable</span><span class="p">(</span><span class="n">GL_BLEND</span><span class="p">);</span>
 </span><span class='line'>  <span class="n">glBlendFunc</span><span class="p">(</span><span class="n">GL_SRC_ALPHA</span><span class="p">,</span> <span class="n">GL_ONE_MINUS_SRC_ALPHA</span><span class="p">);</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="c1">// TODO: create OpenGL objects (shader programs, vertex buffers, etc) here</span>
+</span><span class='line'>  <span class="c1">///</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="c1">// main loop</span>
 </span><span class='line'>  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">glfwWindowShouldClose</span><span class="p">(</span><span class="n">window</span><span class="p">))</span> <span class="p">{</span>
 </span><span class='line'>    <span class="kt">int</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">;</span>
 </span><span class='line'>    <span class="n">glfwGetFramebufferSize</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">width</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">height</span><span class="p">);</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="c1">// viewport takes up whole window client area</span>
+</span><span class='line'>    <span class="c1">/////</span>
+</span><span class='line'>    <span class="c1">// OpenGL render</span>
 </span><span class='line'>    <span class="n">glViewport</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// clear the viewport to red</span>
 </span><span class='line'>    <span class="n">glClear</span><span class="p">(</span><span class="n">GL_COLOR_BUFFER_BIT</span><span class="p">);</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="c1">// TODO: draw your primitives here!</span>
+</span><span class='line'>    <span class="c1">///</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="n">glfwSwapBuffers</span><span class="p">(</span><span class="n">window</span><span class="p">);</span>
 </span><span class='line'>  <span class="p">}</span>
@@ -377,7 +383,7 @@ So why would you even consider it?! Why would you write a series of articles on 
 
 <h3>Shaders and the render pipeline</h3>
 
-<p>Every time you call an OpenGL draw operation (the <code>glDrawArrays()</code> or <code>glDrawElements()</code> commands) you invoke the entire render pipeline. This is when the GPU passes the verticies in your primitives to your vertex shader, clips the resulting coordinates, generates triangles from the vertices, rasterises them into fragments, passes those fragments to your fragment shader then blends and otherwise processes those fragments into pixels on your screen (or some other framebuffer.)</p>
+<p>Every time you call an OpenGL draw operation (the <code>glDrawArrays()</code> or <code>glDrawElements()</code> commands) you invoke the entire render pipeline. This is when the GPU passes the verticies in your primitives to your vertex shader, clips the resulting coordinates, generates triangles from the vertices, rasterises them into fragments, passes those fragments to your fragment shader then tests visibility, blends and dithers those fragments into pixels on your screen (or some other framebuffer.)</p>
 
 <p>The difference between <code>glDrawArrays()</code> and <code>glDrawElements()</code> is in how the GPU knows which vertices to use when transforming your vertices into triangles. <code>glDrawArrays()</code> is simpler in that it builds triangles using the vertices in their given order &ndash; in a GL_TRIANGLES primitive, triangle T0 will be built from vertices V0, V1 and V2, triangle T1 built from V3, V4, V5 and so on.</p>
 
@@ -389,7 +395,9 @@ So why would you even consider it?! Why would you write a series of articles on 
 
 <p>To draw a primitive, the GPU first needs your <em>vertex data</em>. The GPU will decode your vertex data to extract <em>vertex attributes</em> and pass those into your <em>vertex shader</em> once for each vertex. Your vertex shader is expected to output clip coordinates for that vertex so the GPU knows where on the screen to show it (if at all,) and information that the GPU should pass on to your fragment shader for fragments derived from this vertex.</p>
 
-<p>Once the GPU has processed all vertices the GPU can clip the vertices to within the NDC area only, it transform those vertices into triangles and then <em>rasterises</em> the triangles into fragments which sort-of represent the pixels of the primitive being drawn. The GPU will then call your <em>fragment shader</em> for each fragment, passing it the relevant output data of your <em>vertex shader</em>.</p>
+<p>Once the GPU has processed all vertices the GPU can clip the vertices to within the NDC area only, it transforms those vertices into triangles and then <em>rasterises</em> the triangles into fragments which sort-of represent the pixels of the primitive being drawn. The GPU will then call your <em>fragment shader</em> for each fragment, passing it the relevant output data of your <em>vertex shader</em>. Your fragment shader is expected to output a colour and optionally a new depth-value for the fragment.</p>
+
+<p>The GPU then processes, blends and dithers the fragments to the output framebuffer, as described under <em>how the GPU writes fragments to the framebuffer</em> a few pages down.</p>
 
 <p>You invoke the rendering pipeline by calling either the <code>glDrawArrays()</code> or <code>glDrawElements()</code> commands (or one of their variations.) Unless you&rsquo;re using the fixed function pipeline you&rsquo;ll have to have a shader program bound so the GPU knows which vertex shader and fragment shader to invoke. You will also have to specify the vertex data (the vertex positions and perhaps other information such as the vertex normals and colours) of the primitive you are rendering. The &lsquo;basic shader program&rsquo; a few pages down shows one way to do both of these things.</p>
 
@@ -573,6 +581,8 @@ So why would you even consider it?! Why would you write a series of articles on 
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><em>Note:</em> GLSL (the shader language) allows the specification of <em>precision</em> for floating-point values, including all <code>vec</code> and <code>mat</code> types. Some versions of GLSL (at least GLSL ES) <em>require</em> variable precisions to be specified in all declarations and parameter lists (I have omitted these for brevity in my examples.) Valid precision values are <code>lowp</code>, <code>mediump</code> and <code>highp</code>. In general <code>mediump</code> is what you want, although for colours you can use <code>lowp</code> without any problems.</p>
+
 <h4>The Fragment Shader</h4>
 
 <p>The fragment shader captures all the logic required to determine the colour of a fragment. This might be as simple as just returning a uniform RGBA value or might involve complex 3D shading calculations incorporating a number of light sources and shadow maps. I will explore the 3D stuff in a later article.</p>
@@ -606,9 +616,9 @@ So why would you even consider it?! Why would you write a series of articles on 
 
 <p>In this context the <em>framebuffer</em> is the rendering target, which is usually either the viewport or a texture. (Framebuffers are also used for other purposes such as combining multiple rendering passes that I will go into in a later article.) When the GPU has collected all the fragments it is going to render, it goes through a series of per-fragment operations to determine what gets written to the framebuffer.</p>
 
-<p>First the GPU checks to ensure this bit of the viewport is actually owned by this framebuffer, because is possible to have one viewport obscuring another. Next the fragment is tested against the scissor test region if it was enabled in the context. Then multisampling (anti-aliasing) is performed if enabled. Then the GPU checks the appropriate user-defined context settings to perform the stencil test, the depth test and the blending operation (all of which are performed against what is read from the framebuffer before the render operation began.) The resultant fragment is finally written to the framebuffer.</p>
+<p>First the GPU checks to ensure this bit of the viewport is actually owned by this framebuffer, because is possible to have one viewport obscuring another. Next the fragment is tested against the scissor test region, the stencil buffer, then the depth buffer, if those capabilities are enabled in current context. If a fragment fails one of these tests it is discarded. Then the GPU performs a blending operation if enabled on the context, blending the fragment against what is read from the framebuffer before the render operation began. The resultant fragment is finally written to the framebuffer. Furthermore, if the framebuffer has <em>multisampling</em> enabled (for anti-aliasing) it may merge multiple fragment colours (or <em>samples</em> as they are called now) into a single pixel.</p>
 
-<h4>Basic shader example</h4>
+<h4>Basic shader program example</h4>
 
 <p>The partial application code below shows a basic vertex shader, fragment shader being invoked to render a square in the middle of the window.</p>
 
@@ -753,7 +763,7 @@ So why would you even consider it?! Why would you write a series of articles on 
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>This should look something like the below:</p>
+<p>This should look something like this:</p>
 
 <center>
   <iframe src="/assets/2015-05-13-gl1.html" width="320" height="200" scrolling="no" style="border: 2px solid black; -moz-box-shadow: black 2px 2px 2px;"></iframe>
@@ -964,7 +974,7 @@ So why would you even consider it?! Why would you write a series of articles on 
 </ul>
 
 
-<h3>Documentation</h3>
+<h3>Documentation and tutorials</h3>
 
 <p>As I mentioned there&rsquo;s not a lot of great documentation out there. I started to create <a href="http://cechner.github.io/">my own responsive OpenGL documentation</a> and then discovered that there&rsquo;s already a pretty sweet one out there called <a href="http://docs.gl/">docs.gl</a>. Docs.gl is great because it makes it clear which commands are supported in which versions of OpenGL &ndash; something that&rsquo;s hard to figure out from the more official sources.</p>
 
@@ -1054,6 +1064,8 @@ So why would you even consider it?! Why would you write a series of articles on 
 
 
 <p>Then you just wrap all your function calls like so: <code>GL_VERIFY(glDrawElements(...))</code>. If you want to just check for errors at a particular point in your code, just call <code>GL_CHECK()</code>.</p>
+
+<p>One final interesting note about debugging OpenGL: If you are using a Google&rsquo;s ANGLE OpenGL driver that you compiled yourself you can step into it, so if you start getting vague sounding errors like <code>GL_INVALID_FRAMEBUFFER_OPERATION</code> but want to know specifically what the problem is, you can step into the ANGLE DLLs yourself to see which part of their validation fails. It&rsquo;s like running a own fully-compliant validation layer in your own client code.</p>
 
 <h3>Upcoming</h3>
 
