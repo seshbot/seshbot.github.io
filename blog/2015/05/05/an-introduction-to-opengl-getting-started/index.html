@@ -803,15 +803,15 @@ So why would you even consider it?! Why would you write a series of articles on 
 
 <p>Another generally useful matrix operation is the <em>inverse</em> of a matrix. The inverse of a matrix A is the matrix required to multiply with A so that the result is the identity matrix. In other words, <code>Ai * A = I</code>. This is useful when rolling back a matrix multiplication. If you have the <em>model view projection</em> matrix <code>mat4 mvp = proj * view * model</code>, you can find the <em>model view</em> matrix by calculating the inverse projection <em>inv_proj</em> and calculating: <code>mat4 mv = inv_proj * mvp</code>.</p>
 
-<p>Vector operations are even more interesting. A few things I want to point out here are <em>dot product</em>, <em>cross product</em> and the difference between <em>positional coordinates</em> and <em>directional coordinates</em>.</p>
+<p>Vector operations are even more interesting. A few things I want to point out here are <em>dot product</em> and <em>cross product</em>.</p>
 
 <p>The <strong>dot product</strong> operation (sometimes known as the <em>inner product</em>) is used for many purposes; the dot product of two vectors A and B is a scalar (not a vector) number that is the sum of the products of their components (e.g., <code>float a_dot_b = A.x * B.x + A.y * B.y + A.z * B.z</code>). It turns out that this simple formula gives you the cosine of the angle between those vectors multiplied by their magnitudes (<code>|A||B|cos(Ɵ)</code>), which is really useful because:</p>
 
 <ul>
-<li>if the vectors are unit vectors (they each have magnitude of 1) the dot product will just give you <code>cos(Ɵ)</code> which is a number between 0 and 1, where 0 implies that they are perpendicular to each other (at 90 degrees) and 1 implies they are parallel. This is great for calculating how much light should bounce off a surface if the light direction is one vector and the surface normal is the other.</li>
+<li>if the vectors are unit vectors (they each have magnitude of 1) the dot product will just give you <code>cos(Ɵ)</code> which is a number between 0 and 1, where 0 implies that they are perpendicular to each other (at 90 degrees) and 1 implies they are parallel. This is great for calculating how much light should bounce off a surface if the light direction is one vector and the surface normal is the other. This is also known as the <em>lambertian coefficient</em>, which I&rsquo;ll discuss in a later article on lighting.</li>
 <li>if the vectors are both unit vectors you can inverse cos the dot product to find the angle between the vectors (<code>float angle = acos(dot(A, B))</code>)</li>
 <li>you can find the projection of vector A onto vector B by finding the dot product of A and B then dividing the result by the length of A.</li>
-<li>calculating the dot product of a vector with itself will give you the distance squared. If you are checking to see which vector is longer, you can just compare their squared distances (saving you a square root operation)</li>
+<li>calculating the dot product of a vector with itself will give you the distance squared, because <code>cos(0) == 1</code>, so the formula becomes <code>|A||A|</code>. If you are checking to see which vector is longer, you can just compare their squared distances instead of their actual distances (saving you two square root operations.)</li>
 </ul>
 
 
@@ -823,7 +823,7 @@ So why would you even consider it?! Why would you write a series of articles on 
 
 <p>A constant frustration when reading documentation and code examples is that OpenGL 1.0 is <em>worlds apart</em> from OpenGL 2.0. Many of us would have been well served if they had given it a totally different name, so different are the products!</p>
 
-<p><strong>OpenGL 1</strong> functions in what is now called <em>immediate mode</em> and is considered deprecated. In this version the programmer describes the scene lights, materials and fog, then notifies the driver of each polygon explicitly. The driver would then render the scene using its own internal lighting model using the described lights and materials. This is called the <em>fixed function pipeline</em>.</p>
+<p><strong>OpenGL 1</strong> functions in what is now called <em>immediate mode</em> and is considered deprecated. In this version the programmer describes the scene lights, materials and fog, then notifies the driver of each vertex in each primitive explicitly. The driver would then render the scene using its own internal lighting model using the described lights and materials. This is called the <em>fixed function pipeline</em>.</p>
 
 <figure class='code'><figcaption><span>OpenGL 1 example code snippet</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -862,7 +862,7 @@ So why would you even consider it?! Why would you write a series of articles on 
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p><strong>OpenGL 2</strong> introduced shaders, yet still provided compatability with the above described model. Shaders had access to the state declared in the fixed function pipeline through standard global variables (such as the <code>gl_LightSource[]</code> array and the <code>gl_FrontMaterial</code> variable sent from the client and the <code>gl_ModelViewProjection</code> matrix which was generated by the driver.) The vertex shader can invoke the standard fixed-function pipeline functionality by callling <code>gl_Position = ftransform();</code>.</p>
+<p><strong>OpenGL 2</strong> introduced shaders, yet still provided compatability with the above described fixed function pipeline. Shaders had access to the state declared in the fixed function pipeline through standard global variables (such as the <code>gl_LightSource[]</code> array and the <code>gl_FrontMaterial</code> variable sent from the client and the <code>gl_ModelViewProjection</code> matrix which was generated by the driver.) The vertex shader can invoke the standard fixed-function pipeline functionality by callling <code>gl_Position = ftransform();</code></p>
 
 <p><strong>OpenGL 3</strong> completely deprecated the immediate mode fixed-function pipeline. Of course this introduced backwards-compatability issues so they also introduced several <em>profiles</em> to allow backward compatability to be optionally compiled in. The <em>compatability profile</em> can be requested to enable deprecated features, while the <em>core profile</em> disallows the use of these features.</p>
 
@@ -909,8 +909,8 @@ So why would you even consider it?! Why would you write a series of articles on 
 <li>deprecated most 1.0 functionality (immediate mode stuff) introducing compatability and core modes
 
 <ul>
-<li>compatability mode gives access to the old fixed function pipeline</li>
-<li>core mode does not</li>
+<li>compatability profile gives access to the old fixed function pipeline</li>
+<li>core profile does not</li>
 </ul>
 </li>
 </ul>
@@ -988,9 +988,9 @@ So why would you even consider it?! Why would you write a series of articles on 
 
 <h3>Documentation and tutorials</h3>
 
-<p>As I mentioned there&rsquo;s not a lot of great documentation out there. I started to create <a href="http://cechner.github.io/">my own responsive OpenGL documentation</a> and then discovered that there&rsquo;s already a pretty sweet one out there called <a href="http://docs.gl/">docs.gl</a>. Docs.gl is great because it makes it clear which commands are supported in which versions of OpenGL &ndash; something that&rsquo;s hard to figure out from the more official sources.</p>
+<p>As I mentioned there&rsquo;s not a lot of great documentation out there. I started to create <a href="http://cechner.github.io/">my own responsive OpenGL documentation</a> and then discovered that there&rsquo;s already a pretty sweet one out there called <a href="http://docs.gl/">docs.gl</a>. I like docs.gl because it makes clear which commands are supported in which versions of OpenGL &ndash; something that&rsquo;s hard to figure out from the more official sources.</p>
 
-<p>A great beginner tutorial is <a href="http://open.gl/">open.gl</a> &ndash; it&rsquo;s modern, minimalistic and well written. A very similar-seeming tutorial series that goes into more advanced techniques is <a href="http://learnopengl.com/">Learn OpenGL</a>. There used to be a fantastic series called the ArcSynthesis tutorials but they seem to have died. There is a <a href="http://www.pdfiles.com/pdf/files/English/Designing_&amp;_Graphics/Learning_Modern_3D_Graphics_Programming.pdf">PDF version of their content</a> that seems pretty good though.</p>
+<p><a href="http://open.gl/">open.gl</a> is a modern, minimalistic and well written set of beginners tutorials. A very similar-seeming tutorial series that goes into more advanced techniques is <a href="http://learnopengl.com/">Learn OpenGL</a>. There used to be a fantastic series called the ArcSynthesis tutorials but they seem to have died. There is a <a href="http://www.pdfiles.com/pdf/files/English/Designing_&amp;_Graphics/Learning_Modern_3D_Graphics_Programming.pdf">PDF version of their content</a> that seems pretty good though.</p>
 
 <p><a href="http://ogldev.atspace.co.uk/index.html">OGLdev</a> is a series of tutorials that go into more depth than the open.gl site above, and is in bite-sized chunks for easier consumption.</p>
 
