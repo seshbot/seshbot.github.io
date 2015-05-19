@@ -4,7 +4,7 @@
   <title><![CDATA[Category: HowTo | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/howto/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2015-05-19T21:25:38+08:00</updated>
+  <updated>2015-05-19T23:12:42+08:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -18,17 +18,15 @@
     <link href="http://seshbot.com/blog/2015/05/05/an-introduction-to-opengl-getting-started/"/>
     <updated>2015-05-05T15:40:37+08:00</updated>
     <id>http://seshbot.com/blog/2015/05/05/an-introduction-to-opengl-getting-started</id>
-    <content type="html"><![CDATA[<p><em>This article is a culmination of all the little notes I took while learning OpenGL over the last several months. It&rsquo;s mostly stuff that I found difficult to research plus a little summary of the differences between OpenGL versions.</em></p>
+    <content type="html"><![CDATA[<p><em>This article is a culmination of all the little notes I took while learning OpenGL over the last several months. It&rsquo;s mostly stuff that I found difficult to research plus a little summary of the differences between OpenGL versions. What a daunting task!</em></p>
 
-<p><em>What a daunting task!</em></p>
-
-<p><em>If you have any recommendations on how this could be more beginner-friendly please tell me.</em></p>
+<p><em>If you have any recommendations on how this could be more beginner-friendly please tell me, either here or on the <a href="http://www.reddit.com/r/opengl/comments/36h578/an_introduction_to_opengl_getting_started/">Reddit thread</a></em></p>
 
 <p><em>Also thanks <a href="http://greggman.com/">Gregg Tavares</a> for pointing out my various errors!</em></p>
 
 <h2>Things I wish I knew when learning OpenGL</h2>
 
-<p>The most important thing a programmer should know before deciding whether to learn OpenGL is that OpenGL is very low level, poorly documented and extremely crufty. This is because it is an API specification and not a product library per-se. It is up to the many various vendors to implement the API spec as best they can.</p>
+<p>The most important thing a programmer should know before deciding whether to learn OpenGL is that OpenGL is very low level, poorly documented and extremely crufty. This is because it is an API specification and not a product library per-se. It is up to the many vendors to implement the API spec as best they can.</p>
 
 <p>Surround your pullquote like this {" text to be quoted "}</p>
 
@@ -89,7 +87,7 @@
 <ul>
 <li>Google&rsquo;s <a href="https://code.google.com/p/angleproject/">ANGLE project</a> provides an OpenGL ES 2.0 (soon 3.0) driver library for Windows that wraps Direct3D. This is useful so you don&rsquo;t have to depend on the user downloading the OpenGL drivers for their graphics card on Windows.</li>
 <li><a href="glfw.org">GLFW</a> to create a window and otherwise interact with the OS and other devices. Many people prefer <a href="https://www.libsdl.org/">SDL2</a> or <a href="https://www.opengl.org/resources/libraries/glut/">GLUT</a>. Alternatively you could use the standard low-level supporting libraries supported by your operating system &ndash; WGL, GLX or EGL.</li>
-<li><a href="glm.g-truc.net">GLM</a> is a widely used vector and matrix library. It&rsquo;s particularly nice because it mirrors GLSL standard types and operations as much as possible, so hopefully there&rsquo;s some learning synergies there. I have tried using <a href="http://eigen.tuxfamily.org/">Eigen</a> which is more of a general linear algebra library focusing on performance, but it has a lot of limitations on how you can use (passing or storing types by value is complicated) it because it uses low-level processor vector operations under the covers. Of course you could always write your own matrix classes, but it&rsquo;s a pretty big task.</li>
+<li><a href="glm.g-truc.net">GLM</a> is a widely used vector and matrix library. It&rsquo;s particularly nice because it mirrors GLSL standard types and operations as much as possible, so hopefully there&rsquo;s some learning synergies there. I have tried using <a href="http://eigen.tuxfamily.org/">Eigen</a> which is more of a general linear algebra library focusing on performance, but it has a lot of limitations on how you can use (passing or storing types by value is complicated) it because it uses low-level processor vector intrinsics under the covers. Of course you could always write your own matrix classes, but it&rsquo;s a pretty big task.</li>
 <li><a href="http://glew.sourceforge.net/">GLEW</a> is a commonly used extension loader. Unfortunately extension loaders in general don&rsquo;t seem to work with ANGLE so I haven&rsquo;t used it much. <a href="https://github.com/hpicgs/glbinding">glbinding</a> and <a href="https://bitbucket.org/alfonse/glloadgen/wiki/Home">glLoadGen</a> are both code generators that create loaders for specific target versions of OpenGL. These don&rsquo;t seem to be able to target OpenGL ES versions however.</li>
 </ul>
 
@@ -111,9 +109,9 @@ cmake ..</p>
 
 <p><em>Note:</em> I&rsquo;m using OpenGL ES 2 GLSL syntax in my examples because I believe that&rsquo;s probably got the broadest platform support, and is most similar to WebGL. The concepts are the same for later versions, aside from the syntactic differences. As I am focusing on explaining core concepts only OpenGL ES 2 should be fine for my purposes.</p>
 
-<p>Take a moment to read some OpenGL specifications &ndash; they are probably easier to understand than you&rsquo;d think. Here&rsquo;s the <a href="https://www.khronos.org/registry/gles/specs/2.0/es_full_spec_2.0.25.pdf">OpenGL ES 2.0 Spec</a> if you want a definitive source for all this stuff.</p>
+<p>Take a moment to read some OpenGL specifications &ndash; they are probably easier to understand than you&rsquo;d think. Here&rsquo;s the <a href="https://www.khronos.org/registry/gles/specs/2.0/es_full_spec_2.0.25.pdf">OpenGL ES 2.0 Spec</a> if you want a definitive source for all this stuff. If you&rsquo;re into that make sure you look at the related <a href="https://www.opengl.org/registry/doc/GLSLangSpec.4.50.pdf">GLSL</a> or <a href="https://www.khronos.org/files/opengles_shading_language.pdf">GLSL ES</a> specifications as well.</p>
 
-<p>I will probably mention the Khronos Group a lot throughout this article. The <a href="http://khronos.org">Khronos Group</a> is a consortium of companies such as Sun Microsystems, NVidia and Silicon Graphics who work on standardising graphics APIs, including OpenGL. Part of their OpenGL standardisation process is to provide reference interfaces (header files) for each version of the API that vendor implementations should conform to.</p>
+<p>I will probably mention the Khronos Group a lot throughout this article. The <a href="http://khronos.org">Khronos Group</a> is a consortium of companies such as Sun Microsystems, NVIDIA and Silicon Graphics who work on standardising graphics APIs, including OpenGL. Part of their OpenGL standardisation process is to provide reference interfaces (header files) for each version of the API that vendor implementations should conform to.</p>
 
 <p>Here&rsquo;s a bit of a glossary of terms and concepts that are necessary to become familiar with in order to be an effective OpenGL programmer.</p>
 
@@ -279,7 +277,7 @@ Most OpenGL context management libraries are very similar in usage to this.</p>
 
 <h5>Sending uniform data to the GPU</h5>
 
-<p>A <em>uniform</em> represents a variable that remains the same for the rendering of an entire primitive. This might be something like the object material or the position of the sun. The pattern for setting a uniform is to first get a handle to the uniform with <code>glGetUniformLocation(my_program, "my_uniform")</code>. Pass this handle to the <code>glUniform*</code> functions to set the uniform (for example <code>glUniform3f()</code> will set a uniform of type <code>vec3</code> in your shader.) Setting a uniform will make it available in any of the shaders in the bound program that are want to use it.</p>
+<p>A <em>uniform</em> represents a variable that remains the same for the rendering of an entire primitive. This might be something like the object material or the position of the sun. The pattern for setting a uniform is to first get a handle to the uniform with <code>glGetUniformLocation(my_program, "my_uniform")</code>. Pass this handle to the <code>glUniform*</code> functions to set the uniform (for example <code>glUniform3f()</code> will set a uniform of type <code>vec3</code> in your shader.) Setting a uniform will make it available in any of the shaders in the bound program that want to use it.</p>
 
 <p>In the code example a few pages down you can see how the unifrom data is bound and updated:
 <code>c++ uniform updating snippet
@@ -289,7 +287,7 @@ Most OpenGL context management libraries are very similar in usage to this.</p>
 
 <p>Uniforms may also be structures and arrays &ndash; the syntax to declare and use structs and arrays in GLSL (the shader code) is very similar to C, but setting them from the client application is a little tricky.</p>
 
-<p><em>To set uniform values in a structure</em>: you essentially treat the variable as if it is in the namespace of the structure name. E.g., if the shader contains the code <code>struct Point { float x; float y; }; uniform Point p1;</code> you can access <code>p1.x</code> with exactly that syntax: <code>auto u_p1x = glGetUniformLocation(my_program, "p1.x")</code>.</p>
+<p><em>To set uniform values in a structure</em>: you essentially treat the variable as if it is in the namespace of the enclosing structure&rsquo;s variable name. E.g., if the shader contains the code <code>struct Point { float x; float y; }; uniform Point p1;</code> you can access <code>p1.x</code> with exactly that syntax: <code>auto u_p1x = glGetUniformLocation(my_program, "p1.x")</code>.</p>
 
 <p><em>To set uniform values in an array</em>: you access the specific array element using standard C syntax. If the shader contains the code <code>float xs[10];</code> you can get the location of a particluar element of <code>xs</code> with <code>auto u_xs = glGetUniformLocation(my_program, "xs[0]")</code>. You can use this uniform location to either set a single element using <code>glUniform*()</code> or set a number of the elements using <code>glUniform*v()</code>.</p>
 
@@ -297,10 +295,10 @@ Most OpenGL context management libraries are very similar in usage to this.</p>
 
 <h5>Sending vertex attribute data to the GPU</h5>
 
-<p>An <em>attribute</em> represents data related to the current vertex being processed. You specify where the GPU can find vertex data by calling the <code>glVertexAttribPointer*</code> functions for each vertex attribute in your vertex shader. This process is <em>very</em> different to specifying uniforms!</p>
+<p>An <em>attribute</em> represents data related to the current vertex being processed. You specify where the GPU can find vertex data by calling the <code>glVertexAttribPointer()</code> function for each vertex attribute in your vertex shader. This process is <em>very</em> different to specifying uniforms!</p>
 
 <p>The standard form for using a vertex attribute is something like:
-``` c++ setting vertex attribute data
+``` c++ specifying vertex attribute data from a raw pointer
 // &hellip; first bind the appropriate shader</p>
 
 <p>// during initialisation
@@ -317,12 +315,12 @@ glDisableVertexAttribArray(position_loc);
 <code>``
 The above code snippet illustrates how to passing a raw pointer to your vertex data to the GPU. This is not the usual case, because quite often your buffered data will interleave more than one attribute's worth of information (such as normals, vertex colours etc.) Usually you will create a __vertex buffer object__ (VBO) and use</code>glVertexAttribPointer()` to dictate how the GPU should extract the vertex info from that.</p>
 
-<p><em>vertex buffer objects</em> are created, bound and destroyed like any other OpenGL object. You specify the data to buffer by calling the <code>glBindBuffer()</code> command with a pointer to the buffer. While this buffer is bound, any calls to <code>glVertexAttribPointer()</code> with a non-pointer in the final parameter will implicitly be referring to the bound buffer, using the final parameter instead as an offset into the buffer where the data may be found. This is necessary for interleaving vertex data in the same buffer.</p>
+<p><em>vertex buffer objects</em> are created, bound and destroyed like any other OpenGL object. You specify the data to buffer by calling the <code>glBindBuffer()</code> command with a pointer to the buffer. While this buffer is bound, any calls to <code>glVertexAttribPointer()</code> with a non-pointer in the final parameter will implicitly be referring to the bound buffer, using the final parameter instead as an offset into the buffer (in bytes) where the data may be found. This is necessary for interleaving vertex data in the same buffer.</p>
 
 <p>Having a single buffer with different types of vertex information interleaved is very common. Your two tools for describing how this buffer data is formatted are the above-mentioned <em>offset</em> parameter and the <em>stride</em> parameter. While the <em>offset</em> describes the starting byte of an attribute in the buffer, the <em>stride</em> describes the total distance (in bytes!) between the start of that attribute and the start of the next instance of that attribute. A stride of <code>0</code> is considered special &ndash; it is used if the attribute is &lsquo;tightly packed&rsquo;, meaning the buffer contains only that attribute with no space between them.</p>
 
 <p>This is best illustrated with an example:
-``` c++ specifying attributes in an interleaved buffer</p>
+``` c++ specifying vertex attribute data in an interleaved VBO buffer</p>
 
 <pre><code>float positions_and_colours_buffer[] = {
   -1., 0.,   1., 0., 0.,   // x, y,   r, g, b
@@ -360,13 +358,24 @@ glBindVertexArray(my_vao);
 glBindVertexArray(0);</p>
 
 <p>```
-I won&rsquo;t be illustrating those here because I am focusing on OpenGL ES 2.0 for this article.</p>
+I won&rsquo;t be illustrating those further here because I am focusing on OpenGL ES 2.0 for this article.</p>
 
 <h5>Sending per-fragment varyings to the fragment shader</h5>
 
 <p><em>Varyings</em> are per-fragment data the fragment shader uses to calculate the output colour of a fragment. Examples of this might be the normal of the surface at that point, or the material colour interpolated from the material colours of the surrounding vertices. A 3D program will often use this information along with the location of the sun (passed through a uniform) in its lighting calculations &ndash; a fragment on a surface directly facing a light source will have a brighter colour than one not.</p>
 
 <p>The calculation of what value is passed into a varying is a little bit tricky. Fragment shaders get their per-fragment input indirectly from the vertex shaders through variables called <em>varyings</em>. Of course for any three vertices forming a triangle you could have hundreds of fragments, so the GPU takes the varyings coming out of the vertex shader for each vertex influencing a fragment and interpolates them before passing them into the fragment shader.</p>
+
+<p>The following example contains only 3 vertex and colour combinations yet each fragment has a distinct colour interpolated from these vertex colours.</p>
+
+<center>
+  <iframe src="http://seshbot.com/assets/2015-05-13-gl0.html" width="320" height="200" scrolling="no" style="border: 2px solid black; -moz-box-shadow: black 2px 2px 2px;"></iframe>
+  <br/>
+  <a style="clear:both;" href="http://seshbot.com/assets/2015-05-13-gl0.html" target="_blank">click here to open in a separate window</a>
+</center>
+
+
+<p>OpenGL 3 introduced <em>interpolation qualifiers</em> that could be applied to varying variables that affect how this interpolation occurs. The three types of interpolation are <code>flat</code>, <code>smooth</code> and <code>perspective</code> (the default being smooth) &ndash; read more on <a href="http://www.geeks3d.com/20130514/opengl-interpolation-qualifiers-glsl-tutorial/">this tutorial</a>.</p>
 
 <h4>The Vertex Shader</h4>
 
@@ -534,11 +543,11 @@ This should look something like this:</p>
 
 <p>Vector operations are even more interesting. A few things I want to point out here are <em>dot product</em>, <em>cross product</em> and the difference between <em>positional coordinates</em> and <em>directional coordinates</em>.</p>
 
-<p>The <strong>dot product</strong> operation (sometimes known as the <em>inner product</em>) is used for many purposes; the dot product of two vectors A and B is a scalar (not a vector) number that is the sum of the products of their components (e.g., <code>auto a_dot_b = A.x * B.x + A.y * B.y + A.z * B.z</code>). It turns out that this simple formula gives you the cosine of the angle between those vectors multiplied by their magnitudes (<code>|A||B|cos(Ɵ)</code>), which is really useful because:</p>
+<p>The <strong>dot product</strong> operation (sometimes known as the <em>inner product</em>) is used for many purposes; the dot product of two vectors A and B is a scalar (not a vector) number that is the sum of the products of their components (e.g., <code>float a_dot_b = A.x * B.x + A.y * B.y + A.z * B.z</code>). It turns out that this simple formula gives you the cosine of the angle between those vectors multiplied by their magnitudes (<code>|A||B|cos(Ɵ)</code>), which is really useful because:</p>
 
 <ul>
 <li>if the vectors are unit vectors (they each have magnitude of 1) the dot product will just give you <code>cos(Ɵ)</code> which is a number between 0 and 1, where 0 implies that they are perpendicular to each other (at 90 degrees) and 1 implies they are parallel. This is great for calculating how much light should bounce off a surface if the light direction is one vector and the surface normal is the other.</li>
-<li>if the vectors are both unit vectors you can inverse cos the dot product to find the angle between the vectors (<code>auto angle = acos(dot(A, B))</code>)</li>
+<li>if the vectors are both unit vectors you can inverse cos the dot product to find the angle between the vectors (<code>float angle = acos(dot(A, B))</code>)</li>
 <li>you can find the projection of vector A onto vector B by finding the dot product of A and B then dividing the result by the length of A.</li>
 <li>calculating the dot product of a vector with itself will give you the distance squared. If you are checking to see which vector is longer, you can just compare their squared distances (saving you a square root operation)</li>
 </ul>
@@ -687,13 +696,14 @@ glFlush();
 <h2>Challenges you will face</h2>
 
 <ul>
+<li>The API itself is not self-explanatory. There are no namespaces, enums are not strongly typed, and often long-deprecated commands are very similarly named to newer commands</li>
 <li>Having to learn support libraries in addition to the OpenGL API</li>
 <li>Cross platform support is difficult as many features are not uniformly supported</li>
 <li>Debugging GL state in different platforms &ndash; OpenGL debugging tools are not great, and there are none that work cross-platform</li>
 <li>Multithreading correctly is extremely difficult &ndash; if possible just do all your rendering on one thread!</li>
 <li>Managing extensions can be a pain in the ass</li>
 <li>State management &ndash; OpenGL uses global state, so it is impossible to write optimal abstractions because cannot encapsulate state, and state querying is prohibitively expensive. So you end up redundantly setting state that has often already been set.</li>
-<li>lots of problems: <a href="http://richg42.blogspot.jp/2014/05/things-that-drive-me-nuts-about-opengl.html">http://richg42.blogspot.jp/2014/05/things-that-drive-me-nuts-about-opengl.html</a></li>
+<li>Others with more experience than me have gone into OpenGL&rsquo;s problems at length: <a href="http://richg42.blogspot.jp/2014/05/things-that-drive-me-nuts-about-opengl.html">http://richg42.blogspot.jp/2014/05/things-that-drive-me-nuts-about-opengl.html</a></li>
 </ul>
 
 
