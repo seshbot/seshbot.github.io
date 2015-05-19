@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Interviewing | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/interviewing/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2015-05-19T10:27:44+00:00</updated>
+  <updated>2015-05-19T20:03:32+08:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[The best way for programmers to interview programmers]]></title>
-    <link href="http://seshbot.com/blog/2014/01/23/the-best-way-for-programmers-to-interview-programmers/"/>
-    <updated>2014-01-23T20:56:52+00:00</updated>
-    <id>http://seshbot.com/blog/2014/01/23/the-best-way-for-programmers-to-interview-programmers</id>
+    <link href="http://seshbot.com/blog/2014/01/24/the-best-way-for-programmers-to-interview-programmers/"/>
+    <updated>2014-01-24T04:56:52+08:00</updated>
+    <id>http://seshbot.com/blog/2014/01/24/the-best-way-for-programmers-to-interview-programmers</id>
     <content type="html"><![CDATA[<p><strong>Every programmer should know how to give technical interviews.</strong> Although you will rarely be judged on your interviewing abilities, it is definitely in your best interest to help ensure your company is hiring effective programmers. If you manage to surround yourself with great programmers you&rsquo;ll foster a much better environment in which you can become a great programmer yourself. If you find yourself surrounded by programmers you consider sub-par you&rsquo;ll end up supporting their crappy software.</p>
 
 <p>Surround your pullquote like this {" text to be quoted "}</p>

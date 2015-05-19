@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2015-05-19T10:27:44+00:00</updated>
+  <updated>2015-05-19T20:03:32+08:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[An Introduction to OpenGL - Getting Started]]></title>
     <link href="http://seshbot.com/blog/2015/05/05/an-introduction-to-opengl-getting-started/"/>
-    <updated>2015-05-05T07:40:37+00:00</updated>
+    <updated>2015-05-05T15:40:37+08:00</updated>
     <id>http://seshbot.com/blog/2015/05/05/an-introduction-to-opengl-getting-started</id>
     <content type="html"><![CDATA[<p><em>This article is a culmination of all the little notes I took while learning OpenGL over the last several months. It&rsquo;s mostly stuff that I found difficult to research plus a little summary of the differences between OpenGL versions.</em></p>
 
@@ -209,6 +209,7 @@ So why would you even consider it?! Why would you write a series of articles on 
 <span class='line-number'>54</span>
 <span class='line-number'>55</span>
 <span class='line-number'>56</span>
+<span class='line-number'>57</span>
 </pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="cp">#include &lt;GLFW/glfw3.h&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">static</span> <span class="kt">void</span> <span class="n">key_callback</span><span class="p">(</span><span class="n">GLFWwindow</span><span class="o">*</span> <span class="n">window</span><span class="p">,</span> <span class="kt">int</span> <span class="n">key</span><span class="p">,</span> <span class="kt">int</span> <span class="n">scancode</span><span class="p">,</span> <span class="kt">int</span> <span class="n">action</span><span class="p">,</span> <span class="kt">int</span> <span class="n">mods</span><span class="p">)</span> <span class="p">{</span>
@@ -256,6 +257,7 @@ So why would you even consider it?! Why would you write a series of articles on 
 </span><span class='line'>    <span class="c1">///</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="n">glfwSwapBuffers</span><span class="p">(</span><span class="n">window</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">glfwPollEvents</span><span class="p">();</span>
 </span><span class='line'>  <span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="c1">// TODO: destroy OpenGL objects here</span>
@@ -323,7 +325,7 @@ So why would you even consider it?! Why would you write a series of articles on 
 
 <p>You invoke the rendering pipeline by calling either the <code>glDrawArrays()</code> or <code>glDrawElements()</code> commands (or one of their variations.) Unless you&rsquo;re using the fixed function pipeline you&rsquo;ll have to have a shader program bound so the GPU knows which vertex shader and fragment shader to invoke. You will also have to specify the vertex data (the vertex positions and perhaps other information such as the vertex normals and colours) of the primitive you are rendering. The &lsquo;basic shader program&rsquo; a few pages down shows one way to do both of these things.</p>
 
-<center><img src='http://seshbot.com/images/plantuml/40c1ceacc43d3519b9e919430a1278c9.png'></center>
+<center><img src='http://seshbot.com/images/plantuml/e109b55f4057fb3f2e01c3337bd2b1ea.png'></center>
 
 
 <p>Once again, if you want more details on how this works have a look at the specs, like the <a href="https://www.khronos.org/registry/gles/specs/2.0/es_full_spec_2.0.25.pdf">OpenGL ES 2.0 Spec</a>.</p>
@@ -700,7 +702,7 @@ So why would you even consider it?! Why would you write a series of articles on 
 
 <p>The term immediate mode means that the drawing operations are explicitly executed in your client application each frame, which is considered slower because it ties the client application logic too closely with the GPU rendering operations, so the GPU is not able to make as many optimisations as it would if the instructions were on the GPU itself (retained mode.)</p>
 
-<h2>Linear algebra (magic!)</h2>
+<h3>Linear algebra (magic!)</h3>
 
 <p>Linear algebra is the language of graphics programming. You <em>need</em> to learn some basics if you&rsquo;re going to tackle this stuff. I won&rsquo;t go into what a vector or matrix is here but you will have to learn the basics of their form and function if you don&rsquo;t already know them.</p>
 
@@ -883,7 +885,7 @@ So why would you even consider it?! Why would you write a series of articles on 
 
 <p>I have chosen to do most of my experimentation in OpenGL ES 2. This should give me the broadest platform availability as well as being compatible with WebGL for web demonstrations. I have resorted to using a few extensions that are supported on the platforms I use where necessary (e.g., to get anti aliasing), though I try to avoid this where possible.</p>
 
-<h2>Challenges you will face</h2>
+<h3>Challenges you will face</h3>
 
 <ul>
 <li>Having to learn support libraries in addition to the OpenGL API</li>
@@ -912,7 +914,7 @@ So why would you even consider it?! Why would you write a series of articles on 
 
 <p>As I mentioned before though, you can easily try reading the specs yourself. Google is your friend here &ndash; search for the specific version + &lsquo;spec&rsquo; and it will <a href="https://www.google.com.au/search?q=opengl+3+spec">usually be the first hit</a>.</p>
 
-<h2>Debugging</h2>
+<h3>Debugging</h3>
 
 <p>There are <a href="https://www.opengl.org/wiki/Debugging_Tools">many different OpenGL debugging tools</a> on different platforms and they are all generally pretty bad. I haven&rsquo;t spent a lot of time with any of them so please tell me if you find a good one!</p>
 
@@ -989,7 +991,7 @@ So why would you even consider it?! Why would you write a series of articles on 
 
 <p>One final interesting note about debugging OpenGL: If you are using a Google&rsquo;s ANGLE OpenGL driver that you compiled yourself you can step into it, so if you start getting vague sounding errors like <code>GL_INVALID_FRAMEBUFFER_OPERATION</code> but want to know specifically what the problem is, you can step into the ANGLE DLLs yourself to see which part of their validation fails. It&rsquo;s like running a own fully-compliant validation layer in your own client code.</p>
 
-<h2>Upcoming</h2>
+<h3>Upcoming</h3>
 
 <p>Now that I&rsquo;ve gotten all the basic stuff out of the way I&rsquo;d like to go into a bunch of other more advanced things that I thought wasn&rsquo;t particularly easy to get help with. In no particular order:</p>
 
@@ -1038,7 +1040,7 @@ So why would you even consider it?! Why would you write a series of articles on 
   <entry>
     <title type="html"><![CDATA[Week in Review: back from my hiatus (from my hiatus)]]></title>
     <link href="http://seshbot.com/blog/2015/01/24/week-in-review-back-from-my-hiatus-from-my-hiatus/"/>
-    <updated>2015-01-24T04:49:15+00:00</updated>
+    <updated>2015-01-24T12:49:15+08:00</updated>
     <id>http://seshbot.com/blog/2015/01/24/week-in-review-back-from-my-hiatus-from-my-hiatus</id>
     <content type="html"><![CDATA[<p>In September I went to Spain for 6 weeks to chill out with my family and check out what the countryside had to offer. Then I moved from Japan to Australia and got caught up in the Christams spirit. So although I have done some stuff (below) I have not made much progress on any big projects in the last few months&hellip;</p>
 
@@ -1123,7 +1125,7 @@ So why would you even consider it?! Why would you write a series of articles on 
   <entry>
     <title type="html"><![CDATA[C++11/14 idioms I use every day]]></title>
     <link href="http://seshbot.com/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day/"/>
-    <updated>2014-08-16T04:49:33+00:00</updated>
+    <updated>2014-08-16T12:49:33+08:00</updated>
     <id>http://seshbot.com/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day</id>
     <content type="html"><![CDATA[<p><em>if you want to see a bunch of people complaining about my rules regarding </em>auto<em>, have a look at <a href="https://news.ycombinator.com/item?id=8193157">HackerNews</a> and <a href="http://www.reddit.com/r/cpp/comments/2dvirt/new_c_idioms_i_use_every_day/">Reddit</a></em></p>
 
@@ -1496,7 +1498,7 @@ But in the last 5 years the landscape has changed dramatically. C++11, although 
   <entry>
     <title type="html"><![CDATA[C++ trick: Use Make without Makefiles]]></title>
     <link href="http://seshbot.com/blog/2014/06/16/make-with-no-makefile-for-c-plus-plus-playgrounds/"/>
-    <updated>2014-06-16T01:23:57+00:00</updated>
+    <updated>2014-06-16T09:23:57+08:00</updated>
     <id>http://seshbot.com/blog/2014/06/16/make-with-no-makefile-for-c-plus-plus-playgrounds</id>
     <content type="html"><![CDATA[<p>I use CMake personally because managing Makefiles is a hassle. However, I still use <code>make</code> regularly for one purpose: to easily create quick apps without setting up any projects or infrastructure at all. I have no idea where I first heard about this trick, and I can find very little referring to it on the internet. I recently found out that most people didn&rsquo;t know about it though, so I thought I&rsquo;d put a bit of info up here so others can benefit from it.</p>
 
@@ -1551,9 +1553,9 @@ But in the last 5 years the landscape has changed dramatically. C++11, although 
   
   <entry>
     <title type="html"><![CDATA[Swift: a solid modern imperative language]]></title>
-    <link href="http://seshbot.com/blog/2014/06/03/swift-a-good-example-of-a-modern-imperative-language/"/>
-    <updated>2014-06-03T23:25:06+00:00</updated>
-    <id>http://seshbot.com/blog/2014/06/03/swift-a-good-example-of-a-modern-imperative-language</id>
+    <link href="http://seshbot.com/blog/2014/06/04/swift-a-good-example-of-a-modern-imperative-language/"/>
+    <updated>2014-06-04T07:25:06+08:00</updated>
+    <id>http://seshbot.com/blog/2014/06/04/swift-a-good-example-of-a-modern-imperative-language</id>
     <content type="html"><![CDATA[<p><em>Note 1: these are first impressions only &ndash; I&rsquo;ve only spent a day really looking at the docs and playing with the XCode beta so I am probably mistaken about some stuff</em></p>
 
 <p><em>Note 2: I am using a beta of XCode, and it has caused me some trouble (a mysterious service it starts keeps crashing, filling my HDD up with core files.) I would recommend waiting for the non-beta if I were you.</em></p>
@@ -1803,7 +1805,7 @@ Objective C language itself.</p>
   <entry>
     <title type="html"><![CDATA[Week in Review: Running in an infinite world]]></title>
     <link href="http://seshbot.com/blog/2014/05/31/week-in-review-running-in-an-infinite-world/"/>
-    <updated>2014-05-31T11:24:19+00:00</updated>
+    <updated>2014-05-31T19:24:19+08:00</updated>
     <id>http://seshbot.com/blog/2014/05/31/week-in-review-running-in-an-infinite-world</id>
     <content type="html"><![CDATA[<p>Here&rsquo;s a quick snap of the 2D SFML client alongside a new OpenGL client:
 <img src="http://seshbot.com/images/upload/2014-05-31-compare.png" title="&#34;SFML client alongside OpenGL client with QML overlays&#34;" alt="&#34;SFML client alongside OpenGL client with QML overlays&#34;"></p>
@@ -1882,7 +1884,7 @@ terrain service.</p>
   <entry>
     <title type="html"><![CDATA[Week in review: Porting to Qt/QML with OpenGL]]></title>
     <link href="http://seshbot.com/blog/2014/05/16/week-in-review-c-plus-plus/"/>
-    <updated>2014-05-16T00:56:26+00:00</updated>
+    <updated>2014-05-16T08:56:26+08:00</updated>
     <id>http://seshbot.com/blog/2014/05/16/week-in-review-c-plus-plus</id>
     <content type="html"><![CDATA[<p><em>So I took a month holiday, and got out of the habit of writing blogs&hellip; hopefully this will break the dam, it&rsquo;s not like I don&rsquo;t have a billion things to write about</em></p>
 
@@ -2031,7 +2033,7 @@ your chosen GL version.</p>
   <entry>
     <title type="html"><![CDATA[Week in Review: Making Games]]></title>
     <link href="http://seshbot.com/blog/2014/02/22/week-in-review-making-games/"/>
-    <updated>2014-02-22T01:35:00+00:00</updated>
+    <updated>2014-02-22T09:35:00+08:00</updated>
     <id>http://seshbot.com/blog/2014/02/22/week-in-review-making-games</id>
     <content type="html"><![CDATA[<p>I have once again bitten off a whole lot &ndash; I started making a game based on my fairly limited knowledge of how such things are done, and have found it very difficult to take a moment to distill my thoughts. In fact it has been nearly impossible as I have been constantly unsure of whether the approach I&rsquo;m taking is actually going to pay off in the long run!</p>
 
@@ -2155,9 +2157,9 @@ in Windows but has been trivial in OSX.</p>
   
   <entry>
     <title type="html"><![CDATA[Week in Review: Pausing Web App, Starting C++ App]]></title>
-    <link href="http://seshbot.com/blog/2014/02/02/week-in-review-pausing-web-app/"/>
-    <updated>2014-02-02T22:52:52+00:00</updated>
-    <id>http://seshbot.com/blog/2014/02/02/week-in-review-pausing-web-app</id>
+    <link href="http://seshbot.com/blog/2014/02/03/week-in-review-pausing-web-app/"/>
+    <updated>2014-02-03T06:52:52+08:00</updated>
+    <id>http://seshbot.com/blog/2014/02/03/week-in-review-pausing-web-app</id>
     <content type="html"><![CDATA[<p>Just over a week ago I decided to put down my web tools for a while and move to working in an environment in which I&rsquo;m much more comfortable &ndash; C++. I will definitely pick up the &lsquo;Table Top&rsquo; app (or whatever it turns into) again soon but I felt the need to do work that resulted in a more <em>tangible</em> product.</p>
 
 <p>Over the last few weeks I&rsquo;ve had a growing realisation that the foundation of web programming is still immature, and I am doubting the value in investing too much time learning the high-level technologies. I am not really one for learning frameworks in general actually &ndash; I much prefer learning languages and idioms &ndash; and modern web programming is all about rapidly changing high-level frameworks.</p>
@@ -2229,9 +2231,9 @@ in Windows but has been trivial in OSX.</p>
   
   <entry>
     <title type="html"><![CDATA[The best way for programmers to interview programmers]]></title>
-    <link href="http://seshbot.com/blog/2014/01/23/the-best-way-for-programmers-to-interview-programmers/"/>
-    <updated>2014-01-23T20:56:52+00:00</updated>
-    <id>http://seshbot.com/blog/2014/01/23/the-best-way-for-programmers-to-interview-programmers</id>
+    <link href="http://seshbot.com/blog/2014/01/24/the-best-way-for-programmers-to-interview-programmers/"/>
+    <updated>2014-01-24T04:56:52+08:00</updated>
+    <id>http://seshbot.com/blog/2014/01/24/the-best-way-for-programmers-to-interview-programmers</id>
     <content type="html"><![CDATA[<p><strong>Every programmer should know how to give technical interviews.</strong> Although you will rarely be judged on your interviewing abilities, it is definitely in your best interest to help ensure your company is hiring effective programmers. If you manage to surround yourself with great programmers you&rsquo;ll foster a much better environment in which you can become a great programmer yourself. If you find yourself surrounded by programmers you consider sub-par you&rsquo;ll end up supporting their crappy software.</p>
 
 <p><span class='pullquote-right' data-pullquote='the best way to find great programmers is by giving them some control over the interview topic, and then going deep into a few questions instead of broad across many topics'>
@@ -2342,7 +2344,7 @@ This question puts the ball firmly in the candidate&rsquo;s court, and largely e
   <entry>
     <title type="html"><![CDATA[Client-side authentication with ember and rails]]></title>
     <link href="http://seshbot.com/blog/2014/01/22/client-side-authentication-with-ember-and-rails/"/>
-    <updated>2014-01-22T00:30:27+00:00</updated>
+    <updated>2014-01-22T08:30:27+08:00</updated>
     <id>http://seshbot.com/blog/2014/01/22/client-side-authentication-with-ember-and-rails</id>
     <content type="html"><![CDATA[<p><em>This post follows on from the previous post <a href="http://seshbot.com/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch/">creating and deploying a rails + ember app from scratch</a>. In that post I created a basic ember application being served from rails. Here I&rsquo;ll be adding user authentication to the application I created using the &lsquo;edge template&rsquo; option I discussed, which uses the &lsquo;ember-rails&rsquo; gem to establish the basic connectivity.</em></p>
 
@@ -2585,7 +2587,7 @@ This question puts the ball firmly in the candidate&rsquo;s court, and largely e
   <entry>
     <title type="html"><![CDATA[Creating and deploying a Rails + Ember app]]></title>
     <link href="http://seshbot.com/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch/"/>
-    <updated>2014-01-15T08:54:16+00:00</updated>
+    <updated>2014-01-15T16:54:16+08:00</updated>
     <id>http://seshbot.com/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch</id>
     <content type="html"><![CDATA[<p>Today I decided to wield my new Rails and Ember knowledge and&hellip; look into yet another new technology. I thought it would be helpful to have an online app to demonstrate the fruits of my labours, so am deploying a new app to <strong><a href="http://heroku.com">Heroku</a></strong>.</p>
 
@@ -2872,7 +2874,7 @@ This question puts the ball firmly in the candidate&rsquo;s court, and largely e
   <entry>
     <title type="html"><![CDATA[Learning Ruby and Rails]]></title>
     <link href="http://seshbot.com/blog/2014/01/14/learning-ruby-and-rails/"/>
-    <updated>2014-01-14T01:32:29+00:00</updated>
+    <updated>2014-01-14T09:32:29+08:00</updated>
     <id>http://seshbot.com/blog/2014/01/14/learning-ruby-and-rails</id>
     <content type="html"><![CDATA[<p><em>Note: The formatting of this article is not great, but I pumped it out quickly after going through the tutorials</em></p>
 
@@ -3281,7 +3283,7 @@ This question puts the ball firmly in the candidate&rsquo;s court, and largely e
   <entry>
     <title type="html"><![CDATA[This week in review: my game table web app]]></title>
     <link href="http://seshbot.com/blog/2014/01/11/this-week-in-review-the-game-table-web-app/"/>
-    <updated>2014-01-11T02:19:08+00:00</updated>
+    <updated>2014-01-11T10:19:08+08:00</updated>
     <id>http://seshbot.com/blog/2014/01/11/this-week-in-review-the-game-table-web-app</id>
     <content type="html"><![CDATA[<p>First here&rsquo;s a quick summary of what I got up to:</p>
 
@@ -3355,7 +3357,7 @@ I&rsquo;m not saying the framework is terrible, but all of the Ember help I foun
   <entry>
     <title type="html"><![CDATA[What's so hard about programming?]]></title>
     <link href="http://seshbot.com/blog/2014/01/06/whats-so-hard-about-programming/"/>
-    <updated>2014-01-06T11:19:49+00:00</updated>
+    <updated>2014-01-06T19:19:49+08:00</updated>
     <id>http://seshbot.com/blog/2014/01/06/whats-so-hard-about-programming</id>
     <content type="html"><![CDATA[<p>It is a fact that every programmer is the star of their peer group, and would spin out the most awesome cleanly-built apps if only he or she didn&rsquo;t have to work under these circumstances. It is also a fact that every programmer understands that they were terribly misguided just a few years prior.</p>
 
@@ -3449,7 +3451,7 @@ The agile principle of avoiding &lsquo;big design up-front&rsquo; leads people t
   <entry>
     <title type="html"><![CDATA[JavaScript in Modern Web Apps]]></title>
     <link href="http://seshbot.com/blog/2014/01/03/javascript-in-modern-web-apps/"/>
-    <updated>2014-01-03T14:20:08+00:00</updated>
+    <updated>2014-01-03T22:20:08+08:00</updated>
     <id>http://seshbot.com/blog/2014/01/03/javascript-in-modern-web-apps</id>
     <content type="html"><![CDATA[<p>The web development scene has moved dramatically since my own minor experience at an Internet business company 14 years ago. Back then we created <em>web pages</em> in ColdFusion/PHP/ASP marked-up HTML. Our main tools were frames and tables and a lot of homegrown convention to ensure headers/footers looked right. We spent most of our efforts on effectively using CSS to make our lives easier &ndash; not separating views from data or dynamically updating HTML elements.</p>
 
@@ -3552,7 +3554,7 @@ use in the browser.</p>
   <entry>
     <title type="html"><![CDATA[The Grand Experiment]]></title>
     <link href="http://seshbot.com/blog/2013/12/20/the-grand-experiment/"/>
-    <updated>2013-12-20T01:07:06+00:00</updated>
+    <updated>2013-12-20T09:07:06+08:00</updated>
     <id>http://seshbot.com/blog/2013/12/20/the-grand-experiment</id>
     <content type="html"><![CDATA[<p>A few months ago I decided to hand in my notice and live off my savings for a while. In 13 years of software development this is the first proper hiatus I&rsquo;ve taken so I have no idea what to expect.</p>
 

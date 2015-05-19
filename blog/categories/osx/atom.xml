@@ -4,7 +4,7 @@
   <title><![CDATA[Category: OSX | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/osx/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2015-05-19T10:27:44+00:00</updated>
+  <updated>2015-05-19T20:03:32+08:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Swift: a solid modern imperative language]]></title>
-    <link href="http://seshbot.com/blog/2014/06/03/swift-a-good-example-of-a-modern-imperative-language/"/>
-    <updated>2014-06-03T23:25:06+00:00</updated>
-    <id>http://seshbot.com/blog/2014/06/03/swift-a-good-example-of-a-modern-imperative-language</id>
+    <link href="http://seshbot.com/blog/2014/06/04/swift-a-good-example-of-a-modern-imperative-language/"/>
+    <updated>2014-06-04T07:25:06+08:00</updated>
+    <id>http://seshbot.com/blog/2014/06/04/swift-a-good-example-of-a-modern-imperative-language</id>
     <content type="html"><![CDATA[<p><em>Note 1: these are first impressions only &ndash; I&rsquo;ve only spent a day really looking at the docs and playing with the XCode beta so I am probably mistaken about some stuff</em></p>
 
 <p><em>Note 2: I am using a beta of XCode, and it has caused me some trouble (a mysterious service it starts keeps crashing, filling my HDD up with core files.) I would recommend waiting for the non-beta if I were you.</em></p>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tricks | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/tricks/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2015-05-19T10:27:44+00:00</updated>
+  <updated>2015-05-19T20:03:32+08:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[C++ trick: Use Make without Makefiles]]></title>
     <link href="http://seshbot.com/blog/2014/06/16/make-with-no-makefile-for-c-plus-plus-playgrounds/"/>
-    <updated>2014-06-16T01:23:57+00:00</updated>
+    <updated>2014-06-16T09:23:57+08:00</updated>
     <id>http://seshbot.com/blog/2014/06/16/make-with-no-makefile-for-c-plus-plus-playgrounds</id>
     <content type="html"><![CDATA[<p>I use CMake personally because managing Makefiles is a hassle. However, I still use <code>make</code> regularly for one purpose: to easily create quick apps without setting up any projects or infrastructure at all. I have no idea where I first heard about this trick, and I can find very little referring to it on the internet. I recently found out that most people didn&rsquo;t know about it though, so I thought I&rsquo;d put a bit of info up here so others can benefit from it.</p>
 
