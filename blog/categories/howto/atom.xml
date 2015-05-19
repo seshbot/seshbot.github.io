@@ -4,7 +4,7 @@
   <title><![CDATA[Category: HowTo | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/howto/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2015-05-19T09:49:07+00:00</updated>
+  <updated>2015-05-19T10:27:44+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -517,7 +517,7 @@ This should look something like this:</p>
 
 <p>The term immediate mode means that the drawing operations are explicitly executed in your client application each frame, which is considered slower because it ties the client application logic too closely with the GPU rendering operations, so the GPU is not able to make as many optimisations as it would if the instructions were on the GPU itself (retained mode.)</p>
 
-<h3>Linear algebra (magic!)</h3>
+<h2>Linear algebra (magic!)</h2>
 
 <p>Linear algebra is the language of graphics programming. You <em>need</em> to learn some basics if you&rsquo;re going to tackle this stuff. I won&rsquo;t go into what a vector or matrix is here but you will have to learn the basics of their form and function if you don&rsquo;t already know them.</p>
 
@@ -683,7 +683,7 @@ glFlush();
 
 <p>I have chosen to do most of my experimentation in OpenGL ES 2. This should give me the broadest platform availability as well as being compatible with WebGL for web demonstrations. I have resorted to using a few extensions that are supported on the platforms I use where necessary (e.g., to get anti aliasing), though I try to avoid this where possible.</p>
 
-<h3>Challenges you will face</h3>
+<h2>Challenges you will face</h2>
 
 <ul>
 <li>Having to learn support libraries in addition to the OpenGL API</li>
@@ -712,7 +712,7 @@ glFlush();
 
 <p>As I mentioned before though, you can easily try reading the specs yourself. Google is your friend here &ndash; search for the specific version + &lsquo;spec&rsquo; and it will <a href="https://www.google.com.au/search?q=opengl+3+spec">usually be the first hit</a>.</p>
 
-<h3>Debugging</h3>
+<h2>Debugging</h2>
 
 <p>There are <a href="https://www.opengl.org/wiki/Debugging_Tools">many different OpenGL debugging tools</a> on different platforms and they are all generally pretty bad. I haven&rsquo;t spent a lot of time with any of them so please tell me if you find a good one!</p>
 
@@ -771,7 +771,7 @@ fprintf(stderr, "OpenGL error '%s' (0x%04x) called from %s in file %s line %d\n"
 
 <p>One final interesting note about debugging OpenGL: If you are using a Google&rsquo;s ANGLE OpenGL driver that you compiled yourself you can step into it, so if you start getting vague sounding errors like <code>GL_INVALID_FRAMEBUFFER_OPERATION</code> but want to know specifically what the problem is, you can step into the ANGLE DLLs yourself to see which part of their validation fails. It&rsquo;s like running a own fully-compliant validation layer in your own client code.</p>
 
-<h3>Upcoming</h3>
+<h2>Upcoming</h2>
 
 <p>Now that I&rsquo;ve gotten all the basic stuff out of the way I&rsquo;d like to go into a bunch of other more advanced things that I thought wasn&rsquo;t particularly easy to get help with. In no particular order:</p>
 
