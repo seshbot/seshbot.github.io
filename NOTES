@@ -1,0 +1,141 @@
+
+optimisations - multiple primitives in a single render call
+              - set uniforms once
+
+different proj matricies: http://www.songho.ca/opengl/gl_projectionmatrix.html
+
+
+
+INSTINCTS
+- log everything
+  - informative error messages
+- validate assumptions with asserts - this is not error handling!
+- everything should just work with the minimum possible setup (related to never increasing entropy)
+  - no boiler plate necessary
+- ns latencies (cache, mem, disk, network) - 'numbers every programmer should know'
+- software qualities
+- always try to think of the most trivially simple and accurate name
+- treat data and problems as locally as possible - everything is greenfield
+- alter state very carefully
+- change only one thing at a time - do not add functionality while refactoring
+  - ensure functionality remains unchanged before and after refactoring
+- composability of closely related objects!
+  - think about reusing existing interfaces
+  - implement things in terms of the tools youve already created
+- avoid inheritance in general - too closely bound, can violate encapsulation (specialising parts may affect base self-use functionality)
+- spend a lot of time staring at copy-paste code - 'last line effect'
+- idempotency
+  - never mess with your source data
+- dont delete data anything if possible
+
+
+
+BAD DESIGN FAQ
+ - manager - what does it do? until you get an answer
+ - singletons/IoC - IoC is OK if you dont pass around IoC containers from your mainline
+    - singletons bad because globals. globals bad because shared state. shared state bad because indeterminant behaviour
+
+
+DEMOS / DOCS
+ - create unique examples! rethinkdb 'github', emberjs 'notes'
+   - examples that show off the feature you are discussing
+   - ok to build on one example for a 'how-to' guide but not for api docs, and dont reulse for demonstrations (useless demos!) 
+
+
+HOW TO SPOT CORROSIVE TECH COMPANIES
+- no career path for people who want to remain technical
+  - related, forcing good programmers to become managers
+- dont know how to interview technical people
+  - only hire when they really need people - not a continuous process
+  - only hire homogeneous type
+- permanent outsourcing / augmented outsourcing
+- same security policies for the entire company
+  - e.g., white-list for installed software, no admin access on windows boxes, heavily restricted internet access
+- 'special' teams or projects
+- no technical 'vision'
+
+C++ and modern idioms from other languages
+- pattern matching (none, Rust)
+  - make optional more fun
+- function composition 
+  - map, reduce, etc - no GC and iterators make this clunky. eric neibler range
+  - currying not in many languages
+- funky string manip ()
+  - strings are a weak point in C++, though stuff possible with string literals
+- generators and computation expressions
+- lambdas with closures
+  - because nested lambdas capture context, very succinct algos (e.g., shouldPrint(test) based on closing args)
+- immutable types
+- tuple usage (auto x, y = get_things(w))
+  - currently extra boilerplate required, might as well use structs
+- garbage collection enables:
+  - 'persistent' collection types
+  - piping data, dont worry about temporaries
+  - 
+
+Python
+- (locally) modularise functionality - nested functions with closures are succinct
+- succinct data transformations
+
+
+
+NECESSARY EVILS
+ - piracy - movies, music, apps
+ - why allow ad blockers
+
+
+
+OPENGL TIPS
+ - dive in first, become lost, and then read tutorials
+ - tuts: http://ogldev.atspace.co.uk/index.html
+       : http://www.opengl-tutorial.org/beginners-tutorials/
+       : http://open.gl/introduction
+ - full pipeline intro: (GLSL 1.5) http://open.gl/drawing
+   - pushing vertex buffers (plus other vertex info) into the pipeline
+   - shaders, compiling, invoking and VAOs
+     - Vertex Array Objects (VAO). VAOs store all of the links between the attributes and your VBOs with raw vertex data..
+         GLuint vao; glGenVertexArrays(1, &vao); glBindVertexArray(vao);
+         As soon as you've bound a certain VAO, every time you call glVertexAttribPointer, that information will be stored in that VAO. This makes switching between different vertex data and vertex formats as easy as binding a different VAO!
+   - setting shader variables (uniforms attribs)
+   - element buffers
+ - info shaders: http://notes.underscorediscovery.com/shaders-a-primer/
+    - simple shader tutorial : http://www.opengl.org/sdk/docs/tutorials/ClockworkCoders/
+    - basic modern shader: http://stackoverflow.com/questions/21980947/replacement-for-gl-position-gl-modelviewprojectionmatrix-gl-vertex
+ - assimp: http://assimp.sourceforge.net
+   - example: https://github.com/assimp/assimp/blob/master/samples/SimpleOpenGL/Sample_SimpleOpenGL.c
+ - example game with QT: https://github.com/Warzone2100/warzone2100
+ - QML and Ogre3d: http://advancingusability.wordpress.com/2013/03/30/how-to-integrate-ogre3d-into-a-qt5-qml-scene/
+ - GLM: http://glm.g-truc.net
+ - lots of problems: http://richg42.blogspot.jp/2014/05/things-that-drive-me-nuts-about-opengl.html
+
+
+
+
+
+When programming in 3D (and often in 2D) we don't use NDC directly. All 3D models have their own local coordinates we call __model space__ which we will want to position, scale and rotate before squeezing into NDC. By convention in the model coordinate system (and all coordinate systems except NDC) by convention the Z axis moves _towards_ the viewer, so the -ve Z axis is towards the screen. This is known as a right-hand coordinate system for reasons I'll discuss later. DirectX and the NDC use a left-hand coordinate system (Z axis moves away from the viewer.)
+
+As this model is placed in and moves around the virtual world it is translated into __world space__ which has its origin at some arbitrary location (for example, perhaps the middle of the room being drawn.) The transformation that translates, rotates and scales a model coordinate into world space is known as the __model matrix__.
+
+When rendering the world from the perspective of some virtual camera, the objects to be displayed are translated into __eye-space__ or __view space__. In view space the driver is able to do fancy things such as occlusion culling and back-face culling to determine which fragments do not need to be rendered because they are hidden by other objects in the scene or are facing away from the camera. The transformation that translates, rotates and scales a coordinate from world space into view space is known as the __view matrix__.
+
+Next the coordinates are transformed into NDC where the Z axis is flipped and all visible coordinates are squeezed into the -1.0 to 1.0 range on each axis. The transform that moves a coordinate from view space into NDC is called the __projection matrix__. The projection matrix can be used in 3D to change things like the field of view and the near and far clipping planes.
+
+Finally the graphics driver transforms the coordinates to __clip space__ which performs the clipping and an action called a __perspective divide__ and a __viewport transform__ which are not really important at this point.
+
+
+
+
+
+ - matrix operations (basic - multiplication, advanced - inverse, transpose...)
+   - note: matrix mult combines operations but is not reflexive - last operation performed first
+ - dot product (cos angle, projection, dist squared)
+ - cross product (perpendicular axis)
+ - perspective/ortho transforms
+ - directional vs positional vectors (w coord)
+
+
+
+Lighting
+
+ - fragment color terms - diffuse, specular, ambient, emmissive
+ - lambertian lighting model, goruroud, phong

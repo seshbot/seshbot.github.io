@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2015-05-19T23:50:39+08:00</updated>
+  <updated>2015-09-21T17:46:53+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -14,19 +14,354 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Covariance and Contravariance made easy]]></title>
+    <link href="http://seshbot.com/blog/2015/09/21/co-and-contra-variance-made-easy/"/>
+    <updated>2015-09-21T10:03:45+00:00</updated>
+    <id>http://seshbot.com/blog/2015/09/21/co-and-contra-variance-made-easy</id>
+    <content type="html"><![CDATA[<p><em>For a more in-depth rundown on covariance and contravariance explained in terms of category theory have a look at <a href="http://tomasp.net/blog/variance-explained.aspx/">Thomas Patricek&rsquo;s blog</a></em></p>
+
+<p>Covariance and contravariance are things you&rsquo;ll probably ignore until you start using generics in ernest. Then one day you&rsquo;ll want to pass an enumerable to a function that takes a slightly different yet related type of enumerable and then <em>BAM</em> &ndash; you&rsquo;re hit with some crazy error messages and then all of a sudden you&rsquo;re up to your elbows in browser tabs of StackOverflow articles.</p>
+
+<p>It is necessitated due to the interaction of two different forms of polymorphism &ndash; object inheritance and generic typing. And yet sometimes you want to combine the two &ndash; while <code>MyType&lt;T&gt;</code> and <code>MyType&lt;U&gt;</code> share no inheritance relationship and therefore are not substitutable for each other, sometimes you want to treat them as if they are substitutable if <code>T</code> and <code>U</code> are themselves related.</p>
+
+<p><span class='pullquote-right' data-pullquote='if Dog is-a-kind-of Animal, is it true that MyType&lt;Dog&gt; can-be-used-as-a MyType&lt;Animal&gt;?'>
+The rule of thumb with inheritance is that if U inherits from T you could say that <em>U is-a-kind-of T</em>. With covariant and contravariant types, I like to think of them in terms of <em>can-be-used-as-a</em> relationship. To determine if <code>MyType</code> should be covariant or contravariant you could ask if Dog is-a-kind-of Animal, is it true that MyType&lt;Dog&gt; can-be-used-as-a MyType&lt;Animal&gt;?
+</span></p>
+
+<p><em>Covariance</em> and <em>contravariance</em> are two different ways that differently specialised generic types should themselves be substitutable for each other like derived types are:</p>
+
+<p><strong>Covariance</strong>: <code>MyType&lt;T&gt;</code> is covariant if typing <code>MyType&lt;Base&gt; x = new MyType&lt;Derived&gt;()</code> makes sense (this looks very much like standard substitution rules.)</p>
+
+<p>An example of this is an <code>IEnumerable</code>-derived type, and is classified as having methods that <em>return</em> the predicated type, or <em>getters</em> (hence C# uses the <code>out</code> keyword.)</p>
+
+<p>The implication is that the relationship between the covariant generic types is the <strong>same</strong> as the relationship between their predicated types, e.g.:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">Base</span> <span class="n">b</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Derived</span><span class="p">();</span> <span class="c1">// this is OK because of Liskov substitution</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">Derived</span><span class="p">&gt;</span> <span class="n">ds</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Derived</span><span class="p">&gt;();</span>
+</span><span class='line'><span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">Base</span><span class="p">&gt;</span> <span class="n">bs</span> <span class="p">=</span> <span class="n">ds</span><span class="p">;</span> <span class="c1">// this is also OK because IEnumerable is covariant</span>
+</span><span class='line'><span class="n">Base</span> <span class="n">first</span> <span class="p">=</span> <span class="n">bs</span><span class="p">.</span><span class="n">First</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Contravariance</strong>: <code>MyType&lt;T&gt;</code> is contravariant if typing <code>MyType&lt;Derived&gt; x = new MyType&lt;Base&gt;()</code> makes sense.</p>
+
+<p>An example of this is the .Net generic <code>Action</code> type, and is classified as having methods that <em>accept</em> the predicated type as a parameter, or <em>setters</em> (hence C# uses the <code>in</code> keyword.)</p>
+
+<p>Contravariant types are probably less common than covariant types, and imply that the relationship between the generic types is the <strong>inverse</strong> of the relationship between their predicated types. E.g.:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">Action</span><span class="p">&lt;</span><span class="n">Base</span><span class="p">&gt;</span> <span class="n">b</span> <span class="p">=</span> <span class="p">(</span><span class="n">Base</span> <span class="k">value</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="k">value</span><span class="p">.</span><span class="n">Name</span><span class="p">);</span> <span class="p">};</span>
+</span><span class='line'><span class="n">Action</span><span class="p">&lt;</span><span class="n">D</span><span class="p">&gt;</span> <span class="n">d</span> <span class="p">=</span> <span class="n">b</span><span class="p">;</span> <span class="c1">// OK because Action is contravariant</span>
+</span><span class='line'><span class="n">d</span><span class="p">.</span><span class="n">Invoke</span><span class="p">(</span><span class="k">new</span> <span class="n">Derived</span><span class="p">());</span> <span class="c1">// invoke alias &#39;d&#39;, actually invokes &#39;b&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
+
+
+<h2>Why they&rsquo;re helpful</h2>
+
+<p>Covariance and contravariance are useful in all the ways that Liskov&rsquo;s substitution principle is useful with regular polymorphic types &ndash; they are a mechanism that lets you inform the compiler when it&rsquo;s safe to bind an instance of one generic type to a reference of the same generic type with a different generic parameter.</p>
+
+<p>More specifically a generic type annotated as covariant or contravariant (e.g., a <code>IEnumerable&lt;T&gt;</code>) might be bound to other references of that type (e.g., <code>IEnumerable&lt;U&gt;</code>) when there is an inheritance relationship between the two predicated types. This allows you to pass your <code>IEnumerable&lt;Employee&gt;</code> to a function that actually accepts an <code>IEnumerable&lt;Person&gt;</code> without the compiler complaining that they are different types.</p>
+
+<p>In other words, covariance and contravariance hints allow you to apply the Liskov substitution rules to generic types when the predicated types may themselves be substituted for each other.</p>
+
+<p>To be very clear it only affects:</p>
+
+<ul>
+<li>generic types</li>
+<li>where the predicated types have an inheritence relationship</li>
+<li>where a concrete object of that generic type is being bound to a reference (e.g., a passed as a parameter) of a different specialisation of that type</li>
+</ul>
+
+
+<h3>Liskov&rsquo;s substitution with regular OO types</h3>
+
+<p>For example as a reminder of the standard substitution rules:</p>
+
+<figure class='code'><figcaption><span>(C#) example of OO substitution rules in action</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">class</span> <span class="nc">Animal</span> <span class="p">{};</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Dog</span> <span class="p">:</span> <span class="n">Animal</span> <span class="p">{};</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Poodle</span> <span class="p">:</span> <span class="n">Dog</span> <span class="p">{};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">void</span> <span class="nf">SaveDog</span><span class="p">(</span><span class="n">Dog</span> <span class="n">dog</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</span><span class='line'><span class="n">Dog</span> <span class="nf">LoadDog</span><span class="p">()</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">Animal</span> <span class="n">myAnimal</span> <span class="p">=</span> <span class="p">...</span> <span class="p">;</span>
+</span><span class='line'><span class="n">SaveDog</span><span class="p">(</span><span class="n">myAnimal</span><span class="p">);</span> <span class="c1">// ERROR - myAnimal might be a cat!</span>
+</span><span class='line'><span class="n">Animal</span> <span class="n">myAnimal2</span> <span class="p">=</span> <span class="n">LoadDog</span><span class="p">();</span> <span class="c1">// OK - dog is a kind of animal</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">Poodle</span> <span class="n">myPoodle</span> <span class="p">=</span> <span class="p">...;</span>
+</span><span class='line'><span class="n">SaveDog</span><span class="p">(</span><span class="n">myPoodle</span><span class="p">);</span> <span class="c1">// OK - poodle is a kind of dog</span>
+</span><span class='line'><span class="n">Poodle</span> <span class="n">myPoodle2</span> <span class="p">=</span> <span class="n">LoadDog</span><span class="p">();</span> <span class="c1">// ERROR - LoadDog might return a non-poodle dog!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>OK cool, this is just how polymorphism works in OO languages. But here&rsquo;s where it gets confusing &ndash; what about generic types that are predicated on those types? E.g., a <code>IEnumerable&lt;Dog&gt;</code> or a <code>Action&lt;Dog&gt;</code>?</p>
+
+<h3>Liskov&rsquo;s substitution of generic types</h3>
+
+<p>Covariance and Contravariance hints tell the compiler to allow <em>references</em> to generic types to obey the same rules as polymorphic types! It doesn&rsquo;t affect how you can use a particular type directly, but it affects what other types of that generic object it can be bound to (when being passed to or returned from functions, for example).</p>
+
+<p>To extend the previous example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="c1">// should be covariant but is not</span>
+</span><span class='line'><span class="k">interface</span> <span class="n">IReader</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">T</span> <span class="nf">Read</span><span class="p">()</span> <span class="p">{...};</span> <span class="c1">// simplified interface</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// should be contravariant but is not</span>
+</span><span class='line'><span class="k">interface</span> <span class="n">IWriter</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">void</span> <span class="nf">Write</span><span class="p">(</span><span class="n">T</span> <span class="n">entity</span><span class="p">);</span> <span class="c1">// simplified interface</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">void</span> <span class="nf">PrintDogFrom</span><span class="p">(</span><span class="n">IReader</span><span class="p">&lt;</span><span class="n">Dog</span><span class="p">&gt;</span> <span class="n">dogReader</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">Dog</span> <span class="n">dog</span> <span class="p">=</span> <span class="n">dogReader</span><span class="p">.</span><span class="n">Read</span><span class="p">();</span>
+</span><span class='line'>  <span class="c1">// ... print dog info or something</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">void</span> <span class="nf">WriteDogTo</span><span class="p">(</span><span class="n">IWriter</span><span class="p">&lt;</span><span class="n">Dog</span><span class="p">&gt;</span> <span class="n">dogWriter</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">dogWriter</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="k">new</span> <span class="n">Poodle</span><span class="p">());</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// demonstrating a typical &#39;reading&#39; usage scenario</span>
+</span><span class='line'><span class="c1">// that should work ideally</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">IReader</span><span class="p">&lt;</span><span class="n">Poodle</span><span class="p">&gt;</span> <span class="n">poodleReader</span> <span class="p">=</span> <span class="p">...;</span> <span class="c1">// init somehow</span>
+</span><span class='line'><span class="n">PrintDogFrom</span><span class="p">(</span><span class="n">poodleReader</span><span class="p">);</span> <span class="c1">// ERROR! (IReader&lt;Poodle&gt; != IReader&lt;Dog&gt;)</span>
+</span><span class='line'><span class="c1">// BUT it should be OK (poodles are dogs)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// demonstrating a typical &#39;writing&#39; usage scenario</span>
+</span><span class='line'><span class="c1">// that should work ideally</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">IWriter</span><span class="p">&lt;</span><span class="n">Animal</span><span class="p">&gt;</span> <span class="n">animalWriter</span> <span class="p">=</span> <span class="p">...;</span> <span class="c1">// init somehow</span>
+</span><span class='line'><span class="n">WriteDogTo</span><span class="p">(</span><span class="n">animalWriter</span><span class="p">);</span> <span class="c1">// ERROR! (IWriter&lt;Animal&gt; != IWriter&lt;Dog&gt;)</span>
+</span><span class='line'><span class="c1">// BUT it should be OK (writer holds animals, can write dogs)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We recognise that a <code>IReader&lt;Poodle&gt;</code> instance should be able to be bound to a <code>IReader&lt;Dog&gt;</code> reference if <code>Poodle</code> is a <em>subclass</em> of <code>Dog</code>. This is known as <em>covariance</em> and is denoted in C# by labeling the generic type with the <code>out</code> keyword:</p>
+
+<p>We can also see that <code>IWriter&lt;Dog&gt;</code> should be able to be bound to <code>IWriter&lt;Animal&gt;</code> if <code>Animal</code> is a <em>superclass</em> of <code>Dog</code>. This is known as <em>contravariance</em> and is denoted in C# by labeling the generic type with the <code>in</code> keyword.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="c1">// IReader is covariant on T</span>
+</span><span class='line'><span class="k">interface</span> <span class="n">IReader</span><span class="p">&lt;</span><span class="k">out</span> <span class="n">T</span><span class="p">&gt;</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">...</span> <span class="c1">// as before</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// IWriter is contravariant on T</span>
+</span><span class='line'><span class="k">interface</span> <span class="n">IWriter</span><span class="p">&lt;</span><span class="k">in</span> <span class="n">T</span><span class="p">&gt;</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">...</span> <span class="c1">// as before</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The difference in the two interfaces is simple &ndash; covariance is used when the dependent type is retrieved out of the generic type (an example would be how an <code>IEnumerable&lt;T&gt;</code> returns objects of type <code>T</code> and therefore is <em>covariant on T</em>). A generic type should be contravariant if it accepts the dependent type as input into its interface (an example would be how an <code>Action&lt;T&gt;</code> takes an instance of <code>T</code> as input when it is run, therefore it is <em>contravariant on T</em>).</p>
+
+<p>Here&rsquo;s an attempt to visually represent valid type conversions for a cass hierarchy, a representative covariant type (<code>IEnum</code>) and a representative contravariant type (<code>Action</code>):</p>
+
+<center><img src='http://seshbot.com/images/plantuml/0cf46549bab20215696885da4be302b6.png'></center>
+
+
+<h2>When should my interfaces be covariant or contravariant?</h2>
+
+<p>I only add this when its needed, but one thing you&rsquo;ll find is that you cannot have a covariant or contravariant type if you are both returning and accepting the dependent type in your interface. This is why in C# <code>IEnumerable</code> is covariant but <code>IList</code> is not &ndash; because <code>IList</code> allows you to add elements to the collection as well as retrieve the elements in the collection.</p>
+
+<p>Sometimes you will be forced to make your type covariant if you want to use it in certain ways. In this case you may have to separate out the reading part of your interface into a separate interface and have the generic parameter be covariant there only.</p>
+
+<h2>A few language-specific quirks you might run across</h2>
+
+<p>Java never used to support variance specifications much to its detriment. Java arrays behave in a covariant way, but because the interface supports both retrieving and setting elements, the following compiles (or at least used to, I havent tried it recently:)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">Dog</span><span class="p">[]</span> <span class="n">dogs</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dog</span><span class="p">[</span><span class="m">10</span><span class="p">];</span> <span class="c1">// ...</span>
+</span><span class='line'><span class="n">Animal</span><span class="p">[]</span> <span class="n">dogsAsAnimals</span> <span class="p">=</span> <span class="n">dogs</span><span class="p">;</span>
+</span><span class='line'><span class="n">dogsAsAnimals</span><span class="p">[</span><span class="m">0</span><span class="p">]</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Cat</span><span class="p">();</span> <span class="c1">// whaa?</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>C# has supported variance for a long time, but unfortunately there are some corners where they have not yet added it. I recently found out that <code>Task&lt;T&gt;</code> is not covariant, and so if you were implementing your own covariant type, its interface cannot return generic <code>Task&lt;&gt;</code> types, which is frustrating because thats what Microsoft strongly recommend you to do.</p>
+
+<p>Example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">interface</span> <span class="n">IReader</span><span class="p">&lt;</span><span class="k">out</span> <span class="n">T</span><span class="p">&gt;</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">T</span> <span class="nf">GetNext</span><span class="p">();</span>
+</span><span class='line'>  <span class="n">Task</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="n">GetNextAsync</span><span class="p">();</span> <span class="c1">// compile error! although this should be idiomatic!</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The official answer to this (well, <a href="http://stackoverflow.com/questions/12204755/can-should-tasktresult-be-wrapped-in-a-c-sharp-5-0-awaitable-which-is-covarian">Jon Skeet&rsquo;s</a> word is very highly considered) was that adding variance to your interfaces quickly gets complicated in some way and so try to make your types invariant, and I cannot answer to that. My solution was to have the interface return a non-generic <code>Task</code> and dynamically downcast it to the generic type when I used it. This is not great, but its also quite safe as you know for certain the type of the task.</p>
+
+<p>C++ generics (templates) do not directly support the notion of covariance or contravariance, but they don&rsquo;t need to &ndash; templates are specialised at compile time to generate separate instances for each required specialisation, so generic types are often not required to be coerced into other generic types.</p>
+
+<p>For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+</span><span class='line'><span class="kt">void</span> <span class="n">printBases</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">T</span><span class="o">*&gt;</span> <span class="o">&amp;</span> <span class="n">bases</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">foreach</span> <span class="p">(</span><span class="k">auto</span> <span class="o">*</span> <span class="n">b</span> <span class="o">:</span> <span class="n">bases</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">Name</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">vector</span><span class="o">&lt;</span><span class="n">Derived</span><span class="o">*&gt;</span> <span class="n">ds</span> <span class="p">{};</span>
+</span><span class='line'><span class="n">printBases</span><span class="p">(</span><span class="n">ds</span><span class="p">);</span> <span class="c1">// works as long as Derived has Name() method</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+</span><span class='line'><span class="kt">void</span> <span class="n">addDerived</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">deriveds</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">deriveds</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="k">new</span> <span class="n">Derived</span><span class="p">{});</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">vector</span><span class="o">&lt;</span><span class="n">Base</span><span class="o">*&gt;</span> <span class="n">bs</span> <span class="p">{};</span>
+</span><span class='line'><span class="n">addDerived</span><span class="p">(</span><span class="n">bs</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The above code shows that C++&rsquo;s templates are generally sufficient for performing generic operations on generically encapsulated types. The only constraings put on the type passed to the function is that it has a <code>Name()</code> method (this is known as &lsquo;duck-typing&rsquo;). Note that these are completely type-safe, as the compiler generates fully typed code at compile time. If I tried to add a <code>Base</code> type to a <code>Derived</code> vector, for example, you would get the expected error because the compiler would recognise the type mismatch.</p>
+
+<p>On a related topic, it is also worth noting that C++ allows a derived class&#8217; overridden virtual methods to have <em>covariant return types</em> such that:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">struct</span> <span class="n">Base</span> <span class="p">{};</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">Derived</span> <span class="o">:</span> <span class="n">Base</span> <span class="p">{};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">BaseFactory</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">virtual</span> <span class="n">Base</span> <span class="o">*</span> <span class="n">create</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">new</span> <span class="n">Base</span><span class="p">{};</span> <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">DerivedFactory</span> <span class="o">:</span> <span class="n">BaseFactory</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">override</span> <span class="n">Derived</span> <span class="o">*</span> <span class="n">create</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">new</span> <span class="n">Derived</span><span class="p">{};</span> <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">DerivedFactory</span> <span class="o">*</span> <span class="n">ds</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DerivedFactory</span><span class="p">();</span>
+</span><span class='line'><span class="n">Derived</span> <span class="o">*</span> <span class="n">d</span> <span class="o">=</span> <span class="n">ds</span><span class="o">-&gt;</span><span class="n">create</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">BaseFactory</span> <span class="o">*</span> <span class="n">bs</span> <span class="o">=</span> <span class="n">ds</span><span class="p">;</span>
+</span><span class='line'><span class="n">Base</span> <span class="o">*</span> <span class="n">b</span> <span class="o">=</span> <span class="n">bs</span><span class="o">-&gt;</span><span class="n">create</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Java also supports covariant return types, but C# does not.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[An Introduction to OpenGL - Getting Started]]></title>
     <link href="http://seshbot.com/blog/2015/05/05/an-introduction-to-opengl-getting-started/"/>
-    <updated>2015-05-05T15:40:37+08:00</updated>
+    <updated>2015-05-05T07:40:37+00:00</updated>
     <id>http://seshbot.com/blog/2015/05/05/an-introduction-to-opengl-getting-started</id>
-    <content type="html"><![CDATA[<p><em>This article is a culmination of all the little notes I took while learning OpenGL over the last several months. It&rsquo;s mostly stuff that I found difficult to research plus a little summary of the differences between OpenGL versions. What a daunting task!</em></p>
+    <content type="html"><![CDATA[<p><em>This article is a culmination of all the little notes I took while learning OpenGL over the last several months. It&rsquo;s mostly stuff that I found difficult to research plus a little summary of the differences between OpenGL versions.</em></p>
 
-<p><em>If you have any recommendations on how this could be more beginner-friendly please tell me, either here or on the <a href="http://www.reddit.com/r/opengl/comments/36h578/an_introduction_to_opengl_getting_started/">Reddit thread</a></em></p>
+<p><em>What a daunting task!</em></p>
+
+<p><em>If you have any recommendations on how this could be more beginner-friendly please tell me.</em></p>
 
 <p><em>Also thanks <a href="http://greggman.com/">Gregg Tavares</a> for pointing out my various errors!</em></p>
 
 <h2>Things I wish I knew when learning OpenGL</h2>
 
-<p>The most important thing a programmer should know before deciding whether to learn OpenGL is that OpenGL is very low level, poorly documented and extremely crufty. This is because it is an API specification and not a product library per-se. It is up to the many vendors to implement the API spec as best they can.</p>
+<p>The most important thing a programmer should know before deciding whether to learn OpenGL is that OpenGL is very low level, poorly documented and extremely crufty. This is because it is an API specification and not a product library per-se. It is up to the many various vendors to implement the API spec as best they can.</p>
 
 <p><span class='pullquote-right' data-pullquote='Anyone looking to learn to use OpenGL will face a constant battle with finding relevant documentation for their chosen version on their chosen platform with their chosen extensions.'>
 In its various incarnations OpenGL spans almost 20 years and at least 7 major revisions, including the embedded versions. Anyone looking to learn to use OpenGL will face a constant battle with finding relevant documentation for their chosen version on their chosen platform with their chosen extensions.
@@ -91,7 +426,7 @@ So why would you even consider it?! Why would you write a series of articles on 
 <ul>
 <li>Google&rsquo;s <a href="https://code.google.com/p/angleproject/">ANGLE project</a> provides an OpenGL ES 2.0 (soon 3.0) driver library for Windows that wraps Direct3D. This is useful so you don&rsquo;t have to depend on the user downloading the OpenGL drivers for their graphics card on Windows.</li>
 <li><a href="glfw.org">GLFW</a> to create a window and otherwise interact with the OS and other devices. Many people prefer <a href="https://www.libsdl.org/">SDL2</a> or <a href="https://www.opengl.org/resources/libraries/glut/">GLUT</a>. Alternatively you could use the standard low-level supporting libraries supported by your operating system &ndash; WGL, GLX or EGL.</li>
-<li><a href="glm.g-truc.net">GLM</a> is a widely used vector and matrix library. It&rsquo;s particularly nice because it mirrors GLSL standard types and operations as much as possible, so hopefully there&rsquo;s some learning synergies there. I have tried using <a href="http://eigen.tuxfamily.org/">Eigen</a> which is more of a general linear algebra library focusing on performance, but it has a lot of limitations on how you can use (passing or storing types by value is complicated) it because it uses low-level processor vector intrinsics under the covers. Of course you could always write your own matrix classes, but it&rsquo;s a pretty big task.</li>
+<li><a href="glm.g-truc.net">GLM</a> is a widely used vector and matrix library. It&rsquo;s particularly nice because it mirrors GLSL standard types and operations as much as possible, so hopefully there&rsquo;s some learning synergies there. I have tried using <a href="http://eigen.tuxfamily.org/">Eigen</a> which is more of a general linear algebra library focusing on performance, but it has a lot of limitations on how you can use (passing or storing types by value is complicated) it because it uses low-level processor vector operations under the covers. Of course you could always write your own matrix classes, but it&rsquo;s a pretty big task.</li>
 <li><a href="http://glew.sourceforge.net/">GLEW</a> is a commonly used extension loader. Unfortunately extension loaders in general don&rsquo;t seem to work with ANGLE so I haven&rsquo;t used it much. <a href="https://github.com/hpicgs/glbinding">glbinding</a> and <a href="https://bitbucket.org/alfonse/glloadgen/wiki/Home">glLoadGen</a> are both code generators that create loaders for specific target versions of OpenGL. These don&rsquo;t seem to be able to target OpenGL ES versions however.</li>
 </ul>
 
@@ -119,9 +454,9 @@ So why would you even consider it?! Why would you write a series of articles on 
 
 <p><em>Note:</em> I&rsquo;m using OpenGL ES 2 GLSL syntax in my examples because I believe that&rsquo;s probably got the broadest platform support, and is most similar to WebGL. The concepts are the same for later versions, aside from the syntactic differences. As I am focusing on explaining core concepts only OpenGL ES 2 should be fine for my purposes.</p>
 
-<p>Take a moment to read some OpenGL specifications &ndash; they are probably easier to understand than you&rsquo;d think. Here&rsquo;s the <a href="https://www.khronos.org/registry/gles/specs/2.0/es_full_spec_2.0.25.pdf">OpenGL ES 2.0 Spec</a> if you want a definitive source for all this stuff. If you&rsquo;re into that make sure you look at the related <a href="https://www.opengl.org/registry/doc/GLSLangSpec.4.50.pdf">GLSL</a> or <a href="https://www.khronos.org/files/opengles_shading_language.pdf">GLSL ES</a> specifications as well.</p>
+<p>Take a moment to read some OpenGL specifications &ndash; they are probably easier to understand than you&rsquo;d think. Here&rsquo;s the <a href="https://www.khronos.org/registry/gles/specs/2.0/es_full_spec_2.0.25.pdf">OpenGL ES 2.0 Spec</a> if you want a definitive source for all this stuff.</p>
 
-<p>I will probably mention the Khronos Group a lot throughout this article. The <a href="http://khronos.org">Khronos Group</a> is a consortium of companies such as Sun Microsystems, NVIDIA and Silicon Graphics who work on standardising graphics APIs, including OpenGL. Part of their OpenGL standardisation process is to provide reference interfaces (header files) for each version of the API that vendor implementations should conform to.</p>
+<p>I will probably mention the Khronos Group a lot throughout this article. The <a href="http://khronos.org">Khronos Group</a> is a consortium of companies such as Sun Microsystems, NVidia and Silicon Graphics who work on standardising graphics APIs, including OpenGL. Part of their OpenGL standardisation process is to provide reference interfaces (header files) for each version of the API that vendor implementations should conform to.</p>
 
 <p>Here&rsquo;s a bit of a glossary of terms and concepts that are necessary to become familiar with in order to be an effective OpenGL programmer.</p>
 
@@ -207,7 +542,6 @@ So why would you even consider it?! Why would you write a series of articles on 
 <span class='line-number'>54</span>
 <span class='line-number'>55</span>
 <span class='line-number'>56</span>
-<span class='line-number'>57</span>
 </pre></td><td class='code'><pre><code class='c++'><span class='line'><span class="cp">#include &lt;GLFW/glfw3.h&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">static</span> <span class="kt">void</span> <span class="n">key_callback</span><span class="p">(</span><span class="n">GLFWwindow</span><span class="o">*</span> <span class="n">window</span><span class="p">,</span> <span class="kt">int</span> <span class="n">key</span><span class="p">,</span> <span class="kt">int</span> <span class="n">scancode</span><span class="p">,</span> <span class="kt">int</span> <span class="n">action</span><span class="p">,</span> <span class="kt">int</span> <span class="n">mods</span><span class="p">)</span> <span class="p">{</span>
@@ -255,7 +589,6 @@ So why would you even consider it?! Why would you write a series of articles on 
 </span><span class='line'>    <span class="c1">///</span>
 </span><span class='line'>
 </span><span class='line'>    <span class="n">glfwSwapBuffers</span><span class="p">(</span><span class="n">window</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">glfwPollEvents</span><span class="p">();</span>
 </span><span class='line'>  <span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="c1">// TODO: destroy OpenGL objects here</span>
@@ -323,7 +656,7 @@ So why would you even consider it?! Why would you write a series of articles on 
 
 <p>You invoke the rendering pipeline by calling either the <code>glDrawArrays()</code> or <code>glDrawElements()</code> commands (or one of their variations.) Unless you&rsquo;re using the fixed function pipeline you&rsquo;ll have to have a shader program bound so the GPU knows which vertex shader and fragment shader to invoke. You will also have to specify the vertex data (the vertex positions and perhaps other information such as the vertex normals and colours) of the primitive you are rendering. The &lsquo;basic shader program&rsquo; a few pages down shows one way to do both of these things.</p>
 
-<center><img src='http://seshbot.com/images/plantuml/e109b55f4057fb3f2e01c3337bd2b1ea.png'></center>
+<center><img src='http://seshbot.com/images/plantuml/40c1ceacc43d3519b9e919430a1278c9.png'></center>
 
 
 <p>Once again, if you want more details on how this works have a look at the specs, like the <a href="https://www.khronos.org/registry/gles/specs/2.0/es_full_spec_2.0.25.pdf">OpenGL ES 2.0 Spec</a>.</p>
@@ -334,7 +667,7 @@ So why would you even consider it?! Why would you write a series of articles on 
 
 <h5>Sending uniform data to the GPU</h5>
 
-<p>A <em>uniform</em> represents a variable that remains the same for the rendering of an entire primitive. This might be something like the object material or the position of the sun. The pattern for setting a uniform is to first get a handle to the uniform with <code>glGetUniformLocation(my_program, "my_uniform")</code>. Pass this handle to the <code>glUniform*</code> functions to set the uniform (for example <code>glUniform3f()</code> will set a uniform of type <code>vec3</code> in your shader.) Setting a uniform will make it available in any of the shaders in the bound program that want to use it.</p>
+<p>A <em>uniform</em> represents a variable that remains the same for the rendering of an entire primitive. This might be something like the object material or the position of the sun. The pattern for setting a uniform is to first get a handle to the uniform with <code>glGetUniformLocation(my_program, "my_uniform")</code>. Pass this handle to the <code>glUniform*</code> functions to set the uniform (for example <code>glUniform3f()</code> will set a uniform of type <code>vec3</code> in your shader.) Setting a uniform will make it available in any of the shaders in the bound program that are want to use it.</p>
 
 <p>In the code example a few pages down you can see how the unifrom data is bound and updated:</p>
 
@@ -347,7 +680,7 @@ So why would you even consider it?! Why would you write a series of articles on 
 
 <p>Uniforms may also be structures and arrays &ndash; the syntax to declare and use structs and arrays in GLSL (the shader code) is very similar to C, but setting them from the client application is a little tricky.</p>
 
-<p><em>To set uniform values in a structure</em>: you essentially treat the variable as if it is in the namespace of the enclosing structure&rsquo;s variable name. E.g., if the shader contains the code <code>struct Point { float x; float y; }; uniform Point p1;</code> you can access <code>p1.x</code> with exactly that syntax: <code>auto u_p1x = glGetUniformLocation(my_program, "p1.x")</code>.</p>
+<p><em>To set uniform values in a structure</em>: you essentially treat the variable as if it is in the namespace of the structure name. E.g., if the shader contains the code <code>struct Point { float x; float y; }; uniform Point p1;</code> you can access <code>p1.x</code> with exactly that syntax: <code>auto u_p1x = glGetUniformLocation(my_program, "p1.x")</code>.</p>
 
 <p><em>To set uniform values in an array</em>: you access the specific array element using standard C syntax. If the shader contains the code <code>float xs[10];</code> you can get the location of a particluar element of <code>xs</code> with <code>auto u_xs = glGetUniformLocation(my_program, "xs[0]")</code>. You can use this uniform location to either set a single element using <code>glUniform*()</code> or set a number of the elements using <code>glUniform*v()</code>.</p>
 
@@ -355,11 +688,11 @@ So why would you even consider it?! Why would you write a series of articles on 
 
 <h5>Sending vertex attribute data to the GPU</h5>
 
-<p>An <em>attribute</em> represents data related to the current vertex being processed. You specify where the GPU can find vertex data by calling the <code>glVertexAttribPointer()</code> function for each vertex attribute in your vertex shader. This process is <em>very</em> different to specifying uniforms!</p>
+<p>An <em>attribute</em> represents data related to the current vertex being processed. You specify where the GPU can find vertex data by calling the <code>glVertexAttribPointer*</code> functions for each vertex attribute in your vertex shader. This process is <em>very</em> different to specifying uniforms!</p>
 
 <p>The standard form for using a vertex attribute is something like:</p>
 
-<figure class='code'><figcaption><span>specifying vertex attribute data from a raw pointer</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>setting vertex attribute data</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -390,13 +723,13 @@ So why would you even consider it?! Why would you write a series of articles on 
 
 <p>The above code snippet illustrates how to passing a raw pointer to your vertex data to the GPU. This is not the usual case, because quite often your buffered data will interleave more than one attribute&rsquo;s worth of information (such as normals, vertex colours etc.) Usually you will create a <strong>vertex buffer object</strong> (VBO) and use <code>glVertexAttribPointer()</code> to dictate how the GPU should extract the vertex info from that.</p>
 
-<p><em>vertex buffer objects</em> are created, bound and destroyed like any other OpenGL object. You specify the data to buffer by calling the <code>glBindBuffer()</code> command with a pointer to the buffer. While this buffer is bound, any calls to <code>glVertexAttribPointer()</code> with a non-pointer in the final parameter will implicitly be referring to the bound buffer, using the final parameter instead as an offset into the buffer (in bytes) where the data may be found. This is necessary for interleaving vertex data in the same buffer.</p>
+<p><em>vertex buffer objects</em> are created, bound and destroyed like any other OpenGL object. You specify the data to buffer by calling the <code>glBindBuffer()</code> command with a pointer to the buffer. While this buffer is bound, any calls to <code>glVertexAttribPointer()</code> with a non-pointer in the final parameter will implicitly be referring to the bound buffer, using the final parameter instead as an offset into the buffer where the data may be found. This is necessary for interleaving vertex data in the same buffer.</p>
 
 <p>Having a single buffer with different types of vertex information interleaved is very common. Your two tools for describing how this buffer data is formatted are the above-mentioned <em>offset</em> parameter and the <em>stride</em> parameter. While the <em>offset</em> describes the starting byte of an attribute in the buffer, the <em>stride</em> describes the total distance (in bytes!) between the start of that attribute and the start of the next instance of that attribute. A stride of <code>0</code> is considered special &ndash; it is used if the attribute is &lsquo;tightly packed&rsquo;, meaning the buffer contains only that attribute with no space between them.</p>
 
 <p>This is best illustrated with an example:</p>
 
-<figure class='code'><figcaption><span>specifying vertex attribute data in an interleaved VBO buffer</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>specifying attributes in an interleaved buffer</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -458,24 +791,13 @@ So why would you even consider it?! Why would you write a series of articles on 
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>I won&rsquo;t be illustrating those further here because I am focusing on OpenGL ES 2.0 for this article.</p>
+<p>I won&rsquo;t be illustrating those here because I am focusing on OpenGL ES 2.0 for this article.</p>
 
 <h5>Sending per-fragment varyings to the fragment shader</h5>
 
 <p><em>Varyings</em> are per-fragment data the fragment shader uses to calculate the output colour of a fragment. Examples of this might be the normal of the surface at that point, or the material colour interpolated from the material colours of the surrounding vertices. A 3D program will often use this information along with the location of the sun (passed through a uniform) in its lighting calculations &ndash; a fragment on a surface directly facing a light source will have a brighter colour than one not.</p>
 
 <p>The calculation of what value is passed into a varying is a little bit tricky. Fragment shaders get their per-fragment input indirectly from the vertex shaders through variables called <em>varyings</em>. Of course for any three vertices forming a triangle you could have hundreds of fragments, so the GPU takes the varyings coming out of the vertex shader for each vertex influencing a fragment and interpolates them before passing them into the fragment shader.</p>
-
-<p>The following example contains only 3 vertex and colour combinations yet each fragment has a distinct colour interpolated from these vertex colours.</p>
-
-<center>
-  <iframe src="http://seshbot.com/assets/2015-05-13-gl0.html" width="320" height="200" scrolling="no" style="border: 2px solid black; -moz-box-shadow: black 2px 2px 2px;"></iframe>
-  <br/>
-  <a style="clear:both;" href="http://seshbot.com/assets/2015-05-13-gl0.html" target="_blank">click here to open in a separate window</a>
-</center>
-
-
-<p>OpenGL 3 introduced <em>interpolation qualifiers</em> that could be applied to varying variables that affect how this interpolation occurs. The three types of interpolation are <code>flat</code>, <code>smooth</code> and <code>perspective</code> (the default being smooth) &ndash; read more on <a href="http://www.geeks3d.com/20130514/opengl-interpolation-qualifiers-glsl-tutorial/">this tutorial</a>.</p>
 
 <h4>The Vertex Shader</h4>
 
@@ -725,15 +1047,15 @@ So why would you even consider it?! Why would you write a series of articles on 
 
 <p>Another generally useful matrix operation is the <em>inverse</em> of a matrix. The inverse of a matrix A is the matrix required to multiply with A so that the result is the identity matrix. In other words, <code>Ai * A = I</code>. This is useful when rolling back a matrix multiplication. If you have the <em>model view projection</em> matrix <code>mat4 mvp = proj * view * model</code>, you can find the <em>model view</em> matrix by calculating the inverse projection <em>inv_proj</em> and calculating: <code>mat4 mv = inv_proj * mvp</code>.</p>
 
-<p>Vector operations are even more interesting. A few things I want to point out here are <em>dot product</em> and <em>cross product</em>.</p>
+<p>Vector operations are even more interesting. A few things I want to point out here are <em>dot product</em>, <em>cross product</em> and the difference between <em>positional coordinates</em> and <em>directional coordinates</em>.</p>
 
-<p>The <strong>dot product</strong> operation (sometimes known as the <em>inner product</em>) is used for many purposes; the dot product of two vectors A and B is a scalar (not a vector) number that is the sum of the products of their components (e.g., <code>float a_dot_b = A.x * B.x + A.y * B.y + A.z * B.z</code>). It turns out that this simple formula gives you the cosine of the angle between those vectors multiplied by their magnitudes (<code>|A||B|cos(Ɵ)</code>), which is really useful because:</p>
+<p>The <strong>dot product</strong> operation (sometimes known as the <em>inner product</em>) is used for many purposes; the dot product of two vectors A and B is a scalar (not a vector) number that is the sum of the products of their components (e.g., <code>auto a_dot_b = A.x * B.x + A.y * B.y + A.z * B.z</code>). It turns out that this simple formula gives you the cosine of the angle between those vectors multiplied by their magnitudes (<code>|A||B|cos(Ɵ)</code>), which is really useful because:</p>
 
 <ul>
-<li>if the vectors are unit vectors (they each have magnitude of 1) the dot product will just give you <code>cos(Ɵ)</code> which is a number between 0 and 1, where 0 implies that they are perpendicular to each other (at 90 degrees) and 1 implies they are parallel. This is great for calculating how much light should bounce off a surface if the light direction is one vector and the surface normal is the other. This is also known as the <em>lambertian coefficient</em>, which I&rsquo;ll discuss in a later article on lighting.</li>
-<li>if the vectors are both unit vectors you can inverse cos the dot product to find the angle between the vectors (<code>float angle = acos(dot(A, B))</code>)</li>
+<li>if the vectors are unit vectors (they each have magnitude of 1) the dot product will just give you <code>cos(Ɵ)</code> which is a number between 0 and 1, where 0 implies that they are perpendicular to each other (at 90 degrees) and 1 implies they are parallel. This is great for calculating how much light should bounce off a surface if the light direction is one vector and the surface normal is the other.</li>
+<li>if the vectors are both unit vectors you can inverse cos the dot product to find the angle between the vectors (<code>auto angle = acos(dot(A, B))</code>)</li>
 <li>you can find the projection of vector A onto vector B by finding the dot product of A and B then dividing the result by the length of A.</li>
-<li>calculating the dot product of a vector with itself will give you the distance squared, because <code>cos(0) == 1</code>, so the formula becomes <code>|A||A|</code>. If you are checking to see which vector is longer, you can just compare their squared distances instead of their actual distances (saving you two square root operations.)</li>
+<li>calculating the dot product of a vector with itself will give you the distance squared. If you are checking to see which vector is longer, you can just compare their squared distances (saving you a square root operation)</li>
 </ul>
 
 
@@ -745,7 +1067,7 @@ So why would you even consider it?! Why would you write a series of articles on 
 
 <p>A constant frustration when reading documentation and code examples is that OpenGL 1.0 is <em>worlds apart</em> from OpenGL 2.0. Many of us would have been well served if they had given it a totally different name, so different are the products!</p>
 
-<p><strong>OpenGL 1</strong> functions in what is now called <em>immediate mode</em> and is considered deprecated. In this version the programmer describes the scene lights, materials and fog, then notifies the driver of each vertex in each primitive explicitly. The driver would then render the scene using its own internal lighting model using the described lights and materials. This is called the <em>fixed function pipeline</em>.</p>
+<p><strong>OpenGL 1</strong> functions in what is now called <em>immediate mode</em> and is considered deprecated. In this version the programmer describes the scene lights, materials and fog, then notifies the driver of each polygon explicitly. The driver would then render the scene using its own internal lighting model using the described lights and materials. This is called the <em>fixed function pipeline</em>.</p>
 
 <figure class='code'><figcaption><span>OpenGL 1 example code snippet</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -784,7 +1106,7 @@ So why would you even consider it?! Why would you write a series of articles on 
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p><strong>OpenGL 2</strong> introduced shaders, yet still provided compatability with the above described fixed function pipeline. Shaders had access to the state declared in the fixed function pipeline through standard global variables (such as the <code>gl_LightSource[]</code> array and the <code>gl_FrontMaterial</code> variable sent from the client and the <code>gl_ModelViewProjection</code> matrix which was generated by the driver.) The vertex shader can invoke the standard fixed-function pipeline functionality by callling <code>gl_Position = ftransform();</code></p>
+<p><strong>OpenGL 2</strong> introduced shaders, yet still provided compatability with the above described model. Shaders had access to the state declared in the fixed function pipeline through standard global variables (such as the <code>gl_LightSource[]</code> array and the <code>gl_FrontMaterial</code> variable sent from the client and the <code>gl_ModelViewProjection</code> matrix which was generated by the driver.) The vertex shader can invoke the standard fixed-function pipeline functionality by callling <code>gl_Position = ftransform();</code>.</p>
 
 <p><strong>OpenGL 3</strong> completely deprecated the immediate mode fixed-function pipeline. Of course this introduced backwards-compatability issues so they also introduced several <em>profiles</em> to allow backward compatability to be optionally compiled in. The <em>compatability profile</em> can be requested to enable deprecated features, while the <em>core profile</em> disallows the use of these features.</p>
 
@@ -831,8 +1153,8 @@ So why would you even consider it?! Why would you write a series of articles on 
 <li>deprecated most 1.0 functionality (immediate mode stuff) introducing compatability and core modes
 
 <ul>
-<li>compatability profile gives access to the old fixed function pipeline</li>
-<li>core profile does not</li>
+<li>compatability mode gives access to the old fixed function pipeline</li>
+<li>core mode does not</li>
 </ul>
 </li>
 </ul>
@@ -897,22 +1219,21 @@ So why would you even consider it?! Why would you write a series of articles on 
 <h2>Challenges you will face</h2>
 
 <ul>
-<li>The API itself is not self-explanatory. There are no namespaces, enums are not strongly typed, and often long-deprecated commands are very similarly named to newer commands</li>
 <li>Having to learn support libraries in addition to the OpenGL API</li>
 <li>Cross platform support is difficult as many features are not uniformly supported</li>
 <li>Debugging GL state in different platforms &ndash; OpenGL debugging tools are not great, and there are none that work cross-platform</li>
 <li>Multithreading correctly is extremely difficult &ndash; if possible just do all your rendering on one thread!</li>
 <li>Managing extensions can be a pain in the ass</li>
 <li>State management &ndash; OpenGL uses global state, so it is impossible to write optimal abstractions because cannot encapsulate state, and state querying is prohibitively expensive. So you end up redundantly setting state that has often already been set.</li>
-<li>Others with more experience than me have gone into OpenGL&rsquo;s problems at length: <a href="http://richg42.blogspot.jp/2014/05/things-that-drive-me-nuts-about-opengl.html">http://richg42.blogspot.jp/2014/05/things-that-drive-me-nuts-about-opengl.html</a></li>
+<li>lots of problems: <a href="http://richg42.blogspot.jp/2014/05/things-that-drive-me-nuts-about-opengl.html">http://richg42.blogspot.jp/2014/05/things-that-drive-me-nuts-about-opengl.html</a></li>
 </ul>
 
 
 <h3>Documentation and tutorials</h3>
 
-<p>As I mentioned there&rsquo;s not a lot of great documentation out there. I started to create <a href="http://cechner.github.io/">my own responsive OpenGL documentation</a> and then discovered that there&rsquo;s already a pretty sweet one out there called <a href="http://docs.gl/">docs.gl</a>. I like docs.gl because it makes clear which commands are supported in which versions of OpenGL &ndash; something that&rsquo;s hard to figure out from the more official sources.</p>
+<p>As I mentioned there&rsquo;s not a lot of great documentation out there. I started to create <a href="http://cechner.github.io/">my own responsive OpenGL documentation</a> and then discovered that there&rsquo;s already a pretty sweet one out there called <a href="http://docs.gl/">docs.gl</a>. Docs.gl is great because it makes it clear which commands are supported in which versions of OpenGL &ndash; something that&rsquo;s hard to figure out from the more official sources.</p>
 
-<p><a href="http://open.gl/">open.gl</a> is a modern, minimalistic and well written set of beginners tutorials. A very similar-seeming tutorial series that goes into more advanced techniques is <a href="http://learnopengl.com/">Learn OpenGL</a>. There used to be a fantastic series called the ArcSynthesis tutorials but they seem to have died. There is a <a href="http://www.pdfiles.com/pdf/files/English/Designing_&amp;_Graphics/Learning_Modern_3D_Graphics_Programming.pdf">PDF version of their content</a> that seems pretty good though.</p>
+<p>A great beginner tutorial is <a href="http://open.gl/">open.gl</a> &ndash; it&rsquo;s modern, minimalistic and well written. A very similar-seeming tutorial series that goes into more advanced techniques is <a href="http://learnopengl.com/">Learn OpenGL</a>. There used to be a fantastic series called the ArcSynthesis tutorials but they seem to have died. There is a <a href="http://www.pdfiles.com/pdf/files/English/Designing_&amp;_Graphics/Learning_Modern_3D_Graphics_Programming.pdf">PDF version of their content</a> that seems pretty good though.</p>
 
 <p><a href="http://ogldev.atspace.co.uk/index.html">OGLdev</a> is a series of tutorials that go into more depth than the open.gl site above, and is in bite-sized chunks for easier consumption.</p>
 
@@ -1050,7 +1371,7 @@ So why would you even consider it?! Why would you write a series of articles on 
   <entry>
     <title type="html"><![CDATA[Week in Review: back from my hiatus (from my hiatus)]]></title>
     <link href="http://seshbot.com/blog/2015/01/24/week-in-review-back-from-my-hiatus-from-my-hiatus/"/>
-    <updated>2015-01-24T12:49:15+08:00</updated>
+    <updated>2015-01-24T04:49:15+00:00</updated>
     <id>http://seshbot.com/blog/2015/01/24/week-in-review-back-from-my-hiatus-from-my-hiatus</id>
     <content type="html"><![CDATA[<p>In September I went to Spain for 6 weeks to chill out with my family and check out what the countryside had to offer. Then I moved from Japan to Australia and got caught up in the Christams spirit. So although I have done some stuff (below) I have not made much progress on any big projects in the last few months&hellip;</p>
 
@@ -1135,7 +1456,7 @@ So why would you even consider it?! Why would you write a series of articles on 
   <entry>
     <title type="html"><![CDATA[C++11/14 idioms I use every day]]></title>
     <link href="http://seshbot.com/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day/"/>
-    <updated>2014-08-16T12:49:33+08:00</updated>
+    <updated>2014-08-16T04:49:33+00:00</updated>
     <id>http://seshbot.com/blog/2014/08/16/modern-c-plus-plus-idioms-i-use-every-day</id>
     <content type="html"><![CDATA[<p><em>if you want to see a bunch of people complaining about my rules regarding </em>auto<em>, have a look at <a href="https://news.ycombinator.com/item?id=8193157">HackerNews</a> and <a href="http://www.reddit.com/r/cpp/comments/2dvirt/new_c_idioms_i_use_every_day/">Reddit</a></em></p>
 
@@ -1508,7 +1829,7 @@ But in the last 5 years the landscape has changed dramatically. C++11, although 
   <entry>
     <title type="html"><![CDATA[C++ trick: Use Make without Makefiles]]></title>
     <link href="http://seshbot.com/blog/2014/06/16/make-with-no-makefile-for-c-plus-plus-playgrounds/"/>
-    <updated>2014-06-16T09:23:57+08:00</updated>
+    <updated>2014-06-16T01:23:57+00:00</updated>
     <id>http://seshbot.com/blog/2014/06/16/make-with-no-makefile-for-c-plus-plus-playgrounds</id>
     <content type="html"><![CDATA[<p>I use CMake personally because managing Makefiles is a hassle. However, I still use <code>make</code> regularly for one purpose: to easily create quick apps without setting up any projects or infrastructure at all. I have no idea where I first heard about this trick, and I can find very little referring to it on the internet. I recently found out that most people didn&rsquo;t know about it though, so I thought I&rsquo;d put a bit of info up here so others can benefit from it.</p>
 
@@ -1563,9 +1884,9 @@ But in the last 5 years the landscape has changed dramatically. C++11, although 
   
   <entry>
     <title type="html"><![CDATA[Swift: a solid modern imperative language]]></title>
-    <link href="http://seshbot.com/blog/2014/06/04/swift-a-good-example-of-a-modern-imperative-language/"/>
-    <updated>2014-06-04T07:25:06+08:00</updated>
-    <id>http://seshbot.com/blog/2014/06/04/swift-a-good-example-of-a-modern-imperative-language</id>
+    <link href="http://seshbot.com/blog/2014/06/03/swift-a-good-example-of-a-modern-imperative-language/"/>
+    <updated>2014-06-03T23:25:06+00:00</updated>
+    <id>http://seshbot.com/blog/2014/06/03/swift-a-good-example-of-a-modern-imperative-language</id>
     <content type="html"><![CDATA[<p><em>Note 1: these are first impressions only &ndash; I&rsquo;ve only spent a day really looking at the docs and playing with the XCode beta so I am probably mistaken about some stuff</em></p>
 
 <p><em>Note 2: I am using a beta of XCode, and it has caused me some trouble (a mysterious service it starts keeps crashing, filling my HDD up with core files.) I would recommend waiting for the non-beta if I were you.</em></p>
@@ -1815,7 +2136,7 @@ Objective C language itself.</p>
   <entry>
     <title type="html"><![CDATA[Week in Review: Running in an infinite world]]></title>
     <link href="http://seshbot.com/blog/2014/05/31/week-in-review-running-in-an-infinite-world/"/>
-    <updated>2014-05-31T19:24:19+08:00</updated>
+    <updated>2014-05-31T11:24:19+00:00</updated>
     <id>http://seshbot.com/blog/2014/05/31/week-in-review-running-in-an-infinite-world</id>
     <content type="html"><![CDATA[<p>Here&rsquo;s a quick snap of the 2D SFML client alongside a new OpenGL client:
 <img src="http://seshbot.com/images/upload/2014-05-31-compare.png" title="&#34;SFML client alongside OpenGL client with QML overlays&#34;" alt="&#34;SFML client alongside OpenGL client with QML overlays&#34;"></p>
@@ -1894,7 +2215,7 @@ terrain service.</p>
   <entry>
     <title type="html"><![CDATA[Week in review: Porting to Qt/QML with OpenGL]]></title>
     <link href="http://seshbot.com/blog/2014/05/16/week-in-review-c-plus-plus/"/>
-    <updated>2014-05-16T08:56:26+08:00</updated>
+    <updated>2014-05-16T00:56:26+00:00</updated>
     <id>http://seshbot.com/blog/2014/05/16/week-in-review-c-plus-plus</id>
     <content type="html"><![CDATA[<p><em>So I took a month holiday, and got out of the habit of writing blogs&hellip; hopefully this will break the dam, it&rsquo;s not like I don&rsquo;t have a billion things to write about</em></p>
 
@@ -2043,7 +2364,7 @@ your chosen GL version.</p>
   <entry>
     <title type="html"><![CDATA[Week in Review: Making Games]]></title>
     <link href="http://seshbot.com/blog/2014/02/22/week-in-review-making-games/"/>
-    <updated>2014-02-22T09:35:00+08:00</updated>
+    <updated>2014-02-22T01:35:00+00:00</updated>
     <id>http://seshbot.com/blog/2014/02/22/week-in-review-making-games</id>
     <content type="html"><![CDATA[<p>I have once again bitten off a whole lot &ndash; I started making a game based on my fairly limited knowledge of how such things are done, and have found it very difficult to take a moment to distill my thoughts. In fact it has been nearly impossible as I have been constantly unsure of whether the approach I&rsquo;m taking is actually going to pay off in the long run!</p>
 
@@ -2167,9 +2488,9 @@ in Windows but has been trivial in OSX.</p>
   
   <entry>
     <title type="html"><![CDATA[Week in Review: Pausing Web App, Starting C++ App]]></title>
-    <link href="http://seshbot.com/blog/2014/02/03/week-in-review-pausing-web-app/"/>
-    <updated>2014-02-03T06:52:52+08:00</updated>
-    <id>http://seshbot.com/blog/2014/02/03/week-in-review-pausing-web-app</id>
+    <link href="http://seshbot.com/blog/2014/02/02/week-in-review-pausing-web-app/"/>
+    <updated>2014-02-02T22:52:52+00:00</updated>
+    <id>http://seshbot.com/blog/2014/02/02/week-in-review-pausing-web-app</id>
     <content type="html"><![CDATA[<p>Just over a week ago I decided to put down my web tools for a while and move to working in an environment in which I&rsquo;m much more comfortable &ndash; C++. I will definitely pick up the &lsquo;Table Top&rsquo; app (or whatever it turns into) again soon but I felt the need to do work that resulted in a more <em>tangible</em> product.</p>
 
 <p>Over the last few weeks I&rsquo;ve had a growing realisation that the foundation of web programming is still immature, and I am doubting the value in investing too much time learning the high-level technologies. I am not really one for learning frameworks in general actually &ndash; I much prefer learning languages and idioms &ndash; and modern web programming is all about rapidly changing high-level frameworks.</p>
@@ -2241,9 +2562,9 @@ in Windows but has been trivial in OSX.</p>
   
   <entry>
     <title type="html"><![CDATA[The best way for programmers to interview programmers]]></title>
-    <link href="http://seshbot.com/blog/2014/01/24/the-best-way-for-programmers-to-interview-programmers/"/>
-    <updated>2014-01-24T04:56:52+08:00</updated>
-    <id>http://seshbot.com/blog/2014/01/24/the-best-way-for-programmers-to-interview-programmers</id>
+    <link href="http://seshbot.com/blog/2014/01/23/the-best-way-for-programmers-to-interview-programmers/"/>
+    <updated>2014-01-23T20:56:52+00:00</updated>
+    <id>http://seshbot.com/blog/2014/01/23/the-best-way-for-programmers-to-interview-programmers</id>
     <content type="html"><![CDATA[<p><strong>Every programmer should know how to give technical interviews.</strong> Although you will rarely be judged on your interviewing abilities, it is definitely in your best interest to help ensure your company is hiring effective programmers. If you manage to surround yourself with great programmers you&rsquo;ll foster a much better environment in which you can become a great programmer yourself. If you find yourself surrounded by programmers you consider sub-par you&rsquo;ll end up supporting their crappy software.</p>
 
 <p><span class='pullquote-right' data-pullquote='the best way to find great programmers is by giving them some control over the interview topic, and then going deep into a few questions instead of broad across many topics'>
@@ -2354,7 +2675,7 @@ This question puts the ball firmly in the candidate&rsquo;s court, and largely e
   <entry>
     <title type="html"><![CDATA[Client-side authentication with ember and rails]]></title>
     <link href="http://seshbot.com/blog/2014/01/22/client-side-authentication-with-ember-and-rails/"/>
-    <updated>2014-01-22T08:30:27+08:00</updated>
+    <updated>2014-01-22T00:30:27+00:00</updated>
     <id>http://seshbot.com/blog/2014/01/22/client-side-authentication-with-ember-and-rails</id>
     <content type="html"><![CDATA[<p><em>This post follows on from the previous post <a href="http://seshbot.com/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch/">creating and deploying a rails + ember app from scratch</a>. In that post I created a basic ember application being served from rails. Here I&rsquo;ll be adding user authentication to the application I created using the &lsquo;edge template&rsquo; option I discussed, which uses the &lsquo;ember-rails&rsquo; gem to establish the basic connectivity.</em></p>
 
@@ -2597,7 +2918,7 @@ This question puts the ball firmly in the candidate&rsquo;s court, and largely e
   <entry>
     <title type="html"><![CDATA[Creating and deploying a Rails + Ember app]]></title>
     <link href="http://seshbot.com/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch/"/>
-    <updated>2014-01-15T16:54:16+08:00</updated>
+    <updated>2014-01-15T08:54:16+00:00</updated>
     <id>http://seshbot.com/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch</id>
     <content type="html"><![CDATA[<p>Today I decided to wield my new Rails and Ember knowledge and&hellip; look into yet another new technology. I thought it would be helpful to have an online app to demonstrate the fruits of my labours, so am deploying a new app to <strong><a href="http://heroku.com">Heroku</a></strong>.</p>
 
@@ -2884,7 +3205,7 @@ This question puts the ball firmly in the candidate&rsquo;s court, and largely e
   <entry>
     <title type="html"><![CDATA[Learning Ruby and Rails]]></title>
     <link href="http://seshbot.com/blog/2014/01/14/learning-ruby-and-rails/"/>
-    <updated>2014-01-14T09:32:29+08:00</updated>
+    <updated>2014-01-14T01:32:29+00:00</updated>
     <id>http://seshbot.com/blog/2014/01/14/learning-ruby-and-rails</id>
     <content type="html"><![CDATA[<p><em>Note: The formatting of this article is not great, but I pumped it out quickly after going through the tutorials</em></p>
 
@@ -3293,7 +3614,7 @@ This question puts the ball firmly in the candidate&rsquo;s court, and largely e
   <entry>
     <title type="html"><![CDATA[This week in review: my game table web app]]></title>
     <link href="http://seshbot.com/blog/2014/01/11/this-week-in-review-the-game-table-web-app/"/>
-    <updated>2014-01-11T10:19:08+08:00</updated>
+    <updated>2014-01-11T02:19:08+00:00</updated>
     <id>http://seshbot.com/blog/2014/01/11/this-week-in-review-the-game-table-web-app</id>
     <content type="html"><![CDATA[<p>First here&rsquo;s a quick summary of what I got up to:</p>
 
@@ -3367,7 +3688,7 @@ I&rsquo;m not saying the framework is terrible, but all of the Ember help I foun
   <entry>
     <title type="html"><![CDATA[What's so hard about programming?]]></title>
     <link href="http://seshbot.com/blog/2014/01/06/whats-so-hard-about-programming/"/>
-    <updated>2014-01-06T19:19:49+08:00</updated>
+    <updated>2014-01-06T11:19:49+00:00</updated>
     <id>http://seshbot.com/blog/2014/01/06/whats-so-hard-about-programming</id>
     <content type="html"><![CDATA[<p>It is a fact that every programmer is the star of their peer group, and would spin out the most awesome cleanly-built apps if only he or she didn&rsquo;t have to work under these circumstances. It is also a fact that every programmer understands that they were terribly misguided just a few years prior.</p>
 
@@ -3461,7 +3782,7 @@ The agile principle of avoiding &lsquo;big design up-front&rsquo; leads people t
   <entry>
     <title type="html"><![CDATA[JavaScript in Modern Web Apps]]></title>
     <link href="http://seshbot.com/blog/2014/01/03/javascript-in-modern-web-apps/"/>
-    <updated>2014-01-03T22:20:08+08:00</updated>
+    <updated>2014-01-03T14:20:08+00:00</updated>
     <id>http://seshbot.com/blog/2014/01/03/javascript-in-modern-web-apps</id>
     <content type="html"><![CDATA[<p>The web development scene has moved dramatically since my own minor experience at an Internet business company 14 years ago. Back then we created <em>web pages</em> in ColdFusion/PHP/ASP marked-up HTML. Our main tools were frames and tables and a lot of homegrown convention to ensure headers/footers looked right. We spent most of our efforts on effectively using CSS to make our lives easier &ndash; not separating views from data or dynamically updating HTML elements.</p>
 
@@ -3564,7 +3885,7 @@ use in the browser.</p>
   <entry>
     <title type="html"><![CDATA[The Grand Experiment]]></title>
     <link href="http://seshbot.com/blog/2013/12/20/the-grand-experiment/"/>
-    <updated>2013-12-20T09:07:06+08:00</updated>
+    <updated>2013-12-20T01:07:06+00:00</updated>
     <id>http://seshbot.com/blog/2013/12/20/the-grand-experiment</id>
     <content type="html"><![CDATA[<p>A few months ago I decided to hand in my notice and live off my savings for a while. In 13 years of software development this is the first proper hiatus I&rsquo;ve taken so I have no idea what to expect.</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Languages | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/languages/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2015-05-19T23:50:39+08:00</updated>
+  <updated>2015-09-21T17:46:53+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -14,10 +14,235 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Covariance and Contravariance made easy]]></title>
+    <link href="http://seshbot.com/blog/2015/09/21/co-and-contra-variance-made-easy/"/>
+    <updated>2015-09-21T10:03:45+00:00</updated>
+    <id>http://seshbot.com/blog/2015/09/21/co-and-contra-variance-made-easy</id>
+    <content type="html"><![CDATA[<p><em>For a more in-depth rundown on covariance and contravariance explained in terms of category theory have a look at <a href="http://tomasp.net/blog/variance-explained.aspx/">Thomas Patricek&rsquo;s blog</a></em></p>
+
+<p>Covariance and contravariance are things you&rsquo;ll probably ignore until you start using generics in ernest. Then one day you&rsquo;ll want to pass an enumerable to a function that takes a slightly different yet related type of enumerable and then <em>BAM</em> &ndash; you&rsquo;re hit with some crazy error messages and then all of a sudden you&rsquo;re up to your elbows in browser tabs of StackOverflow articles.</p>
+
+<p>It is necessitated due to the interaction of two different forms of polymorphism &ndash; object inheritance and generic typing. And yet sometimes you want to combine the two &ndash; while <code>MyType&lt;T&gt;</code> and <code>MyType&lt;U&gt;</code> share no inheritance relationship and therefore are not substitutable for each other, sometimes you want to treat them as if they are substitutable if <code>T</code> and <code>U</code> are themselves related.</p>
+
+<p>Surround your pullquote like this {" text to be quoted "}</p>
+
+<p><em>Covariance</em> and <em>contravariance</em> are two different ways that differently specialised generic types should themselves be substitutable for each other like derived types are:</p>
+
+<p><strong>Covariance</strong>: <code>MyType&lt;T&gt;</code> is covariant if typing <code>MyType&lt;Base&gt; x = new MyType&lt;Derived&gt;()</code> makes sense (this looks very much like standard substitution rules.)</p>
+
+<p>An example of this is an <code>IEnumerable</code>-derived type, and is classified as having methods that <em>return</em> the predicated type, or <em>getters</em> (hence C# uses the <code>out</code> keyword.)</p>
+
+<p>The implication is that the relationship between the covariant generic types is the <strong>same</strong> as the relationship between their predicated types, e.g.:
+``` csharp
+Base b = new Derived(); // this is OK because of Liskov substitution</p>
+
+<p>IEnumerable<Derived> ds = new List<Derived>();
+IEnumerable<Base> bs = ds; // this is also OK because IEnumerable is covariant
+Base first = bs.First();
+```</p>
+
+<p><strong>Contravariance</strong>: <code>MyType&lt;T&gt;</code> is contravariant if typing <code>MyType&lt;Derived&gt; x = new MyType&lt;Base&gt;()</code> makes sense.</p>
+
+<p>An example of this is the .Net generic <code>Action</code> type, and is classified as having methods that <em>accept</em> the predicated type as a parameter, or <em>setters</em> (hence C# uses the <code>in</code> keyword.)</p>
+
+<p>Contravariant types are probably less common than covariant types, and imply that the relationship between the generic types is the <strong>inverse</strong> of the relationship between their predicated types. E.g.:
+<code>csharp
+Action&lt;Base&gt; b = (Base value) =&gt; { System.Console.Write(value.Name); };
+Action&lt;D&gt; d = b; // OK because Action is contravariant
+d.Invoke(new Derived()); // invoke alias 'd', actually invokes 'b'
+</code></p>
+
+<!-- more -->
+
+
+<h2>Why they&rsquo;re helpful</h2>
+
+<p>Covariance and contravariance are useful in all the ways that Liskov&rsquo;s substitution principle is useful with regular polymorphic types &ndash; they are a mechanism that lets you inform the compiler when it&rsquo;s safe to bind an instance of one generic type to a reference of the same generic type with a different generic parameter.</p>
+
+<p>More specifically a generic type annotated as covariant or contravariant (e.g., a <code>IEnumerable&lt;T&gt;</code>) might be bound to other references of that type (e.g., <code>IEnumerable&lt;U&gt;</code>) when there is an inheritance relationship between the two predicated types. This allows you to pass your <code>IEnumerable&lt;Employee&gt;</code> to a function that actually accepts an <code>IEnumerable&lt;Person&gt;</code> without the compiler complaining that they are different types.</p>
+
+<p>In other words, covariance and contravariance hints allow you to apply the Liskov substitution rules to generic types when the predicated types may themselves be substituted for each other.</p>
+
+<p>To be very clear it only affects:</p>
+
+<ul>
+<li>generic types</li>
+<li>where the predicated types have an inheritence relationship</li>
+<li>where a concrete object of that generic type is being bound to a reference (e.g., a passed as a parameter) of a different specialisation of that type</li>
+</ul>
+
+
+<h3>Liskov&rsquo;s substitution with regular OO types</h3>
+
+<p>For example as a reminder of the standard substitution rules:</p>
+
+<p>``` csharp (C#) example of OO substitution rules in action
+class Animal {};
+class Dog : Animal {};
+class Poodle : Dog {};</p>
+
+<p>void SaveDog(Dog dog) { &hellip; }
+Dog LoadDog() { &hellip; }</p>
+
+<p>Animal myAnimal = &hellip; ;
+SaveDog(myAnimal); // ERROR &ndash; myAnimal might be a cat!
+Animal myAnimal2 = LoadDog(); // OK &ndash; dog is a kind of animal</p>
+
+<p>Poodle myPoodle = &hellip;;
+SaveDog(myPoodle); // OK &ndash; poodle is a kind of dog
+Poodle myPoodle2 = LoadDog(); // ERROR &ndash; LoadDog might return a non-poodle dog!
+<code>``
+OK cool, this is just how polymorphism works in OO languages. But here's where it gets confusing - what about generic types that are predicated on those types? E.g., a</code>IEnumerable<Dog><code>or a</code>Action<Dog>`?</p>
+
+<h3>Liskov&rsquo;s substitution of generic types</h3>
+
+<p>Covariance and Contravariance hints tell the compiler to allow <em>references</em> to generic types to obey the same rules as polymorphic types! It doesn&rsquo;t affect how you can use a particular type directly, but it affects what other types of that generic object it can be bound to (when being passed to or returned from functions, for example).</p>
+
+<p>To extend the previous example:</p>
+
+<p>``` csharp
+// should be covariant but is not
+interface IReader<T> {
+  T Read() {&hellip;}; // simplified interface
+};</p>
+
+<p>// should be contravariant but is not
+interface IWriter<T> {
+  void Write(T entity); // simplified interface
+}</p>
+
+<p>void PrintDogFrom(IReader<Dog> dogReader) {
+  Dog dog = dogReader.Read();
+  // &hellip; print dog info or something
+}</p>
+
+<p>void WriteDogTo(IWriter<Dog> dogWriter) {
+  dogWriter.Write(new Poodle());
+}</p>
+
+<p>// demonstrating a typical &lsquo;reading&rsquo; usage scenario
+// that should work ideally</p>
+
+<p>IReader<Poodle> poodleReader = &hellip;; // init somehow
+PrintDogFrom(poodleReader); // ERROR! (IReader<Poodle> != IReader<Dog>)
+// BUT it should be OK (poodles are dogs)</p>
+
+<p>// demonstrating a typical &lsquo;writing&rsquo; usage scenario
+// that should work ideally</p>
+
+<p>IWriter<Animal> animalWriter = &hellip;; // init somehow
+WriteDogTo(animalWriter); // ERROR! (IWriter<Animal> != IWriter<Dog>)
+// BUT it should be OK (writer holds animals, can write dogs)
+```</p>
+
+<p>We recognise that a <code>IReader&lt;Poodle&gt;</code> instance should be able to be bound to a <code>IReader&lt;Dog&gt;</code> reference if <code>Poodle</code> is a <em>subclass</em> of <code>Dog</code>. This is known as <em>covariance</em> and is denoted in C# by labeling the generic type with the <code>out</code> keyword:</p>
+
+<p>We can also see that <code>IWriter&lt;Dog&gt;</code> should be able to be bound to <code>IWriter&lt;Animal&gt;</code> if <code>Animal</code> is a <em>superclass</em> of <code>Dog</code>. This is known as <em>contravariance</em> and is denoted in C# by labeling the generic type with the <code>in</code> keyword.</p>
+
+<p>``` csharp
+// IReader is covariant on T
+interface IReader<out T> {
+  &hellip; // as before
+}</p>
+
+<p>// IWriter is contravariant on T
+interface IWriter<in T> {
+  &hellip; // as before
+}
+```</p>
+
+<p>The difference in the two interfaces is simple &ndash; covariance is used when the dependent type is retrieved out of the generic type (an example would be how an <code>IEnumerable&lt;T&gt;</code> returns objects of type <code>T</code> and therefore is <em>covariant on T</em>). A generic type should be contravariant if it accepts the dependent type as input into its interface (an example would be how an <code>Action&lt;T&gt;</code> takes an instance of <code>T</code> as input when it is run, therefore it is <em>contravariant on T</em>).</p>
+
+<p>Here&rsquo;s an attempt to visually represent valid type conversions for a cass hierarchy, a representative covariant type (<code>IEnum</code>) and a representative contravariant type (<code>Action</code>):</p>
+
+<p><center><img src='/images/plantuml/08c81de8fa4dd34a609902a1873a6b07.png'></center></p>
+
+<h2>When should my interfaces be covariant or contravariant?</h2>
+
+<p>I only add this when its needed, but one thing you&rsquo;ll find is that you cannot have a covariant or contravariant type if you are both returning and accepting the dependent type in your interface. This is why in C# <code>IEnumerable</code> is covariant but <code>IList</code> is not &ndash; because <code>IList</code> allows you to add elements to the collection as well as retrieve the elements in the collection.</p>
+
+<p>Sometimes you will be forced to make your type covariant if you want to use it in certain ways. In this case you may have to separate out the reading part of your interface into a separate interface and have the generic parameter be covariant there only.</p>
+
+<h2>A few language-specific quirks you might run across</h2>
+
+<p>Java never used to support variance specifications much to its detriment. Java arrays behave in a covariant way, but because the interface supports both retrieving and setting elements, the following compiles (or at least used to, I havent tried it recently:)</p>
+
+<p><code>
+Dog[] dogs = new Dog[10]; // ...
+Animal[] dogsAsAnimals = dogs;
+dogsAsAnimals[0] = new Cat(); // whaa?
+</code></p>
+
+<p>C# has supported variance for a long time, but unfortunately there are some corners where they have not yet added it. I recently found out that <code>Task&lt;T&gt;</code> is not covariant, and so if you were implementing your own covariant type, its interface cannot return generic <code>Task&lt;&gt;</code> types, which is frustrating because thats what Microsoft strongly recommend you to do.</p>
+
+<p>Example:
+<code>
+interface IReader&lt;out T&gt; {
+  T GetNext();
+  Task&lt;T&gt; GetNextAsync(); // compile error! although this should be idiomatic!
+}
+</code></p>
+
+<p>The official answer to this (well, <a href="http://stackoverflow.com/questions/12204755/can-should-tasktresult-be-wrapped-in-a-c-sharp-5-0-awaitable-which-is-covarian">Jon Skeet&rsquo;s</a> word is very highly considered) was that adding variance to your interfaces quickly gets complicated in some way and so try to make your types invariant, and I cannot answer to that. My solution was to have the interface return a non-generic <code>Task</code> and dynamically downcast it to the generic type when I used it. This is not great, but its also quite safe as you know for certain the type of the task.</p>
+
+<p>C++ generics (templates) do not directly support the notion of covariance or contravariance, but they don&rsquo;t need to &ndash; templates are specialised at compile time to generate separate instances for each required specialisation, so generic types are often not required to be coerced into other generic types.</p>
+
+<p>For example:
+``` cpp</p>
+
+<p>template <typename T>
+void printBases(vector&lt;T*> &amp; bases) {
+  foreach (auto * b : bases) {</p>
+
+<pre><code>cout &lt;&lt; b-&gt;Name() &lt;&lt; endl;
+</code></pre>
+
+<p>  }
+}</p>
+
+<p>vector&lt;Derived*> ds {};
+printBases(ds); // works as long as Derived has Name() method</p>
+
+<p>template <typename T>
+void addDerived(vector<T> &amp; deriveds) {
+  deriveds.push_back(new Derived{});
+}</p>
+
+<p>vector&lt;Base*> bs {};
+addDerived(bs);
+```</p>
+
+<p>The above code shows that C++&rsquo;s templates are generally sufficient for performing generic operations on generically encapsulated types. The only constraings put on the type passed to the function is that it has a <code>Name()</code> method (this is known as &lsquo;duck-typing&rsquo;). Note that these are completely type-safe, as the compiler generates fully typed code at compile time. If I tried to add a <code>Base</code> type to a <code>Derived</code> vector, for example, you would get the expected error because the compiler would recognise the type mismatch.</p>
+
+<p>On a related topic, it is also worth noting that C++ allows a derived class' overridden virtual methods to have <em>covariant return types</em> such that:
+``` cpp
+struct Base {};
+struct Derived : Base {};</p>
+
+<p>struct BaseFactory {
+  virtual Base * create() { return new Base{}; }
+};</p>
+
+<p>struct DerivedFactory : BaseFactory {
+  override Derived * create() { return new Derived{}; }
+};</p>
+
+<p>DerivedFactory * ds = new DerivedFactory();
+Derived * d = ds->create();</p>
+
+<p>BaseFactory * bs = ds;
+Base * b = bs->create();
+```</p>
+
+<p>Java also supports covariant return types, but C# does not.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Swift: a solid modern imperative language]]></title>
-    <link href="http://seshbot.com/blog/2014/06/04/swift-a-good-example-of-a-modern-imperative-language/"/>
-    <updated>2014-06-04T07:25:06+08:00</updated>
-    <id>http://seshbot.com/blog/2014/06/04/swift-a-good-example-of-a-modern-imperative-language</id>
+    <link href="http://seshbot.com/blog/2014/06/03/swift-a-good-example-of-a-modern-imperative-language/"/>
+    <updated>2014-06-03T23:25:06+00:00</updated>
+    <id>http://seshbot.com/blog/2014/06/03/swift-a-good-example-of-a-modern-imperative-language</id>
     <content type="html"><![CDATA[<p><em>Note 1: these are first impressions only &ndash; I&rsquo;ve only spent a day really looking at the docs and playing with the XCode beta so I am probably mistaken about some stuff</em></p>
 
 <p><em>Note 2: I am using a beta of XCode, and it has caused me some trouble (a mysterious service it starts keeps crashing, filling my HDD up with core files.) I would recommend waiting for the non-beta if I were you.</em></p>

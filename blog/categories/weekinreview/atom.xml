@@ -4,7 +4,7 @@
   <title><![CDATA[Category: WeekInReview | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/weekinreview/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2015-05-19T23:50:39+08:00</updated>
+  <updated>2015-09-21T17:46:53+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Week in Review: back from my hiatus (from my hiatus)]]></title>
     <link href="http://seshbot.com/blog/2015/01/24/week-in-review-back-from-my-hiatus-from-my-hiatus/"/>
-    <updated>2015-01-24T12:49:15+08:00</updated>
+    <updated>2015-01-24T04:49:15+00:00</updated>
     <id>http://seshbot.com/blog/2015/01/24/week-in-review-back-from-my-hiatus-from-my-hiatus</id>
     <content type="html"><![CDATA[<p>In September I went to Spain for 6 weeks to chill out with my family and check out what the countryside had to offer. Then I moved from Japan to Australia and got caught up in the Christams spirit. So although I have done some stuff (below) I have not made much progress on any big projects in the last few months&hellip;</p>
 
@@ -101,7 +101,7 @@
   <entry>
     <title type="html"><![CDATA[Week in Review: Running in an infinite world]]></title>
     <link href="http://seshbot.com/blog/2014/05/31/week-in-review-running-in-an-infinite-world/"/>
-    <updated>2014-05-31T19:24:19+08:00</updated>
+    <updated>2014-05-31T11:24:19+00:00</updated>
     <id>http://seshbot.com/blog/2014/05/31/week-in-review-running-in-an-infinite-world</id>
     <content type="html"><![CDATA[<p>Here&rsquo;s a quick snap of the 2D SFML client alongside a new OpenGL client:
 <img src="/images/upload/2014-05-31-compare.png" title="&ldquo;SFML client alongside OpenGL client with QML overlays&rdquo;" ></p>
@@ -180,7 +180,7 @@ terrain service.</p>
   <entry>
     <title type="html"><![CDATA[Week in review: Porting to Qt/QML with OpenGL]]></title>
     <link href="http://seshbot.com/blog/2014/05/16/week-in-review-c-plus-plus/"/>
-    <updated>2014-05-16T08:56:26+08:00</updated>
+    <updated>2014-05-16T00:56:26+00:00</updated>
     <id>http://seshbot.com/blog/2014/05/16/week-in-review-c-plus-plus</id>
     <content type="html"><![CDATA[<p><em>So I took a month holiday, and got out of the habit of writing blogs&hellip; hopefully this will break the dam, it&rsquo;s not like I don&rsquo;t have a billion things to write about</em></p>
 
@@ -320,7 +320,7 @@ your chosen GL version.</p>
   <entry>
     <title type="html"><![CDATA[Week in Review: Making Games]]></title>
     <link href="http://seshbot.com/blog/2014/02/22/week-in-review-making-games/"/>
-    <updated>2014-02-22T09:35:00+08:00</updated>
+    <updated>2014-02-22T01:35:00+00:00</updated>
     <id>http://seshbot.com/blog/2014/02/22/week-in-review-making-games</id>
     <content type="html"><![CDATA[<p>I have once again bitten off a whole lot &ndash; I started making a game based on my fairly limited knowledge of how such things are done, and have found it very difficult to take a moment to distill my thoughts. In fact it has been nearly impossible as I have been constantly unsure of whether the approach I&rsquo;m taking is actually going to pay off in the long run!</p>
 
@@ -437,9 +437,9 @@ in Windows but has been trivial in OSX.</p>
   
   <entry>
     <title type="html"><![CDATA[Week in Review: Pausing Web App, Starting C++ App]]></title>
-    <link href="http://seshbot.com/blog/2014/02/03/week-in-review-pausing-web-app/"/>
-    <updated>2014-02-03T06:52:52+08:00</updated>
-    <id>http://seshbot.com/blog/2014/02/03/week-in-review-pausing-web-app</id>
+    <link href="http://seshbot.com/blog/2014/02/02/week-in-review-pausing-web-app/"/>
+    <updated>2014-02-02T22:52:52+00:00</updated>
+    <id>http://seshbot.com/blog/2014/02/02/week-in-review-pausing-web-app</id>
     <content type="html"><![CDATA[<p>Just over a week ago I decided to put down my web tools for a while and move to working in an environment in which I&rsquo;m much more comfortable &ndash; C++. I will definitely pick up the &lsquo;Table Top&rsquo; app (or whatever it turns into) again soon but I felt the need to do work that resulted in a more <em>tangible</em> product.</p>
 
 <p>Over the last few weeks I&rsquo;ve had a growing realisation that the foundation of web programming is still immature, and I am doubting the value in investing too much time learning the high-level technologies. I am not really one for learning frameworks in general actually &ndash; I much prefer learning languages and idioms &ndash; and modern web programming is all about rapidly changing high-level frameworks.</p>

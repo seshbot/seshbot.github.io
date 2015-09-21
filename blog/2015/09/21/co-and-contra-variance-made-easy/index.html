@@ -1,0 +1,523 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>Covariance and Contravariance made easy  | Seshbot Programs</title>
+
+<meta name="author" content="Paul Cechner"> 
+
+<meta name="description" content="what are covariance and contravariance, and how can they help me?"> <meta name="keywords" content=".net,covariance,contravariance">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Seshbot Programs" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Seshbot Programs</a></h1>
+<h4>...and makes software</h4>
+<nav id="main-nav"><ul>
+	<li><a href="/">Blog</a></li>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archive</a></li>
+   <li class="subscription"><a title="subscribe via RSS" rel="subscribe-rss" href="/atom.xml">RSS</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/">Blog</a></li>
+	<li><a href="/about">About</a></li>
+	<li><a href="/archives">Archive</a></li>
+   <li class="subscription"><a title="subscribe via RSS" rel="subscribe-rss" href="/atom.xml">RSS</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:seshbot.com">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Covariance and Contravariance Made Easy</h2>
+	<div class="entry-content"><p><em>For a more in-depth rundown on covariance and contravariance explained in terms of category theory have a look at <a href="http://tomasp.net/blog/variance-explained.aspx/">Thomas Patricek&rsquo;s blog</a></em></p>
+
+<p>Covariance and contravariance are things you&rsquo;ll probably ignore until you start using generics in ernest. Then one day you&rsquo;ll want to pass an enumerable to a function that takes a slightly different yet related type of enumerable and then <em>BAM</em> &ndash; you&rsquo;re hit with some crazy error messages and then all of a sudden you&rsquo;re up to your elbows in browser tabs of StackOverflow articles.</p>
+
+<p>It is necessitated due to the interaction of two different forms of polymorphism &ndash; object inheritance and generic typing. And yet sometimes you want to combine the two &ndash; while <code>MyType&lt;T&gt;</code> and <code>MyType&lt;U&gt;</code> share no inheritance relationship and therefore are not substitutable for each other, sometimes you want to treat them as if they are substitutable if <code>T</code> and <code>U</code> are themselves related.</p>
+
+<p><span class='pullquote-right' data-pullquote='if Dog is-a-kind-of Animal, is it true that MyType&lt;Dog&gt; can-be-used-as-a MyType&lt;Animal&gt;?'>
+The rule of thumb with inheritance is that if U inherits from T you could say that <em>U is-a-kind-of T</em>. With covariant and contravariant types, I like to think of them in terms of <em>can-be-used-as-a</em> relationship. To determine if <code>MyType</code> should be covariant or contravariant you could ask if Dog is-a-kind-of Animal, is it true that MyType&lt;Dog&gt; can-be-used-as-a MyType&lt;Animal&gt;?
+</span></p>
+
+<p><em>Covariance</em> and <em>contravariance</em> are two different ways that differently specialised generic types should themselves be substitutable for each other like derived types are:</p>
+
+<p><strong>Covariance</strong>: <code>MyType&lt;T&gt;</code> is covariant if typing <code>MyType&lt;Base&gt; x = new MyType&lt;Derived&gt;()</code> makes sense (this looks very much like standard substitution rules.)</p>
+
+<p>An example of this is an <code>IEnumerable</code>-derived type, and is classified as having methods that <em>return</em> the predicated type, or <em>getters</em> (hence C# uses the <code>out</code> keyword.)</p>
+
+<p>The implication is that the relationship between the covariant generic types is the <strong>same</strong> as the relationship between their predicated types, e.g.:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">Base</span> <span class="n">b</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Derived</span><span class="p">();</span> <span class="c1">// this is OK because of Liskov substitution</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">Derived</span><span class="p">&gt;</span> <span class="n">ds</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Derived</span><span class="p">&gt;();</span>
+</span><span class='line'><span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">Base</span><span class="p">&gt;</span> <span class="n">bs</span> <span class="p">=</span> <span class="n">ds</span><span class="p">;</span> <span class="c1">// this is also OK because IEnumerable is covariant</span>
+</span><span class='line'><span class="n">Base</span> <span class="n">first</span> <span class="p">=</span> <span class="n">bs</span><span class="p">.</span><span class="n">First</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Contravariance</strong>: <code>MyType&lt;T&gt;</code> is contravariant if typing <code>MyType&lt;Derived&gt; x = new MyType&lt;Base&gt;()</code> makes sense.</p>
+
+<p>An example of this is the .Net generic <code>Action</code> type, and is classified as having methods that <em>accept</em> the predicated type as a parameter, or <em>setters</em> (hence C# uses the <code>in</code> keyword.)</p>
+
+<p>Contravariant types are probably less common than covariant types, and imply that the relationship between the generic types is the <strong>inverse</strong> of the relationship between their predicated types. E.g.:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">Action</span><span class="p">&lt;</span><span class="n">Base</span><span class="p">&gt;</span> <span class="n">b</span> <span class="p">=</span> <span class="p">(</span><span class="n">Base</span> <span class="k">value</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span> <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="k">value</span><span class="p">.</span><span class="n">Name</span><span class="p">);</span> <span class="p">};</span>
+</span><span class='line'><span class="n">Action</span><span class="p">&lt;</span><span class="n">D</span><span class="p">&gt;</span> <span class="n">d</span> <span class="p">=</span> <span class="n">b</span><span class="p">;</span> <span class="c1">// OK because Action is contravariant</span>
+</span><span class='line'><span class="n">d</span><span class="p">.</span><span class="n">Invoke</span><span class="p">(</span><span class="k">new</span> <span class="n">Derived</span><span class="p">());</span> <span class="c1">// invoke alias &#39;d&#39;, actually invokes &#39;b&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
+
+
+<h2>Why they&rsquo;re helpful</h2>
+
+<p>Covariance and contravariance are useful in all the ways that Liskov&rsquo;s substitution principle is useful with regular polymorphic types &ndash; they are a mechanism that lets you inform the compiler when it&rsquo;s safe to bind an instance of one generic type to a reference of the same generic type with a different generic parameter.</p>
+
+<p>More specifically a generic type annotated as covariant or contravariant (e.g., a <code>IEnumerable&lt;T&gt;</code>) might be bound to other references of that type (e.g., <code>IEnumerable&lt;U&gt;</code>) when there is an inheritance relationship between the two predicated types. This allows you to pass your <code>IEnumerable&lt;Employee&gt;</code> to a function that actually accepts an <code>IEnumerable&lt;Person&gt;</code> without the compiler complaining that they are different types.</p>
+
+<p>In other words, covariance and contravariance hints allow you to apply the Liskov substitution rules to generic types when the predicated types may themselves be substituted for each other.</p>
+
+<p>To be very clear it only affects:</p>
+
+<ul>
+<li>generic types</li>
+<li>where the predicated types have an inheritence relationship</li>
+<li>where a concrete object of that generic type is being bound to a reference (e.g., a passed as a parameter) of a different specialisation of that type</li>
+</ul>
+
+
+<h3>Liskov&rsquo;s substitution with regular OO types</h3>
+
+<p>For example as a reminder of the standard substitution rules:</p>
+
+<figure class='code'><figcaption><span>(C#) example of OO substitution rules in action</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">class</span> <span class="nc">Animal</span> <span class="p">{};</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Dog</span> <span class="p">:</span> <span class="n">Animal</span> <span class="p">{};</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Poodle</span> <span class="p">:</span> <span class="n">Dog</span> <span class="p">{};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">void</span> <span class="nf">SaveDog</span><span class="p">(</span><span class="n">Dog</span> <span class="n">dog</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</span><span class='line'><span class="n">Dog</span> <span class="nf">LoadDog</span><span class="p">()</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">Animal</span> <span class="n">myAnimal</span> <span class="p">=</span> <span class="p">...</span> <span class="p">;</span>
+</span><span class='line'><span class="n">SaveDog</span><span class="p">(</span><span class="n">myAnimal</span><span class="p">);</span> <span class="c1">// ERROR - myAnimal might be a cat!</span>
+</span><span class='line'><span class="n">Animal</span> <span class="n">myAnimal2</span> <span class="p">=</span> <span class="n">LoadDog</span><span class="p">();</span> <span class="c1">// OK - dog is a kind of animal</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">Poodle</span> <span class="n">myPoodle</span> <span class="p">=</span> <span class="p">...;</span>
+</span><span class='line'><span class="n">SaveDog</span><span class="p">(</span><span class="n">myPoodle</span><span class="p">);</span> <span class="c1">// OK - poodle is a kind of dog</span>
+</span><span class='line'><span class="n">Poodle</span> <span class="n">myPoodle2</span> <span class="p">=</span> <span class="n">LoadDog</span><span class="p">();</span> <span class="c1">// ERROR - LoadDog might return a non-poodle dog!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>OK cool, this is just how polymorphism works in OO languages. But here&rsquo;s where it gets confusing &ndash; what about generic types that are predicated on those types? E.g., a <code>IEnumerable&lt;Dog&gt;</code> or a <code>Action&lt;Dog&gt;</code>?</p>
+
+<h3>Liskov&rsquo;s substitution of generic types</h3>
+
+<p>Covariance and Contravariance hints tell the compiler to allow <em>references</em> to generic types to obey the same rules as polymorphic types! It doesn&rsquo;t affect how you can use a particular type directly, but it affects what other types of that generic object it can be bound to (when being passed to or returned from functions, for example).</p>
+
+<p>To extend the previous example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="c1">// should be covariant but is not</span>
+</span><span class='line'><span class="k">interface</span> <span class="n">IReader</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">T</span> <span class="nf">Read</span><span class="p">()</span> <span class="p">{...};</span> <span class="c1">// simplified interface</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// should be contravariant but is not</span>
+</span><span class='line'><span class="k">interface</span> <span class="n">IWriter</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">void</span> <span class="nf">Write</span><span class="p">(</span><span class="n">T</span> <span class="n">entity</span><span class="p">);</span> <span class="c1">// simplified interface</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">void</span> <span class="nf">PrintDogFrom</span><span class="p">(</span><span class="n">IReader</span><span class="p">&lt;</span><span class="n">Dog</span><span class="p">&gt;</span> <span class="n">dogReader</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">Dog</span> <span class="n">dog</span> <span class="p">=</span> <span class="n">dogReader</span><span class="p">.</span><span class="n">Read</span><span class="p">();</span>
+</span><span class='line'>  <span class="c1">// ... print dog info or something</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">void</span> <span class="nf">WriteDogTo</span><span class="p">(</span><span class="n">IWriter</span><span class="p">&lt;</span><span class="n">Dog</span><span class="p">&gt;</span> <span class="n">dogWriter</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">dogWriter</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="k">new</span> <span class="n">Poodle</span><span class="p">());</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// demonstrating a typical &#39;reading&#39; usage scenario</span>
+</span><span class='line'><span class="c1">// that should work ideally</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">IReader</span><span class="p">&lt;</span><span class="n">Poodle</span><span class="p">&gt;</span> <span class="n">poodleReader</span> <span class="p">=</span> <span class="p">...;</span> <span class="c1">// init somehow</span>
+</span><span class='line'><span class="n">PrintDogFrom</span><span class="p">(</span><span class="n">poodleReader</span><span class="p">);</span> <span class="c1">// ERROR! (IReader&lt;Poodle&gt; != IReader&lt;Dog&gt;)</span>
+</span><span class='line'><span class="c1">// BUT it should be OK (poodles are dogs)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// demonstrating a typical &#39;writing&#39; usage scenario</span>
+</span><span class='line'><span class="c1">// that should work ideally</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">IWriter</span><span class="p">&lt;</span><span class="n">Animal</span><span class="p">&gt;</span> <span class="n">animalWriter</span> <span class="p">=</span> <span class="p">...;</span> <span class="c1">// init somehow</span>
+</span><span class='line'><span class="n">WriteDogTo</span><span class="p">(</span><span class="n">animalWriter</span><span class="p">);</span> <span class="c1">// ERROR! (IWriter&lt;Animal&gt; != IWriter&lt;Dog&gt;)</span>
+</span><span class='line'><span class="c1">// BUT it should be OK (writer holds animals, can write dogs)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We recognise that a <code>IReader&lt;Poodle&gt;</code> instance should be able to be bound to a <code>IReader&lt;Dog&gt;</code> reference if <code>Poodle</code> is a <em>subclass</em> of <code>Dog</code>. This is known as <em>covariance</em> and is denoted in C# by labeling the generic type with the <code>out</code> keyword:</p>
+
+<p>We can also see that <code>IWriter&lt;Dog&gt;</code> should be able to be bound to <code>IWriter&lt;Animal&gt;</code> if <code>Animal</code> is a <em>superclass</em> of <code>Dog</code>. This is known as <em>contravariance</em> and is denoted in C# by labeling the generic type with the <code>in</code> keyword.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="c1">// IReader is covariant on T</span>
+</span><span class='line'><span class="k">interface</span> <span class="n">IReader</span><span class="p">&lt;</span><span class="k">out</span> <span class="n">T</span><span class="p">&gt;</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">...</span> <span class="c1">// as before</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// IWriter is contravariant on T</span>
+</span><span class='line'><span class="k">interface</span> <span class="n">IWriter</span><span class="p">&lt;</span><span class="k">in</span> <span class="n">T</span><span class="p">&gt;</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">...</span> <span class="c1">// as before</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The difference in the two interfaces is simple &ndash; covariance is used when the dependent type is retrieved out of the generic type (an example would be how an <code>IEnumerable&lt;T&gt;</code> returns objects of type <code>T</code> and therefore is <em>covariant on T</em>). A generic type should be contravariant if it accepts the dependent type as input into its interface (an example would be how an <code>Action&lt;T&gt;</code> takes an instance of <code>T</code> as input when it is run, therefore it is <em>contravariant on T</em>).</p>
+
+<p>Here&rsquo;s an attempt to visually represent valid type conversions for a cass hierarchy, a representative covariant type (<code>IEnum</code>) and a representative contravariant type (<code>Action</code>):</p>
+
+<center><img src='/images/plantuml/0cf46549bab20215696885da4be302b6.png'></center>
+
+
+<h2>When should my interfaces be covariant or contravariant?</h2>
+
+<p>I only add this when its needed, but one thing you&rsquo;ll find is that you cannot have a covariant or contravariant type if you are both returning and accepting the dependent type in your interface. This is why in C# <code>IEnumerable</code> is covariant but <code>IList</code> is not &ndash; because <code>IList</code> allows you to add elements to the collection as well as retrieve the elements in the collection.</p>
+
+<p>Sometimes you will be forced to make your type covariant if you want to use it in certain ways. In this case you may have to separate out the reading part of your interface into a separate interface and have the generic parameter be covariant there only.</p>
+
+<h2>A few language-specific quirks you might run across</h2>
+
+<p>Java never used to support variance specifications much to its detriment. Java arrays behave in a covariant way, but because the interface supports both retrieving and setting elements, the following compiles (or at least used to, I havent tried it recently:)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">Dog</span><span class="p">[]</span> <span class="n">dogs</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dog</span><span class="p">[</span><span class="m">10</span><span class="p">];</span> <span class="c1">// ...</span>
+</span><span class='line'><span class="n">Animal</span><span class="p">[]</span> <span class="n">dogsAsAnimals</span> <span class="p">=</span> <span class="n">dogs</span><span class="p">;</span>
+</span><span class='line'><span class="n">dogsAsAnimals</span><span class="p">[</span><span class="m">0</span><span class="p">]</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Cat</span><span class="p">();</span> <span class="c1">// whaa?</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>C# has supported variance for a long time, but unfortunately there are some corners where they have not yet added it. I recently found out that <code>Task&lt;T&gt;</code> is not covariant, and so if you were implementing your own covariant type, its interface cannot return generic <code>Task&lt;&gt;</code> types, which is frustrating because thats what Microsoft strongly recommend you to do.</p>
+
+<p>Example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="k">interface</span> <span class="n">IReader</span><span class="p">&lt;</span><span class="k">out</span> <span class="n">T</span><span class="p">&gt;</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">T</span> <span class="nf">GetNext</span><span class="p">();</span>
+</span><span class='line'>  <span class="n">Task</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="n">GetNextAsync</span><span class="p">();</span> <span class="c1">// compile error! although this should be idiomatic!</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The official answer to this (well, <a href="http://stackoverflow.com/questions/12204755/can-should-tasktresult-be-wrapped-in-a-c-sharp-5-0-awaitable-which-is-covarian">Jon Skeet&rsquo;s</a> word is very highly considered) was that adding variance to your interfaces quickly gets complicated in some way and so try to make your types invariant, and I cannot answer to that. My solution was to have the interface return a non-generic <code>Task</code> and dynamically downcast it to the generic type when I used it. This is not great, but its also quite safe as you know for certain the type of the task.</p>
+
+<p>C++ generics (templates) do not directly support the notion of covariance or contravariance, but they don&rsquo;t need to &ndash; templates are specialised at compile time to generate separate instances for each required specialisation, so generic types are often not required to be coerced into other generic types.</p>
+
+<p>For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+</span><span class='line'><span class="kt">void</span> <span class="n">printBases</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">T</span><span class="o">*&gt;</span> <span class="o">&amp;</span> <span class="n">bases</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">foreach</span> <span class="p">(</span><span class="k">auto</span> <span class="o">*</span> <span class="n">b</span> <span class="o">:</span> <span class="n">bases</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">b</span><span class="o">-&gt;</span><span class="n">Name</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">vector</span><span class="o">&lt;</span><span class="n">Derived</span><span class="o">*&gt;</span> <span class="n">ds</span> <span class="p">{};</span>
+</span><span class='line'><span class="n">printBases</span><span class="p">(</span><span class="n">ds</span><span class="p">);</span> <span class="c1">// works as long as Derived has Name() method</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+</span><span class='line'><span class="kt">void</span> <span class="n">addDerived</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">&amp;</span> <span class="n">deriveds</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">deriveds</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="k">new</span> <span class="n">Derived</span><span class="p">{});</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">vector</span><span class="o">&lt;</span><span class="n">Base</span><span class="o">*&gt;</span> <span class="n">bs</span> <span class="p">{};</span>
+</span><span class='line'><span class="n">addDerived</span><span class="p">(</span><span class="n">bs</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The above code shows that C++&rsquo;s templates are generally sufficient for performing generic operations on generically encapsulated types. The only constraings put on the type passed to the function is that it has a <code>Name()</code> method (this is known as &lsquo;duck-typing&rsquo;). Note that these are completely type-safe, as the compiler generates fully typed code at compile time. If I tried to add a <code>Base</code> type to a <code>Derived</code> vector, for example, you would get the expected error because the compiler would recognise the type mismatch.</p>
+
+<p>On a related topic, it is also worth noting that C++ allows a derived class&#8217; overridden virtual methods to have <em>covariant return types</em> such that:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">struct</span> <span class="n">Base</span> <span class="p">{};</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">Derived</span> <span class="o">:</span> <span class="n">Base</span> <span class="p">{};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">BaseFactory</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">virtual</span> <span class="n">Base</span> <span class="o">*</span> <span class="n">create</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">new</span> <span class="n">Base</span><span class="p">{};</span> <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">DerivedFactory</span> <span class="o">:</span> <span class="n">BaseFactory</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">override</span> <span class="n">Derived</span> <span class="o">*</span> <span class="n">create</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">new</span> <span class="n">Derived</span><span class="p">{};</span> <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">DerivedFactory</span> <span class="o">*</span> <span class="n">ds</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DerivedFactory</span><span class="p">();</span>
+</span><span class='line'><span class="n">Derived</span> <span class="o">*</span> <span class="n">d</span> <span class="o">=</span> <span class="n">ds</span><span class="o">-&gt;</span><span class="n">create</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">BaseFactory</span> <span class="o">*</span> <span class="n">bs</span> <span class="o">=</span> <span class="n">ds</span><span class="p">;</span>
+</span><span class='line'><span class="n">Base</span> <span class="o">*</span> <span class="n">b</span> <span class="o">=</span> <span class="n">bs</span><span class="o">-&gt;</span><span class="n">create</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Java also supports covariant return types, but C# does not.</p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-09-21T10:03:45+00:00" pubdate data-updated="true">Sep 21<span>st</span>, 2015</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/languages/'>Languages</a>
+
+</div>
+
+
+	
+		<span class="comments"><a href="/blog/2015/09/21/co-and-contra-variance-made-easy/#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2015
+
+    Paul Cechner
+
+<br>
+Powered by Octopress.
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'seshbot';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://seshbot.com/blog/2015/09/21/co-and-contra-variance-made-easy/';
+        var disqus_url = 'http://seshbot.com/blog/2015/09/21/co-and-contra-variance-made-easy/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+   <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-46903701-1', 'seshbot.com');
+      ga('send', 'pageview');
+
+   </script>
+
+
+
+</body>
+</html>

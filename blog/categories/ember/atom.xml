@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ember | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/ember/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2015-05-19T23:50:39+08:00</updated>
+  <updated>2015-09-21T17:46:53+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Week in Review: Pausing Web App, Starting C++ App]]></title>
-    <link href="http://seshbot.com/blog/2014/02/03/week-in-review-pausing-web-app/"/>
-    <updated>2014-02-03T06:52:52+08:00</updated>
-    <id>http://seshbot.com/blog/2014/02/03/week-in-review-pausing-web-app</id>
+    <link href="http://seshbot.com/blog/2014/02/02/week-in-review-pausing-web-app/"/>
+    <updated>2014-02-02T22:52:52+00:00</updated>
+    <id>http://seshbot.com/blog/2014/02/02/week-in-review-pausing-web-app</id>
     <content type="html"><![CDATA[<p>Just over a week ago I decided to put down my web tools for a while and move to working in an environment in which I&rsquo;m much more comfortable &ndash; C++. I will definitely pick up the &lsquo;Table Top&rsquo; app (or whatever it turns into) again soon but I felt the need to do work that resulted in a more <em>tangible</em> product.</p>
 
 <p>Over the last few weeks I&rsquo;ve had a growing realisation that the foundation of web programming is still immature, and I am doubting the value in investing too much time learning the high-level technologies. I am not really one for learning frameworks in general actually &ndash; I much prefer learning languages and idioms &ndash; and modern web programming is all about rapidly changing high-level frameworks.</p>
@@ -90,7 +90,7 @@
   <entry>
     <title type="html"><![CDATA[Client-side authentication with ember and rails]]></title>
     <link href="http://seshbot.com/blog/2014/01/22/client-side-authentication-with-ember-and-rails/"/>
-    <updated>2014-01-22T08:30:27+08:00</updated>
+    <updated>2014-01-22T00:30:27+00:00</updated>
     <id>http://seshbot.com/blog/2014/01/22/client-side-authentication-with-ember-and-rails</id>
     <content type="html"><![CDATA[<p><em>This post follows on from the previous post <a href="/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch/">creating and deploying a rails + ember app from scratch</a>. In that post I created a basic ember application being served from rails. Here I&rsquo;ll be adding user authentication to the application I created using the &lsquo;edge template&rsquo; option I discussed, which uses the &lsquo;ember-rails&rsquo; gem to establish the basic connectivity.</em></p>
 
@@ -326,7 +326,7 @@ bundle exec rake db:migrate</p>
   <entry>
     <title type="html"><![CDATA[Creating and deploying a Rails + Ember app]]></title>
     <link href="http://seshbot.com/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch/"/>
-    <updated>2014-01-15T16:54:16+08:00</updated>
+    <updated>2014-01-15T08:54:16+00:00</updated>
     <id>http://seshbot.com/blog/2014/01/15/creating-a-rails-plus-ember-app-from-scratch</id>
     <content type="html"><![CDATA[<p>Today I decided to wield my new Rails and Ember knowledge and&hellip; look into yet another new technology. I thought it would be helpful to have an online app to demonstrate the fruits of my labours, so am deploying a new app to <strong><a href="http://heroku.com">Heroku</a></strong>.</p>
 
@@ -560,7 +560,7 @@ heroku run rake db:migrate
   <entry>
     <title type="html"><![CDATA[This week in review: my game table web app]]></title>
     <link href="http://seshbot.com/blog/2014/01/11/this-week-in-review-the-game-table-web-app/"/>
-    <updated>2014-01-11T10:19:08+08:00</updated>
+    <updated>2014-01-11T02:19:08+00:00</updated>
     <id>http://seshbot.com/blog/2014/01/11/this-week-in-review-the-game-table-web-app</id>
     <content type="html"><![CDATA[<p>First here&rsquo;s a quick summary of what I got up to:</p>
 
