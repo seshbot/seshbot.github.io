@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2015-09-21T17:56:12+00:00</updated>
+  <updated>2015-09-21T18:00:32+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -223,7 +223,7 @@ The rule of thumb with inheritance is that if U inherits from T you could say th
 
 <p>Here&rsquo;s an attempt to visually represent valid type conversions for a cass hierarchy, a representative covariant type (<code>IReader</code>) and a representative contravariant type (<code>IWriter</code>):</p>
 
-<center><img src='http://seshbot.com/images/plantuml/e0e4ef1f88200501c9d2498423648b1b.png'></center>
+<center><img src='http://seshbot.com/images/plantuml/4a7b89795c37ad6d72cdb20c2e4412ec.png'></center>
 
 
 <h2>When should my interfaces be covariant or contravariant?</h2>

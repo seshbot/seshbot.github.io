@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Languages | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/languages/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2015-09-21T17:56:12+00:00</updated>
+  <updated>2015-09-21T18:00:32+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -155,7 +155,7 @@ interface IWriter<in T> {
 
 <p>Here&rsquo;s an attempt to visually represent valid type conversions for a cass hierarchy, a representative covariant type (<code>IReader</code>) and a representative contravariant type (<code>IWriter</code>):</p>
 
-<p><center><img src='/images/plantuml/c89eb1d40fa2d5c9a35521d6028e2597.png'></center></p>
+<p><center><img src='/images/plantuml/a40d5facb943418ac788d8f58dcc3776.png'></center></p>
 
 <h2>When should my interfaces be covariant or contravariant?</h2>
 
