@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2015-09-21T17:46:53+00:00</updated>
+  <updated>2015-09-21T17:56:12+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -221,9 +221,9 @@ The rule of thumb with inheritance is that if U inherits from T you could say th
 
 <p>The difference in the two interfaces is simple &ndash; covariance is used when the dependent type is retrieved out of the generic type (an example would be how an <code>IEnumerable&lt;T&gt;</code> returns objects of type <code>T</code> and therefore is <em>covariant on T</em>). A generic type should be contravariant if it accepts the dependent type as input into its interface (an example would be how an <code>Action&lt;T&gt;</code> takes an instance of <code>T</code> as input when it is run, therefore it is <em>contravariant on T</em>).</p>
 
-<p>Here&rsquo;s an attempt to visually represent valid type conversions for a cass hierarchy, a representative covariant type (<code>IEnum</code>) and a representative contravariant type (<code>Action</code>):</p>
+<p>Here&rsquo;s an attempt to visually represent valid type conversions for a cass hierarchy, a representative covariant type (<code>IReader</code>) and a representative contravariant type (<code>IWriter</code>):</p>
 
-<center><img src='http://seshbot.com/images/plantuml/0cf46549bab20215696885da4be302b6.png'></center>
+<center><img src='http://seshbot.com/images/plantuml/e0e4ef1f88200501c9d2498423648b1b.png'></center>
 
 
 <h2>When should my interfaces be covariant or contravariant?</h2>
