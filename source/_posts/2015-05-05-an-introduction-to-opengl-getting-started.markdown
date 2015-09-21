@@ -480,7 +480,7 @@ I discuss this more when discussing the different OpenGL versions below, but Ope
 
 The term immediate mode means that the drawing operations are explicitly executed in your client application each frame, which is considered slower because it ties the client application logic too closely with the GPU rendering operations, so the GPU is not able to make as many optimisations as it would if the instructions were on the GPU itself (retained mode.)
 
-### Linear algebra (magic!)
+## Linear algebra (magic!)
 Linear algebra is the language of graphics programming. You _need_ to learn some basics if you're going to tackle this stuff. I won't go into what a vector or matrix is here but you will have to learn the basics of their form and function if you don't already know them.
 
 The most basic understanding you should have is that vectors are usually used to describe coordinates in space and directions, and matricies are used to describe transformations (translation, scale, rotation, shear etc) to those vectors. Another thing to note is that a single matrix may represent an accumulation of many different transformations performed in sequence, so if I said (in pseudo-code) `auto m = translate * scale * rotate`, then any time I multiply `m` by a vector it will have the same effect as performing all of those transformations at once - amazing!
@@ -600,7 +600,7 @@ Here's a quick summary of what I understand of the different OpenGL versions:
 
 I have chosen to do most of my experimentation in OpenGL ES 2. This should give me the broadest platform availability as well as being compatible with WebGL for web demonstrations. I have resorted to using a few extensions that are supported on the platforms I use where necessary (e.g., to get anti aliasing), though I try to avoid this where possible.
 
-### Challenges you will face
+## Challenges you will face
  - Having to learn support libraries in addition to the OpenGL API
  - Cross platform support is difficult as many features are not uniformly supported
  - Debugging GL state in different platforms - OpenGL debugging tools are not great, and there are none that work cross-platform
@@ -624,7 +624,7 @@ Finally, if you're into WebGL you should check out Gregg Tavares' [WebGL Fundame
 
 As I mentioned before though, you can easily try reading the specs yourself. Google is your friend here - search for the specific version + 'spec' and it will [usually be the first hit](https://www.google.com.au/search?q=opengl+3+spec).
 
-### Debugging
+## Debugging
 There are [many different OpenGL debugging tools](https://www.opengl.org/wiki/Debugging_Tools) on different platforms and they are all generally pretty bad. I haven't spent a lot of time with any of them so please tell me if you find a good one!
 
 If you're on OSX you can give the [OpenGL Profiler](https://developer.apple.com/library/mac/documentation/GraphicsImaging/Conceptual/OpenGLProfilerUserGuide/Introduction/Introduction.html) a go - it allows you to set breakpoints on certain GL calls, look at frame buffers (though I found this difficult to do) and much more.
@@ -670,7 +670,7 @@ Then you just wrap all your function calls like so: `GL_VERIFY(glDrawElements(..
 
 One final interesting note about debugging OpenGL: If you are using a Google's ANGLE OpenGL driver that you compiled yourself you can step into it, so if you start getting vague sounding errors like `GL_INVALID_FRAMEBUFFER_OPERATION` but want to know specifically what the problem is, you can step into the ANGLE DLLs yourself to see which part of their validation fails. It's like running a own fully-compliant validation layer in your own client code.
 
-### Upcoming
+## Upcoming
 Now that I've gotten all the basic stuff out of the way I'd like to go into a bunch of other more advanced things that I thought wasn't particularly easy to get help with. In no particular order:
 
 - Pros and cons of writing an OpenGL wrapper library ([my glpp library](https://github.com/seshbot/glpp))

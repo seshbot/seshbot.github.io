@@ -16,6 +16,15 @@ There are many C++ libraries targeted at helping devs deal with OpenGL (such as 
 GLpp is not a framework - it is a series of libraries that make working with OpenGL simpler. Below the fold I'll outline what I see as OpenGL's main weaknesses and describe my approach to addressing these weaknesses.
 
 TODO: code sample
+TODO: https://github.com/hpicgs/glbinding https://github.com/hpicgs/glbinding/blob/master/CMakeLists.txt
+
+TODO: wget https://cvs.khronos.org/svn/repos/ogl/trunk/doc/registry/public/api/gl.xml
+
+TODO: GENERATION PROB:
+      - returned enums are not in groups (e.g., GL_FRAMEBUFFER_COMPLETE) but ARE in feature 'required'
+        - GL_TEXTURE0 etc should be in TextureUnit but there is no such group (see glActiveTexture)
+
+TODO: abstractions must provide full functionality - must be complete
 
 <!-- more -->
 
