@@ -4,7 +4,7 @@
   <title><![CDATA[Seshbot Programs]]></title>
   <link href="http://seshbot.com/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2015-09-22T05:28:06+00:00</updated>
+  <updated>2015-09-23T12:53:47+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -22,7 +22,18 @@
 
 <p>Covariance and contravariance are things you&rsquo;ll probably ignore until you start using generics in ernest. Then one day you&rsquo;ll want to pass an enumerable to a function that takes a slightly different yet related type of enumerable and then <em>BAM</em> &ndash; you&rsquo;re hit with some crazy error messages and then all of a sudden you&rsquo;re up to your elbows in browser tabs of StackOverflow articles.</p>
 
-<p>It is necessitated due to the interaction of two different forms of polymorphism &ndash; object inheritance and generic typing. And yet sometimes you want to combine the two &ndash; while <code>MyType&lt;T&gt;</code> and <code>MyType&lt;U&gt;</code> share no inheritance relationship and therefore are not substitutable for each other, sometimes you want to treat them as if they are substitutable if <code>T</code> and <code>U</code> are themselves related.</p>
+<p>To cut straight to the chase, this is the problem:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="n">Base</span> <span class="n">rawBase</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Derived</span><span class="p">();</span> <span class="c1">// this works</span>
+</span><span class='line'><span class="n">MyType</span><span class="p">&lt;</span><span class="n">Base</span><span class="p">&gt;</span> <span class="n">wrappedBase</span> <span class="p">=</span> <span class="k">new</span> <span class="n">MyType</span><span class="p">&lt;</span><span class="n">Derived</span><span class="p">&gt;();</span> <span class="c1">// ERROR!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sometimes we want the OO inheritance substitution rules (AKA Liskov&rsquo;s substitution principle) to apply to generic types too. Covariance and contravariance provide us a mechanism to allow this substitution to take place.</p>
+
+<p>To be more specific, [co|contra]variance are necessitated due to the interaction of two different forms of polymorphism &ndash; object inheritance and generic typing. And yet sometimes you want to combine the two &ndash; while <code>MyType&lt;T&gt;</code> and <code>MyType&lt;U&gt;</code> share no inheritance relationship and therefore are not substitutable for each other, sometimes you want to treat them as if they are substitutable if <code>T</code> and <code>U</code> are themselves related.</p>
 
 <p><span class='pullquote-right' data-pullquote='if Dog is-a-kind-of Animal, is it true that MyType&lt;Dog&gt; can-be-used-as-a MyType&lt;Animal&gt;?'>
 The rule of thumb with inheritance is that if U inherits from T you could say that <em>U is-a-kind-of T</em>. With covariant and contravariant types, I like to think of them in terms of <em>can-be-used-as-a</em> relationship. To determine if <code>MyType</code> should be covariant or contravariant you could ask if Dog is-a-kind-of Animal, is it true that MyType&lt;Dog&gt; can-be-used-as-a MyType&lt;Animal&gt;?

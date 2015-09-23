@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Languages | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/languages/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2015-09-22T05:28:06+00:00</updated>
+  <updated>2015-09-23T12:53:47+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -22,7 +22,14 @@
 
 <p>Covariance and contravariance are things you&rsquo;ll probably ignore until you start using generics in ernest. Then one day you&rsquo;ll want to pass an enumerable to a function that takes a slightly different yet related type of enumerable and then <em>BAM</em> &ndash; you&rsquo;re hit with some crazy error messages and then all of a sudden you&rsquo;re up to your elbows in browser tabs of StackOverflow articles.</p>
 
-<p>It is necessitated due to the interaction of two different forms of polymorphism &ndash; object inheritance and generic typing. And yet sometimes you want to combine the two &ndash; while <code>MyType&lt;T&gt;</code> and <code>MyType&lt;U&gt;</code> share no inheritance relationship and therefore are not substitutable for each other, sometimes you want to treat them as if they are substitutable if <code>T</code> and <code>U</code> are themselves related.</p>
+<p>To cut straight to the chase, this is the problem:
+<code>c#
+Base rawBase = new Derived(); // this works
+MyType&lt;Base&gt; wrappedBase = new MyType&lt;Derived&gt;(); // ERROR!
+</code>
+Sometimes we want the OO inheritance substitution rules (AKA Liskov&rsquo;s substitution principle) to apply to generic types too. Covariance and contravariance provide us a mechanism to allow this substitution to take place.</p>
+
+<p>To be more specific, [co|contra]variance are necessitated due to the interaction of two different forms of polymorphism &ndash; object inheritance and generic typing. And yet sometimes you want to combine the two &ndash; while <code>MyType&lt;T&gt;</code> and <code>MyType&lt;U&gt;</code> share no inheritance relationship and therefore are not substitutable for each other, sometimes you want to treat them as if they are substitutable if <code>T</code> and <code>U</code> are themselves related.</p>
 
 <p>Surround your pullquote like this {" text to be quoted "}</p>
 
