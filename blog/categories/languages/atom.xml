@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Languages | Seshbot Programs]]></title>
   <link href="http://seshbot.com/blog/categories/languages/atom.xml" rel="self"/>
   <link href="http://seshbot.com/"/>
-  <updated>2015-09-23T12:53:47+00:00</updated>
+  <updated>2015-09-23T13:11:36+00:00</updated>
   <id>http://seshbot.com/</id>
   <author>
     <name><![CDATA[Paul Cechner]]></name>
@@ -54,8 +54,8 @@ Base first = bs.First();
 
 <p>Contravariant types are probably less common than covariant types, and imply that the relationship between the generic types is the <strong>inverse</strong> of the relationship between their predicated types. E.g.:
 <code>csharp
-Action&lt;Base&gt; b = (Base value) =&gt; { System.Console.Write(value.Name); };
-Action&lt;D&gt; d = b; // OK because Action is contravariant
+Action&lt;Base&gt; b = _ =&gt; {};
+Action&lt;Derived&gt; d = b; // OK because Action is contravariant
 d.Invoke(new Derived()); // invoke alias 'd', actually invokes 'b'
 </code></p>
 
