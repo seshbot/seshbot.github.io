@@ -118,11 +118,15 @@ $(document).ready(
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Sometimes we want the OO inheritance substitution rules (AKA Liskov&rsquo;s substitution principle) to apply to generic types too. Covariance and contravariance provide us a mechanism to allow this substitution to take place.</p>
+<p>Sometimes we want the OO polymorphism substitution rules (AKA Liskov&rsquo;s substitution principle) to apply to generic types too. Covariance and contravariance provide us a mechanism to allow this substitution to take place.</p>
 
-<p>To be more specific, [co|contra]variance are necessitated due to the interaction of two different forms of polymorphism &ndash; object inheritance and generic typing. And yet sometimes you want to combine the two &ndash; while <code>MyType&lt;T&gt;</code> and <code>MyType&lt;U&gt;</code> share no inheritance relationship and therefore are not substitutable for each other, sometimes you want to treat them as if they are substitutable if <code>T</code> and <code>U</code> are themselves related.</p>
+<p><span class='pullquote-right' data-pullquote='[co|contra]variance are necessitated due to the interaction of two different forms of polymorphism - object inheritance and generic typing'>
+To be more specific, [co|contra]variance are necessitated due to the interaction of two different forms of polymorphism &ndash; object inheritance and generic typing. And yet sometimes you want to combine the two &ndash; while <code>MyType&lt;T&gt;</code> and <code>MyType&lt;U&gt;</code> share no inheritance relationship and therefore are not substitutable for each other, sometimes you want to treat them as if they are substitutable if <code>T</code> and <code>U</code> are themselves related.
+</span></p>
 
-<p><span class='pullquote-right' data-pullquote='if Dog is-a-kind-of Animal, is it true that MyType&lt;Dog&gt; can-be-used-as-a MyType&lt;Animal&gt;?'>
+<p>So a covariant or contravariant generic type (e.g., a <code>IEnumerable&lt;T&gt;</code>) might be bound to other references of that type (e.g., <code>IEnumerable&lt;U&gt;</code>) when there is an inheritance relationship between the two predicated types. This allows you to pass your <code>IEnumerable&lt;Employee&gt;</code> to a function that actually accepts an <code>IEnumerable&lt;Person&gt;</code> without the compiler complaining that they are different types.</p>
+
+<p><span class='pullquote-left' data-pullquote='if Dog is-a-kind-of Animal, is it true that MyType&lt;Dog&gt; can-be-used-as-a MyType&lt;Animal&gt;?'>
 The rule of thumb with inheritance is that if U inherits from T you could say that <em>U is-a-kind-of T</em>. With covariant and contravariant types, I like to think of them in terms of <em>can-be-used-as-a</em> relationship. To determine if <code>MyType</code> should be covariant or contravariant you could ask if Dog is-a-kind-of Animal, is it true that MyType&lt;Dog&gt; can-be-used-as-a MyType&lt;Animal&gt;?
 </span></p>
 
@@ -139,10 +143,10 @@ The rule of thumb with inheritance is that if U inherits from T you could say th
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">Base</span> <span class="n">b</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Derived</span><span class="p">();</span> <span class="c1">// this is OK because of Liskov substitution</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">Base</span> <span class="n">b</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Derived</span><span class="p">();</span> <span class="c1">// OK because of Liskov substitution</span>
 </span><span class='line'>
 </span><span class='line'><span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">Derived</span><span class="p">&gt;</span> <span class="n">ds</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Derived</span><span class="p">&gt;();</span>
-</span><span class='line'><span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">Base</span><span class="p">&gt;</span> <span class="n">bs</span> <span class="p">=</span> <span class="n">ds</span><span class="p">;</span> <span class="c1">// this is also OK because IEnumerable is covariant</span>
+</span><span class='line'><span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">Base</span><span class="p">&gt;</span> <span class="n">bs</span> <span class="p">=</span> <span class="n">ds</span><span class="p">;</span> <span class="c1">// OK because IEnumerable is covariant</span>
 </span><span class='line'><span class="n">Base</span> <span class="n">first</span> <span class="p">=</span> <span class="n">bs</span><span class="p">.</span><span class="n">First</span><span class="p">();</span>
 </span></code></pre></td></tr></table></div></figure>
 

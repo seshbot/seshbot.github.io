@@ -109,11 +109,15 @@ $(document).ready(
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Sometimes we want the OO inheritance substitution rules (AKA Liskov&rsquo;s substitution principle) to apply to generic types too. Covariance and contravariance provide us a mechanism to allow this substitution to take place.</p>
+<p>Sometimes we want the OO polymorphism substitution rules (AKA Liskov&rsquo;s substitution principle) to apply to generic types too. Covariance and contravariance provide us a mechanism to allow this substitution to take place.</p>
 
-<p>To be more specific, [co|contra]variance are necessitated due to the interaction of two different forms of polymorphism &ndash; object inheritance and generic typing. And yet sometimes you want to combine the two &ndash; while <code>MyType&lt;T&gt;</code> and <code>MyType&lt;U&gt;</code> share no inheritance relationship and therefore are not substitutable for each other, sometimes you want to treat them as if they are substitutable if <code>T</code> and <code>U</code> are themselves related.</p>
+<p><span class='pullquote-right' data-pullquote='[co|contra]variance are necessitated due to the interaction of two different forms of polymorphism - object inheritance and generic typing'>
+To be more specific, [co|contra]variance are necessitated due to the interaction of two different forms of polymorphism &ndash; object inheritance and generic typing. And yet sometimes you want to combine the two &ndash; while <code>MyType&lt;T&gt;</code> and <code>MyType&lt;U&gt;</code> share no inheritance relationship and therefore are not substitutable for each other, sometimes you want to treat them as if they are substitutable if <code>T</code> and <code>U</code> are themselves related.
+</span></p>
 
-<p><span class='pullquote-right' data-pullquote='if Dog is-a-kind-of Animal, is it true that MyType&lt;Dog&gt; can-be-used-as-a MyType&lt;Animal&gt;?'>
+<p>So a covariant or contravariant generic type (e.g., a <code>IEnumerable&lt;T&gt;</code>) might be bound to other references of that type (e.g., <code>IEnumerable&lt;U&gt;</code>) when there is an inheritance relationship between the two predicated types. This allows you to pass your <code>IEnumerable&lt;Employee&gt;</code> to a function that actually accepts an <code>IEnumerable&lt;Person&gt;</code> without the compiler complaining that they are different types.</p>
+
+<p><span class='pullquote-left' data-pullquote='if Dog is-a-kind-of Animal, is it true that MyType&lt;Dog&gt; can-be-used-as-a MyType&lt;Animal&gt;?'>
 The rule of thumb with inheritance is that if U inherits from T you could say that <em>U is-a-kind-of T</em>. With covariant and contravariant types, I like to think of them in terms of <em>can-be-used-as-a</em> relationship. To determine if <code>MyType</code> should be covariant or contravariant you could ask if Dog is-a-kind-of Animal, is it true that MyType&lt;Dog&gt; can-be-used-as-a MyType&lt;Animal&gt;?
 </span></p>
 
@@ -130,10 +134,10 @@ The rule of thumb with inheritance is that if U inherits from T you could say th
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">Base</span> <span class="n">b</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Derived</span><span class="p">();</span> <span class="c1">// this is OK because of Liskov substitution</span>
+</pre></td><td class='code'><pre><code class='csharp'><span class='line'><span class="n">Base</span> <span class="n">b</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Derived</span><span class="p">();</span> <span class="c1">// OK because of Liskov substitution</span>
 </span><span class='line'>
 </span><span class='line'><span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">Derived</span><span class="p">&gt;</span> <span class="n">ds</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Derived</span><span class="p">&gt;();</span>
-</span><span class='line'><span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">Base</span><span class="p">&gt;</span> <span class="n">bs</span> <span class="p">=</span> <span class="n">ds</span><span class="p">;</span> <span class="c1">// this is also OK because IEnumerable is covariant</span>
+</span><span class='line'><span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">Base</span><span class="p">&gt;</span> <span class="n">bs</span> <span class="p">=</span> <span class="n">ds</span><span class="p">;</span> <span class="c1">// OK because IEnumerable is covariant</span>
 </span><span class='line'><span class="n">Base</span> <span class="n">first</span> <span class="p">=</span> <span class="n">bs</span><span class="p">.</span><span class="n">First</span><span class="p">();</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -160,11 +164,9 @@ The rule of thumb with inheritance is that if U inherits from T you could say th
 
 <p>Covariance and contravariance are useful in all the ways that Liskov&rsquo;s substitution principle is useful with regular polymorphic types &ndash; they are a mechanism that lets you inform the compiler when it&rsquo;s safe to bind an instance of one generic type to a reference of the same generic type with a different generic parameter.</p>
 
-<p>More specifically a generic type annotated as covariant or contravariant (e.g., a <code>IEnumerable&lt;T&gt;</code>) might be bound to other references of that type (e.g., <code>IEnumerable&lt;U&gt;</code>) when there is an inheritance relationship between the two predicated types. This allows you to pass your <code>IEnumerable&lt;Employee&gt;</code> to a function that actually accepts an <code>IEnumerable&lt;Person&gt;</code> without the compiler complaining that they are different types.</p>
+<p>If you&rsquo;re writing an application you&rsquo;ll often have one library or area of your code where you deal with heterogeneous types of one category, lets say <code>Animal</code>s, yet in another area of your code you&rsquo;ll deal exclusively with another related type, lets say <code>Dog</code>s. (Note that in math these are called <em>categories</em> and there is a whole set of theories in how to reason about them. See <a href="http://tomasp.net/blog/variance-explained.aspx/">Thomas Patricek&rsquo;s blog</a> for more details.)</p>
 
-<p>In other words, covariance and contravariance hints allow you to apply the Liskov substitution rules to generic types when the predicated types may themselves be substituted for each other.</p>
-
-<p>To be very clear it only affects:</p>
+<p>To be very clear, covariance and contravariance only applies to:</p>
 
 <ul>
 <li>generic types</li>
@@ -173,7 +175,7 @@ The rule of thumb with inheritance is that if U inherits from T you could say th
 </ul>
 
 
-<h3>Liskov&rsquo;s substitution with regular OO types</h3>
+<h3>Liskov substitution without generics</h3>
 
 <p>For example as a reminder of the standard substitution rules:</p>
 
@@ -323,6 +325,8 @@ The rule of thumb with inheritance is that if U inherits from T you could say th
 
 <h2>A few language-specific quirks you might run across</h2>
 
+<p>Although the samples here might suggest otherwise, C# only allows <em>interfaces</em>, not concrete classes, to be specified as covariant or contravariant.</p>
+
 <p>Java never used to support variance specifications much to its detriment. Java arrays behave in a covariant way, but because the interface supports both retrieving and setting elements, the following compiles (or at least used to, I havent tried it recently:)</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -333,6 +337,8 @@ The rule of thumb with inheritance is that if U inherits from T you could say th
 </span><span class='line'><span class="n">dogsAsAnimals</span><span class="p">[</span><span class="m">0</span><span class="p">]</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Cat</span><span class="p">();</span> <span class="c1">// whaa?</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p><em>Note: in researching this I discovered that C# arrays suffer from the same problem! Arrays in both languages will throw runtime exceptions when used illegally like this</em></p>
 
 <p>C# has supported variance for a long time, but unfortunately there are some corners where they have not yet added it. I recently found out that <code>Task&lt;T&gt;</code> is not covariant, and so if you were implementing your own covariant type, its interface cannot return generic <code>Task&lt;&gt;</code> types, which is frustrating because thats what Microsoft strongly recommend you to do.</p>
 
